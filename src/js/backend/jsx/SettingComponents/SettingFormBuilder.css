@@ -1,0 +1,85 @@
+.formBuilder {
+  display: flex;
+}
+.formBuilder .elements {
+  width: 140px;
+}
+.formBuilder .elements button {
+  margin-left: 0;
+  margin-bottom: 10px;
+  width: 100%;
+}
+.formBuilder .droppable {
+  padding: 20px 20px 10px;
+  background: #EFEFEF;
+  border: 1px solid #D3D3D3;
+}
+.formBuilder .droppable .field {
+  user-select: none;
+  margin-bottom: 10px;
+}
+.formBuilder .droppable .field.isDragging {
+  display: block;
+}
+.formBuilder .form {
+  flex: 1;
+  margin-right: 20px;
+}
+.formBuilder .form :global(.p-panel-title) {
+  width: 100%;
+}
+.formBuilder .form :global(.p-panel-title) .fieldHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.formBuilder .form :global(.p-panel-title) .fieldHeader .deleteField {
+  margin-right: 4px;
+}
+.formBuilder .form :global(.p-panel-title) .fieldHeader .requiredSymbol {
+  color: #b92f37;
+}
+.formBuilder .form :global(.p-panel-title) .fieldHeader .dependsOn {
+  margin-left: 10px;
+  font-size: 0.75rem;
+  color: #9B9B9B;
+}
+.formBuilder .form :global(.p-panel-title) .fieldHeader .dependsOn i {
+  font-size: 0.75rem !important;
+  margin-right: 4px;
+}
+.formBuilder .form :global(.p-panel-title) .fieldHeader .handleIcon {
+  margin-right: -6px;
+  margin-left: -4px;
+}
+.formBuilder .form :global(.p-panel-title) .fieldHeader .handleIcon:last-of-type {
+  margin-right: 10px;
+}
+.formBuilder .form .numberOfOptions {
+  color: #9B9B9B;
+  margin-left: 10px;
+}
+.formBuilder .form .innerPanel :global(.p-dropdown-label):global(.p-inputtext) {
+  border: none !important;
+}
+.formBuilder .form .innerPanel :global(.p-inputgroup) > input:global(.p-inputtext) {
+  border-radius: 0 !important;
+}
+.formBuilder .form .innerPanel p {
+  margin: 4px 0 0;
+}
+.formBuilder .form .innerPanel :global(.p-panel-header) {
+  padding: 0.25rem 0.85rem;
+}
+.formBuilder .form .innerPanel:not(:last-of-type) {
+  margin-bottom: 10px;
+}
+.formBuilder .form .emptyState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.formBuilder .form .emptyState h2 {
+  color: #2B2B2B;
+}

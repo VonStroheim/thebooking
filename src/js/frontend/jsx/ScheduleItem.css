@@ -1,0 +1,86 @@
+.item:not(:last-child) {
+  margin-bottom: 8px;
+}
+.item .times {
+  text-align: right;
+  font-size: 12px;
+  font-weight: 600;
+  width: 64px;
+  border-right: 1px solid #D3D3D3;
+  padding-right: 8px;
+}
+.item .times .timeDivider {
+  color: #D3D3D3;
+  width: 18px;
+  height: 18px;
+  margin-right: -6px;
+  vertical-align: middle;
+}
+.item .times .endTime {
+  color: #636363;
+}
+.item .times .dot {
+  width: 6px;
+  height: 6px;
+  display: inline-block;
+  border-radius: 50px;
+}
+.item .content {
+  flex: 1;
+}
+.item .content .title {
+  font-weight: 600;
+}
+.item .content .meta {
+  color: #636363;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+.item .content .meta .iconContainer {
+  width: 14px;
+  height: 14px;
+  display: inline;
+  margin-right: 2px;
+}
+.item .content .meta .iconContainer .icon {
+  width: inherit;
+  height: inherit;
+}
+.item .durationControlContainer {
+  display: flex;
+}
+.item .durationControlContainer .durationControl {
+  width: calc(100% - 80px);
+  margin-right: 40px;
+  margin-left: 40px;
+}
+.item .durationControlContainer .durationControl .durationControlLabel {
+  font-size: 10px;
+}
+.item .variants {
+  margin-left: 68px;
+  display: grid;
+  grid-gap: 4px;
+}
+.item .variants .underTimeslot {
+  line-height: 1;
+  font-size: 10px;
+  font-weight: 400;
+  text-transform: none;
+  color: #14a76c;
+}
+.item .variants .underTimeslot .soldOutSlotString {
+  color: #b92f37;
+}
+.item .actionButton {
+  margin-left: 8px;
+}
+.item .itemActions .icon {
+  transition: transform 0.2s ease-out;
+  transform: rotate(0deg);
+  padding: 2px;
+}
+.item .itemActions .icon.iconExpanded {
+  transform: rotate(180deg);
+}

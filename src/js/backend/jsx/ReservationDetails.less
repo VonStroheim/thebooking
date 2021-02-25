@@ -1,0 +1,48 @@
+@import "mixins";
+
+.reservationDetails {
+  h4 {
+    margin: 0;
+
+  }
+
+  .panelWithTable {
+
+    :global(.p-panel-content) {
+      padding: 0;
+    }
+
+    table {
+      > thead {
+        display: none;
+      }
+
+      .propertyValue {
+        text-align: right;
+      }
+    }
+
+    .saveProperties {
+      padding: 1rem;
+    }
+
+  }
+
+  .detailsRecord {
+    > label {
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .tableCellDescription {
+      display: inline-block;
+      font-size: inherit;
+      color: @color_Gray_light;
+      margin-left: 8px;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+}

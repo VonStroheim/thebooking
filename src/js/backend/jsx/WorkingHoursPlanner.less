@@ -1,0 +1,154 @@
+@import "mixins";
+
+.workingHoursPlanner {
+
+  ul {
+
+    &.sliders {
+      padding-bottom: 2rem;
+    }
+
+    li {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+
+      :global(.label) {
+        width: 110px;
+        font-weight: 600;
+
+        :global(.total-time-wrapper) {
+          display: block;
+          font-size: 10px;
+          color: grey;
+          font-weight: 400;
+        }
+      }
+
+      :global(.intervals) {
+        margin-right: 10px;
+
+        label {
+          display: block;
+          font-size: 12px;
+          font-weight: 600;
+        }
+
+        input {
+          width: 40px;
+          padding-right: 0;
+        }
+      }
+    }
+
+    :global(.noUi-horizontal) {
+      height: 30px;
+
+      &[disabled] {
+        :global(.noUi-handle) {
+          cursor: not-allowed;
+          display: none;
+        }
+
+        :global(.noUi-connect) {
+          display: none;
+        }
+
+        :global(.noUi-tooltip) {
+          display: none !important;
+        }
+      }
+
+      :global(.noUi-handle) {
+        height: 16px;
+        cursor: grab;
+        width: 16px;
+        right: -7px;
+        border-color: @color_Gray_light;
+        border-radius: 20px;
+        top: 6px;
+
+        &:after {
+          left: 8px;
+        }
+
+        &:before {
+          left: 5px;
+        }
+
+        &:global(.noUi-active) {
+          cursor: grabbing;
+        }
+
+        &:before,
+        &:after {
+          display: none;
+          height: 7px;
+          top: 3px;
+          background: @color_Gray_light;
+        }
+
+        &:focus {
+          border-color: @color_Black;
+
+          &:before,
+          &:after {
+            background: @color_Black;
+          }
+        }
+      }
+    }
+
+    :global(.noUi-target) {
+      border-radius: 0;
+      flex: 1;
+    }
+
+    :global(.noUi-tooltip) {
+      padding: 0;
+      color: @color_Black;
+      top: 26px;
+      border: none;
+    }
+
+    :global(.noUi-connect) {
+      background: @color_Paperblue_light;
+    }
+  }
+
+  :global(.intervals-margins) {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .exDates {
+    :global(.p-highlight) {
+      color: white !important;
+      background: @color_Bloody !important;
+    }
+
+    :global(.calendar) {
+      & > * {
+        transition: none !important;
+      }
+
+      :global(.months-container) {
+        opacity: 1 !important;
+      }
+    }
+
+  }
+
+  .exDateTag {
+    color: white !important;
+    background: @color_Bloody !important;
+    padding: 0.5rem;
+    border-radius: 3px;
+  }
+
+  .exDateTags {
+    margin: 0;
+    padding: 0 1rem;
+  }
+
+}

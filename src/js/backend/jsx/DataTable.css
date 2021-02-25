@@ -1,0 +1,77 @@
+.dataTable {
+  grid-column-start: 1;
+  grid-column-end: -1;
+  border-radius: 3px;
+  border: 1px solid #dee2e6;
+  position: relative;
+}
+.dataTable .tableCellDescription {
+  display: block;
+  font-size: 0.9286rem;
+  color: #9B9B9B;
+}
+.dataTable .tableHeader {
+  display: flex;
+  justify-content: space-between;
+}
+.dataTable .nameItem {
+  display: flex;
+  align-items: center;
+}
+.dataTable .nameItem .nameItemAvatar {
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dataTable .nameItem .nameItemAvatar > img {
+  width: 100%;
+}
+.dataTable .nameItem .nameItemAvatar > i {
+  font-size: 24px;
+}
+.dataTable :global(.p-paginator-current) {
+  margin-left: auto !important;
+}
+.dataTable :global(.p-datatable-header) {
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  border-width: 0 0 1px 0 !important;
+}
+.dataTable :global(.p-paginator-bottom) {
+  border-width: 0 !important;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.dataTable .newResourceButton {
+  margin-right: 10px;
+}
+.dataTable .readOnlyPhone :global(.react-tel-input) {
+  font-family: inherit !important;
+}
+.dataTable .readOnlyPhone :global(.react-tel-input) > input {
+  background: transparent !important;
+  border: none !important;
+  width: auto !important;
+  padding-left: 24px !important;
+}
+.dataTable .readOnlyPhone :global(.react-tel-input) > input:disabled {
+  color: inherit !important;
+  box-shadow: none !important;
+  cursor: inherit !important;
+}
+.dataTable .readOnlyPhone :global(.react-tel-input) > :global(.flag-dropdown) {
+  background: transparent !important;
+  border: none !important;
+}
+.dataTable .readOnlyPhone :global(.react-tel-input) > :global(.flag-dropdown) :global(.selected-flag) {
+  padding: 0 !important;
+}
+.dataTable .readOnlyPhone :global(.react-tel-input) > :global(.flag-dropdown) :global(.selected-flag) :global(.arrow) {
+  display: none !important;
+}

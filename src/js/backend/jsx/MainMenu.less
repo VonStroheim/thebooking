@@ -1,0 +1,114 @@
+@import "mixins";
+
+@paddingTop: 10px;
+
+.mainMenu {
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  //margin-top: -@paddingTop;
+  //padding-top: @paddingTop;
+  grid-area: menu;
+  //.boxShadow();
+
+  .logo {
+    margin-right: 10px;
+  }
+
+  li {
+    margin-bottom: 0;
+  }
+
+  > ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(84px, 84px));
+    position: relative;
+    margin: 0;
+    grid-gap: 10px;
+
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      top: -@paddingTop;
+      height: calc(100% + @paddingTop);
+      background: white;
+      .boxShadow();
+    }
+
+    &:before {
+      left: -22px;
+      width: 22px;
+      clip-path: inset(-5px 0px -5px -5px);
+    }
+
+    &:after {
+      right: -20px;
+      width: 20px;
+      clip-path: inset(-5px -5px -5px 0px);
+    }
+
+    li {
+      margin: 0;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      line-height: 1;
+      box-sizing: border-box;
+
+      &.logo {
+        grid-column: span 2;
+
+        img {
+          width: 140px;
+        }
+      }
+
+      a {
+        padding: 8px;
+        display: block;
+        margin: 0;
+        width: 100%;
+        border-bottom: 2px solid transparent;
+        color: #2B2B2B;
+        text-decoration: none;
+
+        &:hover, &:focus {
+          border-bottom-color: #9B9B9B;
+          outline: none;
+          box-shadow: none;
+        }
+
+        &:global(.selected) {
+          border-bottom-color: @color_Paperblue;
+          font-weight: 700;
+        }
+      }
+
+      span {
+        font-size: 11px;
+
+        &:global(.dashicons) {
+          display: block;
+          font-weight: 400;
+          margin: auto;
+          font-size: 20px;
+          height: 26px;
+          width: 32px;
+        }
+      }
+    }
+  }
+
+  .selected {
+    &:after {
+      position: absolute;
+      content: '';
+      background: @color_Paperblue;
+      bottom: 0;
+      left: calc(50% - 30px);
+      height: 2px;
+      width: 60px;
+    }
+  }
+}

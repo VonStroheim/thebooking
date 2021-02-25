@@ -1,0 +1,41 @@
+@import "../mixins";
+
+@previewSize: 30px;
+
+.cover {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.settingColor {
+  margin: 0 0 10px;
+
+  :global(.button) {
+    line-height: @previewSize;
+    width: @previewSize;
+    height: @previewSize;
+    border-radius: 50%;
+    border: 2px solid @color_Gray_darker;
+    min-height: 0;
+  }
+
+  :global(.twitter-picker) {
+    > div {
+      > span {
+        > div {
+          border-radius: 50% !important;
+        }
+      }
+    }
+  }
+
+  .pickerContainer {
+    width: 276px;
+    margin: 12px 0 0 -6px;
+    z-index: 1000;
+    position: relative;
+  }
+}

@@ -1,0 +1,85 @@
+html {
+  font-size: 14px;
+}
+.container {
+  margin: 10px 20px 0 0;
+  display: grid;
+  grid-gap: 0 20px;
+  grid-template: "menu menu" "side main";
+  grid-template-columns: 220px 1fr;
+  word-break: break-word;
+}
+.container li {
+  margin-bottom: 0;
+}
+.container :global(.arrow) {
+  margin-left: 0 !important;
+}
+.animatedBackground {
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  position: relative;
+}
+input:global(.p-inputtext) {
+  border-radius: 3px !important;
+  line-height: normal !important;
+  padding: 0.5rem 0.5rem !important;
+  border: 1px solid #ced4da !important;
+  color: #495057 !important;
+}
+:global(.p-dropdown) {
+  line-height: normal !important;
+}
+:global(.p-multiselect) {
+  line-height: normal !important;
+}
+:global(.p-input-icon-left) > input:global(.p-inputtext) {
+  padding-left: 2rem !important;
+}
+:global(.p-datatable-loading-overlay) {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+:global(.tox-silver-sink) {
+  z-index: 13000000000 !important;
+}
+:global(.tox-fullscreen) :global(.tox.tox-tinymce):global(.tox-fullscreen) {
+  z-index: 13000000000 !important;
+}
+.settingPanelEmail:global(.p-panel) :global(.p-panel-content) {
+  padding: 0 !important;
+}
+.settingPanelEmail:global(.p-panel) :global(.p-panel-content) :global(.tox-tinymce) {
+  border: none !important;
+}
+@keyframes tbk-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes placeHolderShimmer {
+  0% {
+    background: #fff;
+  }
+  50% {
+    background: #f1f1f1;
+  }
+  100% {
+    background: #fff;
+  }
+}
+.settingPanel {
+  position: relative;
+}
+.settingPanel:global(.p-card) :global(.p-card-content) {
+  padding: 1rem;
+}
+.settingPanel .content {
+  display: block;
+}
+.settingPanel .saveButton {
+  margin-left: auto;
+  display: flex;
+}

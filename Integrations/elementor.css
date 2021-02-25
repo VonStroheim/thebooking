@@ -1,0 +1,24 @@
+i.tbk-elementor-widget-icon {
+    display: flex;
+    background: url('tbk-logo.svg');
+    width: 38px;
+    height: 38px;
+    margin: -5px auto;
+    background-size: 38px;
+}
+
+.tbk-elementor-tip {
+    position: relative;
+    margin-left: 24px;
+    font-size: 11px;
+}
+
+.tbk-elementor-tip:before {
+    font-family: "Font Awesome 5 Free";
+    content: '\f0eb';
+    position: absolute;
+    top: 0;
+    left: -24px;
+    font-size: 18px;
+    color: #f0b849;
+}

@@ -1,0 +1,21 @@
+@import "mixins";
+@import "App";
+
+.settingPanel {
+  position: relative;
+
+  &:global(.p-card) {
+    :global(.p-card-content) {
+      padding: 1rem;
+    }
+  }
+
+  .content {
+    display: block;
+  }
+
+  .saveButton {
+    margin-left: auto;
+    display: flex;
+  }
+}

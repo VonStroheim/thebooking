@@ -1,0 +1,91 @@
+.mainMenu {
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  grid-area: menu;
+}
+.mainMenu .logo {
+  margin-right: 10px;
+}
+.mainMenu li {
+  margin-bottom: 0;
+}
+.mainMenu > ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 84px));
+  position: relative;
+  margin: 0;
+  grid-gap: 10px;
+}
+.mainMenu > ul:before,
+.mainMenu > ul:after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  height: calc(100% + 10px);
+  background: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.mainMenu > ul:before {
+  left: -22px;
+  width: 22px;
+  clip-path: inset(-5px 0px -5px -5px);
+}
+.mainMenu > ul:after {
+  right: -20px;
+  width: 20px;
+  clip-path: inset(-5px -5px -5px 0px);
+}
+.mainMenu > ul li {
+  margin: 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  line-height: 1;
+  box-sizing: border-box;
+}
+.mainMenu > ul li.logo {
+  grid-column: span 2;
+}
+.mainMenu > ul li.logo img {
+  width: 140px;
+}
+.mainMenu > ul li a {
+  padding: 8px;
+  display: block;
+  margin: 0;
+  width: 100%;
+  border-bottom: 2px solid transparent;
+  color: #2B2B2B;
+  text-decoration: none;
+}
+.mainMenu > ul li a:hover,
+.mainMenu > ul li a:focus {
+  border-bottom-color: #9B9B9B;
+  outline: none;
+  box-shadow: none;
+}
+.mainMenu > ul li a:global(.selected) {
+  border-bottom-color: #226A9D;
+  font-weight: 700;
+}
+.mainMenu > ul li span {
+  font-size: 11px;
+}
+.mainMenu > ul li span:global(.dashicons) {
+  display: block;
+  font-weight: 400;
+  margin: auto;
+  font-size: 20px;
+  height: 26px;
+  width: 32px;
+}
+.mainMenu .selected:after {
+  position: absolute;
+  content: '';
+  background: #226A9D;
+  bottom: 0;
+  left: calc(50% - 30px);
+  height: 2px;
+  width: 60px;
+}

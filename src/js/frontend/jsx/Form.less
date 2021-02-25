@@ -1,0 +1,38 @@
+@import "../../backend/jsx/mixins";
+
+.formContainer {
+  .mainFrontendFont();
+  font-size: 14px;
+  padding: 24px; // spacing * 8px
+
+  .fieldContainer {
+
+    .fieldLabel {
+      font-weight: 600;
+      display: block;
+    }
+
+    .fieldDescription {
+      font-size: 12px;
+      margin: 4px 0 0;
+      color: @color_Gray_darkest;
+    }
+
+    .inputGroup {
+
+      .fieldContainer {
+        padding: 0;
+      }
+    }
+
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+
+    > button {
+      margin-left: 10px;
+    }
+  }
+}

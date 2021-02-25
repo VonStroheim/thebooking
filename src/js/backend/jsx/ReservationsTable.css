@@ -1,0 +1,36 @@
+.reservationsTable li {
+  margin-bottom: 0 !important;
+}
+.reservationsTable input {
+  width: 100%;
+}
+.reservationsTable table:global(.p-datepicker-calendar) {
+  table-layout: auto !important;
+}
+.statusBadge .statusWrapper {
+  display: inline-flex;
+  align-items: center;
+}
+.statusBadge .statusWrapper > span {
+  width: 1rem;
+  height: 1rem;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+.statusBadge .statusWrapper :global(.statusdraft) {
+  border-color: #9B9B9B;
+  background: #9B9B9B;
+}
+.statusBadge .statusWrapper :global(.statuspending) {
+  border-color: #edb657;
+  background: #edb657;
+}
+.statusBadge .statusWrapper :global(.statusconfirmed) {
+  border-color: #66C172;
+  background: #66C172;
+}
+.statusBadge .statusWrapper :global(.statuscancelled) {
+  border-color: #b92f37;
+  background: #b92f37;
+}

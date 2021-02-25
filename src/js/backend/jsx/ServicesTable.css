@@ -1,0 +1,11 @@
+.newServiceButton {
+  margin-right: 10px;
+}
+.sidebarButton {
+  width: 100% !important;
+  margin-bottom: 10px !important;
+}
+.serviceConfig {
+  grid-column-start: 1;
+  grid-column-end: -1;
+}

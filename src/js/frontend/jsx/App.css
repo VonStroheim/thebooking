@@ -1,0 +1,54 @@
+.app {
+  font-family: 'Open Sans', sans-serif;
+  font-display: swap;
+  color: #0f0f0f;
+  position: relative;
+}
+.app .secondaryText {
+  color: #636363;
+  margin-left: 4px;
+}
+.app .strongText {
+  font-weight: 700;
+  margin-right: 4px;
+}
+.app button:global(.noHover):hover {
+  background: none;
+}
+.app .formHeader {
+  display: flex;
+}
+.app .formHeader .tinyCalendar {
+  margin-right: 20px;
+  border-right: 1px solid lightgray;
+}
+.app .userMessage {
+  padding: 10px;
+  text-align: center;
+  background: transparent;
+}
+.app .userMessage button {
+  text-transform: uppercase;
+}
+.app .userMessage .userMessageContent {
+  padding: 28px;
+}
+.app .userMessage .userMessageActions {
+  justify-content: center;
+}
+.app .userMessage .userMessageHeader {
+  background: #66C172;
+  border-radius: 4px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.app .userMessage .userMessageHeader > svg {
+  width: 48px;
+  height: 48px;
+}
+.app .userMessage.userMessageFail .userMessageHeader {
+  background: #b92f37;
+}

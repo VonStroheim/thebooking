@@ -1,0 +1,61 @@
+<?php
+
+namespace TheBooking\Routes;
+
+use TheBooking\Bus\Commands\SaveAvailability;
+use VSHM_Framework\REST_Controller;
+
+defined('ABSPATH') || exit;
+
+/**
+ * Class SaveAvailabilityRoute
+ *
+ * @package TheBooking\Routes
+ */
+final class SaveAvailabilityRoute implements Route
+{
+    /**
+     * @var string
+     */
+    private static $path = '/save/availability/';
+
+    public static function register()
+    {
+        REST_Controller::register_routes([
+            self::$path => [
+                'methods'  => \WP_REST_Server::CREATABLE,
+                'callback' => function (\WP_REST_Request $request) {
+                    $uid      = $request->get_param('id');
+                    $settings = $request->get_param('settings');
+
+                    if (isset($settings['working_hours'])) {
+                        $command = new SaveAvailability($uid, $settings['working_hours']);
+                        tbk()->bus->dispatch($command);
+                    }
+
+                    tbk()->availability->gather();
+
+                    $response = [
+                        'status'       => 'OK',
+                        'availability' => tbk()->availability->all()
+                    ];
+
+                    return apply_filters('tbk_backend_save_availability_response', new \WP_REST_Response($response, 200));
+                },
+                'args'     => [
+                    'settings' => [
+                        'required' => TRUE
+                    ],
+                    'id'       => [
+                        'required' => TRUE
+                    ],
+                ]
+            ]
+        ]);
+    }
+
+    public static function getPath()
+    {
+        return self::$path;
+    }
+}

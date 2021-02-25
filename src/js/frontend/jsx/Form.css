@@ -1,0 +1,25 @@
+.formContainer {
+  font-family: 'Open Sans', sans-serif;
+  font-display: swap;
+  font-size: 14px;
+  padding: 24px;
+}
+.formContainer .fieldContainer .fieldLabel {
+  font-weight: 600;
+  display: block;
+}
+.formContainer .fieldContainer .fieldDescription {
+  font-size: 12px;
+  margin: 4px 0 0;
+  color: #2B2B2B;
+}
+.formContainer .fieldContainer .inputGroup .fieldContainer {
+  padding: 0;
+}
+.formContainer .actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.formContainer .actions > button {
+  margin-left: 10px;
+}

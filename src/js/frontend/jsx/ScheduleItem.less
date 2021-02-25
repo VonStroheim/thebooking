@@ -1,0 +1,114 @@
+@import "../../backend/jsx/mixins";
+
+@timesContainerWidth: 64px;
+
+.item {
+
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+
+  .times {
+    text-align: right;
+    font-size: 12px;
+    font-weight: 600;
+    width: @timesContainerWidth;
+    border-right: 1px solid @color_Gray_lightest;
+    padding-right: 8px;
+
+    .timeDivider {
+      color: @color_Gray_lightest;
+      width: 18px;
+      height: 18px;
+      margin-right: -6px;
+      vertical-align: middle;
+    }
+
+    .endTime {
+      color: @color_Gray_dark;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      display: inline-block;
+      border-radius: 50px;
+    }
+  }
+
+  .content {
+    flex: 1;
+
+    .title {
+      font-weight: 600;
+    }
+
+    .meta {
+      color: @color_Gray_dark;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+
+      .iconContainer {
+        width: 14px;
+        height: 14px;
+        display: inline;
+        margin-right: 2px;
+
+        .icon {
+          width: inherit;
+          height: inherit;
+        }
+      }
+    }
+  }
+
+  .durationControlContainer {
+    display: flex;
+
+    .durationControl {
+      width: calc(100% - 80px);
+      margin-right: 40px;
+      margin-left: 40px;
+
+      .durationControlLabel {
+        font-size: 10px;
+      }
+    }
+  }
+
+  .variants {
+    margin-left: @timesContainerWidth + 4;
+    display: grid;
+    grid-gap: 4px;
+
+    .underTimeslot {
+      line-height: 1;
+      font-size: 10px;
+      font-weight: 400;
+      text-transform: none;
+      color: #14a76c;
+
+      .soldOutSlotString {
+        color: @color_Bloody;
+      }
+    }
+  }
+
+  .actionButton {
+    margin-left: 8px;
+  }
+
+  .itemActions {
+    .icon {
+      transition: transform .2s ease-out;
+      transform: rotate(0deg);
+      padding: 2px;
+
+      &.iconExpanded {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+}

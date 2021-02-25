@@ -1,0 +1,22 @@
+.sideMenu {
+  display: flex;
+  flex-direction: column;
+}
+.sideMenu > ul {
+  border-width: 1px !important;
+}
+.sideMenu > ul > li {
+  margin-bottom: 0;
+  width: 100%;
+}
+.sideMenu > ul > li:not(:global(.p-highlight)) > a {
+  color: inherit !important;
+}
+.sideMenu > ul > li > a {
+  border-radius: 0 !important;
+  border-width: 0 0 0 2px !important;
+  margin: 0 0 0 -1px !important;
+  font-weight: 400 !important;
+  font-size: 0.85rem;
+  background: transparent !important;
+}

@@ -1,0 +1,53 @@
+.alignRight {
+  margin-left: auto !important;
+}
+.container:empty {
+  display: none;
+}
+.bookedLabel {
+  color: #b92f37;
+  margin-left: 6px;
+  font-weight: 600;
+}
+.cardAction {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #9B9B9B;
+  padding: 0 0 0 10px;
+}
+.loginButtonsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  padding: 1rem;
+}
+.schedule {
+  font-size: 14px;
+  color: #0f0f0f;
+  padding: 10px;
+}
+.schedule:empty {
+  display: none;
+}
+.schedule .header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.schedule .header .dayNumber {
+  text-align: center;
+  padding: 8px 0;
+  line-height: 1;
+  width: 30px;
+  border-radius: 30px;
+  background: #226A9D;
+  color: white;
+}
+.schedule .header .date {
+  margin-left: 8px;
+  font-weight: 600;
+}
+.schedule .header .date .secondaryDatePart {
+  color: #9B9B9B;
+}

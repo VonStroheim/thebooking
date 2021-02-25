@@ -1,0 +1,14 @@
+.settingBlock {
+  border-bottom: 1px solid #e5e5e5;
+  padding: 10px 0 30px 0;
+  min-width: 380px;
+}
+.settingBlock:first-of-type > *:first-child {
+  margin-top: 0;
+}
+.settingBlock:last-of-type {
+  border-bottom: none;
+}
+.settingBlock .setting > :not(:first-child) {
+  margin-top: 20px;
+}

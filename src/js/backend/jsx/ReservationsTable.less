@@ -1,0 +1,53 @@
+@import "mixins";
+
+.reservationsTable {
+
+  li {
+    margin-bottom: 0 !important;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  table:global(.p-datepicker-calendar) {
+    table-layout: auto !important;
+  }
+}
+
+.statusBadge {
+
+  .statusWrapper {
+    display: inline-flex;
+    align-items: center;
+
+    > span {
+      width: 1rem;
+      height: 1rem;
+      display: inline-block;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+
+    :global(.statusdraft) {
+      border-color: @color_Gray_light;
+      background: @color_Gray_light;
+    }
+
+    :global(.statuspending) {
+      border-color: @color_Sunset_light;
+      background: @color_Sunset_light;
+    }
+
+    :global(.statusconfirmed) {
+      border-color: @color_Green;
+      background: @color_Green;
+    }
+
+    :global(.statuscancelled) {
+      border-color: @color_Bloody;
+      background: @color_Bloody;
+    }
+
+  }
+}

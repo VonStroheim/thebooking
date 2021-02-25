@@ -1,0 +1,98 @@
+@import "mixins";
+
+.dataTable {
+  grid-column-start: 1;
+  grid-column-end: -1;
+  border-radius: 3px;
+  border: 1px solid #dee2e6;
+  position: relative;
+
+  .tableCellDescription {
+    display: block;
+    font-size: 0.9286rem;
+    color: @color_Gray_light;
+  }
+
+  .tableHeader {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .nameItem {
+    display: flex;
+    align-items: center;
+
+    .nameItemAvatar {
+      width: 32px;
+      min-width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin-right: 10px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      > img {
+        width: 100%;
+      }
+
+      > i {
+        font-size: 24px;
+      }
+    }
+  }
+
+  :global(.p-paginator-current) {
+    margin-left: auto !important;
+  }
+
+  :global(.p-datatable-header) {
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    border-width: 0 0 1px 0 !important;
+  }
+
+  :global(.p-paginator-bottom) {
+    border-width: 0 !important;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+
+  .newResourceButton {
+    margin-right: 10px;
+  }
+
+  .readOnlyPhone {
+    :global(.react-tel-input) {
+      font-family: inherit !important;
+
+      > input {
+        background: transparent !important;
+        border: none !important;
+        width: auto !important;
+        padding-left: 24px !important;
+
+        &:disabled {
+          color: inherit !important;
+          box-shadow: none !important;
+          cursor: inherit !important;
+        }
+      }
+
+      > :global(.flag-dropdown) {
+        background: transparent !important;
+        border: none !important;
+
+        :global(.selected-flag) {
+          padding: 0 !important;
+
+          :global(.arrow) {
+            display: none !important;
+          }
+        }
+      }
+    }
+  }
+
+}

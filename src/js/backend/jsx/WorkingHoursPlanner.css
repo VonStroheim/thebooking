@@ -1,0 +1,112 @@
+.workingHoursPlanner ul.sliders {
+  padding-bottom: 2rem;
+}
+.workingHoursPlanner ul li {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+.workingHoursPlanner ul li :global(.label) {
+  width: 110px;
+  font-weight: 600;
+}
+.workingHoursPlanner ul li :global(.label) :global(.total-time-wrapper) {
+  display: block;
+  font-size: 10px;
+  color: grey;
+  font-weight: 400;
+}
+.workingHoursPlanner ul li :global(.intervals) {
+  margin-right: 10px;
+}
+.workingHoursPlanner ul li :global(.intervals) label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+}
+.workingHoursPlanner ul li :global(.intervals) input {
+  width: 40px;
+  padding-right: 0;
+}
+.workingHoursPlanner ul :global(.noUi-horizontal) {
+  height: 30px;
+}
+.workingHoursPlanner ul :global(.noUi-horizontal)[disabled] :global(.noUi-handle) {
+  cursor: not-allowed;
+  display: none;
+}
+.workingHoursPlanner ul :global(.noUi-horizontal)[disabled] :global(.noUi-connect) {
+  display: none;
+}
+.workingHoursPlanner ul :global(.noUi-horizontal)[disabled] :global(.noUi-tooltip) {
+  display: none !important;
+}
+.workingHoursPlanner ul :global(.noUi-horizontal) :global(.noUi-handle) {
+  height: 16px;
+  cursor: grab;
+  width: 16px;
+  right: -7px;
+  border-color: #9B9B9B;
+  border-radius: 20px;
+  top: 6px;
+}
+.workingHoursPlanner ul :global(.noUi-horizontal) :global(.noUi-handle):after {
+  left: 8px;
+}
+.workingHoursPlanner ul :global(.noUi-horizontal) :global(.noUi-handle):before {
+  left: 5px;
+}
+.workingHoursPlanner ul :global(.noUi-horizontal) :global(.noUi-handle):global(.noUi-active) {
+  cursor: grabbing;
+}
+.workingHoursPlanner ul :global(.noUi-horizontal) :global(.noUi-handle):before,
+.workingHoursPlanner ul :global(.noUi-horizontal) :global(.noUi-handle):after {
+  display: none;
+  height: 7px;
+  top: 3px;
+  background: #9B9B9B;
+}
+.workingHoursPlanner ul :global(.noUi-horizontal) :global(.noUi-handle):focus {
+  border-color: #0f0f0f;
+}
+.workingHoursPlanner ul :global(.noUi-horizontal) :global(.noUi-handle):focus:before,
+.workingHoursPlanner ul :global(.noUi-horizontal) :global(.noUi-handle):focus:after {
+  background: #0f0f0f;
+}
+.workingHoursPlanner ul :global(.noUi-target) {
+  border-radius: 0;
+  flex: 1;
+}
+.workingHoursPlanner ul :global(.noUi-tooltip) {
+  padding: 0;
+  color: #0f0f0f;
+  top: 26px;
+  border: none;
+}
+.workingHoursPlanner ul :global(.noUi-connect) {
+  background: #4e88b1;
+}
+.workingHoursPlanner :global(.intervals-margins) {
+  display: flex;
+  align-items: flex-end;
+}
+.workingHoursPlanner .exDates :global(.p-highlight) {
+  color: white !important;
+  background: #b92f37 !important;
+}
+.workingHoursPlanner .exDates :global(.calendar) > * {
+  transition: none !important;
+}
+.workingHoursPlanner .exDates :global(.calendar) :global(.months-container) {
+  opacity: 1 !important;
+}
+.workingHoursPlanner .exDateTag {
+  color: white !important;
+  background: #b92f37 !important;
+  padding: 0.5rem;
+  border-radius: 3px;
+}
+.workingHoursPlanner .exDateTags {
+  margin: 0;
+  padding: 0 1rem;
+}

@@ -1,0 +1,790 @@
+// @ts-ignore
+import styles from './App.css';
+import React from 'react';
+import MainMenu from './MainMenu';
+import SideMenu from './SideMenu';
+import SettingsPanel from './SettingsPanel';
+import ReservationsTable from './ReservationsTable';
+import ServicesTable from './ServicesTable';
+import CustomersTable from './CustomersTable';
+// @ts-ignore
+import {Editor} from '@tinymce/tinymce-react';
+import {Toast} from 'primereact/toast';
+import {Panel} from 'primereact/panel';
+import {Button} from 'primereact/button';
+import Api from '../../Api';
+// @ts-ignore
+import * as SettingComponents from './SettingComponents/components';
+import globals from "../../globals";
+import {NotificationHook, ReservationRecordBackend, SettingPanelBackend, StateAction, tbkCommonB} from "../../typedefs";
+import LocationsTable from "./LocationsTable";
+
+declare const tbkCommon: tbkCommonB;
+declare const lodash: any;
+declare const wp: any;
+const {__, _x, _n, _nx, sprintf} = wp.i18n;
+
+export interface AppProps {
+
+}
+
+interface AppState {
+    currentHash: string,
+    page: string,
+    UI: tbkCommonB,
+    isBusy: boolean,
+    actionsToCommit: {
+        SAVE_SETTINGS: {
+            [key: string]: any
+        }
+    },
+    isStickyShown: boolean
+}
+
+export default class App extends React.Component<AppProps, AppState> {
+    private toast: any;
+    private stickyToast: any;
+
+    constructor(props: AppProps) {
+
+        super(props);
+
+        this.state = {
+            currentHash    : window.location.hash.substr(1),
+            page           : new URLSearchParams(window.location.search).get('page'),
+            UI             : tbkCommon,
+            isBusy         : false,
+            actionsToCommit: {
+                SAVE_SETTINGS: {}
+            },
+            isStickyShown  : tbkCommon.reservationStatusUpdate.length > 0
+        }
+
+    }
+
+    componentDidMount() {
+        window.addEventListener('hashchange', this.onHashChange);
+        this.reservationsChangedStatusesNotification()
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('hashchange', this.onHashChange);
+    }
+
+    onHashChange = () => {
+        this.setState({
+            currentHash    : window.location.hash.substr(1),
+            actionsToCommit: {
+                SAVE_SETTINGS: {}
+            }
+        })
+    }
+
+    haltSettingsChanges = (payload: { [key: string]: any }) => {
+        const actionsToCommit = this.state.actionsToCommit;
+        actionsToCommit.SAVE_SETTINGS = Object.assign({}, actionsToCommit.SAVE_SETTINGS, payload);
+        this.setState({actionsToCommit: actionsToCommit})
+    }
+
+    commitChanges = (action: { type: string, id?: string | number }) => {
+        this.handleChanges({
+            type   : action.type,
+            payload: {
+                settings: this.state.actionsToCommit.SAVE_SETTINGS,
+                id      : action.id
+            }
+        })
+    }
+
+    handleChanges = (action: StateAction) => {
+        this.setState({isBusy: true});
+        switch (action.type) {
+            case 'SAVE_SETTINGS':
+                fetch(this.state.UI.saveSettingsRoute, {
+                    method : 'post',
+                    headers: globals.getHeaders(),
+                    body   : JSON.stringify({
+                        settings: action.payload.settings,
+                        meta    : {
+                            type: 'core'
+                        }
+                    })
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        tbkCommon.settings = res.settings;
+                        this.setState({
+                            UI             : tbkCommon,
+                            isBusy         : false,
+                            actionsToCommit: {
+                                SAVE_SETTINGS: {}
+                            }
+                        })
+                        this.showSuccess(__('Settings saved.', 'the-booking'));
+                    })
+                break;
+            case 'SAVE_AVAILABILITY':
+                Api.post('/save/availability/', {
+                    settings: action.payload.settings,
+                    id      : 'availabilityGlobal_1'
+                }).then((res: any) => {
+                    if (res.data.status === 'KO') {
+                        this.showError(res.data.error);
+                        this.setState({
+                            isBusy: false
+                        })
+                    } else {
+                        tbkCommon.availability = res.data.availability;
+                        this.setState({
+                            UI    : tbkCommon,
+                            isBusy: false
+                        })
+                        this.showSuccess(__('Availability saved.', 'the-booking'));
+                    }
+
+                })
+                break;
+            case 'SAVE_SERVICE_SETTINGS':
+                fetch(this.state.UI.saveSettingsRoute, {
+                    method : 'post',
+                    headers: globals.getHeaders(),
+                    body   : JSON.stringify({
+                        settings: action.payload.settings,
+                        meta    : {
+                            type: 'service',
+                            id  : action.payload.id
+                        }
+                    })
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        tbkCommon.services = res.services;
+                        if ('UIx' in res) {
+                            tbkCommon.UIx.panels = res.UIx.panels;
+                        }
+                        this.setState({
+                            UI             : tbkCommon,
+                            isBusy         : false,
+                            actionsToCommit: {
+                                SAVE_SETTINGS: {}
+                            }
+                        })
+                        this.showSuccess(__('Settings saved.', 'the-booking'));
+                    })
+                break;
+            case 'DELETE_SERVICES':
+                fetch(this.state.UI.restRouteRoot + '/delete/service/', {
+                    method : 'post',
+                    headers: globals.getHeaders(),
+                    body   : JSON.stringify({
+                        uids: action.payload,
+                    })
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        tbkCommon.services = res.services;
+                        this.setState({
+                            UI             : tbkCommon,
+                            isBusy         : false,
+                            actionsToCommit: {
+                                SAVE_SETTINGS: {}
+                            }
+                        })
+                        this.showSuccess(__('Service deleted.', 'the-booking'));
+                    })
+
+                break;
+            case 'DELETE_RESERVATIONS':
+                fetch(this.state.UI.restRouteRoot + '/delete/reservation/', {
+                    method : 'post',
+                    headers: globals.getHeaders(),
+                    body   : JSON.stringify({
+                        uids: action.payload,
+                    })
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        tbkCommon.reservations = res.reservations;
+                        this.setState({
+                            UI             : tbkCommon,
+                            isBusy         : false,
+                            actionsToCommit: {
+                                SAVE_SETTINGS: {}
+                            }
+                        })
+                        this.showSuccess(__('Reservations deleted.', 'the-booking'));
+                    })
+
+                break;
+            case 'SAVE_RESERVATION_SETTINGS':
+                fetch(this.state.UI.saveSettingsRoute, {
+                    method : 'post',
+                    headers: globals.getHeaders(),
+                    body   : JSON.stringify({
+                        settings: action.payload.settings,
+                        meta    : {
+                            type: 'reservation',
+                            id  : action.payload.id
+                        }
+                    })
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        tbkCommon.reservations = res.reservations;
+                        let isStickyShown = this.state.isStickyShown;
+                        if (tbkCommon.reservationStatusUpdate.length !== res.reservationStatusUpdate.length) {
+                            tbkCommon.reservationStatusUpdate = res.reservationStatusUpdate;
+                            if (!isStickyShown) {
+                                this.reservationsChangedStatusesNotification();
+                            }
+                            isStickyShown = true;
+                        }
+                        this.setState({
+                            UI             : tbkCommon,
+                            isBusy         : false,
+                            actionsToCommit: {
+                                SAVE_SETTINGS: {}
+                            },
+                            isStickyShown  : isStickyShown
+                        })
+                        this.showSuccess(__('Settings saved.', 'the-booking'));
+                    })
+                break;
+            case 'CREATE_CUSTOMER':
+                Api.post('/create/customer/', {
+                    customer: action.payload
+                }).then((res: any) => {
+                    if (res.data.status === 'KO') {
+                        this.showError(res.data.error);
+                        this.setState({
+                            isBusy: false
+                        })
+                    } else {
+                        tbkCommon.customers = res.data.customers;
+                        this.setState({
+                            UI    : tbkCommon,
+                            isBusy: false
+                        })
+                        this.showSuccess(__('Customer created.', 'the-booking'));
+                    }
+
+                })
+                break;
+            case 'CREATE_LOCATION':
+                Api.post('/create/location/', {
+                    name   : action.payload.name,
+                    address: action.payload.address
+                }).then((res: any) => {
+                    if (res.data.status === 'KO') {
+                        this.showError(res.data.error);
+                        this.setState({
+                            isBusy: false
+                        })
+                    } else {
+                        tbkCommon.locations = res.data.locations;
+                        this.setState({
+                            UI    : tbkCommon,
+                            isBusy: false
+                        })
+                        this.showSuccess(__('Location created.', 'the-booking'));
+                    }
+
+                })
+                break;
+            case 'CREATE_SERVICE':
+                Api.post('/create/service/', {
+                    service: action.payload
+                }).then((res: any) => {
+                    if (res.data.status === 'KO') {
+                        this.showError(res.data.error);
+                        this.setState({
+                            isBusy: false
+                        })
+                    } else {
+                        tbkCommon.services = res.data.services;
+                        this.setState({
+                            UI    : tbkCommon,
+                            isBusy: false
+                        })
+                        this.showSuccess(__('Service created.', 'the-booking'));
+                    }
+
+                })
+                break;
+            case 'EDIT_CUSTOMER':
+                Api.post('/edit/customer/', {
+                    customer: action.payload.newData,
+                    id      : action.payload.id
+                }).then((res: any) => {
+                    if (res.data.status === 'KO') {
+                        this.showError(res.data.error);
+                        this.setState({
+                            isBusy: false
+                        })
+                    } else {
+                        tbkCommon.customers = res.data.customers;
+                        this.setState({
+                            UI    : tbkCommon,
+                            isBusy: false
+                        })
+                        this.showSuccess(__('Customer saved.', 'the-booking'));
+                    }
+
+                })
+                break;
+            case 'DELETE_CUSTOMER':
+                Api.post('/delete/customer/', {
+                    id: action.payload
+                }).then((res: any) => {
+                    if (res.data.status === 'KO') {
+                        this.showError(res.data.error);
+                        this.setState({
+                            isBusy: false
+                        })
+                    } else {
+                        tbkCommon.customers = res.data.customers;
+                        this.setState({
+                            UI    : tbkCommon,
+                            isBusy: false
+                        })
+                        this.showSuccess(__('Customer removed.', 'the-booking'));
+                    }
+
+                })
+                break;
+            case 'DELETE_LOCATIONS':
+                Api.post('/delete/location/', {
+                    uids: action.payload
+                }).then((res: any) => {
+                    if (res.data.status === 'KO') {
+                        this.showError(res.data.error);
+                        this.setState({
+                            isBusy: false
+                        })
+                    } else {
+                        tbkCommon.locations = res.data.locations;
+                        this.setState({
+                            UI    : tbkCommon,
+                            isBusy: false
+                        })
+                        this.showSuccess(__('Locations removed.', 'the-booking'));
+                    }
+
+                })
+                break;
+            case 'CLEAR_RESERVATIONS_UPDATED_STATUSES':
+                Api.post('/clean/reservation/status/changes/', {
+                    doActions: action.payload
+                }).then((res: any) => {
+                    if (res.data.status === 'KO') {
+                        this.showError(res.data.error);
+                        this.setState({
+                            isBusy: false
+                        })
+                    } else {
+                        tbkCommon.reservationStatusUpdate = [];
+                        if (action.payload) {
+                            this.showSuccess(__('Notifications sent.', 'the-booking'));
+                        }
+                        this.setState({
+                            UI           : tbkCommon,
+                            isBusy       : false,
+                            isStickyShown: false
+                        })
+                    }
+
+                })
+        }
+    }
+
+    prepareReservations = (reservations: ReservationRecordBackend[]) => {
+        return reservations.sort((a, b) => {
+            if (a.start === b.start) return 0;
+            if (a.start < b.start) {
+                return 1;
+            } else {
+                return -1;
+            }
+        })
+    }
+
+    renderAlt() {
+        switch (this.state.page) {
+            case 'the-booking':
+                return (
+                    <ReservationsTable
+                        reservations={this.prepareReservations(this.state.UI.reservations)}
+                        onUpdate={this.handleChanges}
+                        isBusy={this.state.isBusy}
+                        showFilters={true}
+                        showHeader={true}
+                    />
+                )
+            case 'the-booking-services':
+                return (
+                    <ServicesTable
+                        onUpdate={this.handleChanges}
+                        isBusy={this.state.isBusy}
+                        panels={this.state.UI.UIx.panels}
+                        currentHash={this.state.currentHash}
+                        renderSettingPanel={this.renderSettingPanel}
+                    />
+                )
+            case 'the-booking-customers':
+                return (
+                    <CustomersTable
+                        onUpdate={this.handleChanges}
+                        isBusy={this.state.isBusy}
+                        currentHash={this.state.currentHash}
+                        renderSettingPanel={this.renderSettingPanel}
+                    />
+                )
+            case 'the-booking-core':
+                const coreMenuItems = this.state.UI.UIx.panels.map((panel: SettingPanelBackend) => {
+                    return {
+                        label: panel.panelLabel,
+                        ref  : panel.panelRef,
+                    }
+                })
+                return (
+                    <>
+                        <SideMenu items={coreMenuItems}/>
+
+                        {this.state.UI.UIx.panels.map((panel: SettingPanelBackend, i: number) => (
+                            <>
+                                {(this.state.currentHash === panel.panelRef || (!this.state.currentHash && i === 0)) && (
+                                    this.renderSettingPanel(panel, this.state.UI.settings, {type: 'SAVE_SETTINGS'})
+                                )}
+                            </>
+                        ))}
+                    </>
+                )
+            case 'the-booking-availability':
+                let avMenuItems = this.state.UI.UIx.panels.map((panel: SettingPanelBackend) => {
+                    return {
+                        label: panel.panelLabel,
+                        ref  : panel.panelRef,
+                    }
+                })
+                return (
+                    <>
+                        <SideMenu items={avMenuItems}/>
+
+                        {this.state.UI.UIx.panels.map((panel: SettingPanelBackend, i: number) => (
+                            <>
+                                {(this.state.currentHash === panel.panelRef || (!this.state.currentHash && i === 0)) && (
+                                    this.renderSettingPanel(panel, this.state.UI.settings, {type: 'SAVE_AVAILABILITY'})
+                                )}
+                            </>
+                        ))}
+                    </>
+                )
+        }
+    }
+
+    showSuccess(message: string) {
+        this.toast.show({severity: 'success', summary: __('Success', 'the-booking'), detail: message});
+    }
+
+    showError(message: string) {
+        this.toast.show({severity: 'error', summary: __('Error', 'the-booking'), detail: message});
+    }
+
+    showStickyMessage(message: any) {
+        this.stickyToast.show({severity: 'info', content: message, sticky: true, closable: false});
+    }
+
+    reservationsChangedStatusesNotification() {
+        if (tbkCommon.reservationStatusUpdate.length) {
+            this.showStickyMessage(
+                <div>
+                    <h4>{__('Some reservations changed their status.', 'the-booking')}</h4>
+                    <p>{__('Do you want to trigger notifications of the new statuses?', 'the-booking')}</p>
+                    <div className="p-grid p-fluid">
+                        <div className="p-col-6">
+                            <Button
+                                type="button"
+                                label={__('Yes', 'the-booking')}
+                                className="p-button-success"
+                                onClick={() => {
+                                    this.stickyToast.clear();
+                                    this.handleChanges({type: 'CLEAR_RESERVATIONS_UPDATED_STATUSES', payload: true})
+                                }}
+                            />
+                        </div>
+                        <div className="p-col-6">
+                            <Button
+                                type="button"
+                                label={__('No', 'the-booking')}
+                                className="p-button-secondary"
+                                onClick={() => {
+                                    this.stickyToast.clear();
+                                    this.handleChanges({type: 'CLEAR_RESERVATIONS_UPDATED_STATUSES', payload: false})
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+    }
+
+    render() {
+        return (
+            <div className={styles.container}>
+                <MainMenu items={this.state.UI.mainMenuItems}/>
+                {this.renderAlt()}
+                <Toast ref={(el) => this.toast = el} position="bottom-right"/>
+                <Toast ref={(el) => this.stickyToast = el} position="top-right" baseZIndex={100000000}/>
+            </div>
+        );
+    }
+
+    /**
+     * It renders a generic setting panel.
+     *
+     * @param panel
+     * @param values The source of values for setting elements.
+     * @param commitAction Action to commit when onUpdate is called
+     * @returns {JSX.Element}
+     */
+    renderSettingPanel = (panel: SettingPanelBackend, values: { [key: string]: any }, commitAction: { type: string, id?: string | number }) => {
+        return (
+            <div>
+                <SettingsPanel panelRef={panel.panelRef}
+                               key={panel.panelRef}
+                               noSave={panel.noSave || false}
+                               onUpdate={() => this.commitChanges(commitAction)}
+                               isBusy={this.state.isBusy}>
+                    {panel.blocks.map((block, i: number) => {
+                        return (
+                            <SettingComponents.Block
+                                key={'block-' + i}
+                                title={block.title}
+                                description={block.description}
+                            >
+                                {block.components.map((component) => {
+
+                                    /**
+                                     * Taking care of logic
+                                     */
+                                    if ('dependencies' in component) {
+                                        let show = true;
+                                        component.dependencies.forEach(rule => {
+                                            let parentValue = this.state.actionsToCommit['SAVE_SETTINGS'][rule.on];
+                                            if (typeof parentValue === 'undefined') {
+                                                parentValue = rule.on.startsWith('meta::')
+                                                    ? values.meta[rule.on.replace('meta::', '')]
+                                                    : values[rule.on];
+                                            }
+                                            if (parentValue !== rule.being) {
+                                                show = false;
+                                            }
+                                        })
+                                        if (!show) {
+                                            return;
+                                        }
+                                    }
+
+                                    /**
+                                     * Taking care of metadata and ready-to-commit values.
+                                     *
+                                     * TODO: this is a mess
+                                     *
+                                     */
+                                    let settingValue;
+                                    if (component.type !== 'notice') {
+                                        const mergedValues = {...values, ...this.state.actionsToCommit['SAVE_SETTINGS']}
+                                        settingValue = mergedValues[component.settingId];
+                                        if (typeof settingValue === 'undefined' && component.settingId.startsWith('meta::')) {
+                                            settingValue = values.meta[component.settingId.replace('meta::', '')];
+                                        }
+                                    }
+
+                                    switch (component.type) {
+                                        case 'toggle':
+                                            return (
+                                                <SettingComponents.Toggle
+                                                    checked={settingValue}
+                                                    settingId={component.settingId}
+                                                    key={component.settingId}
+                                                    onChange={this.haltSettingsChanges}
+                                                    disabled={this.state.isBusy}
+                                                />
+                                            )
+                                        case 'text':
+                                            return (
+                                                <SettingComponents.TextInput
+                                                    value={settingValue}
+                                                    placeholder={component.placeholder}
+                                                    settingId={component.settingId}
+                                                    key={component.settingId}
+                                                    label={component.label}
+                                                    onChange={this.haltSettingsChanges}
+                                                    disabled={this.state.isBusy}
+                                                />
+                                            )
+                                        case 'select':
+                                            return (
+                                                <SettingComponents.Select
+                                                    value={settingValue}
+                                                    settingId={component.settingId}
+                                                    key={component.settingId}
+                                                    onChange={this.haltSettingsChanges}
+                                                    options={component.options}
+                                                    disabled={this.state.isBusy}
+                                                />
+                                            )
+                                        case 'multiselect':
+                                            return (
+                                                <SettingComponents.MultiSelect
+                                                    value={settingValue}
+                                                    settingId={component.settingId}
+                                                    key={component.settingId}
+                                                    onChange={this.haltSettingsChanges}
+                                                    options={component.options}
+                                                    disabled={this.state.isBusy}
+                                                />
+                                            )
+                                        case 'durationSelect':
+                                            return (
+                                                <SettingComponents.DurationSelect
+                                                    value={settingValue}
+                                                    settingId={component.settingId}
+                                                    key={component.settingId}
+                                                    onChange={this.haltSettingsChanges}
+                                                    showDays={'showDays' in component ? component.showDays : true}
+                                                    showHours={'showHours' in component ? component.showHours : true}
+                                                    showMinutes={'showMinutes' in component ? component.showMinutes : true}
+                                                    disabled={this.state.isBusy}
+                                                />
+                                            )
+                                        case 'checkboxes':
+                                            return (
+                                                <SettingComponents.Checkboxes
+                                                    options={component.options}
+                                                    selected={settingValue}
+                                                    settingId={component.settingId}
+                                                    key={component.settingId}
+                                                    onChange={this.haltSettingsChanges}
+                                                    disabled={this.state.isBusy}
+                                                />
+                                            )
+                                        case 'colorPicker':
+                                            return (
+                                                <SettingComponents.Color
+                                                    value={settingValue}
+                                                    settingId={component.settingId}
+                                                    key={component.settingId}
+                                                    onChange={this.haltSettingsChanges}
+                                                />
+                                            )
+                                        case 'html':
+                                            return (
+                                                <Editor
+                                                    key={component.settingId}
+                                                    tinymceScriptSrc={tbkCommon.pluginUrl + 'js/backend/tiny/tinymce.min.js'}
+                                                    init={{
+                                                        menubar      : false,
+                                                        relative_urls: false,
+                                                        plugins      : 'fullscreen preview code link',
+                                                        toolbar      : [
+                                                            'undo redo',
+                                                            'fullscreen preview code',
+                                                            'bold italic',
+                                                            'forecolor backcolor',
+                                                            'alignleft aligncenter alignright alignjustify',
+                                                            'outdent indent',
+                                                            'removeformat link'
+                                                        ].join(' | ')
+                                                    }}
+                                                    value={settingValue}
+                                                    disabled={this.state.isBusy}
+                                                    onEditorChange={(content) => this.haltSettingsChanges({
+                                                        [component.settingId]: content
+                                                    })}
+                                                />
+                                            )
+                                        case 'email':
+
+                                            const specificHooks = (typeof component.templateHooksSpec !== 'undefined')
+                                                ? (typeof component.templateHooksSpec[values.uid] !== 'undefined' ? component.templateHooksSpec[values.uid] : [])
+                                                : [];
+                                            const groupedHooks = lodash.groupBy(component.templateHooks.concat(specificHooks), (x: NotificationHook) => x.contextLabel);
+
+                                            return (
+                                                <Panel toggleable header={__('Email content', 'the-booking')} collapsed={true} className={styles.settingPanelEmail}>
+                                                    <Editor
+                                                        key={component.settingId}
+                                                        tinymceScriptSrc={this.state.UI.pluginUrl + 'js/backend/tiny/tinymce.min.js'}
+                                                        init={{
+                                                            menubar      : false,
+                                                            relative_urls: false,
+                                                            dynamicHooks : groupedHooks,
+                                                            plugins      : 'fullscreen preview code link tbk-hooks',
+                                                            toolbar      : [
+                                                                'tbk-hooks',
+                                                                'undo redo',
+                                                                'fullscreen preview code',
+                                                                'bold italic',
+                                                                'forecolor backcolor',
+                                                                'alignleft aligncenter alignright alignjustify',
+                                                                'outdent indent',
+                                                                'removeformat link'
+                                                            ].join(' | ')
+                                                        }}
+                                                        value={settingValue}
+                                                        disabled={this.state.isBusy}
+                                                        onEditorChange={(content) => this.haltSettingsChanges({
+                                                            [component.settingId]: content
+                                                        })}
+                                                    />
+                                                </Panel>
+                                            )
+                                        case 'formBuilder':
+                                            return (
+                                                <SettingComponents.FormBuilder
+                                                    key={component.settingId}
+                                                    onChange={this.haltSettingsChanges}
+                                                    schema={settingValue}
+                                                    settingId={component.settingId}
+                                                />
+                                            )
+                                        case 'hoursPlanner':
+                                            return (
+                                                <SettingComponents.WorkingHoursPlanner
+                                                    key={component.settingId + 'WorkingHoursPlanner'}
+                                                    settingId={component.settingId}
+                                                    onChange={this.haltSettingsChanges}
+                                                />
+                                            )
+                                        case 'closingDatesPlanner':
+                                            return (
+                                                <SettingComponents.ClosingDatesPlanner
+                                                    key={component.settingId + 'ClosingDatesPlanner'}
+                                                    settingId={component.settingId}
+                                                    onChange={this.haltSettingsChanges}
+                                                />
+                                            )
+                                        case 'LocationsTable':
+                                            return (<LocationsTable isBusy={this.state.isBusy} onUpdate={this.handleChanges}/>)
+                                        case 'notice':
+                                            return (
+                                                <SettingComponents.Notice
+                                                    key={globals.uuidDOM()}
+                                                    type={component.intent}
+                                                >
+                                                    {component.text}
+                                                </SettingComponents.Notice>
+                                            )
+                                    }
+                                })}
+                            </SettingComponents.Block>
+                        )
+                    })}
+                </SettingsPanel>
+            </div>
+        )
+    }
+
+}

@@ -1,0 +1,79 @@
+@import "../../backend/jsx/mixins";
+
+.app {
+  .mainFrontendFont;
+  color: @color_Black;
+  position: relative;
+
+  .secondaryText {
+    color: @color_Gray_dark;
+    margin-left: 4px;
+  }
+
+  .strongText {
+    font-weight: 700;
+    margin-right: 4px;
+  }
+
+  button {
+    &:global(.noHover) {
+      &:hover {
+        background: none;
+      }
+    }
+  }
+
+  .formHeader {
+    display: flex;
+
+    .tinyCalendar {
+      margin-right: 20px;
+      border-right: 1px solid lightgray;
+    }
+
+  }
+
+  .userMessage {
+    padding: 10px;
+    text-align: center;
+    background: transparent;
+
+    button {
+      text-transform: uppercase;
+    }
+
+    .userMessageContent {
+      padding: 28px;
+    }
+
+    .userMessageActions {
+      justify-content: center;
+    }
+
+    .userMessageHeader {
+      background: @color_Green;
+      border-radius: 4px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+
+      > svg {
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    &.userMessageSuccess {
+
+    }
+
+    &.userMessageFail {
+      .userMessageHeader {
+        background: @color_Bloody;
+      }
+    }
+  }
+
+}

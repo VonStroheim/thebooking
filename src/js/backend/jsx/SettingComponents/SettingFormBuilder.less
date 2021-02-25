@@ -1,0 +1,115 @@
+@import "../mixins";
+
+.formBuilder {
+  display: flex;
+
+  .elements {
+    width: 140px;
+
+    button {
+      margin-left: 0;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+  }
+
+  .droppable {
+    padding: 20px 20px 10px;
+    background: @color_White;
+    border: 1px solid @color_Gray_lightest;
+
+    .field {
+      user-select: none;
+      margin-bottom: 10px;
+
+      &.isDragging {
+        display: block;
+      }
+    }
+  }
+
+  .form {
+    flex: 1;
+    margin-right: 20px;
+
+    :global(.p-panel-title) {
+      width: 100%;
+
+      .fieldHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .deleteField {
+          margin-right: 4px;
+        }
+
+        .requiredSymbol {
+          color: @color_Bloody;
+        }
+
+        .dependsOn {
+          margin-left: 10px;
+          font-size: 0.75rem;
+          color: @color_Gray_light;
+
+          i {
+            font-size: 0.75rem !important;
+            margin-right: 4px;
+          }
+        }
+
+        .handleIcon {
+          margin-right: -6px;
+          margin-left: -4px;
+
+          &:last-of-type {
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+
+    .numberOfOptions {
+      color: @color_Gray_light;
+      margin-left: 10px;
+    }
+
+    .innerPanel {
+
+      :global(.p-dropdown-label):global(.p-inputtext) {
+        border: none !important;
+      }
+
+      :global(.p-inputgroup) {
+        > input:global(.p-inputtext) {
+          border-radius: 0 !important;
+        }
+      }
+
+      p {
+        margin: 4px 0 0;
+      }
+
+      :global(.p-panel-header) {
+        padding: 0.25rem 0.85rem;
+      }
+
+      &:not(:last-of-type) {
+        margin-bottom: 10px;
+      }
+    }
+
+    .emptyState {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      h2 {
+        color: @color_Gray_darkest;
+      }
+    }
+
+  }
+}

@@ -1,0 +1,6 @@
+.settingTextInput input {
+  min-width: 360px;
+}
+.settingTextInput label {
+  display: block;
+}

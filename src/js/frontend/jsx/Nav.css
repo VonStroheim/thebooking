@@ -1,0 +1,8 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav:not(:empty) {
+  padding: 10px 20px;
+}

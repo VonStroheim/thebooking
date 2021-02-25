@@ -1,0 +1,25 @@
+@import "../../backend/jsx/mixins";
+
+.item {
+  padding: 2px;
+  line-height: 1;
+  display: flex;
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    display: inline-block;
+    border-radius: 50px;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .label {
+    &:not(:empty) {
+      font-size: 10px;
+      font-weight: 600;
+      color: @color_Gray_light;
+    }
+  }
+
+}

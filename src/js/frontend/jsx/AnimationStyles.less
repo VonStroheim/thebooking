@@ -1,0 +1,41 @@
+@import "../../backend/jsx/mixins";
+
+.animationContainer {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+
+  > div {
+    flex: 1;
+  }
+
+  :global(.tbkSlideTransition-enter) {
+    transform: translateX(100%);
+    width: 100%;
+    opacity: 0;
+  }
+
+  :global(.tbkSlideTransition-enter-active) {
+    transform: translateX(0);
+    opacity: 1;
+    transition-property: opacity, transform;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
+  }
+
+  :global(.tbkSlideTransition-exit) {
+    transform: translateX(0);
+    width: 100%;
+    opacity: 1;
+    position: absolute;
+    top: 0;
+  }
+
+  :global(.tbkSlideTransition-exit-active) {
+    transform: translateX(-100%);
+    opacity: 0;
+    transition-property: opacity, transform;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
+  }
+}

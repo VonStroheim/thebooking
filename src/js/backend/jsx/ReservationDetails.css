@@ -1,0 +1,28 @@
+.reservationDetails h4 {
+  margin: 0;
+}
+.reservationDetails .panelWithTable :global(.p-panel-content) {
+  padding: 0;
+}
+.reservationDetails .panelWithTable table > thead {
+  display: none;
+}
+.reservationDetails .panelWithTable table .propertyValue {
+  text-align: right;
+}
+.reservationDetails .panelWithTable .saveProperties {
+  padding: 1rem;
+}
+.reservationDetails .detailsRecord > label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.reservationDetails .detailsRecord .tableCellDescription {
+  display: inline-block;
+  font-size: inherit;
+  color: #9B9B9B;
+  margin-left: 8px;
+}
+.reservationDetails .detailsRecord:not(:last-child) {
+  margin-bottom: 10px;
+}

@@ -1,0 +1,19 @@
+.userBadge {
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+.userBadge img {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+.userBadge i {
+  font-size: 2rem;
+  margin-right: 10px;
+}
+.userBadge .email {
+  font-size: 0.9286rem;
+  color: #9B9B9B;
+}
