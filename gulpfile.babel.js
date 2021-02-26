@@ -8,13 +8,9 @@ import uglify from 'gulp-uglify-es';
 import cssModulesify from 'css-modulesify';
 import literalify from 'literalify';
 import watchify from 'watchify';
-import typescript from 'typescript';
-import source from 'vinyl-source-stream';
-import buffer from 'vinyl-buffer';
 import concat from 'concat-stream';
 import path from 'path';
 import {fileURLToPath} from 'url';
-import makePot from '@wordpress/babel-plugin-makepot'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -45,6 +41,7 @@ function cssifyJSXcomponentsFrontend() {
 }
 
 function compileJSfrontend() {
+    process.env.BABEL_ENV = 'frontend';
     return compileJS({
         entryPoint : 'js/frontend/main.js',
         cssOutput  : 'css/frontend.css',
@@ -53,6 +50,9 @@ function compileJSfrontend() {
 }
 
 function compileJS(options = {}) {
+    if (process.env.BABEL_ENV !== 'frontend') {
+        process.env.BABEL_ENV = 'backend';
+    }
     const defs = {
         entryPoint : 'js/backend/main.js',
         cssOutput  : 'css/backend.css',
@@ -86,6 +86,7 @@ function compileJS(options = {}) {
     b
         .transform('envify', {
             global  : true,
+            _       : 'purge',
             NODE_ENV: defs.debug ? 'development' : 'production',
         })
         .plugin('tsify')
