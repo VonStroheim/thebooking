@@ -4,12 +4,13 @@ import gulp from 'gulp';
 import less from 'gulp-less';
 import browserify from 'browserify';
 import file from 'gulp-file';
-import uglify from 'gulp-uglify-es';
+import terser from 'gulp-terser';
 import cssModulesify from 'css-modulesify';
 import literalify from 'literalify';
 import watchify from 'watchify';
 import concat from 'concat-stream';
 import path from 'path';
+import zip from 'gulp-zip';
 import {fileURLToPath} from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -49,6 +50,42 @@ function compileJSfrontend() {
     });
 }
 
+function buildProductionFrontend() {
+    process.env.BABEL_ENV = 'frontend';
+    return compileJS({
+        entryPoint : 'js/frontend/main.js',
+        cssOutput  : 'css/frontend.css',
+        jsOutputDir: 'js/frontend/',
+        production : true
+    });
+}
+
+function buildProductionBackend() {
+    return compileJS({
+        production: true
+    });
+}
+
+function zippy() {
+    return gulp.src([
+            '**',
+            '!tsconfig.json',
+            '!README.md',
+            '!gulpfile.babel.js',
+            '!babel.config.cjs',
+            '!.gitignore',
+            '!.idea/**',
+            '!.git/**',
+            '!src/',
+            '!node_modules/**',
+            '!package.json',
+            '!package-lock.json',
+        ]
+    )
+        .pipe(zip('the-booking.zip'))
+        .pipe(gulp.dest('../'))
+}
+
 function compileJS(options = {}) {
     if (process.env.BABEL_ENV !== 'frontend') {
         process.env.BABEL_ENV = 'backend';
@@ -58,15 +95,16 @@ function compileJS(options = {}) {
         cssOutput  : 'css/backend.css',
         jsFilename : 'tbk.js',
         jsOutputDir: 'js/backend/',
-        debug      : true,
+        debug      : !options.production,
+        production : false,
         ...options
     }
 
     const write = function (filepath) {
-        return concat(function (content) {
+        return concat((content) => {
             const bun = file(path.basename(filepath), content, {src: true})
             if (!defs.debug) {
-                bun.pipe(uglify({
+                bun.pipe(terser({
                     compress: {
                         pure_funcs: ['console.info', 'console.debug', 'console.warn', 'console.log']
                     }
@@ -129,8 +167,10 @@ function compileJS(options = {}) {
         return bundled;
     }
 
-    b = watchify(b);
-    b.on('update', bundle);
+    if (!defs.production) {
+        b = watchify(b);
+        b.on('update', bundle);
+    }
 
     return bundle();
 
@@ -139,5 +179,10 @@ function compileJS(options = {}) {
 const build = gulp.series(cssifyJSXcomponents, compileJS);
 const buildFrontend = gulp.series(cssifyJSXcomponentsFrontend, compileJSfrontend);
 
+const buildProduction = gulp.series(cssifyJSXcomponents, buildProductionBackend, cssifyJSXcomponentsFrontend, buildProductionFrontend, zippy);
+const zipPlugin = gulp.series(zippy);
+
 export {build as build};
 export {buildFrontend as buildFrontend};
+export {buildProduction as buildProduction}
+export {zipPlugin as zipPlugin}
