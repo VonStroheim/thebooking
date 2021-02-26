@@ -118,8 +118,8 @@ if (!class_exists(db::class)) {
             $columns = is_array($what)
                 ? rtrim(implode(', ', $what), ', ')
                 : $what;
-            $query   = "SELECT $columns FROM $table_name_1 WHERE $where NOT IN (SELECT $where_alias FROM $table_name_2)";
-            $results = $wpdb->get_results($query, $output_mode);
+            $query   = "SELECT $columns FROM $table_name_1 WHERE %s NOT IN (SELECT %s FROM $table_name_2)";
+            $results = $wpdb->get_results($wpdb->prepare($query, [$where, $where_alias]), $output_mode);
 
             return $results;
         }
@@ -142,14 +142,13 @@ if (!class_exists(db::class)) {
             $columns    = is_array($what)
                 ? rtrim(implode(', ', $what), ', ')
                 : $what;
-            $query      = "
-                    SELECT $columns 
-                    FROM $table_name
-                    ORDER BY $order_by $order
-                    LIMIT $items OFFSET $offset;
-            ";
+            $query      = ["SELECT {$columns}"];
+            $query[]    = ["FROM {$table_name}"];
+            $orderBySql = sanitize_sql_orderby("{$order_by} {$order}");
+            $query[]    = ["ORDER BY {$orderBySql}"];
+            $query[]    = $wpdb->prepare('LIMIT %d OFFSET %d', [$items, $offset]);
 
-            return $wpdb->get_results($query);
+            return $wpdb->get_results(implode(' ', $query));
         }
 
         /**
