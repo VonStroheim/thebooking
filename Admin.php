@@ -29,7 +29,7 @@ class Admin
     public static function backend_menu()
     {
         if (isset($_GET['page'])) {
-            $page = $_GET['page'];
+            $page = sanitize_text_field($_GET['page']);
             add_filter('tbk_backend_js_data_common', function ($data) use ($page) {
                 switch ($page) {
                     case self::SLUG_CORE_PAGE:

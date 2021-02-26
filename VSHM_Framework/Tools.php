@@ -472,14 +472,14 @@ if (!class_exists(Tools::class)) {
                     return defined('DOING_AJAX') && DOING_AJAX;
                 case 'rest':
                     if ((defined('REST_REQUEST') && REST_REQUEST)
-                        || (isset($_GET['rest_route']) && strpos($_GET['rest_route'], REST_Controller::NAME_SPACE))) {
+                        || (isset($_GET['rest_route']) && strpos(sanitize_text_field($_GET['rest_route']), REST_Controller::NAME_SPACE))) {
                         return TRUE;
                     }
                     $is_rest = FALSE;
                     if (!empty($_SERVER['REQUEST_URI'])) {
                         $rest_url     = self::get_rest_url(get_current_blog_id(), '/');
                         $rest_path    = trim(parse_url($rest_url, PHP_URL_PATH), '/');
-                        $request_path = trim($_SERVER['REQUEST_URI'], '/');
+                        $request_path = trim(sanitize_text_field($_SERVER['REQUEST_URI']), '/');
                         $is_rest      = (strpos($request_path, $rest_path) === 0);
                     }
 
@@ -623,7 +623,6 @@ if (!class_exists(Tools::class)) {
                 if (array_key_exists($key, $_SERVER) === TRUE) {
                     foreach (explode(',', $_SERVER[ $key ]) as $ip) {
                         $ip = trim($ip);
-
                         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== FALSE) {
                             return $ip;
                         }
