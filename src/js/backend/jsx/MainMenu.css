@@ -6,6 +6,7 @@
 }
 .mainMenu .logo {
   margin-right: 10px;
+  vertical-align: middle;
 }
 .mainMenu li {
   margin-bottom: 0;
