@@ -2,13 +2,12 @@
 
 /*
 Plugin Name:        TheBooking
-Plugin URI:         https://thebookingplugin.com/
+Plugin URI:         https://github.com/VonStroheim/the-booking
 Description:        A WordPress booking plugin.
 Version:            1.0.0
 Requires PHP:       5.6
 Requires at least:  5.0
 Author:             VonStroheim
-Author URI:         https://thebookingplugin.com/
 License:            GPL v2 or later
 License URI:        https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain:        the-booking
@@ -18,7 +17,6 @@ defined('ABSPATH') || exit;
 
 // Set the right include path (temporary)...
 $prev_include_path = set_include_path(__DIR__);
-date_default_timezone_set('UTC');
 
 const __TBK_FILE__ = __FILE__;
 const __TBK_DIR__  = __DIR__;
