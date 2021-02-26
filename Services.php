@@ -72,9 +72,9 @@ class Services
 
     protected function __construct()
     {
-        tbk()->loader->add_action('tbk-loaded', $this, 'gather');
-        tbk()->loader->add_action('tbk-backend-settings-save', self::class, 'save_settings_callback', 10, 2);
-        tbk()->loader->add_action('tbk_location_deleted', $this, 'location_deleted');
+        tbkg()->loader->add_action('tbk-loaded', $this, 'gather');
+        tbkg()->loader->add_action('tbk-backend-settings-save', self::class, 'save_settings_callback', 10, 2);
+        tbkg()->loader->add_action('tbk_location_deleted', $this, 'location_deleted');
     }
 
     public function location_deleted($uid)
@@ -95,7 +95,7 @@ class Services
     public static function save_settings_callback($settings, $meta)
     {
         if ($meta['type'] === 'service') {
-            $service = tbk()->services->get($meta['id']);
+            $service = tbkg()->services->get($meta['id']);
             foreach ($settings as $settingId => $value) {
                 switch ($settingId) {
                     case 'service_active':
@@ -128,7 +128,7 @@ class Services
                             $value['conditions'],
                             $value['contact']
                         );
-                        tbk()->bus->dispatch($command);
+                        tbkg()->bus->dispatch($command);
                         break;
                     case 'registeredOnly':
                         $service->registered_only(filter_var($value, FILTER_VALIDATE_BOOLEAN));
@@ -156,7 +156,7 @@ class Services
             add_filter('tbk-backend-settings-save-response', static function ($response) {
                 $response['services']      = array_map(static function (Service $service) {
                     return $service->as_array();
-                }, tbk()->services->all());
+                }, tbkg()->services->all());
                 $response['UIx']['panels'] = apply_filters('tbk_backend_service_setting_panels', UI_Services::_settings_panels());
 
                 return $response;

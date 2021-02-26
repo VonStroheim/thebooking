@@ -34,7 +34,7 @@ final class GetServicePropertyRoute implements Route
                         return new REST_Error_Unauthorized();
                     }
 
-                    $service = tbk()->services->get($request->get_param('id'));
+                    $service = tbkg()->services->get($request->get_param('id'));
 
                     if (!$service) {
                         return new REST_Error_404();

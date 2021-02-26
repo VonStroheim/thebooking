@@ -27,7 +27,7 @@ final class DeleteLocationRoute implements Route
             self::$path => [
                 'methods'  => \WP_REST_Server::CREATABLE,
                 'callback' => function (\WP_REST_Request $request) {
-                    if (!tbk()::isAdministrator()) {
+                    if (!tbkg()::isAdministrator()) {
                         $response = [
                             'status'  => 'KO',
                             'message' => 'Forbidden.'
@@ -35,12 +35,12 @@ final class DeleteLocationRoute implements Route
                     } else {
                         foreach ($request->get_param('uids') as $uid) {
                             $command = new DeleteLocation($uid);
-                            tbk()->bus->dispatch($command);
+                            tbkg()->bus->dispatch($command);
                         }
-                        tbk()->availability->gather_locations();
+                        tbkg()->availability->gather_locations();
                         $response = [
                             'status'    => 'OK',
-                            'locations' => tbk()->availability->locations()
+                            'locations' => tbkg()->availability->locations()
                         ];
                     }
 

@@ -40,9 +40,9 @@ class Customers
 
     protected function __construct()
     {
-        tbk()->loader->add_action('tbk-loaded', $this, 'gather');
-        tbk()->loader->add_action('profile_update', $this, 'wpProfileIsUpdated', 10, 2);
-        tbk()->loader->add_action('deleted_user', $this, 'wpProfileIsDeleted', 10, 3);
+        tbkg()->loader->add_action('tbk-loaded', $this, 'gather');
+        tbkg()->loader->add_action('profile_update', $this, 'wpProfileIsUpdated', 10, 2);
+        tbkg()->loader->add_action('deleted_user', $this, 'wpProfileIsDeleted', 10, 3);
     }
 
 
@@ -92,7 +92,7 @@ class Customers
      */
     public function wpProfileIsDeleted($user_id, $user_reassigned, $old_user)
     {
-        foreach (tbk()->customers->all() as $customer) {
+        foreach (tbkg()->customers->all() as $customer) {
             if ($customer->wp_user() === $user_id) {
                 $command = new EditCustomer(
                     $customer->name(),
@@ -102,7 +102,7 @@ class Customers
                     $customer->birthday(),
                     $customer->id()
                 );
-                tbk()->bus->dispatch($command);
+                tbkg()->bus->dispatch($command);
             }
         }
     }
@@ -115,7 +115,7 @@ class Customers
      */
     public function wpProfileIsUpdated($user_id, $old_data)
     {
-        foreach (tbk()->customers->all() as $customer) {
+        foreach (tbkg()->customers->all() as $customer) {
             if ($customer->wp_user() === $user_id) {
                 $user = get_user_by('ID', $user_id);
                 $command = new EditCustomer(
@@ -126,7 +126,7 @@ class Customers
                     $customer->birthday(),
                     $customer->id()
                 );
-                tbk()->bus->dispatch($command);
+                tbkg()->bus->dispatch($command);
             }
         }
     }

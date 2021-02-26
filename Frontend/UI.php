@@ -15,7 +15,7 @@ final class UI
 {
     public static function load_actions()
     {
-        tbk()->loader->add_filter('tbk_frontend_js_data_common', self::class, 'jsRoutesFrontend');
+        tbkg()->loader->add_filter('tbk_frontend_js_data_common', self::class, 'jsRoutesFrontend');
     }
 
     public static function jsRoutesFrontend($data)
@@ -61,8 +61,8 @@ final class UI
     {
         $base_font_size = 16;
 
-        $primary   = tbk()->settings->frontend_primary_color();
-        $secondary = tbk()->settings->frontend_secondary_color();
+        $primary   = tbkg()->settings->frontend_primary_color();
+        $secondary = tbkg()->settings->frontend_secondary_color();
 
         return [
             'typography' => [

@@ -18,6 +18,6 @@ class DeleteServiceHandler implements Handler
     public function dispatch(Command $command)
     {
         /** @var $command DeleteService */
-        tbk()->services->delete($command->getUid());
+        tbkg()->services->delete($command->getUid());
     }
 }

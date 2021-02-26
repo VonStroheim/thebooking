@@ -25,7 +25,7 @@ final class SelectServiceRoute implements Route
             self::$path => [
                 'methods'  => [\WP_REST_Server::READABLE, \WP_REST_Server::CREATABLE],
                 'callback' => function (\WP_REST_Request $request) {
-                    $service = tbk()->services->get($request->get_param('id'));
+                    $service = tbkg()->services->get($request->get_param('id'));
                     if (!$service) {
                         return new REST_Error_404();
                     }

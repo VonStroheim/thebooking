@@ -18,7 +18,7 @@ class ChangeReservationLocationHandler implements Handler
     public function dispatch(Command $command)
     {
         /** @var $command ChangeReservationLocation */
-        $reservation = tbk()->reservations->all()[ $command->getUid() ];
+        $reservation = tbkg()->reservations->all()[ $command->getUid() ];
         $reservation->addMeta('location', $command->getLocationId());
     }
 }

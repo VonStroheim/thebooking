@@ -553,9 +553,9 @@ if (!class_exists(Tools::class)) {
         public static function enqueue_style($handle, $path, $deps = [])
         {
             wp_enqueue_style($handle,
-                __TBK_URL__ . $path,
+                TBKG_URL__ . $path,
                 $deps,
-                filemtime(__TBK_DIR__ . implode(DIRECTORY_SEPARATOR, explode('/', $path)))
+                filemtime(TBKG_DIR__ . implode(DIRECTORY_SEPARATOR, explode('/', $path)))
             );
         }
 
@@ -569,9 +569,9 @@ if (!class_exists(Tools::class)) {
         {
             if ($path[0] . $path[1] !== '//') {
                 wp_enqueue_script($handle,
-                    __TBK_URL__ . $path,
+                    TBKG_URL__ . $path,
                     $deps,
-                    filemtime(__TBK_DIR__ . implode(DIRECTORY_SEPARATOR, explode('/', $path))),
+                    filemtime(TBKG_DIR__ . implode(DIRECTORY_SEPARATOR, explode('/', $path))),
                     $footer
                 );
             } else {

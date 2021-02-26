@@ -18,7 +18,7 @@ class ChangeReservationCustomerHandler implements Handler
     public function dispatch(Command $command)
     {
         /** @var $command ChangeReservationCustomer */
-        $reservation = tbk()->reservations->all()[ $command->getUid() ];
+        $reservation = tbkg()->reservations->all()[ $command->getUid() ];
         $reservation->customer_id($command->getCustomerId());
     }
 }

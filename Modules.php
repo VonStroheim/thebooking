@@ -17,12 +17,12 @@ final class Modules
         /**
          * NOTIFICATIONS MODULE
          */
-        tbk()->loader->add_filter('tbk_backend_service_setting_panels', self::class, 'notificationsPanel');
-        tbk()->loader->add_action('tbk_save_service_settings', self::class, 'notificationsSaveServiceSettings', 10, 3);
-        tbk()->loader->add_action('tbk_dispatched_CreateReservation', self::class, 'notificationSend', 10, 2);
-        tbk()->loader->add_filter('tbk_notification_template_hooks', self::class, 'templateHooks', 10, 2);
-        tbk()->loader->add_filter('tbk_notification_template_hooks_spec', self::class, 'templateHooksSpec', 10, 2);
-        tbk()->loader->add_action('tbk_reservation_status_updated_actions', self::class, 'triggerNotificationsAfterUpdate');
+        tbkg()->loader->add_filter('tbk_backend_service_setting_panels', self::class, 'notificationsPanel');
+        tbkg()->loader->add_action('tbk_save_service_settings', self::class, 'notificationsSaveServiceSettings', 10, 3);
+        tbkg()->loader->add_action('tbk_dispatched_CreateReservation', self::class, 'notificationSend', 10, 2);
+        tbkg()->loader->add_filter('tbk_notification_template_hooks', self::class, 'templateHooks', 10, 2);
+        tbkg()->loader->add_filter('tbk_notification_template_hooks_spec', self::class, 'templateHooksSpec', 10, 2);
+        tbkg()->loader->add_action('tbk_reservation_status_updated_actions', self::class, 'triggerNotificationsAfterUpdate');
     }
 
     /**
@@ -157,54 +157,54 @@ final class Modules
     public static function notificationsSaveServiceSettings($settingId, $value, $serviceId)
     {
         if ($settingId === 'meta::' . self::CUSTOMER_CONFIRMATION_EMAIL_META) {
-            $service = tbk()->services->get($serviceId);
+            $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_CONFIRMATION_EMAIL_META, filter_var($value, FILTER_VALIDATE_BOOLEAN));
         }
         if ($settingId === 'meta::' . self::CUSTOMER_CANCELLATION_EMAIL_META) {
-            $service = tbk()->services->get($serviceId);
+            $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_CANCELLATION_EMAIL_META, filter_var($value, FILTER_VALIDATE_BOOLEAN));
         }
         if ($settingId === 'meta::' . self::ADMIN_CONFIRMATION_EMAIL_META) {
-            $service = tbk()->services->get($serviceId);
+            $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::ADMIN_CONFIRMATION_EMAIL_META, filter_var($value, FILTER_VALIDATE_BOOLEAN));
         }
         if ($settingId === 'meta::' . self::CUSTOMER_CONFIRMATION_EMAIL_CONTENT_META) {
-            $service = tbk()->services->get($serviceId);
+            $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_CONFIRMATION_EMAIL_CONTENT_META, $value);
         }
         if ($settingId === 'meta::' . self::CUSTOMER_CANCELLATION_EMAIL_CONTENT_META) {
-            $service = tbk()->services->get($serviceId);
+            $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_CANCELLATION_EMAIL_CONTENT_META, $value);
         }
         if ($settingId === 'meta::' . self::ADMIN_CONFIRMATION_EMAIL_CONTENT_META) {
-            $service = tbk()->services->get($serviceId);
+            $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::ADMIN_CONFIRMATION_EMAIL_CONTENT_META, $value);
         }
         if ($settingId === 'meta::' . self::CUSTOMER_CONFIRMATION_EMAIL_SUBJECT_META) {
-            $service = tbk()->services->get($serviceId);
+            $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_CONFIRMATION_EMAIL_SUBJECT_META, trim($value));
         }
         if ($settingId === 'meta::' . self::CUSTOMER_CANCELLATION_EMAIL_SUBJECT_META) {
-            $service = tbk()->services->get($serviceId);
+            $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_CANCELLATION_EMAIL_SUBJECT_META, trim($value));
         }
         if ($settingId === 'meta::' . self::ADMIN_CONFIRMATION_EMAIL_SUBJECT_META) {
-            $service = tbk()->services->get($serviceId);
+            $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::ADMIN_CONFIRMATION_EMAIL_SUBJECT_META, trim($value));
         }
     }
 
     private static function _notification_cancellation_send($uid)
     {
-        $reservation = tbk()->reservations->all()[ $uid ];
-        $service     = tbk()->services->get($reservation->service_id());
+        $reservation = tbkg()->reservations->all()[ $uid ];
+        $service     = tbkg()->services->get($reservation->service_id());
 
         if ($service->getMeta(self::CUSTOMER_CANCELLATION_EMAIL_META)) {
 
-            tbk()->bus->dispatch(new SendEmail(
+            tbkg()->bus->dispatch(new SendEmail(
                 wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CANCELLATION_EMAIL_SUBJECT_META), [])),
                 self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CANCELLATION_EMAIL_CONTENT_META), []),
-                tbk()->customers->get($reservation->customer_id())->email(),
+                tbkg()->customers->get($reservation->customer_id())->email(),
                 [
                     'address' => get_option('admin_email'),
                     'name'    => get_option('blogname')
@@ -220,8 +220,8 @@ final class Modules
      */
     private static function _notification_send($uid)
     {
-        $reservation = tbk()->reservations->all()[ $uid ];
-        $service     = tbk()->services->get($reservation->service_id());
+        $reservation = tbkg()->reservations->all()[ $uid ];
+        $service     = tbkg()->services->get($reservation->service_id());
 
         $preparedValues = [
             'service::name'             => $service->name(),
@@ -236,13 +236,13 @@ final class Modules
 
         if ($service->getMeta(self::ADMIN_CONFIRMATION_EMAIL_META)) {
 
-            tbk()->bus->dispatch(new SendEmail(
+            tbkg()->bus->dispatch(new SendEmail(
                 wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::ADMIN_CONFIRMATION_EMAIL_SUBJECT_META), $preparedValues)),
                 self::_findAndReplaceHooks($service->getMeta(self::ADMIN_CONFIRMATION_EMAIL_CONTENT_META), $preparedValues),
                 [get_option('admin_email')],
                 [
-                    'address' => tbk()->customers->get($reservation->customer_id())->email(),
-                    'name'    => tbk()->customers->get($reservation->customer_id())->name()
+                    'address' => tbkg()->customers->get($reservation->customer_id())->email(),
+                    'name'    => tbkg()->customers->get($reservation->customer_id())->name()
                 ]
             ));
         }
@@ -260,10 +260,10 @@ final class Modules
                 }
             }
 
-            tbk()->bus->dispatch(new SendEmail(
+            tbkg()->bus->dispatch(new SendEmail(
                 wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CONFIRMATION_EMAIL_SUBJECT_META), $preparedValues)),
                 self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CONFIRMATION_EMAIL_CONTENT_META), $preparedValues),
-                [tbk()->customers->get($reservation->customer_id())->email()],
+                [tbkg()->customers->get($reservation->customer_id())->email()],
                 [
                     'address' => get_option('admin_email'),
                     'name'    => get_option('blogname')
@@ -280,7 +280,7 @@ final class Modules
     public static function triggerNotificationsAfterUpdate($uids)
     {
         foreach ($uids as $uid) {
-            $reservation = tbk()->reservations->all()[ $uid ];
+            $reservation = tbkg()->reservations->all()[ $uid ];
             switch ($reservation->status()->getValue()) {
                 case Status::CONFIRMED:
                     self::_notification_send($uid);
@@ -393,7 +393,7 @@ final class Modules
 
     public static function templateHooksSpec($hooks, $notificationType)
     {
-        foreach (tbk()->services->all() as $service) {
+        foreach (tbkg()->services->all() as $service) {
             $hooksSpecReturn = [];
             /** @var $hooksSpec Classes\ValueTypes\FormField[] */
             $hooksSpec = array_filter($service->metadata(), static function ($meta, $key) {

@@ -52,14 +52,14 @@ final class CreateCustomerRoute implements Route
                     }
 
                     $command = new CreateCustomer($props['name'], $props['email'], $props['phone'], $wpId, $props['birthday']);
-                    tbk()->bus->dispatch($command);
-                    tbk()->customers->gather();
+                    tbkg()->bus->dispatch($command);
+                    tbkg()->customers->gather();
 
                     $response = [
                         'status'    => 'OK',
                         'customers' => array_map(static function (Customer $customer) {
                             return $customer->as_array();
-                        }, tbk()->customers->all()),
+                        }, tbkg()->customers->all()),
                     ];
 
                     return apply_filters('tbk_backend_create_customer_response', new \WP_REST_Response($response, 200));

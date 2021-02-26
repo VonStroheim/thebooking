@@ -58,8 +58,8 @@ class Availability
 
     protected function __construct()
     {
-        tbk()->loader->add_action('tbk-loaded', $this, 'gather');
-        tbk()->loader->add_action('tbk-loaded', $this, 'gather_locations');
+        tbkg()->loader->add_action('tbk-loaded', $this, 'gather');
+        tbkg()->loader->add_action('tbk-loaded', $this, 'gather_locations');
 
     }
 

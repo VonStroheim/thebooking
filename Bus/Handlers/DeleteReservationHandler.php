@@ -18,6 +18,6 @@ class DeleteReservationHandler implements Handler
     public function dispatch(Command $command)
     {
         /** @var $command DeleteReservation */
-        tbk()->reservations->delete($command->getUid());
+        tbkg()->reservations->delete($command->getUid());
     }
 }

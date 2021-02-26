@@ -21,10 +21,10 @@ class DeletePastReservationsHandler implements Handler
         /** @var $command DeletePastReservations */
 
         $now = new DateTimeTbk();
-        foreach (tbk()->reservations->all() as $reservation) {
+        foreach (tbkg()->reservations->all() as $reservation) {
             $start = DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->start())->getTimestamp();
             if ($now->getTimestamp() - $start > $command->getData()) {
-                tbk()->reservations->delete($reservation->id());
+                tbkg()->reservations->delete($reservation->id());
             }
         }
     }

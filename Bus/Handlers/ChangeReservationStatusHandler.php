@@ -19,7 +19,7 @@ class ChangeReservationStatusHandler implements Handler
     public function dispatch(Command $command)
     {
         /** @var $command ChangeReservationStatus */
-        $reservation = tbk()->reservations->all()[ $command->getUid() ];
+        $reservation = tbkg()->reservations->all()[ $command->getUid() ];
         $reservation->status(new Status($command->getStatus()));
     }
 }

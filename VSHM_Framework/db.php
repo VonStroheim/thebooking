@@ -192,7 +192,7 @@ if (!class_exists(db::class)) {
                     $switched = switch_to_blog($blog_id);
                     if ($switched
                         && (int)$blog_id !== $original_blog
-                        && is_plugin_active(plugin_basename(__TBK_FILE__))) {
+                        && is_plugin_active(plugin_basename(TBKG_FILE__))) {
                         $table_name_c = $wpdb->prefix . $table_name;
                         $columns      = is_array($what)
                             ? rtrim(implode(', ', $what), ', ')

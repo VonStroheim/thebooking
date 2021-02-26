@@ -18,6 +18,6 @@ class DeleteCustomerHandler implements Handler
     public function dispatch(Command $command)
     {
         /** @var $command DeleteCustomer */
-        tbk()->customers->delete($command->getId());
+        tbkg()->customers->delete($command->getId());
     }
 }

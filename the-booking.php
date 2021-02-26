@@ -18,10 +18,10 @@ defined('ABSPATH') || exit;
 // Set the right include path (temporary)...
 $prev_include_path = set_include_path(__DIR__);
 
-const __TBK_FILE__ = __FILE__;
-const __TBK_DIR__  = __DIR__;
-define('__TBK_PATH__', plugin_dir_path(__TBK_FILE__));
-define('__TBK_URL__', plugin_dir_url(__TBK_FILE__));
+const TBKG_FILE__ = __FILE__;
+const TBKG_DIR__  = __DIR__;
+define('TBKG_PATH__', plugin_dir_path(TBKG_FILE__));
+define('TBKG_URL__', plugin_dir_url(TBKG_FILE__));
 
 require __DIR__ . '/VSHM_Framework/Autoloader.php';
 require __DIR__ . '/Functions.php';
@@ -30,20 +30,18 @@ require __DIR__ . '/Functions.php';
 \VSHM_Framework\Autoloader::VSHM_Framework(__DIR__ . DIRECTORY_SEPARATOR . 'VSHM_Framework');
 \VSHM_Framework\Autoloader::run();
 
-register_activation_hook(__TBK_FILE__, 'TheBooking\plugin_install');
-register_deactivation_hook(__TBK_FILE__, 'TheBooking\plugin_deactivate');
-register_uninstall_hook(__TBK_FILE__, 'TheBooking\plugin_uninstall');
+register_activation_hook(TBKG_FILE__, 'TheBooking\plugin_install');
+register_deactivation_hook(TBKG_FILE__, 'TheBooking\plugin_deactivate');
+register_uninstall_hook(TBKG_FILE__, 'TheBooking\plugin_uninstall');
 
 /**
  * Main instance of TheBooking.
  *
  * @return \TheBooking\TheBooking
  */
-if (!function_exists('tbk')) {
-    function tbk()
-    {
-        return \TheBooking\TheBooking::instance();
-    }
+function tbkg()
+{
+    return \TheBooking\TheBooking::instance();
 }
 
 /**
@@ -52,7 +50,7 @@ if (!function_exists('tbk')) {
  * to use TheBooking actions/filters in time.
  */
 add_action('plugins_loaded', function () {
-    tbk()->init();
+    tbkg()->init();
 });
 
 // ...restore previous include_path

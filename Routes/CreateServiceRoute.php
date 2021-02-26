@@ -28,13 +28,13 @@ final class CreateServiceRoute implements Route
                 'callback' => function (\WP_REST_Request $request) {
                     $props   = $request->get_param('service');
                     $command = new CreateService(uniqid(), $props['name']);
-                    tbk()->bus->dispatch($command);
+                    tbkg()->bus->dispatch($command);
 
                     $response = [
                         'status'   => 'OK',
                         'services' => array_map(static function (Service $service) {
                             return $service->as_array();
-                        }, tbk()->services->all()),
+                        }, tbkg()->services->all()),
                     ];
 
                     return apply_filters('tbk-backend-create-service-response', new \WP_REST_Response($response, 200));

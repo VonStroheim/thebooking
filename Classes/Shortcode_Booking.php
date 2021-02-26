@@ -29,7 +29,7 @@ class Shortcode_Booking extends Shortcode
         $services         = [];
         $filteredServices = isset($atts['service']) ? array_map('trim', explode(',', $atts['service'])) : [];
 
-        foreach (tbk()->services->all() as $key => $service) {
+        foreach (tbkg()->services->all() as $key => $service) {
 
             if (!empty($filteredServices) && !in_array($key, $filteredServices, TRUE)) {
                 continue;
@@ -39,7 +39,7 @@ class Shortcode_Booking extends Shortcode
                 continue;
             }
 
-            $serviceArray                        = tbk()->services->mapToFrontend($service->id());
+            $serviceArray                        = tbkg()->services->mapToFrontend($service->id());
             $serviceArray['meta']['blocksOther'] = [
                 [
                     'by'   => 'serviceId',
@@ -52,13 +52,13 @@ class Shortcode_Booking extends Shortcode
         }
 
         $reservations = array_values(array_map(static function (Reservation $reservation) {
-            return tbk()->reservations->mapToFrontend($reservation->id());
-        }, tbk()->reservations->all()));
+            return tbkg()->reservations->mapToFrontend($reservation->id());
+        }, tbkg()->reservations->all()));
 
         $availability = [];
 
         foreach ($services as $service) {
-            foreach (tbk()->availability->all() as $element) {
+            foreach (tbkg()->availability->all() as $element) {
                 $availability[] = [
                     'uid'               => $element['uid'],
                     'rrule'             => $element['rrule'],

@@ -28,7 +28,7 @@ final class CleanReservationStatusChangesRoute implements Route
                     $actionsToPerform = $request->get_param('doActions');
 
                     $command = new CleanReservationPendingStatusUpdate((bool)$actionsToPerform);
-                    tbk()->bus->dispatch($command);
+                    tbkg()->bus->dispatch($command);
 
                     $response = [
                         'status' => 'OK'

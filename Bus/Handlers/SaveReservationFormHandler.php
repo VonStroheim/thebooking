@@ -20,7 +20,7 @@ class SaveReservationFormHandler implements Handler
     {
         /** @var $command SaveReservationForm */
 
-        $service = tbk()->services->get($command->getServiceId());
+        $service = tbkg()->services->get($command->getServiceId());
 
         /**
          * Cleanup first
@@ -50,7 +50,7 @@ class SaveReservationFormHandler implements Handler
         $service->addMeta('formFieldsRequired', $required);
         $service->addMeta('formFieldsConditions', $command->getConditions());
         $service->addMeta('formFieldContact', $contact);
-        $factory = tbk()->services;
+        $factory = tbkg()->services;
         $factory::update($service);
     }
 }

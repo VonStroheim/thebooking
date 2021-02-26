@@ -58,7 +58,7 @@ final class UploadFileRoute implements Route
                                 'status' => 'OK',
                                 'hash'   => file_hash($movefile)
                             ];
-                            tbk()->bus->dispatch(new SaveFile($movefile));
+                            tbkg()->bus->dispatch(new SaveFile($movefile));
                             // FILE (path) URL (url) TYPE (mime)
                         }
                     }

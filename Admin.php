@@ -216,9 +216,9 @@ class Admin
         UI::load_resources();
 
         wp_enqueue_script('tbkl-block-editor',
-            __TBK_URL__ . 'Admin/Blocks/blockNext.js',
+            TBKG_URL__ . 'Admin/Blocks/blockNext.js',
             ['wp-blocks', 'wp-element', 'wp-editor', 'wp-components'],
-            filemtime(__TBK_DIR__ . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . 'Blocks' . DIRECTORY_SEPARATOR . 'blockNext.js')
+            filemtime(TBKG_DIR__ . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . 'Blocks' . DIRECTORY_SEPARATOR . 'blockNext.js')
         );
         wp_localize_script(
             'tbkl-block-editor',
@@ -230,7 +230,7 @@ class Admin
         );
 
         $services = array_map(static function (Service $service) {
-            $serviceArray                        = tbk()->services->mapToFrontend($service->id());
+            $serviceArray                        = tbkg()->services->mapToFrontend($service->id());
             $serviceArray['meta']['blocksOther'] = [
                 [
                     'by'   => 'serviceId',
@@ -239,12 +239,12 @@ class Admin
             ];
 
             return $serviceArray;
-        }, tbk()->services->all());
+        }, tbkg()->services->all());
 
         $availability = [];
 
         foreach ($services as $service) {
-            foreach (tbk()->availability->all() as $element) {
+            foreach (tbkg()->availability->all() as $element) {
                 $availability[] = [
                     'uid'               => $element['uid'],
                     'rrule'             => $element['rrule'],
@@ -259,8 +259,8 @@ class Admin
         $tbk_resources = [
             'services'     => $services,
             'reservations' => array_values(array_map(static function (Reservation $reservation) {
-                return tbk()->reservations->mapToFrontend($reservation->id());
-            }, tbk()->reservations->all())),
+                return tbkg()->reservations->mapToFrontend($reservation->id());
+            }, tbkg()->reservations->all())),
             'availability' => $availability
         ];
 

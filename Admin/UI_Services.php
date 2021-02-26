@@ -148,7 +148,7 @@ final class UI_Services
     protected static function _locations()
     {
         $locations = [];
-        foreach (tbk()->availability->locations() as $uid => $location) {
+        foreach (tbkg()->availability->locations() as $uid => $location) {
             $locations[] = [
                 'label' => $location['l_name'] . ' - ' . $location['address'],
                 'value' => $location['uid'],

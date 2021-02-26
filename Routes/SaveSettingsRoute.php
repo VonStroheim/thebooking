@@ -27,7 +27,7 @@ final class SaveSettingsRoute implements Route
                 'callback' => function (\WP_REST_Request $request) {
 
                     $command = new SaveSettings($request->get_param('settings'), $request->get_param('meta'));
-                    tbk()->bus->dispatch($command);
+                    tbkg()->bus->dispatch($command);
 
                     return new \WP_REST_Response(apply_filters('tbk-backend-settings-save-response',
                         [

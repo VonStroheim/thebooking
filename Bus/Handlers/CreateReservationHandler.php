@@ -20,7 +20,7 @@ class CreateReservationHandler implements Handler
     {
         /** @var $command CreateReservation */
 
-        $reservation = tbk()->reservations->get_new();
+        $reservation = tbkg()->reservations->get_new();
         $reservation->id($command->getUid());
         $reservation->service_id($command->getServiceId());
         $reservation->customer_id($command->getUserId());
@@ -28,6 +28,6 @@ class CreateReservationHandler implements Handler
         $reservation->status($command->getStatus());
         $reservation->start($command->getStart());
         $reservation->end($command->getEnd());
-        tbk()->reservations->insert($reservation);
+        tbkg()->reservations->insert($reservation);
     }
 }

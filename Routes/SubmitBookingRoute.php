@@ -40,7 +40,7 @@ final class SubmitBookingRoute implements Route
                     }
 
                     $item    = $request->get_param('item');
-                    $service = tbk()->services->get($item['serviceId']);
+                    $service = tbkg()->services->get($item['serviceId']);
 
                     if (!$service) {
                         return new REST_Error_404();
@@ -79,7 +79,7 @@ final class SubmitBookingRoute implements Route
                     $reservationId = Tools::generate_token();
 
                     // TODO: what identifies a customer??
-                    $customers          = tbk()->customers->all();
+                    $customers          = tbkg()->customers->all();
                     $customerId         = NULL;
                     $customerEmailField = $request->get_param('bookingData')[ $service->getMeta('formFieldContact') ];
                     $customerEmail      = strtolower(trim($customerEmailField['value']));
@@ -120,7 +120,7 @@ final class SubmitBookingRoute implements Route
 
                             // TODO conditional: if $userID is still 0 and $customerId is still NULL, decide if we want to create a WP user here.
 
-                            tbk()->bus->dispatch(new CreateCustomer(
+                            tbkg()->bus->dispatch(new CreateCustomer(
                                     NULL,
                                     $customerEmail,
                                     NULL,
@@ -128,9 +128,9 @@ final class SubmitBookingRoute implements Route
                                     NULL)
                             );
 
-                            tbk()->customers->gather();
+                            tbkg()->customers->gather();
 
-                            foreach (tbk()->customers->all() as $customer) {
+                            foreach (tbkg()->customers->all() as $customer) {
                                 if ($customer->email() === $customerEmail) {
                                     $customerId = $customer->id();
                                 }
@@ -148,12 +148,12 @@ final class SubmitBookingRoute implements Route
                         new Status(Status::CONFIRMED)
                     );
 
-                    tbk()->bus->dispatch($command);
+                    tbkg()->bus->dispatch($command);
 
                     $response['update']    = [
                         'reservations' => array_values(array_map(static function (Reservation $reservation) {
-                            return tbk()->reservations->mapToFrontend($reservation->id());
-                        }, tbk()->reservations->all())),
+                            return tbkg()->reservations->mapToFrontend($reservation->id());
+                        }, tbkg()->reservations->all())),
                     ];
                     $response['bookingId'] = $reservationId;
                     $response['response']  = [

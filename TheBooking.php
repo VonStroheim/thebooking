@@ -70,7 +70,7 @@ final class TheBooking extends Single
      */
     protected static function _load_textdomain()
     {
-        $rel_path = plugin_basename(__TBK_FILE__) . '/languages/';
+        $rel_path = plugin_basename(TBKG_FILE__) . '/languages/';
 
         return load_plugin_textdomain('the-booking', FALSE, $rel_path);
     }
@@ -148,14 +148,14 @@ final class TheBooking extends Single
                 add_action('elementor/editor/before_enqueue_scripts', static function () {
                     Frontend\UI::load_resources();
                     wp_enqueue_script('tbkl-elementor-editor',
-                        __TBK_URL__ . 'Integrations/elementor.js',
+                        TBKG_URL__ . 'Integrations/elementor.js',
                         [],
-                        filemtime(__TBK_DIR__ . DIRECTORY_SEPARATOR . 'Integrations' . DIRECTORY_SEPARATOR . 'elementor.js')
+                        filemtime(TBKG_DIR__ . DIRECTORY_SEPARATOR . 'Integrations' . DIRECTORY_SEPARATOR . 'elementor.js')
                     );
                     wp_enqueue_style('tbk-elementor-styles',
-                        __TBK_URL__ . 'Integrations/elementor.css',
+                        TBKG_URL__ . 'Integrations/elementor.css',
                         [],
-                        filemtime(__TBK_DIR__
+                        filemtime(TBKG_DIR__
                             . DIRECTORY_SEPARATOR . 'Integrations'
                             . DIRECTORY_SEPARATOR . 'elementor.css')
                     );

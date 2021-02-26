@@ -40,6 +40,6 @@ class SaveAvailabilityHandler implements Handler
             ]);
         }
 
-        tbk()->availability->gather();
+        tbkg()->availability->gather();
     }
 }

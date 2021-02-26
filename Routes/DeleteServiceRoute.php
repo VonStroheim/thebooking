@@ -30,7 +30,7 @@ final class DeleteServiceRoute implements Route
                     if (is_array($request->get_param('uids'))) {
                         foreach ($request->get_param('uids') as $uid) {
                             $command = new DeleteService($uid);
-                            tbk()->bus->dispatch($command);
+                            tbkg()->bus->dispatch($command);
                         }
                     }
 
@@ -38,7 +38,7 @@ final class DeleteServiceRoute implements Route
                         'status'   => 'OK',
                         'services' => array_map(function (Service $service) {
                             return $service->as_array();
-                        }, tbk()->services->all()),
+                        }, tbkg()->services->all()),
                     ];
 
                     return apply_filters('tbk_backend_delete_service_response', new \WP_REST_Response($response, 200));

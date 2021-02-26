@@ -26,7 +26,7 @@ class CreateServiceHandler implements Handler
         $service->id($command->getUid());
         $service->name($command->getName());
         $service->duration(3600);
-        tbk()->services->insert($service);
+        tbkg()->services->insert($service);
 
         /**
          * Default form fields
@@ -58,7 +58,7 @@ class CreateServiceHandler implements Handler
             [],
             $email_uid
         );
-        tbk()->bus->dispatch($command);
+        tbkg()->bus->dispatch($command);
 
     }
 }

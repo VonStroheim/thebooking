@@ -28,13 +28,13 @@ final class DeleteCustomerRoute implements Route
                 'callback' => function (\WP_REST_Request $request) {
 
                     $command = new DeleteCustomer($request->get_param('id'));
-                    tbk()->bus->dispatch($command);
+                    tbkg()->bus->dispatch($command);
 
                     $response = [
                         'status'    => 'OK',
                         'customers' => array_map(static function (Customer $customer) {
                             return $customer->as_array();
-                        }, tbk()->customers->all()),
+                        }, tbkg()->customers->all()),
                     ];
 
                     return apply_filters('tbk_backend_delete_customer_response', new \WP_REST_Response($response, 200));

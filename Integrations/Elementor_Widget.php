@@ -55,7 +55,7 @@ class Elementor_Widget extends \Elementor\Widget_Base
                                 'multiple'    => TRUE,
                                 'options'     => array_map(static function ($service) {
                                     return $service->name();
-                                }, tbk()->services->all()),
+                                }, tbkg()->services->all()),
                                 'default'     => [],
                             ],
                     ]

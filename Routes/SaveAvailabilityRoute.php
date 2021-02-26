@@ -30,14 +30,14 @@ final class SaveAvailabilityRoute implements Route
 
                     if (isset($settings['working_hours'])) {
                         $command = new SaveAvailability($uid, $settings['working_hours']);
-                        tbk()->bus->dispatch($command);
+                        tbkg()->bus->dispatch($command);
                     }
 
-                    tbk()->availability->gather();
+                    tbkg()->availability->gather();
 
                     $response = [
                         'status'       => 'OK',
-                        'availability' => tbk()->availability->all()
+                        'availability' => tbkg()->availability->all()
                     ];
 
                     return apply_filters('tbk_backend_save_availability_response', new \WP_REST_Response($response, 200));

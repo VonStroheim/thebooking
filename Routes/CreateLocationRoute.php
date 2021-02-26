@@ -28,12 +28,12 @@ final class CreateLocationRoute implements Route
                 'callback' => function (\WP_REST_Request $request) {
 
                     $command = new CreateLocation($request->get_param('name'), $request->get_param('address'), Tools::generate_token());
-                    tbk()->bus->dispatch($command);
-                    tbk()->availability->gather_locations();
+                    tbkg()->bus->dispatch($command);
+                    tbkg()->availability->gather_locations();
 
                     $response = [
                         'status'    => 'OK',
-                        'locations' => tbk()->availability->locations()
+                        'locations' => tbkg()->availability->locations()
                     ];
 
                     return apply_filters('tbk_backend_create_location_response', new \WP_REST_Response($response, 200));

@@ -71,11 +71,11 @@ class Reservations
 
     protected function __construct()
     {
-        tbk()->loader->add_action('tbk-backend-settings-save', $this, 'save_settings_callback', 10, 2);
-        tbk()->loader->add_action('tbk-loaded', $this, 'gather');
-        tbk()->loader->add_action('tbk_dispatched_ChangeReservationStatus', self::class, 'add_status_update');
-        tbk()->loader->add_action('tbk_dispatched_DeleteReservation', self::class, 'remove_status_update');
-        tbk()->loader->add_filter('tbk_backend_js_data_common', self::class, 'add_status_update_list');
+        tbkg()->loader->add_action('tbk-backend-settings-save', $this, 'save_settings_callback', 10, 2);
+        tbkg()->loader->add_action('tbk-loaded', $this, 'gather');
+        tbkg()->loader->add_action('tbk_dispatched_ChangeReservationStatus', self::class, 'add_status_update');
+        tbkg()->loader->add_action('tbk_dispatched_DeleteReservation', self::class, 'remove_status_update');
+        tbkg()->loader->add_filter('tbk_backend_js_data_common', self::class, 'add_status_update_list');
     }
 
     public static function add_status_update_list($array)
@@ -109,7 +109,7 @@ class Reservations
      */
     public static function add_status_update($command)
     {
-        tbk()->bus->dispatch(new AddReservationPendingStatusUpdate($command->getUid()));
+        tbkg()->bus->dispatch(new AddReservationPendingStatusUpdate($command->getUid()));
     }
 
     public function save_settings_callback($settings, $meta)
@@ -120,15 +120,15 @@ class Reservations
                 switch ($settingId) {
                     case 'status':
                         $command = new ChangeReservationStatus($reservation->id(), $value);
-                        tbk()->bus->dispatch($command);
+                        tbkg()->bus->dispatch($command);
                         break;
                     case 'customer':
                         $command = new ChangeReservationCustomer($reservation->id(), $value);
-                        tbk()->bus->dispatch($command);
+                        tbkg()->bus->dispatch($command);
                         break;
                     case 'location':
                         $command = new ChangeReservationLocation($reservation->id(), $value);
-                        tbk()->bus->dispatch($command);
+                        tbkg()->bus->dispatch($command);
                         break;
                     default:
                         if (strpos($settingId, 'meta::') === 0) {
@@ -158,7 +158,7 @@ class Reservations
             add_filter('tbk-backend-settings-save-response', static function ($response) {
                 $response['reservations'] = array_values(array_map(static function (Reservation $reservation) {
                     return $reservation->as_array();
-                }, tbk()->reservations->all()));
+                }, tbkg()->reservations->all()));
 
                 $response['reservationStatusUpdate'] = get_option('tbkl_reservations_status_updates', []);
 
@@ -354,7 +354,7 @@ class Reservations
     public function mapToFrontend($reservationId)
     {
         $res          = $this->reservations[ $reservationId ];
-        $customer     = tbk()->customers->get($res->customer_id());
+        $customer     = tbkg()->customers->get($res->customer_id());
         $customerData = [
             'id'    => $res->customer_id(),
             'name'  => $customer->name(),

@@ -26,7 +26,7 @@ final class DeleteReservationRoute implements Route
             self::$path => [
                 'methods'  => \WP_REST_Server::CREATABLE,
                 'callback' => function (\WP_REST_Request $request) {
-                    if (!tbk()::isAdministrator()) {
+                    if (!tbkg()::isAdministrator()) {
                         $response = [
                             'status'  => 'KO',
                             'message' => 'Forbidden.'
@@ -34,13 +34,13 @@ final class DeleteReservationRoute implements Route
                     } else {
                         foreach ($request->get_param('uids') as $uid) {
                             $command = new DeleteReservation($uid);
-                            tbk()->bus->dispatch($command);
+                            tbkg()->bus->dispatch($command);
                         }
                         $response = [
                             'status'       => 'OK',
                             'reservations' => array_values(array_map(static function (Reservation $reservation) {
                                 return $reservation->as_array();
-                            }, tbk()->reservations->all()))
+                            }, tbkg()->reservations->all()))
                         ];
                     }
 

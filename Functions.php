@@ -79,7 +79,7 @@ function plugin_uninstall()
 
     do_action('tbk_uninstall');
 
-    if (tbk()->settings->_clean_uninstall()) {
+    if (tbkg()->settings->_clean_uninstall()) {
         do_action('tbk_clean_uninstall');
 
         db::drop_table(Reservations::$table_name);
@@ -109,13 +109,13 @@ function daily_jobs()
     /**
      * Cleaning reservation orphan uploaded files older than 1 hour
      */
-    tbk()->bus->dispatch(new CleanFiles(3600));
+    tbkg()->bus->dispatch(new CleanFiles(3600));
 
     /**
      * Removing old reservations from db
      */
-    if (tbk()->settings->reservation_records_lifecycle() > 0) {
-        tbk()->bus->dispatch(new DeletePastReservations(tbk()->settings->reservation_records_lifecycle()));
+    if (tbkg()->settings->reservation_records_lifecycle() > 0) {
+        tbkg()->bus->dispatch(new DeletePastReservations(tbkg()->settings->reservation_records_lifecycle()));
     }
 }
 
@@ -168,13 +168,13 @@ function personal_data_exporter($email_address, $page = 1)
     $page   = (int)$page;
 
     $export_items         = [];
-    $total                = tbk()->reservations->count();
-    $current_reservations = tbk()->reservations->paginate('created', 'ASC', $number, $page);
+    $total                = tbkg()->reservations->count();
+    $current_reservations = tbkg()->reservations->paginate('created', 'ASC', $number, $page);
     foreach ($current_reservations as $reservation) {
-        if (tbk()->customers->get($reservation->customer_id())->email() !== $email_address) {
+        if (tbkg()->customers->get($reservation->customer_id())->email() !== $email_address) {
             continue;
         }
-        $service = tbk()->services->get($reservation->service_id());
+        $service = tbkg()->services->get($reservation->service_id());
         $data    = [
             [
                 'name'  => __('Service', 'team-booking'),
@@ -229,15 +229,15 @@ function personal_data_eraser($email_address, $page = 1)
     $page   = (int)$page;
 
     $items_removed = FALSE;
-    $total         = tbk()->reservations->count();
+    $total         = tbkg()->reservations->count();
 
-    $current_reservations = tbk()->reservations->paginate('created', 'ASC', $number, $page);
+    $current_reservations = tbkg()->reservations->paginate('created', 'ASC', $number, $page);
 
     foreach ($current_reservations as $reservation) {
-        if (tbk()->customers->get($reservation->customer_id())->email() !== $email_address) {
+        if (tbkg()->customers->get($reservation->customer_id())->email() !== $email_address) {
             continue;
         }
-        tbk()->bus->dispatch(new DeleteReservation($reservation->id()));
+        tbkg()->bus->dispatch(new DeleteReservation($reservation->id()));
         $items_removed = TRUE;
     }
 
@@ -265,7 +265,7 @@ function personal_data_eraser($email_address, $page = 1)
  */
 function plugin_row_meta($links, $file)
 {
-    if (strpos(__TBK_FILE__, pathinfo($file)['basename'])) {
+    if (strpos(TBKG_FILE__, pathinfo($file)['basename'])) {
         $new_links = array(
             'docs' => '<a href="https://docs.thebookingplugin.com/" target="_blank">' . esc_html__('Docs', 'team-booking') . '</a>'
         );
@@ -283,7 +283,7 @@ function localize_backend_script()
 {
     return apply_filters('tbk_backend_js_data_common', [
         'adminUrl'            => admin_url('admin.php?'),
-        'pluginUrl'           => __TBK_URL__,
+        'pluginUrl'           => TBKG_URL__,
         'restRouteRoot'       => \VSHM_Framework\REST_Controller::get_root_rest_url(),
         'tbk_nonce'           => wp_create_nonce('tbk_nonce'),
         'saveSettingsRoute'   => \VSHM_Framework\REST_Controller::get_root_rest_url() . '/save/settings',
@@ -294,13 +294,13 @@ function localize_backend_script()
         'firstDayOfWeek'      => (int)get_option('start_of_week'),
         'services'            => array_map(static function (Service $service) {
             return $service->as_array();
-        }, tbk()->services->all()),
+        }, tbkg()->services->all()),
         'reservations'        => array_values(array_map(static function (Reservation $reservation) {
             return $reservation->as_array();
-        }, tbk()->reservations->all())),
+        }, tbkg()->reservations->all())),
         'customers'           => array_map(static function (Customer $customer) {
             return $customer->as_array();
-        }, tbk()->customers->all()),
+        }, tbkg()->customers->all()),
         'users'               => array_map(
             static function ($user) {
                 $user->avatar = get_avatar_url($user->ID);
@@ -314,8 +314,8 @@ function localize_backend_script()
                 ]
             ])
         ),
-        'availability'        => tbk()->availability->all(),
-        'locations'           => tbk()->availability->locations(),
+        'availability'        => tbkg()->availability->all(),
+        'locations'           => tbkg()->availability->locations(),
         'i18n'                => [
             'locale'        => str_replace('_', '-', get_locale()),
             'settingPanels' => [
@@ -380,14 +380,14 @@ function localize_frontend_script()
         'shortMonthLabels'    => \VSHM_Framework\Tools::i18n_months_labels('M'),
         'firstDayOfWeek'      => (int)get_option('start_of_week'),
         'restRouteRoot'       => \VSHM_Framework\REST_Controller::get_root_rest_url(),
-        'loginUrl'            => tbk()->settings->login_url(),
-        'registrationUrl'     => tbk()->settings->registration_url(),
+        'loginUrl'            => tbkg()->settings->login_url(),
+        'registrationUrl'     => tbkg()->settings->registration_url(),
         'nonce'               => wp_create_nonce('tbk_nonce'),
         'currentUser'         => get_current_user_id(),
-        'hideWeekends'        => tbk()->settings->frontend_days_in_week() !== 7,
-        'loadAtClosestSlot'   => tbk()->settings->load_calendar_at_closest_slot(),
-        'locations'           => tbk()->availability->locations(),
-        'gMapsApiKey'         => tbk()->settings->gmaps_api_key(),
+        'hideWeekends'        => tbkg()->settings->frontend_days_in_week() !== 7,
+        'loadAtClosestSlot'   => tbkg()->settings->load_calendar_at_closest_slot(),
+        'locations'           => tbkg()->availability->locations(),
+        'gMapsApiKey'         => tbkg()->settings->gmaps_api_key(),
         'i18n'                => [
             'locale' => str_replace('_', '-', get_locale()),
         ]
@@ -400,21 +400,21 @@ function localize_frontend_script()
 function _tbk_settings()
 {
     return [
-        'load_calendar_at_closest_slot' => tbk()->settings->load_calendar_at_closest_slot(),
-        'frontend_days_in_week'         => tbk()->settings->frontend_days_in_week() !== 7,
-        'load_gmaps_library'            => tbk()->settings->load_gmaps_library(),
-        'gmaps_api_key'                 => tbk()->settings->gmaps_api_key(),
-        'login_url'                     => (tbk()->settings->login_url() === wp_login_url()) ? '' : tbk()->settings->login_url(),
-        'registration_url'              => (tbk()->settings->registration_url() === wp_registration_url()) ? '' : tbk()->settings->registration_url(),
-        'order_status_page'             => tbk()->settings->order_status_page(),
-        'frontend_primary_color'        => tbk()->settings->frontend_primary_color(),
-        'frontend_secondary_color'      => tbk()->settings->frontend_secondary_color(),
-        'retain_plugin_data'            => tbk()->settings->retain_plugin_data(),
-        'reservation_records_lifecycle' => tbk()->settings->reservation_records_lifecycle(),
-        'cart_is_active'                => tbk()->settings->cart_is_active(),
-        'show_cart_in_menu'             => tbk()->settings->show_cart_in_menu(),
-        'show_cart_in_widget'           => tbk()->settings->show_cart_in_widget(),
-        'cart_expiration_time'          => tbk()->settings->cart_expiration_time(),
+        'load_calendar_at_closest_slot' => tbkg()->settings->load_calendar_at_closest_slot(),
+        'frontend_days_in_week'         => tbkg()->settings->frontend_days_in_week() !== 7,
+        'load_gmaps_library'            => tbkg()->settings->load_gmaps_library(),
+        'gmaps_api_key'                 => tbkg()->settings->gmaps_api_key(),
+        'login_url'                     => (tbkg()->settings->login_url() === wp_login_url()) ? '' : tbkg()->settings->login_url(),
+        'registration_url'              => (tbkg()->settings->registration_url() === wp_registration_url()) ? '' : tbkg()->settings->registration_url(),
+        'order_status_page'             => tbkg()->settings->order_status_page(),
+        'frontend_primary_color'        => tbkg()->settings->frontend_primary_color(),
+        'frontend_secondary_color'      => tbkg()->settings->frontend_secondary_color(),
+        'retain_plugin_data'            => tbkg()->settings->retain_plugin_data(),
+        'reservation_records_lifecycle' => tbkg()->settings->reservation_records_lifecycle(),
+        'cart_is_active'                => tbkg()->settings->cart_is_active(),
+        'show_cart_in_menu'             => tbkg()->settings->show_cart_in_menu(),
+        'show_cart_in_widget'           => tbkg()->settings->show_cart_in_widget(),
+        'cart_expiration_time'          => tbkg()->settings->cart_expiration_time(),
         'admin_roles'                   => _wp_roles(),
     ];
 }
