@@ -1,0 +1,1108 @@
+# Copyright (C) 2021 VonStroheim
+# This file is distributed under the same license as the TheBooking plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: TheBooking 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-booking\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-02-26T13:26:46+01:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
+"X-Domain: the-booking\n"
+
+#: src/js/backend/jsx/App.tsx:140
+msgid "Service deleted."
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:161
+msgid "Reservations deleted."
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:195
+msgid "Settings saved."
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:214
+msgid "Customer created."
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:235
+msgid "Location created."
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:255
+msgid "Service created."
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:276
+msgid "Customer saved."
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:296
+msgid "Customer removed."
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:316
+msgid "Locations removed."
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:333
+msgid "Notifications sent."
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:441
+msgid "Email content"
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:537
+msgid "Success"
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:540
+msgid "Error"
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:548
+msgid "Some reservations changed their status."
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:549
+msgid "Do you want to trigger notifications of the new statuses?"
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:552
+msgid "Yes"
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:558
+msgid "No"
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:90
+msgid "Availability saved."
+msgstr ""
+
+#: src/js/backend/jsx/BigAvatar.tsx:11
+msgid "Upload image"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:102
+msgid "Create a new WordPress user."
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:157
+#: src/js/backend/jsx/LocationsTable.tsx:22
+msgid "Are you sure you want to proceed?"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:158
+#: src/js/backend/jsx/LocationsTable.tsx:23
+msgid "Confirmation"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:297
+msgid "Showing %1$s to %2$s of %3$s customers"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:300
+#: src/js/backend/jsx/LocationsTable.tsx:70
+#: Admin/UI_Services.php:26
+#: Bus/Handlers/CreateServiceHandler.php:43
+#: Modules.php:344
+msgid "Name"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:301
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:647
+#: Bus/Handlers/CreateServiceHandler.php:48
+msgid "Email"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:302
+#: Bus/Handlers/CreateServiceHandler.php:53
+msgid "Phone"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:326
+msgid "New customer"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:327
+#: src/js/backend/jsx/ReservationsTable.tsx:348
+#: Functions.php:337
+msgid "Export selected"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:327
+#: src/js/backend/jsx/ReservationsTable.tsx:348
+#: Functions.php:336
+msgid "Export all"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:332
+#: src/js/backend/jsx/LocationsTable.tsx:188
+#: src/js/backend/jsx/ReservationsTable.tsx:369
+#: src/js/backend/jsx/ServicesTable.tsx:196
+#: Functions.php:335
+msgid "Search all"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:42
+#: Functions.php:446
+msgid "Customers"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:84
+#: src/js/backend/jsx/LocationsTable.tsx:63
+#: src/js/backend/jsx/ServicesTable.tsx:60
+#: src/js/frontend/jsx/App.tsx:404
+#: Functions.php:325
+msgid "Cancel"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:85
+#: src/js/backend/jsx/LocationsTable.tsx:64
+#: src/js/backend/jsx/ReservationDetails.tsx:177
+#: Functions.php:322
+msgid "Save"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:85
+msgid "Create customer"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:91
+msgid "Map the customer to a WordPress user"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:94
+msgid "Do not map the customer."
+msgstr ""
+
+#: src/js/backend/jsx/LocationsTable.tsx:160
+msgid "Showing %1$s to %2$s of %3$s locations"
+msgstr ""
+
+#: src/js/backend/jsx/LocationsTable.tsx:162
+#: src/js/backend/jsx/ReservationDetails.tsx:148
+msgid "Location"
+msgstr ""
+
+#: src/js/backend/jsx/LocationsTable.tsx:182
+msgid "New location"
+msgstr ""
+
+#: src/js/backend/jsx/LocationsTable.tsx:183
+#: src/js/backend/jsx/ReservationsTable.tsx:350
+#: src/js/backend/jsx/ServicesTable.tsx:191
+#: Functions.php:334
+msgid "Delete selected"
+msgstr ""
+
+#: src/js/backend/jsx/LocationsTable.tsx:183
+#: src/js/backend/jsx/ReservationsTable.tsx:350
+#: src/js/backend/jsx/ServicesTable.tsx:191
+#: Functions.php:333
+msgid "Delete all"
+msgstr ""
+
+#: src/js/backend/jsx/LocationsTable.tsx:64
+#: src/js/backend/jsx/ServicesTable.tsx:61
+msgid "Name already used"
+msgstr ""
+
+#: src/js/backend/jsx/LocationsTable.tsx:64
+msgid "Create location"
+msgstr ""
+
+#: src/js/backend/jsx/LocationsTable.tsx:80
+msgid "Address"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:111
+msgid "Booking ID"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:116
+#: src/js/backend/jsx/ReservationsTable.tsx:330
+msgid "Date and time"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:121
+msgid "Date and time (end)"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:126
+#: Admin/UI_Services.php:67
+#: Modules.php:386
+msgid "Duration"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:131
+msgid "Submit date"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:136
+#: src/js/backend/jsx/ReservationsTable.tsx:326
+#: src/js/backend/jsx/ServicesTable.tsx:170
+#: Modules.php:346
+#: Modules.php:352
+#: Modules.php:358
+msgid "Service"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:141
+#: src/js/backend/jsx/ReservationsTable.tsx:328
+msgid "Customer"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:155
+msgid "User IP"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:162
+msgid "General details"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:170
+msgid "Reservation data"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:78
+msgid "No uploaded file."
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:256
+msgid "Date"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:332
+msgid "Status"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:379
+msgid "Showing %1$s to %2$s of %3$s reservations"
+msgstr ""
+
+#: src/js/backend/jsx/ServicesTable.tsx:116
+msgid "Back to services"
+msgstr ""
+
+#: src/js/backend/jsx/ServicesTable.tsx:168
+msgid "Showing %1$s to %2$s of %3$s services"
+msgstr ""
+
+#: src/js/backend/jsx/ServicesTable.tsx:171
+msgid "Active"
+msgstr ""
+
+#: src/js/backend/jsx/ServicesTable.tsx:190
+msgid "New service"
+msgstr ""
+
+#: src/js/backend/jsx/ServicesTable.tsx:61
+msgid "Create service"
+msgstr ""
+
+#: src/js/backend/jsx/ServicesTable.tsx:67
+msgid "Service name"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingDuration.tsx:48
+msgid "Days"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingDuration.tsx:56
+msgid "Hours"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingDuration.tsx:64
+msgid "Minutes"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:107
+msgid "New options"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:111
+msgid "Option 1"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:115
+msgid "Option 2"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:119
+msgid "Option 3"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:130
+msgid "New file upload"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:140
+msgid "New paragraph"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:277
+msgid "New option"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:317
+msgid "depends on %s"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:487
+msgid "Visible"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:488
+msgid "Hidden"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:489
+msgid "Required"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:490
+msgid "Not required"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:498
+msgid "Checked"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:498
+msgid "Not checked"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:505
+msgid "Greated than"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:506
+msgid "Less than"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:507
+msgid "Equal to"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:537
+msgid "The field is"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:539
+msgid "Select a state"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:545
+msgid "depending on"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:547
+msgid "No valid fields in this form"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:547
+msgid "Select a field"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:554
+msgid "being"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:556
+msgid "Parent field options must be 2 or more"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:556
+msgid "Select a value"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:562
+msgid "this number"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:581
+msgid "Regex"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:581
+msgid "Need help with regex expressions?"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:589
+msgid "No validation"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:595
+msgid "Phone (international)"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:598
+msgid "Alphanumeric with space"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:601
+msgid "URL"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:608
+msgid "Advanced"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:613
+msgid "Hide from registered users"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:621
+msgid "Use as customer email address"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:629
+msgid "Notification template placeholder"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:638
+msgid "This placeholder, when found inside a notification template, will be replaced with the value of the field. It must be unique in the context of the service."
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:643
+msgid "Pre-fill user meta-key"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:651
+msgid "First name"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:655
+msgid "Last name"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:659
+msgid "User URL"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:662
+msgid "Write a metakey or select one"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:665
+msgid "The field will be pre-populated with the corresponding user meta when available (even if the field is hidden)."
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:693
+msgid "There are no fields in this form."
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:710
+msgid "Text"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:711
+msgid "Checkbox"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:712
+msgid "Number"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:713
+msgid "Options"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:714
+msgid "File upload"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:715
+msgid "Paragraph"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:81
+msgid "New text field"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:88
+msgid "New checkbox"
+msgstr ""
+
+#: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:97
+msgid "New number field"
+msgstr ""
+
+#: src/js/backend/jsx/WorkingHoursPlanner.tsx:352
+msgid "Total time: %s"
+msgstr ""
+
+#: src/js/backend/jsx/WorkingHoursPlanner.tsx:380
+msgid "Showing from %s"
+msgstr ""
+
+#: src/js/backend/jsx/WorkingHoursPlanner.tsx:391
+msgid "to %s"
+msgstr ""
+
+#: src/js/globals.ts:313
+msgid "%s day"
+msgid_plural "%s days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/js/globals.ts:314
+msgid "%s hour"
+msgid_plural "%s hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/js/globals.ts:315
+msgid "%s minute"
+msgid_plural "%s minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/js/frontend/jsx/App.tsx:341
+#: src/js/frontend/jsx/Schedule.tsx:321
+msgid "There was an error."
+msgstr ""
+
+#: src/js/frontend/jsx/Form.tsx:115
+msgid "This is required."
+msgstr ""
+
+#: src/js/frontend/jsx/Form.tsx:296
+msgid "Book now"
+msgstr ""
+
+#: src/js/frontend/jsx/FormElements/FileUpload.tsx:39
+msgid "The file is too big, max size is %s MB"
+msgstr ""
+
+#: src/js/frontend/jsx/FormElements/FileUpload.tsx:51
+msgid "File format not accepted."
+msgstr ""
+
+#: src/js/frontend/jsx/FormElements/FileUpload.tsx:86
+msgid "Could not upload the file."
+msgstr ""
+
+#: src/js/frontend/jsx/FormElements/Select.tsx:6
+msgid "No options"
+msgstr ""
+
+#: src/js/frontend/jsx/FormElements/SelectAddress.tsx:64
+msgid "No location"
+msgstr ""
+
+#: src/js/frontend/jsx/ReservationHeader.tsx:27
+msgid "Reservation for"
+msgstr ""
+
+#: src/js/frontend/jsx/Schedule.tsx:170
+msgid "Select a service"
+msgstr ""
+
+#: src/js/frontend/jsx/Schedule.tsx:174
+msgid "Choose a location"
+msgstr ""
+
+#: src/js/frontend/jsx/Schedule.tsx:177
+msgid "Pick a time slot"
+msgstr ""
+
+#: src/js/frontend/jsx/Schedule.tsx:178
+msgid "Your information"
+msgstr ""
+
+#: src/js/frontend/jsx/Schedule.tsx:222
+msgid "You must be registered to book this service."
+msgstr ""
+
+#: src/js/frontend/jsx/Schedule.tsx:232
+#: Modules.php:362
+msgid "Start time"
+msgstr ""
+
+#: src/js/frontend/jsx/Schedule.tsx:239
+msgid "Booked"
+msgstr ""
+
+#: src/js/frontend/jsx/Schedule.tsx:260
+#: src/js/frontend/jsx/ScheduleItem.tsx:111
+msgid "Select"
+msgstr ""
+
+#: src/js/frontend/jsx/Schedule.tsx:286
+#: src/js/frontend/jsx/ScheduleItem.tsx:88
+msgid "Log-in"
+msgstr ""
+
+#: src/js/frontend/jsx/Schedule.tsx:293
+#: src/js/frontend/jsx/ScheduleItem.tsx:95
+msgid "Register to book"
+msgstr ""
+
+#: src/js/frontend/jsx/ScheduleItem.tsx:112
+msgid "Sold-out"
+msgstr ""
+
+#: src/js/frontend/jsx/ScheduleItem.tsx:112
+msgid "Book"
+msgstr ""
+
+#: src/js/frontend/jsx/ScheduleItem.tsx:171
+msgid "Show more"
+msgstr ""
+
+#: src/js/frontend/jsx/ScheduleItem.tsx:72
+msgid "Available"
+msgstr ""
+
+#. Plugin Name of the plugin
+msgid "TheBooking"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://thebookingplugin.com/"
+msgstr ""
+
+#. Description of the plugin
+msgid "A WordPress booking plugin."
+msgstr ""
+
+#. Author of the plugin
+msgid "VonStroheim"
+msgstr ""
+
+#: Admin.php:195
+msgid "Booking tools"
+msgstr ""
+
+#: Admin/UI_Availability/Panel_ClosingDates.php:13
+#: Admin/UI_Availability/Panel_ClosingDates.php:16
+msgid "Closing dates"
+msgstr ""
+
+#: Admin/UI_Availability/Panel_ClosingDates.php:17
+msgid "Select the days in which services are not available."
+msgstr ""
+
+#: Admin/UI_Availability/Panel_Locations.php:13
+#: Admin/UI_Availability/Panel_Locations.php:17
+#: Admin/UI_Services.php:129
+msgid "Locations"
+msgstr ""
+
+#: Admin/UI_Availability/Panel_WeeklyWorkingHours.php:13
+#: Admin/UI_Availability/Panel_WeeklyWorkingHours.php:16
+msgid "Working hours"
+msgstr ""
+
+#: Admin/UI_Availability/Panel_WeeklyWorkingHours.php:17
+msgid "Define the weekly availability schedule."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Cart.php:17
+#: Admin/UI_CoreSettings/Panel_Cart.php:78
+msgid "No expiration"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Cart.php:24
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: Admin/UI_CoreSettings/Panel_Cart.php:42
+msgid "Cart settings"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Cart.php:45
+msgid "Activate cart"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Cart.php:46
+msgid "Customers will be able to add multiple reservations in the cart and book them in a single order."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Cart.php:55
+msgid "Show cart icon in website menu"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Cart.php:56
+msgid "The plugin will add an item in your main website menu to display the cart."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Cart.php:65
+msgid "Show cart icon inside the plugin widget"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Cart.php:66
+msgid "A cart icon will be shown at the top of the booking widget if the cart is not empty."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Cart.php:75
+msgid "Cart expiration time"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Cart.php:77
+msgid "How long a reservation is allowed to remain in cart before being automatically removed. If set to \"%s\", reservations will remain in cart as long as the session cookie is valid."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Database.php:13
+msgid "Database settings"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Database.php:16
+msgid "Retain plugin settings and data when the plugin is uninstalled."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Database.php:25
+msgid "Reservation records lifecycle"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Database.php:27
+msgid "How long reservation records should be kept in database. Recommended setting: \"%s\""
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Database.php:28
+#: Admin/UI_CoreSettings/Panel_Database.php:61
+msgid "Forever"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Database.php:37
+#: Admin/UI_CoreSettings/Panel_Database.php:41
+#: Admin/UI_CoreSettings/Panel_Database.php:45
+#: Admin/UI_CoreSettings/Panel_Database.php:49
+#: Admin/UI_CoreSettings/Panel_Database.php:53
+#: Admin/UI_CoreSettings/Panel_Database.php:57
+msgid "%d days"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Database.php:67
+msgid "Lifecycle starts when the reservation service is fulfilled, not when the reservation is made."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Frontend.php:13
+msgid "Frontend"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Frontend.php:16
+msgid "Load the calendar at the closest month/week/day with available slots"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Frontend.php:17
+msgid "If turned on, the frontend calendar is automatically loaded at the closest free slot."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Frontend.php:26
+msgid "Page loading can be a little bit slower if this setting is active."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Frontend.php:31
+msgid "Hide weekends from the calendar"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Frontend.php:32
+msgid "If turned on, the frontend calendar will not display Saturdays and Sundays."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Frontend.php:41
+msgid "Primary color"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Frontend.php:50
+msgid "Secondary color"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Maps.php:13
+msgid "Maps settings"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Maps.php:16
+msgid "Load Google Maps JS library"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Maps.php:17
+msgid "Turn this off if you are experiencing issues with Google Maps due to its library loaded multiple times by theme or other plugins."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Maps.php:26
+msgid "Google Maps API key"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Maps.php:27
+msgid "You need an API key in order to use Google Maps for websites made after 22nd of June, 2016. If you don't have a Google Maps API key already, please check the documentation in order to know how to obtain it."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Redirects.php:33
+msgid "No page selected"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Redirects.php:45
+msgid "URLs and redirects"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Redirects.php:48
+msgid "Login URL"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Redirects.php:49
+msgid "Registered users only services will invite users to login from this page. Leave blank to use WordPress default."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Redirects.php:59
+msgid "Registration URL"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Redirects.php:60
+msgid "Registered users only services will invite users to register from this page. Leave blank to use WordPress default."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Redirects.php:70
+msgid "Reservation status page"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Redirects.php:79
+msgid "The selected page must have the %s shortcode somewhere."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Roles.php:15
+msgid "Roles and permissions"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Roles.php:18
+msgid "Roles allowed to be plugin administrators"
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Roles.php:19
+msgid "Select the WordPress roles that are supposed to fully manage the plugin. If you want a specific role for that (e.g. Booking Admin), create it with a role management plugin."
+msgstr ""
+
+#: Admin/UI_CoreSettings/Panel_Roles.php:28
+msgid "Administrators are always allowed."
+msgstr ""
+
+#: Admin/UI_Services.php:22
+msgid "General"
+msgstr ""
+
+#: Admin/UI_Services.php:35
+#: Modules.php:356
+msgid "Short description"
+msgstr ""
+
+#: Admin/UI_Services.php:36
+msgid "Brief description of the service, text only. It will be shown in places that require short text."
+msgstr ""
+
+#: Admin/UI_Services.php:45
+#: Modules.php:350
+msgid "Description"
+msgstr ""
+
+#: Admin/UI_Services.php:46
+msgid "A full description of the service. You can use HTML."
+msgstr ""
+
+#: Admin/UI_Services.php:55
+msgid "Color"
+msgstr ""
+
+#: Admin/UI_Services.php:71
+msgid "Time slot duration"
+msgstr ""
+
+#: Admin/UI_Services.php:72
+msgid "Configure the duration of the appointment."
+msgstr ""
+
+#: Admin/UI_Services.php:85
+msgid "Data collection"
+msgstr ""
+
+#: Admin/UI_Services.php:89
+msgid "Booking data"
+msgstr ""
+
+#: Admin/UI_Services.php:90
+msgid "Configure the data users need to provide during the booking process of this service."
+msgstr ""
+
+#: Admin/UI_Services.php:102
+msgid "User and permissions"
+msgstr ""
+
+#: Admin/UI_Services.php:106
+msgid "Registered users only"
+msgstr ""
+
+#: Admin/UI_Services.php:107
+msgid "If turned on, only registered users can book this service."
+msgstr ""
+
+#: Admin/UI_Services.php:116
+msgid "Log unregistered users IP"
+msgstr ""
+
+#: Admin/UI_Services.php:117
+msgid "Please consider any privacy implication before turning this feature on"
+msgstr ""
+
+#: Admin/UI_Services.php:133
+msgid "Service locations"
+msgstr ""
+
+#: Admin/UI_Services.php:134
+msgid "If this service is offered in specific locations, select one or more of them."
+msgstr ""
+
+#: Functions.php:202
+msgid "TheBooking reservations"
+msgstr ""
+
+#: Functions.php:326
+msgid "Delete"
+msgstr ""
+
+#: Functions.php:327
+msgid "Back"
+msgstr ""
+
+#: Functions.php:328
+msgid "Next"
+msgstr ""
+
+#: Functions.php:329
+msgid "Confirm"
+msgstr ""
+
+#: Functions.php:330
+#: Functions.php:458
+msgid "Settings"
+msgstr ""
+
+#: Functions.php:331
+#: Functions.php:434
+msgid "Reservations"
+msgstr ""
+
+#: Functions.php:332
+msgid "This cannot be undone!"
+msgstr ""
+
+#: Functions.php:343
+msgid "Draft"
+msgstr ""
+
+#: Functions.php:344
+msgid "Pending"
+msgstr ""
+
+#: Functions.php:345
+msgid "Confirmed"
+msgstr ""
+
+#: Functions.php:346
+msgid "Canceled"
+msgstr ""
+
+#: Functions.php:347
+msgid "Archived"
+msgstr ""
+
+#: Functions.php:348
+msgid "Open"
+msgstr ""
+
+#: Functions.php:349
+msgid "Closed"
+msgstr ""
+
+#: Functions.php:440
+msgid "Services"
+msgstr ""
+
+#: Functions.php:452
+msgid "Availability"
+msgstr ""
+
+#: Integrations/Elementor_Widget.php:30
+msgid "TheBooking widget"
+msgstr ""
+
+#: Integrations/Elementor_Widget.php:45
+msgid "Restrictions"
+msgstr ""
+
+#: Integrations/Elementor_Widget.php:52
+msgid "Restrict services"
+msgstr ""
+
+#: Modules.php:49
+msgid "Notifications"
+msgstr ""
+
+#: Modules.php:53
+msgid "User confirmation email"
+msgstr ""
+
+#: Modules.php:54
+msgid "User will receive this message right after the booking process."
+msgstr ""
+
+#: Modules.php:63
+#: Modules.php:96
+#: Modules.php:129
+msgid "Email subject"
+msgstr ""
+
+#: Modules.php:86
+msgid "Admin notification email"
+msgstr ""
+
+#: Modules.php:87
+msgid "Administrator will receive this message right after the booking process."
+msgstr ""
+
+#: Modules.php:119
+msgid "User cancellation email"
+msgstr ""
+
+#: Modules.php:120
+msgid "User will receive this message when a booking is cancelled."
+msgstr ""
+
+#: Modules.php:364
+#: Modules.php:370
+#: Modules.php:376
+#: Modules.php:382
+#: Modules.php:388
+msgid "Reservation"
+msgstr ""
+
+#: Modules.php:368
+msgid "Start date"
+msgstr ""
+
+#: Modules.php:374
+msgid "End time"
+msgstr ""
+
+#: Modules.php:380
+msgid "End date"
+msgstr ""
+
+#: Modules.php:408
+msgid "Form"
+msgstr ""
+
+#: Routes/SubmitBookingRoute.php:53
+msgid "This service can be booked by registered users only."
+msgstr ""
