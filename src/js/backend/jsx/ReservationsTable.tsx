@@ -166,8 +166,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
     confirm = (event: any, callback: any) => {
         confirmPopup({
             target : event.currentTarget,
-            message: 'Are you sure you want to proceed?',
-            header : 'Confirmation',
+            message: __('Are you sure you want to proceed?', 'the-booking'),
             icon   : 'pi pi-exclamation-triangle',
             accept : callback,
             reject : null
@@ -187,7 +186,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         icon={'pi pi-info-circle'}
                         disabled={true}
                         className={'p-button-rounded p-button-text'}
-                        tooltip={'Status is changed.'}
+                        tooltip={__('Status is changed.', 'the-booking')}
                     />
                 )}
             </>
@@ -221,7 +220,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         return user.ID === a.customerId
                     })[0] || {
                         ID          : 0,
-                        display_name: 'Unregistered',
+                        display_name: __('Unregistered', 'the-booking'),
                         user_email  : null,
                         user_login  : null,
                         avatar      : null
@@ -230,7 +229,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         return user.ID === b.customerId
                     })[0] || {
                         ID          : 0,
-                        display_name: 'Unregistered',
+                        display_name: __('Unregistered', 'the-booking'),
                         user_email  : null,
                         user_login  : null,
                         avatar      : null
@@ -276,7 +275,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             quoteStrings    : '"',
             decimalSeparator: '.',
             showLabels      : true,
-            filename        : 'Reservations',
+            filename        : __('Reservations', 'the-booking'),
             useTextFile     : false,
             useKeysAsHeaders: true,
         });
