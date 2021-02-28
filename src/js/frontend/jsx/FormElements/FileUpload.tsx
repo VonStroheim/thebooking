@@ -1,5 +1,5 @@
 import globals from '../../../globals';
-import {Button, LinearProgress, ListItem, Box, FormControl, FormLabel, FormHelperText, ButtonGroup} from '@material-ui/core';
+import {Button, LinearProgress, Box, FormControl, FormHelperText, ButtonGroup} from '@material-ui/core';
 import PublishIcon from '@material-ui/icons/Publish';
 import ClearIcon from '@material-ui/icons/Clear';
 import React from "react";
@@ -153,7 +153,7 @@ export default class FileUpload extends React.Component<FileUploadProps, FileUpl
                         onChange={this.upload}
                         accept={this.props.accept.join(',')}
                     />
-                    <ButtonGroup style={{marginTop: '10px'}}>
+                    <ButtonGroup>
                         <Button
                             style={{flex: 1, padding: '14px'}}
                             color="default"
