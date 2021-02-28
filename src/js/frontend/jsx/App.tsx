@@ -1,7 +1,5 @@
 // @ts-ignore
 import styles from './App.css';
-// @ts-ignore
-import AnimationStyles from './AnimationStyles.css';
 import React from 'react';
 import globals from '../../globals';
 import Calendar from './Calendar';
@@ -33,15 +31,14 @@ import {
     Card,
     CardMedia,
     CardContent,
-    CardActions, Theme
+    CardActions,
+    Theme,
+    Slide
 } from '@material-ui/core';
-import {ChevronRight, ChevronLeft, ArrowRightAlt, DoneAll, Error as ErrorIcon} from '@material-ui/icons';
+import {ChevronRight, ChevronLeft, DoneAll, Error as ErrorIcon, Undo} from '@material-ui/icons';
 import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
-import {CSSTransition, TransitionGroup} from 'react-transition-group';
-import {RRule, RRuleSet, rrulestr} from 'rrule';
+import {RRuleSet, rrulestr} from 'rrule';
 import {AvailabilityRecord, availableViews, ReservationRecord, ServiceRecord, StateAction, tbkCommonF, TimeSlot} from "../../typedefs";
-import TinyCalendar from "./TinyCalendar";
-import ReservationHeader from "./ReservationHeader";
 
 declare const TBK: tbkCommonF;
 declare const _: any;
@@ -55,14 +52,6 @@ const generateClassName = createGenerateClassName({
     disableGlobal   : true
 });
 
-const Slide = (props: { keyRoot: string, children?: any }) => (
-    <TransitionGroup className={AnimationStyles.animationContainer}>
-        <CSSTransition in={true} key={props.keyRoot} timeout={600} classNames={'tbkSlideTransition'}>
-            {props.children}
-        </CSSTransition>
-    </TransitionGroup>
-);
-
 interface IState {
     day: number,
     month: number,
@@ -72,6 +61,7 @@ interface IState {
         [key: string]: any
     },
     isBusy: boolean,
+    sliderDirection: "up" | "down" | "left" | "right",
     internalDomId: string,
     selectedDay: Date | null,
     selectedItem: TimeSlot | null,
@@ -150,6 +140,10 @@ const dataReducer = (state: IState, action: StateAction) => {
     switch (action.type) {
         case 'UPDATE_RESERVATIONS':
             return {...state, reservations: action.payload}
+        case 'SET_DAY':
+            return {...state, selectedDay: action.payload}
+        case 'SLIDER_DIRECTION':
+            return {...state, sliderDirection: action.payload}
         default:
             return state;
     }
@@ -205,9 +199,10 @@ export default class App extends React.Component<IProps, IState> {
             month: props.month || thisDate.getMonth() + 1, //n
             year : props.year || thisDate.getFullYear(), //Y
 
-            viewMode: props.viewMode || 'monthlyCalendar',
-            viewData: viewData,
-            isBusy  : false,
+            viewMode       : props.viewMode || 'monthlyCalendar',
+            viewData       : viewData,
+            isBusy         : false,
+            sliderDirection: 'left',
 
             selectedDay  : null,
             selectedItem : null,
@@ -486,14 +481,51 @@ export default class App extends React.Component<IProps, IState> {
                         </IconButton>
                     </>
                 )
-            case 'reservationForm':
-                const start = toDate(this.state.selectedItem.start);
-                const end = this.state.selectedItem.end ? toDate(this.state.selectedItem.end) : null;
+
+            case 'stepper':
                 return (
-                    <Typography component={'div'} className={styles.formHeader}>
-                        <TinyCalendar date={start} classContainer={styles.tinyCalendar} classDay={'day'} classYear={'year'}/>
-                        <ReservationHeader dateStart={start} dateEnd={end} serviceName={this.props.services[this.state.selectedItem.serviceId].name}/>
-                    </Typography>
+                    <>
+                        <IconButton
+                            onClick={() => this.setState(redux(
+                                [
+                                    {
+                                        type   : 'CHANGE_VIEW',
+                                        payload: {viewMode: 'monthlyCalendar'}
+                                    },
+                                    {
+                                        type   : 'SET_DAY',
+                                        payload: null
+                                    },
+                                    {
+                                        type   : 'SLIDER_DIRECTION',
+                                        payload: 'right'
+                                    }
+                                ]
+                            ), () => {
+                                this.setState(redux([
+                                    {
+                                        type   : 'SLIDER_DIRECTION',
+                                        payload: 'left'
+                                    }
+                                ]))
+                            })}
+                        >
+                            <Undo/>
+                        </IconButton>
+                        <Typography component={'span'} variant={'h6'}>
+                            {this.state.selectedDay && (
+                                <span className={styles.strongText}>
+                                {this.state.selectedDay.getDate()}
+                                </span>
+                            )}
+                            {TBK.monthLabels[this.state.month - 1]}
+                            <span className={styles.secondaryText}>
+                                {this.state.year}
+                            </span>
+                        </Typography>
+                        <IconButton disabled>
+                        </IconButton>
+                    </>
                 )
         }
     }
@@ -562,81 +594,71 @@ export default class App extends React.Component<IProps, IState> {
 
     }
 
-    getMainContent = () => {
+    getViews = () => {
         switch (this.state.viewMode) {
             case 'monthlyCalendar':
                 const thisDate = new Date(this.state.year, this.state.month - 1, this.state.day);
                 return (
-                    <Typography variant={'body2'} component={'div'}>
-                        <Calendar
-                            key={this.state.day + this.state.month + this.state.year}
-                            theme={theme}
-                            day={this.state.day}
-                            month={this.state.month}
-                            ellipsis={!this.props.monthlyViewShowAllDots}
-                            limitNumberOfDots={this.props.monthlyViewAverageDots}
-                            year={this.state.year}
-                            events={this.getMonthItems(thisDate)}
-                            services={this.props.services}
-                            oneDotPerService={true}
-                            viewMode={'monthly'}
-                            selectedDay={this.state.selectedDay}
-                            onDayClick={(date: Date | null) => {
-                                this.setState({selectedDay: date})
-                            }}
-                        />
-
-                        {this.state.selectedDay !== null && (
-                            <Schedule
-                                key={this.state.selectedDay.toISOString()}
-                                day={this.state.selectedDay}
-                                onError={(data) => {
-                                    const actions = [
-                                        {type: 'NOT_BUSY'},
-                                        {
-                                            type   : 'CHANGE_VIEW',
-                                            payload: {
-                                                viewMode: 'userMessage',
-                                                viewData: data,
-                                            }
-                                        }
-                                    ]
-                                    this.setState(
-                                        redux(actions)
-                                    )
-                                }}
-                                onItemBookingIntent={this.onItemBookingIntent}
-                                onFormSubmit={this.onFormSubmit}
-                                onLoading={() => this.setState(redux([{type: 'BUSY'}]))}
-                                onStopLoading={() => this.setState(redux([{type: 'NOT_BUSY'}]))}
-                                items={this.getDayItems(this.state.selectedDay)}
-                                group={this.props.groupSlots}
-                                services={this.props.services}
-                            />
-                        )}
-                    </Typography>
-                );
-            case 'reservationForm':
-
-                let location;
-                if (this.state.selectedItem.location) {
-                    location = TBK.locations[this.state.selectedItem.location].address;
-                }
-
-                return (
-                    <Form
-                        fields={this.state.viewData}
-                        onSubmit={this.onFormSubmit}
-                        location={location}
-                        actions={
-                            <Button
-                                disableElevation
-                                onClick={() => this.setState(redux([{type: 'CHANGE_VIEW', payload: {viewMode: 'monthlyCalendar'}}]))}>
-                                {__('Cancel', 'the-booking')}
-                            </Button>
-                        }
+                    <Calendar
+                        key={this.state.day + this.state.month + this.state.year}
+                        theme={theme}
+                        day={this.state.day}
+                        month={this.state.month}
+                        ellipsis={!this.props.monthlyViewShowAllDots}
+                        limitNumberOfDots={this.props.monthlyViewAverageDots}
+                        year={this.state.year}
+                        events={this.getMonthItems(thisDate)}
+                        services={this.props.services}
+                        oneDotPerService={true}
+                        viewMode={'monthly'}
+                        selectedDay={this.state.selectedDay}
+                        onDayClick={(date: Date | null) => {
+                            const actions = [
+                                {
+                                    type   : 'CHANGE_VIEW',
+                                    payload: {
+                                        viewMode: 'stepper'
+                                    }
+                                },
+                                {
+                                    type   : 'SET_DAY',
+                                    payload: date
+                                }
+                            ]
+                            this.setState(redux(actions))
+                        }}
                     />
-                );
+
+                )
+            case 'stepper':
+                return (
+                    <Schedule
+                        key={this.state.selectedDay.toISOString()}
+                        day={this.state.selectedDay}
+                        onError={(data) => {
+                            const actions = [
+                                {type: 'NOT_BUSY'},
+                                {
+                                    type   : 'CHANGE_VIEW',
+                                    payload: {
+                                        viewMode: 'userMessage',
+                                        viewData: data,
+                                    }
+                                }
+                            ]
+                            this.setState(
+                                redux(actions)
+                            )
+                        }}
+                        onItemBookingIntent={this.onItemBookingIntent}
+                        onFormSubmit={this.onFormSubmit}
+                        onLoading={() => this.setState(redux([{type: 'BUSY'}]))}
+                        onStopLoading={() => this.setState(redux([{type: 'NOT_BUSY'}]))}
+                        items={this.getDayItems(this.state.selectedDay)}
+                        group={this.props.groupSlots}
+                        services={this.props.services}
+                    />
+                )
             case 'userMessage':
                 const classes = [styles.userMessage];
                 switch (this.state.viewData.type) {
@@ -648,36 +670,58 @@ export default class App extends React.Component<IProps, IState> {
                         break;
                 }
                 return (
-                    <Typography variant={'body2'} component={'div'}>
-                        <Card elevation={0} className={classes.join(' ')}>
-                            <CardMedia className={styles.userMessageHeader}>
-                                {this.state.viewData.type === 'success' && <DoneAll/>}
-                                {this.state.viewData.type === 'fail' && <ErrorIcon/>}
-                            </CardMedia>
-                            <CardContent className={styles.userMessageContent}>
-                                <Typography variant={'h5'}>
-                                    {this.state.viewData.tagline}
-                                </Typography>
-                                <Typography variant={'body2'}>
-                                    {this.state.viewData.message}
-                                </Typography>
-                            </CardContent>
-                            <CardActions className={styles.userMessageActions}>
-                                <Button href={''} type={'text'} onClick={() => {
-                                    this.setState(redux([{
-                                        type   : 'CHANGE_VIEW',
-                                        payload: {
-                                            viewMode: 'monthlyCalendar'
-                                        }
-                                    }]))
-                                }}>
-                                    Continue booking
-                                </Button>
-                            </CardActions>
-                        </Card>
-                    </Typography>
-                );
+                    <Card elevation={0} className={classes.join(' ')}>
+                        <CardMedia className={styles.userMessageHeader}>
+                            {this.state.viewData.type === 'success' && <DoneAll/>}
+                            {this.state.viewData.type === 'fail' && <ErrorIcon/>}
+                        </CardMedia>
+                        <CardContent className={styles.userMessageContent}>
+                            <Typography variant={'h5'}>
+                                {this.state.viewData.tagline}
+                            </Typography>
+                            <Typography variant={'body2'}>
+                                {this.state.viewData.message}
+                            </Typography>
+                        </CardContent>
+                        <CardActions className={styles.userMessageActions}>
+                            <Button href={''} type={'text'} onClick={() => {
+                                this.setState(redux([{
+                                    type   : 'CHANGE_VIEW',
+                                    payload: {
+                                        viewMode: 'monthlyCalendar'
+                                    }
+                                }]))
+                            }}>
+                                Continue booking
+                            </Button>
+                        </CardActions>
+                    </Card>
+                )
         }
+    }
+
+    getMainContent = () => {
+        return (
+            <>
+                <Slide mountOnEnter unmountOnExit in={this.state.viewMode === 'monthlyCalendar'} direction={this.state.sliderDirection}>
+                    <Typography variant={'body2'} component={'div'}>
+                        {this.state.viewMode === 'monthlyCalendar' && this.getViews()}
+                    </Typography>
+                </Slide>
+
+                <Slide mountOnEnter unmountOnExit in={this.state.viewMode === 'stepper'} direction={this.state.sliderDirection}>
+                    <Typography variant={'body2'} component={'div'}>
+                        {this.state.viewMode === 'stepper' && this.getViews()}
+                    </Typography>
+                </Slide>
+
+                <Slide mountOnEnter unmountOnExit in={this.state.viewMode === 'userMessage'} direction={this.state.sliderDirection}>
+                    <Typography variant={'body2'} component={'div'}>
+                        {this.state.viewMode === 'userMessage' && this.getViews()}
+                    </Typography>
+                </Slide>
+            </>
+        )
     }
 
     render() {
@@ -687,17 +731,14 @@ export default class App extends React.Component<IProps, IState> {
                 <StylesProvider generateClassName={generateClassName} jss={this.jss}>
                     <ThemeProvider theme={theme}>
                         <ScopedCssBaseline>
-                            <Slide keyRoot={this.state.viewMode}>
+                            <div>
+                                <Nav>
+                                    {this.getNavComponents()}
+                                </Nav>
                                 <div>
-                                    <Nav>
-                                        {this.getNavComponents()}
-                                    </Nav>
-                                    <div>
-                                        {this.getMainContent()}
-                                    </div>
+                                    {this.getMainContent()}
                                 </div>
-
-                            </Slide>
+                            </div>
                             <Backdrop open={this.state.isBusy}>
                                 <CircularProgress color="inherit"/>
                             </Backdrop>

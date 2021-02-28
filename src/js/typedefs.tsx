@@ -38,7 +38,7 @@ export interface StateAction {
     payload?: any
 }
 
-export type availableViews = 'monthlyCalendar' | 'reservationForm' | 'userMessage';
+export type availableViews = 'monthlyCalendar' | 'userMessage' | 'stepper';
 
 export type ReservationStatuses = 'pending' | 'confirmed';
 
