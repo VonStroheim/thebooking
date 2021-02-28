@@ -19,9 +19,6 @@ import {
     tbkCommonF, FormFieldConditionalStates
 } from "../../typedefs";
 
-import GMaps from "./GMaps";
-import {Grade} from "@material-ui/icons";
-
 declare const TBK: tbkCommonF;
 declare const lodash: any;
 declare const wp: any;
@@ -38,7 +35,6 @@ export interface DataSubmissionObject {
 export interface FormProps {
     fields: { [key: string]: AllFields },
     actions?: any,
-    location?: string,
 
     onSubmit(data: any): any
 }
@@ -406,12 +402,6 @@ export default class Form extends React.Component<FormProps, FormState> {
         return (
             <div className={styles.formContainer}>
                 <Grid container spacing={3}>
-                    {this.props.location && (
-                        <Grid item xs={12}>
-                            <GMaps address={this.props.location}/>
-                        </Grid>
-                    )}
-
                     {this.renderFields(this.props.fields)}
                     <Grid item xs={12} className={styles.actions}>
                         {this.props.actions}
