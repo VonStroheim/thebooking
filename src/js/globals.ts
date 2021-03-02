@@ -41,6 +41,8 @@ interface Globals {
 
     minutesToDhms(minutes: number): string,
 
+    minutesToHM(minutes: number): string,
+
     getDaysArray(start: Date, end: Date): Date[],
 
     unique(src: any[]): any[],
@@ -381,6 +383,13 @@ const Globals: Globals = {
         const hDisplay = h > 0 ? sprintf(_n('%s hour', '%s hours', h, 'the-booking'), h) : '';
         const mDisplay = m > 0 ? sprintf(_n('%s minute', '%s minutes', m, 'the-booking'), m) : '';
         return (dDisplay + ', ' + hDisplay + ', ' + mDisplay).replace(/^,\s*|,\s*$/g, "");
+    },
+    minutesToHM(minutes: number) {
+        minutes = Number(minutes);
+        const d = Math.floor(minutes / (60 * 24));
+        const h = Math.floor(minutes % (60 * 24) / 60);
+        const m = Math.floor(minutes % 60);
+        return sprintf(__('%dh%sm', 'the-booking'), h + d * 60, ('0' + m).slice(-2));
     },
     secondsToDurationObj(d) {
         return {
