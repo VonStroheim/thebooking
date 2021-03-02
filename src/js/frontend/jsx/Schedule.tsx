@@ -6,26 +6,23 @@ import {ServiceRecord, StateAction, tbkCommonF, TimeSlot} from "../../typedefs";
 import {
     Stepper,
     Step,
-    TextField,
     StepContent,
     StepButton,
     Button,
-    Card,
-    Chip,
     Grid,
-    CardHeader,
-    Typography,
-    CardContent,
-    CardActions,
-    Avatar,
+    Collapse
 } from '@material-ui/core';
-import {Autocomplete} from '@material-ui/lab';
 import globals from "../../globals";
-import RoomIcon from '@material-ui/icons/Room';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import {toDate} from "date-fns-tz";
 import Api from "../../Api";
 import Form from "./Form";
+import TimeslotDropdown from "./ScheduleComponents/TimeslotDropdown";
+import ServiceCard from "./ScheduleComponents/ServiceCard";
+import LocationCard from "./ScheduleComponents/LocationCard";
+import ServiceDropdown from "./ScheduleComponents/ServiceDropdown";
+import LocationDropdown from "./ScheduleComponents/LocationDropdown";
+import GMaps from "./GMaps";
+import {ArrowForward} from "@material-ui/icons";
 
 declare const TBK: tbkCommonF;
 declare const _: any;
@@ -54,6 +51,8 @@ export interface ScheduleProps {
 
 interface ScheduleState {
     activeStep: number,
+    serviceStepModel: 'cards' | 'dropdown',
+    locationStepModel: 'cards' | 'dropdown',
     selectedService: string,
     selectedLocation: string,
     selectedTimeSlot: TimeSlot,
@@ -83,13 +82,12 @@ const stepReducer = (state: ScheduleState, action: StateAction) => {
             const reset: any = {}
             action.payload.steps.map((step: any, index: number) => {
                 if (index >= action.payload.index) {
+                    // Fallthorugh intended
                     switch (step) {
                         case 'service':
                             reset.selectedService = null;
-                            break;
                         case 'location':
                             reset.selectedLocation = null;
-                            break;
                         case 'timeslot':
                             reset.selectedTimeSlot = null;
                             break;
@@ -152,7 +150,9 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
             selectedService    : null,
             selectedLocation   : null,
             selectedTimeSlot   : null,
-            stepsDynamicContent: {}
+            stepsDynamicContent: {},
+            serviceStepModel   : 'dropdown',
+            locationStepModel  : 'dropdown',
         }
     }
 
@@ -180,10 +180,13 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
         });
     }
 
-    getAvailableServices = () => {
+    getAvailableServicesKeys = () => {
         return Object.keys(this.groupItems());
     }
 
+    getAvailableServices = (): ServiceRecord[] => {
+        return Object.values(_.pick(this.props.services, this.getAvailableServicesKeys()));
+    }
 
     mapItems = (items: TimeSlot[]) => {
         if (this.props.group) {
@@ -301,57 +304,85 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
         }
     }
 
+    _stepNextButton = (active: boolean) => {
+        return (
+            <Button
+                variant="outlined"
+                disabled={!active}
+                endIcon={<ArrowForward/>}
+                onClick={() => {
+                    const actions: StateAction[] = [
+                        {type: 'GOTO_STEP', payload: this.state.activeStep + 1},
+                    ];
+                    this.setState(redux(actions))
+                }}
+            >
+                {__('Next', 'the-booking')}
+            </Button>
+        )
+    }
+
     getStepsContent = (step: string) => {
         switch (step) {
             case 'service':
+                if (this.state.serviceStepModel === 'dropdown') {
+                    return (
+                        <Grid container spacing={3}>
+                            <Grid item xs={12}>
+                                <ServiceDropdown
+                                    services={this.getAvailableServices()}
+                                    onChange={
+                                        (event, service) => {
+                                            const actions: StateAction[] = [
+                                                {type: 'SELECT_SERVICE', payload: service.uid},
+                                            ];
+                                            const locations = service.meta.locations;
+                                            actions.push({
+                                                type: 'SELECT_LOCATION', payload: locations && locations.length === 1 ? locations[0] : null
+                                            })
+                                            this.setState(redux(actions))
+                                        }
+                                    }/>
+                            </Grid>
+                            {this.state.selectedService && (
+                                <Grid item xs={12}>
+                                    <Collapse mountOnEnter unmountOnExit in={!!this.state.selectedService}>
+                                        <ServiceCard
+                                            service={this.props.services[this.state.selectedService]}
+                                            showActions={false}
+                                            showLongDescription={true}
+                                            showLocation={true}
+                                        />
+                                    </Collapse>
+                                </Grid>
+                            )}
+                            <Grid item className={styles.alignRight}>
+                                {this._stepNextButton(!!this.state.selectedService)}
+                            </Grid>
+                        </Grid>
+                    )
+                }
                 return (
                     <Grid container spacing={3}>
-                        {this.getAvailableServices().map(serviceId => {
+                        {this.getAvailableServicesKeys().map(serviceId => {
                             return (
                                 <Grid item xs={12} md={6} key={serviceId}>
-                                    <Card variant="outlined">
-                                        <CardHeader
-                                            avatar={
-                                                <Avatar
-                                                    style={{background: this.props.services[serviceId].image ? null : this.props.services[serviceId].color}}
-                                                    src={this.props.services[serviceId].image ? this.props.services[serviceId].image[0] : null}
-                                                    alt={this.props.services[serviceId].name}
-                                                >
-                                                    {this.props.services[serviceId].name.charAt(0)}
-                                                </Avatar>
+                                    <ServiceCard
+                                        service={this.props.services[serviceId]}
+                                        onSelect={() => {
+                                            const actions: StateAction[] = [
+                                                {type: 'GOTO_STEP', payload: this.state.activeStep + 1},
+                                                {type: 'SELECT_SERVICE', payload: serviceId},
+                                            ];
+                                            const locations = this.props.services[serviceId].meta.locations;
+                                            if (locations && locations.length === 1) {
+                                                actions.push({
+                                                    type: 'SELECT_LOCATION', payload: locations[0]
+                                                })
                                             }
-                                            title={this.props.services[serviceId].name}
-                                            subheader={this.props.services[serviceId].description.short}
-                                            action={
-                                                <Grid container>
-                                                    <Grid item>
-                                                        <div className={styles.cardAction}>
-                                                            <AccessTimeIcon fontSize="small"/>
-                                                            {globals.minutesToDhms(this.props.services[serviceId].duration / 60)}
-                                                        </div>
-                                                    </Grid>
-                                                </Grid>
-                                            }
-                                        >
-                                        </CardHeader>
-                                        <CardActions>
-                                            <Button className={styles.alignRight} size="small" color="primary" onClick={() => {
-                                                const actions: StateAction[] = [
-                                                    {type: 'GOTO_STEP', payload: this.state.activeStep + 1},
-                                                    {type: 'SELECT_SERVICE', payload: serviceId},
-                                                ];
-                                                const locations = this.props.services[serviceId].meta.locations;
-                                                if (locations && locations.length === 1) {
-                                                    actions.push({
-                                                        type: 'SELECT_LOCATION', payload: locations[0]
-                                                    })
-                                                }
-                                                this.setState(redux(actions))
-                                            }}>
-                                                {__('Select', 'the-booking')}
-                                            </Button>
-                                        </CardActions>
-                                    </Card>
+                                            this.setState(redux(actions))
+                                        }}
+                                    />
                                 </Grid>
                             )
 
@@ -376,57 +407,59 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
                 const items = this.groupItems()[this.state.selectedService];
 
                 return (
-                    <Autocomplete
-                        renderInput={(params) => <TextField {...params} label={__('Start time', 'the-booking')} variant="outlined"/>}
-                        options={items}
-                        getOptionDisabled={(option) => option.soldOut}
+                    <TimeslotDropdown
                         value={this.state.selectedTimeSlot}
+                        items={items}
                         onChange={(event, newValue: TimeSlot) => {
                             if (newValue) {
                                 this.onTimeslotSelection(newValue)
                             }
-                        }}
-                        getOptionLabel={(option: TimeSlot) => globals.formatTime(toDate(option.start))}
-                        renderOption={(option) => {
-                            return (
-                                <div>
-                                    {globals.formatTime(toDate(option.start))}
-                                    {option.soldOut && <span className={styles.bookedLabel}>{__('Booked', 'the-booking')}</span>}
-                                </div>
-                            )
-                        }}
-                    />
+                        }}/>
                 )
             case 'location':
                 const locations = this.props.services[this.state.selectedService].meta.locations;
+                if (this.state.serviceStepModel === 'dropdown') {
+                    return (
+                        <Grid container spacing={3}>
+                            <Grid item xs={12}>
+                                <LocationDropdown
+                                    locations={Object.values(_.pick(TBK.locations, locations))}
+                                    onChange={
+                                        (event, location) => {
+                                            const actions: StateAction[] = [
+                                                {type: 'SELECT_LOCATION', payload: location.uid},
+                                            ];
+                                            this.setState(redux(actions))
+                                        }
+                                    }/>
+                            </Grid>
+                            {this.state.selectedLocation && (
+                                <Grid item xs={12}>
+                                    <Collapse mountOnEnter unmountOnExit in={!!this.state.selectedLocation}>
+                                        <GMaps address={TBK.locations[this.state.selectedLocation].address}/>
+                                    </Collapse>
+                                </Grid>
+                            )}
+                            <Grid item className={styles.alignRight}>
+                                {this._stepNextButton(!!this.state.selectedLocation)}
+                            </Grid>
+                        </Grid>
+                    )
+                }
                 return (
                     <Grid container spacing={3}>
                         {locations.map((location: string) => {
-                            const address = TBK.locations[location].address;
                             return (
                                 <Grid item xs={12} md={6} key={location}>
-                                    <Card variant="outlined">
-                                        <CardHeader
-                                            avatar={
-                                                <Avatar>
-                                                    <RoomIcon/>
-                                                </Avatar>
-                                            }
-                                            title={TBK.locations[location].l_name}
-                                            subheader={address}
-                                        >
-                                        </CardHeader>
-                                        <CardActions>
-                                            <Button size="small" color="primary" onClick={() => {
-                                                this.setState(redux([
-                                                    {type: 'GOTO_STEP', payload: this.state.activeStep + 1},
-                                                    {type: 'SELECT_LOCATION', payload: location},
-                                                ]))
-                                            }}>
-                                                {__('Select', 'the-booking')}
-                                            </Button>
-                                        </CardActions>
-                                    </Card>
+                                    <LocationCard
+                                        location={TBK.locations[location]}
+                                        onSelect={() => {
+                                            this.setState(redux([
+                                                {type: 'GOTO_STEP', payload: this.state.activeStep + 1},
+                                                {type: 'SELECT_LOCATION', payload: location},
+                                            ]))
+                                        }}
+                                    />
                                 </Grid>
                             )
                         })}
@@ -443,7 +476,6 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
                     <Form
                         fields={this.state.stepsDynamicContent.form}
                         onSubmit={this.props.onFormSubmit}
-                        location={location}
                     />
                 )
             default:
