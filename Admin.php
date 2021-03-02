@@ -119,20 +119,6 @@ class Admin
     public static function admin_backend_page($current)
     {
         echo '<div id="tbkl"></div>';
-        ob_start();
-        ?>
-        <script>
-            jQuery(document).ready(function () {
-                tbkCommon.custom = [];
-                tbkCommon.custom.push(
-                    function () {
-                        alert('evviva!!!!');
-                    }
-                );
-            })
-        </script>
-        <?php
-        echo ob_get_clean();
     }
 
     /**
