@@ -74,14 +74,14 @@ class Shortcode_Booking extends Shortcode
         ob_start();
 
         ?>
-        <div class="tbkBooking" id="<?php echo $instance_id ?>">
+        <div class="tbkBooking" id="<?php echo esc_attr($instance_id) ?>">
         </div>
         <script>
             jQuery(document).ready(function () {
                 if (typeof TBK.UI.instances === 'undefined') {
                     TBK.UI.instances = {};
                 }
-                TBK.UI.instances['<?php echo $instance_id?>'] = {
+                TBK.UI.instances['<?php echo esc_attr($instance_id) ?>'] = {
                     availability          : <?php echo json_encode($availability) ?>,
                     services              : <?php echo json_encode($services) ?>,
                     reservations          : <?php echo json_encode($reservations) ?>,

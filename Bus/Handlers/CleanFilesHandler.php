@@ -29,9 +29,7 @@ class CleanFilesHandler implements Handler
         /**
          * Select all those file records having no connection with any reservation record.
          */
-        $query = "SELECT * FROM $table_name_1 one WHERE NOT EXISTS (SELECT * FROM $table_name_2 two WHERE two.meta_value LIKE CONCAT('%', one.hash, '%'))";
-
-        $results = $wpdb->get_results($query, 'OBJECT');
+        $results = $wpdb->get_results("SELECT * FROM $table_name_1 one WHERE NOT EXISTS (SELECT * FROM $table_name_2 two WHERE two.meta_value LIKE CONCAT('%', one.hash, '%'))", 'OBJECT');
         $now     = time();
         foreach ($results as $file) {
             if ($now - (int)$file->created > $command->getData()) {

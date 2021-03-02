@@ -438,7 +438,7 @@ if (!class_exists(Tools::class)) {
                 $result = FALSE;
                 if (defined('WP_DEBUG') && WP_DEBUG) {
                     $error .= ' Original string: ' . $string;
-                    trigger_error($error);
+                    trigger_error(esc_html($error));
                 }
             }
 

@@ -98,7 +98,7 @@ class Elementor_Widget extends \Elementor\Widget_Base
      */
     public function render_plain_content()
     {
-        echo $this->build_shortcode();
+        echo esc_html($this->build_shortcode());
     }
 
     /**
@@ -106,9 +106,8 @@ class Elementor_Widget extends \Elementor\Widget_Base
      */
     protected function render()
     {
-        $shortcode = do_shortcode(shortcode_unautop($this->build_shortcode()));
         ?>
-        <div class="elementor-shortcode"><?php echo $shortcode; ?></div>
+        <div class="elementor-shortcode"><?php echo do_shortcode(shortcode_unautop($this->build_shortcode())); ?></div>
         <?php
     }
 }

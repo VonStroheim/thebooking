@@ -32,7 +32,7 @@ class DateTimeTbk extends \DateTimeImmutable
                     parent::__construct('@' . $time, $timezone);
                 } catch (\Exception $e) {
                     if (defined('WP_DEBUG') && WP_DEBUG) {
-                        trigger_error("Something were wrong with DateTimeTbk construction: {$e->getMessage()}");
+                        trigger_error(sanitize_text_field("Something were wrong with DateTimeTbk construction: {$e->getMessage()}"));
                     }
                 }
             }
@@ -58,7 +58,7 @@ class DateTimeTbk extends \DateTimeImmutable
     }
 
     /**
-     * @param bool      $allDay
+     * @param bool $allDay
      *
      * @return string
      */
@@ -72,8 +72,8 @@ class DateTimeTbk extends \DateTimeImmutable
     }
 
     /**
-     * @param bool      $allDay
-     * @param string    $separator
+     * @param bool   $allDay
+     * @param string $separator
      *
      * @return string
      */
@@ -99,7 +99,7 @@ class DateTimeTbk extends \DateTimeImmutable
          */
         if (!$dt) {
             if (defined('WP_DEBUG') && WP_DEBUG) {
-                trigger_error("Time '{$time}' and format '{$format}' are not valid for a DateTime object.");
+                trigger_error(sanitize_text_field("Time '{$time}' and format '{$format}' are not valid for a DateTime object."));
             }
 
             return $ext_dt;

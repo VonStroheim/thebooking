@@ -118,10 +118,14 @@ if (!class_exists(db::class)) {
             $columns = is_array($what)
                 ? rtrim(implode(', ', $what), ', ')
                 : $what;
-            $query   = "SELECT $columns FROM $table_name_1 WHERE %s NOT IN (SELECT %s FROM $table_name_2)";
-            $results = $wpdb->get_results($wpdb->prepare($query, [$where, $where_alias]), $output_mode);
 
-            return $results;
+            return $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT " . esc_sql($columns) . " FROM $table_name_1 WHERE %s NOT IN (SELECT %s FROM $table_name_2)",
+                    [$where, $where_alias]
+                ),
+                $output_mode
+            );
         }
 
         /**
@@ -148,13 +152,13 @@ if (!class_exists(db::class)) {
             $query[]    = ["ORDER BY {$orderBySql}"];
             $query[]    = $wpdb->prepare('LIMIT %d OFFSET %d', [$items, $offset]);
 
-            return $wpdb->get_results(implode(' ', $query));
+            return $wpdb->get_results(implode(' ', esc_sql($query)));
         }
 
         /**
          * @param string       $table_name
          * @param string|array $what
-         * @param array        $where     optional conditions
+         * @param array        $where     optional condition ['column' => 'value']
          * @param bool         $multisite If TRUE, the query is expected to be performed in the whole network
          *                                if the multisite support setting of the plugin is active.
          * @param string       $output_mode
@@ -168,17 +172,20 @@ if (!class_exists(db::class)) {
             $columns      = is_array($what)
                 ? rtrim(implode(', ', $what), ', ')
                 : $what;
-            $query        = "SELECT $columns FROM $table_name_c";
 
             if (!empty($where)) {
-                $query .= ' WHERE ';
-                foreach ($where as $column => $value) {
-                    $query .= $column . ' = ' . (is_int($value) ? '%d' : '%s') . ' AND ';
+                if (count($where) > 1) {
+                    trigger_error(esc_html('Only one WHERE condition is supported.'), E_USER_NOTICE);
                 }
-                $query = $wpdb->prepare(rtrim($query, ' AND '), array_values($where));
+                $column  = array_keys($where)[0];
+                $value   = array_values($where)[0];
+                $results = $wpdb->get_results(
+                    "SELECT " . esc_sql($columns)
+                    . " FROM " . esc_sql($table_name_c)
+                    . " WHERE " . esc_sql($column) . " = '" . esc_sql($value) . "'", $output_mode);
+            } else {
+                $results = $wpdb->get_results("SELECT " . esc_sql($columns) . " FROM " . esc_sql($table_name_c), $output_mode);
             }
-
-            $results = $wpdb->get_results($query, $output_mode);
 
             if ($multisite
                 && function_exists('is_multisite')
@@ -196,17 +203,21 @@ if (!class_exists(db::class)) {
                         $columns      = is_array($what)
                             ? rtrim(implode(', ', $what), ', ')
                             : $what;
-                        $query        = "SELECT $columns FROM $table_name_c";
+
 
                         if (!empty($where)) {
-                            $query .= ' WHERE ';
-                            foreach ($where as $column => $value) {
-                                $query .= $column . ' = ' . (is_int($value) ? '%d' : '%s') . ' AND ';
+                            if (count($where) > 1) {
+                                trigger_error(esc_html('Only one WHERE condition is supported.'), E_USER_NOTICE);
                             }
-                            $query = $wpdb->prepare(rtrim($query, ' AND '), array_values($where));
+                            $column         = array_keys($where)[0];
+                            $value          = array_values($where)[0];
+                            $to_be_merged[] = $wpdb->get_results(
+                                "SELECT " . esc_sql($columns)
+                                . " FROM " . esc_sql($table_name_c)
+                                . " WHERE " . esc_sql($column) . " = '" . esc_sql($value) . "'", $output_mode);
+                        } else {
+                            $to_be_merged[] = $wpdb->get_results("SELECT " . esc_sql($columns) . " FROM " . esc_sql($table_name_c), $output_mode);
                         }
-
-                        $to_be_merged[] = $wpdb->get_results($query, $output_mode);
                     }
                     restore_current_blog();
                 }
@@ -219,7 +230,7 @@ if (!class_exists(db::class)) {
                     $code = 404;
                 }
 
-                return new \WP_Error($code, $wpdb->last_error, $query);
+                return new \WP_Error($code, $wpdb->last_error);
             }
 
             return $results;
