@@ -10,10 +10,10 @@ class Panel_Database
     {
         return [
             'panelRef'   => 'section-db',
-            'panelLabel' => __('Database settings', 'the-booking'),
+            'panelLabel' => __('Database settings', 'thebooking'),
             'blocks'     => [
                 [
-                    'title'      => __('Retain plugin settings and data when the plugin is uninstalled.', 'the-booking'),
+                    'title'      => __('Retain plugin settings and data when the plugin is uninstalled.', 'thebooking'),
                     'components' => [
                         [
                             'settingId' => 'retain_plugin_data',
@@ -22,10 +22,10 @@ class Panel_Database
                     ]
                 ],
                 [
-                    'title'       => __('Reservation records lifecycle', 'the-booking'),
+                    'title'       => __('Reservation records lifecycle', 'thebooking'),
                     'description' => sprintf(
-                        __('How long reservation records should be kept in database. Recommended setting: "%s"', 'the-booking'),
-                        __('Forever', 'the-booking')
+                        __('How long reservation records should be kept in database. Recommended setting: "%s"', 'thebooking'),
+                        __('Forever', 'thebooking')
                     ),
                     'components'  => [
                         [
@@ -34,37 +34,37 @@ class Panel_Database
                             'options'   => [
                                 [
                                     'value' => 15 * DAY_IN_SECONDS,
-                                    'label' => sprintf(__('%d days', 'the-booking'), 15)
+                                    'label' => sprintf(__('%d days', 'thebooking'), 15)
                                 ],
                                 [
                                     'value' => 30 * DAY_IN_SECONDS,
-                                    'label' => sprintf(__('%d days', 'the-booking'), 30)
+                                    'label' => sprintf(__('%d days', 'thebooking'), 30)
                                 ],
                                 [
                                     'value' => 60 * DAY_IN_SECONDS,
-                                    'label' => sprintf(__('%d days', 'the-booking'), 60)
+                                    'label' => sprintf(__('%d days', 'thebooking'), 60)
                                 ],
                                 [
                                     'value' => 120 * DAY_IN_SECONDS,
-                                    'label' => sprintf(__('%d days', 'the-booking'), 120)
+                                    'label' => sprintf(__('%d days', 'thebooking'), 120)
                                 ],
                                 [
                                     'value' => 240 * DAY_IN_SECONDS,
-                                    'label' => sprintf(__('%d days', 'the-booking'), 240)
+                                    'label' => sprintf(__('%d days', 'thebooking'), 240)
                                 ],
                                 [
                                     'value' => 360 * DAY_IN_SECONDS,
-                                    'label' => sprintf(__('%d days', 'the-booking'), 360)
+                                    'label' => sprintf(__('%d days', 'thebooking'), 360)
                                 ],
                                 [
                                     'value' => 0,
-                                    'label' => __('Forever', 'the-booking')
+                                    'label' => __('Forever', 'thebooking')
                                 ]
                             ]
                         ],
                         [
                             'type' => 'notice',
-                            'text' => __('Lifecycle starts when the reservation service is fulfilled, not when the reservation is made.', 'the-booking'),
+                            'text' => __('Lifecycle starts when the reservation service is fulfilled, not when the reservation is made.', 'thebooking'),
                         ]
                     ]
                 ],

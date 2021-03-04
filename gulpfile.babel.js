@@ -82,7 +82,7 @@ function zippy() {
             '!package-lock.json',
         ]
     )
-        .pipe(zip('the-booking.zip'))
+        .pipe(zip('thebooking.zip'))
         .pipe(gulp.dest('../'))
 }
 

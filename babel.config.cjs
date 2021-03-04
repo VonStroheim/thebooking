@@ -13,7 +13,7 @@ module.exports = function (api) {
             [
                 "@wordpress/babel-plugin-makepot",
                 {
-                    "output": api.env("frontend") ? "languages/the-booking-frontend.pot" : "languages/the-booking-backend.pot"
+                    "output": api.env("frontend") ? "languages/thebooking-frontend.pot" : "languages/thebooking-backend.pot"
                 }
             ],
             [

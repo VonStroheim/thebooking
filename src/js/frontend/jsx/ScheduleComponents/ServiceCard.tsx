@@ -62,7 +62,7 @@ export default function ServiceCard(props: CardProps) {
             {props.showActions && (
                 <CardActions>
                     <Button className={styles.alignRight} size="small" color="primary" onClick={props.onSelect}>
-                        {__('Select', 'the-booking')}
+                        {__('Select', 'thebooking')}
                     </Button>
                 </CardActions>
             )}

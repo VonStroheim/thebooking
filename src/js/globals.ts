@@ -379,9 +379,9 @@ const Globals: Globals = {
         const h = Math.floor(minutes % (60 * 24) / 60);
         const m = Math.floor(minutes % 60);
 
-        const dDisplay = d > 0 ? sprintf(_n('%s day', '%s days', d, 'the-booking'), d) : '';
-        const hDisplay = h > 0 ? sprintf(_n('%s hour', '%s hours', h, 'the-booking'), h) : '';
-        const mDisplay = m > 0 ? sprintf(_n('%s minute', '%s minutes', m, 'the-booking'), m) : '';
+        const dDisplay = d > 0 ? sprintf(_n('%s day', '%s days', d, 'thebooking'), d) : '';
+        const hDisplay = h > 0 ? sprintf(_n('%s hour', '%s hours', h, 'thebooking'), h) : '';
+        const mDisplay = m > 0 ? sprintf(_n('%s minute', '%s minutes', m, 'thebooking'), m) : '';
         return (dDisplay + ', ' + hDisplay + ', ' + mDisplay).replace(/^,\s*|,\s*$/g, "");
     },
     minutesToHM(minutes: number) {
@@ -389,7 +389,7 @@ const Globals: Globals = {
         const d = Math.floor(minutes / (60 * 24));
         const h = Math.floor(minutes % (60 * 24) / 60);
         const m = Math.floor(minutes % 60);
-        return sprintf(__('%dh%sm', 'the-booking'), h + d * 60, ('0' + m).slice(-2));
+        return sprintf(__('%dh%sm', 'thebooking'), h + d * 60, ('0' + m).slice(-2));
     },
     secondsToDurationObj(d) {
         return {

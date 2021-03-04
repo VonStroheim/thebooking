@@ -40,17 +40,17 @@ class CreateServiceHandler implements Handler
                 $name_uid  => [
                     'type'  => 'text',
                     'hook'  => 'customer_name',
-                    'label' => __('Name', 'the-booking')
+                    'label' => __('Name', 'thebooking')
                 ],
                 $email_uid => [
                     'type'  => 'text',
                     'hook'  => 'customer_email',
-                    'label' => __('Email', 'the-booking')
+                    'label' => __('Email', 'thebooking')
                 ],
                 $phone_uid => [
                     'type'  => 'text',
                     'hook'  => 'customer_phone',
-                    'label' => __('Phone', 'the-booking')
+                    'label' => __('Phone', 'thebooking')
                 ],
             ],
             [$name_uid, $email_uid, $phone_uid],

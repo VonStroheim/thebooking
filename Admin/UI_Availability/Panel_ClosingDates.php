@@ -10,11 +10,11 @@ class Panel_ClosingDates
     {
         return [
             'panelRef'   => 'section-closing-dates',
-            'panelLabel' => __('Closing dates', 'the-booking'),
+            'panelLabel' => __('Closing dates', 'thebooking'),
             'blocks'     => [
                 [
-                    'title'       => __('Closing dates', 'the-booking'),
-                    'description' => __('Select the days in which services are not available.', 'the-booking'),
+                    'title'       => __('Closing dates', 'thebooking'),
+                    'description' => __('Select the days in which services are not available.', 'thebooking'),
                     'components'  => [
                         [
                             'settingId' => 'working_hours',

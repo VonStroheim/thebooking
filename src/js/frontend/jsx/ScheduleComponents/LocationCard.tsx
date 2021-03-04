@@ -30,7 +30,7 @@ export default function LocationCard(props: CardProps) {
             </CardHeader>
             <CardActions>
                 <Button className={styles.alignRight} size="small" color="primary" onClick={props.onSelect}>
-                    {__('Select', 'the-booking')}
+                    {__('Select', 'thebooking')}
                 </Button>
             </CardActions>
         </Card>

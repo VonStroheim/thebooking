@@ -20,7 +20,7 @@ interface SelectProps {
 export default function TimeslotDropdown(props: SelectProps) {
     return (
         <Autocomplete
-            renderInput={(params) => <TextField {...params} label={__('Start time', 'the-booking')} variant="outlined"/>}
+            renderInput={(params) => <TextField {...params} label={__('Start time', 'thebooking')} variant="outlined"/>}
             options={props.items}
             disableClearable
             openOnFocus
@@ -32,7 +32,7 @@ export default function TimeslotDropdown(props: SelectProps) {
                 return (
                     <div>
                         {globals.formatTime(toDate(option.start))}
-                        {option.soldOut && <span className={styles.bookedLabel}>{__('Booked', 'the-booking')}</span>}
+                        {option.soldOut && <span className={styles.bookedLabel}>{__('Booked', 'thebooking')}</span>}
                     </div>
                 )
             }}

@@ -31,7 +31,7 @@ export default function Select(props: SelectProps) {
         <Autocomplete
             defaultValue={props.value}
             onChange={props.onChange}
-            noOptionsText={__('No options', 'the-booking')}
+            noOptionsText={__('No options', 'thebooking')}
             disabled={props.disabled}
             renderInput={(params) => (
                 <TextField

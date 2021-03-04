@@ -119,7 +119,7 @@ export default class ScheduleItem extends React.Component<ScheduleItemProps, Sch
                         }).format(start)
                     )}
                     <div className={styles.underTimeslot}>
-                        {this.props.item.soldOut ? <span className={styles.soldOutSlotString}>{__('Sold-out', 'the-booking')}</span> : <span>{__('Available', 'the-booking')}</span>}
+                        {this.props.item.soldOut ? <span className={styles.soldOutSlotString}>{__('Sold-out', 'thebooking')}</span> : <span>{__('Available', 'thebooking')}</span>}
                     </div>
                 </div>
             </ToggleButton>
@@ -137,7 +137,7 @@ export default class ScheduleItem extends React.Component<ScheduleItemProps, Sch
                             }).format(start)
                         )}
                         <div className={styles.underTimeslot}>
-                            {variant.soldOut ? <span className={styles.soldOutSlotString}>{__('Sold-out', 'the-booking')}</span> : <span>{__('Available', 'the-booking')}</span>}
+                            {variant.soldOut ? <span className={styles.soldOutSlotString}>{__('Sold-out', 'thebooking')}</span> : <span>{__('Available', 'thebooking')}</span>}
                         </div>
                     </div>
                 </ToggleButton>
@@ -154,18 +154,18 @@ export default class ScheduleItem extends React.Component<ScheduleItemProps, Sch
             <>
                 <Button
                     size={'small'}
-                    aria-label={__('Log-in', 'the-booking')}
+                    aria-label={__('Log-in', 'thebooking')}
                     onClick={() => {
                         const url = new URL(window.location.href);
                         url.searchParams.set('redirect_to', TBK.loginUrl);
                         window.location.href = url.toString();
                     }}
                 >
-                    {__('Log-in', 'the-booking')}
+                    {__('Log-in', 'thebooking')}
                 </Button>
                 <Button
                     disableElevation
-                    aria-label={__('Register to book', 'the-booking')}
+                    aria-label={__('Register to book', 'thebooking')}
                     color={'primary'}
                     variant={'contained'}
                     size={'small'}
@@ -176,7 +176,7 @@ export default class ScheduleItem extends React.Component<ScheduleItemProps, Sch
                         window.location.href = url.toString();
                     }}
                 >
-                    {__('Register to book', 'the-booking')}
+                    {__('Register to book', 'thebooking')}
                 </Button>
             </>
         );
@@ -196,7 +196,7 @@ export default class ScheduleItem extends React.Component<ScheduleItemProps, Sch
         return (
             <Button
                 disableElevation
-                aria-label={__('Select', 'the-booking')}
+                aria-label={__('Select', 'thebooking')}
                 onClick={soldOut ? undefined : this.handleSelect}
                 color={'primary'}
                 disabled={soldOut}
@@ -204,7 +204,7 @@ export default class ScheduleItem extends React.Component<ScheduleItemProps, Sch
                 size={'small'}
                 className={styles.actionButton}
             >
-                {soldOut ? __('Sold-out', 'the-booking') : __('Book', 'the-booking')}
+                {soldOut ? __('Sold-out', 'thebooking') : __('Book', 'thebooking')}
             </Button>
         );
     }
@@ -269,7 +269,7 @@ export default class ScheduleItem extends React.Component<ScheduleItemProps, Sch
                                     className={this.state.expanded ? [styles.iconExpanded, styles.icon].join(' ') : styles.icon}
                                     onClick={this.handleExpand}
                                     aria-expanded={this.state.expanded}
-                                    aria-label={__('Show more', 'the-booking')}
+                                    aria-label={__('Show more', 'thebooking')}
                                 >
                                     <ExpandMoreIcon/>
                                 </IconButton>

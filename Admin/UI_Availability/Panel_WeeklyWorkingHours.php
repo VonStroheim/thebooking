@@ -10,11 +10,11 @@ class Panel_WeeklyWorkingHours
     {
         return [
             'panelRef'   => 'section-working-hours',
-            'panelLabel' => __('Working hours', 'the-booking'),
+            'panelLabel' => __('Working hours', 'thebooking'),
             'blocks'     => [
                 [
-                    'title'       => __('Working hours', 'the-booking'),
-                    'description' => __('Define the weekly availability schedule.', 'the-booking'),
+                    'title'       => __('Working hours', 'thebooking'),
+                    'description' => __('Define the weekly availability schedule.', 'thebooking'),
                     'components'  => [
                         [
                             'settingId' => 'working_hours',

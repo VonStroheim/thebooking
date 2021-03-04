@@ -46,12 +46,12 @@ final class Modules
     {
         $panels[] = [
             'panelRef'   => 'notifications',
-            'panelLabel' => __('Notifications', 'the-booking'),
+            'panelLabel' => __('Notifications', 'thebooking'),
             'icon'       => 'pi pi-envelope',
             'blocks'     => [
                 [
-                    'title'       => __('User confirmation email', 'the-booking'),
-                    'description' => __('User will receive this message right after the booking process.', 'the-booking'),
+                    'title'       => __('User confirmation email', 'thebooking'),
+                    'description' => __('User will receive this message right after the booking process.', 'thebooking'),
                     'components'  => [
                         [
                             'settingId' => 'meta::' . self::CUSTOMER_CONFIRMATION_EMAIL_META,
@@ -60,7 +60,7 @@ final class Modules
                         [
                             'settingId'    => 'meta::' . self::CUSTOMER_CONFIRMATION_EMAIL_SUBJECT_META,
                             'type'         => 'text',
-                            'label'        => __('Email subject', 'the-booking'),
+                            'label'        => __('Email subject', 'thebooking'),
                             'dependencies' => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_CONFIRMATION_EMAIL_META,
@@ -83,8 +83,8 @@ final class Modules
                     ]
                 ],
                 [
-                    'title'       => __('Admin notification email', 'the-booking'),
-                    'description' => __('Administrator will receive this message right after the booking process.', 'the-booking'),
+                    'title'       => __('Admin notification email', 'thebooking'),
+                    'description' => __('Administrator will receive this message right after the booking process.', 'thebooking'),
                     'components'  => [
                         [
                             'settingId' => 'meta::' . self::ADMIN_CONFIRMATION_EMAIL_META,
@@ -93,7 +93,7 @@ final class Modules
                         [
                             'settingId'    => 'meta::' . self::ADMIN_CONFIRMATION_EMAIL_SUBJECT_META,
                             'type'         => 'text',
-                            'label'        => __('Email subject', 'the-booking'),
+                            'label'        => __('Email subject', 'thebooking'),
                             'dependencies' => [
                                 [
                                     'on'    => 'meta::' . self::ADMIN_CONFIRMATION_EMAIL_META,
@@ -116,8 +116,8 @@ final class Modules
                     ]
                 ],
                 [
-                    'title'       => __('User cancellation email', 'the-booking'),
-                    'description' => __('User will receive this message when a booking is cancelled.', 'the-booking'),
+                    'title'       => __('User cancellation email', 'thebooking'),
+                    'description' => __('User will receive this message when a booking is cancelled.', 'thebooking'),
                     'components'  => [
                         [
                             'settingId' => 'meta::' . self::CUSTOMER_CANCELLATION_EMAIL_META,
@@ -126,7 +126,7 @@ final class Modules
                         [
                             'settingId'    => 'meta::' . self::CUSTOMER_CANCELLATION_EMAIL_SUBJECT_META,
                             'type'         => 'text',
-                            'label'        => __('Email subject', 'the-booking'),
+                            'label'        => __('Email subject', 'thebooking'),
                             'dependencies' => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_CANCELLATION_EMAIL_META,
@@ -341,51 +341,51 @@ final class Modules
     {
         $hooks[] = [
             'value'        => 'service::name',
-            'label'        => __('Name', 'the-booking'),
+            'label'        => __('Name', 'thebooking'),
             'context'      => 'service',
-            'contextLabel' => __('Service', 'the-booking')
+            'contextLabel' => __('Service', 'thebooking')
         ];
         $hooks[] = [
             'value'        => 'service::description',
-            'label'        => __('Description', 'the-booking'),
+            'label'        => __('Description', 'thebooking'),
             'context'      => 'service',
-            'contextLabel' => __('Service', 'the-booking')
+            'contextLabel' => __('Service', 'thebooking')
         ];
         $hooks[] = [
             'value'        => 'service::shortDescription',
-            'label'        => __('Short description', 'the-booking'),
+            'label'        => __('Short description', 'thebooking'),
             'context'      => 'service',
-            'contextLabel' => __('Service', 'the-booking')
+            'contextLabel' => __('Service', 'thebooking')
         ];
         $hooks[] = [
             'value'        => 'reservation::startTime',
-            'label'        => __('Start time', 'the-booking'),
+            'label'        => __('Start time', 'thebooking'),
             'context'      => 'reservation',
-            'contextLabel' => __('Reservation', 'the-booking')
+            'contextLabel' => __('Reservation', 'thebooking')
         ];
         $hooks[] = [
             'value'        => 'reservation::startDate',
-            'label'        => __('Start date', 'the-booking'),
+            'label'        => __('Start date', 'thebooking'),
             'context'      => 'reservation',
-            'contextLabel' => __('Reservation', 'the-booking')
+            'contextLabel' => __('Reservation', 'thebooking')
         ];
         $hooks[] = [
             'value'        => 'reservation::endTime',
-            'label'        => __('End time', 'the-booking'),
+            'label'        => __('End time', 'thebooking'),
             'context'      => 'reservation',
-            'contextLabel' => __('Reservation', 'the-booking')
+            'contextLabel' => __('Reservation', 'thebooking')
         ];
         $hooks[] = [
             'value'        => 'reservation::endDate',
-            'label'        => __('End date', 'the-booking'),
+            'label'        => __('End date', 'thebooking'),
             'context'      => 'reservation',
-            'contextLabel' => __('Reservation', 'the-booking')
+            'contextLabel' => __('Reservation', 'thebooking')
         ];
         $hooks[] = [
             'value'        => 'reservation::duration',
-            'label'        => __('Duration', 'the-booking'),
+            'label'        => __('Duration', 'thebooking'),
             'context'      => 'reservation',
-            'contextLabel' => __('Reservation', 'the-booking')
+            'contextLabel' => __('Reservation', 'thebooking')
         ];
 
         return $hooks;
@@ -405,7 +405,7 @@ final class Modules
                         'value'        => $item->getValue()['hook'],
                         'label'        => $item->getValue()['label'],
                         'context'      => 'form',
-                        'contextLabel' => __('Form', 'the-booking')
+                        'contextLabel' => __('Form', 'thebooking')
                     ];
                 }
             }

@@ -112,7 +112,7 @@ export default function SelectAddress(props: SelectAddressProps) {
         <Autocomplete
             id={elementId}
             defaultValue={props.value}
-            noOptionsText={__('No location', 'the-booking')}
+            noOptionsText={__('No location', 'thebooking')}
             disabled={props.disabled}
             renderInput={(params) => (
                 <TextField

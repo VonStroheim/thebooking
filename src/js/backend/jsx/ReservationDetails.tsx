@@ -134,7 +134,7 @@ export default class ReservationDetails extends React.Component<ReservationDetai
                 )
             case 'file':
                 if (data.value === null) {
-                    return __('No uploaded file.', 'the-booking')
+                    return __('No uploaded file.', 'thebooking')
                 }
                 return (
                     <Button
@@ -175,37 +175,37 @@ export default class ReservationDetails extends React.Component<ReservationDetai
 
         const generalDetails = [
             {
-                'label'       : __('Booking ID', 'the-booking'),
+                'label'       : __('Booking ID', 'thebooking'),
                 'value'       : data.uid,
                 'propertyType': 'string'
             },
             {
-                'label'       : __('Date and time', 'the-booking'),
+                'label'       : __('Date and time', 'thebooking'),
                 'value'       : toDate(data.start),
                 'propertyType': 'dateTime'
             },
             {
-                'label'       : __('Date and time (end)', 'the-booking'),
+                'label'       : __('Date and time (end)', 'thebooking'),
                 'value'       : toDate(data.end),
                 'propertyType': 'dateTime'
             },
             {
-                'label'       : __('Duration', 'the-booking'),
+                'label'       : __('Duration', 'thebooking'),
                 'value'       : globals.minutesToDhms(differenceInMinutes(toDate(data.end), toDate(data.start))),
                 'propertyType': 'string'
             },
             {
-                'label'       : __('Submit date', 'the-booking'),
+                'label'       : __('Submit date', 'thebooking'),
                 'value'       : toDate(data.created * 1000),
                 'propertyType': 'dateTime'
             },
             {
-                'label'       : __('Service', 'the-booking'),
+                'label'       : __('Service', 'thebooking'),
                 'value'       : tbkCommon.services[data.serviceId].name,
                 'propertyType': 'string'
             },
             {
-                'label'       : __('Customer', 'the-booking'),
+                'label'       : __('Customer', 'thebooking'),
                 'value'       : data.customerId,
                 'propertyType': 'CustomersDropdown'
             },
@@ -213,7 +213,7 @@ export default class ReservationDetails extends React.Component<ReservationDetai
 
         if ('location' in data.meta) {
             generalDetails.push({
-                'label'       : __('Location', 'the-booking'),
+                'label'       : __('Location', 'thebooking'),
                 'value'       : data.meta.location,
                 'propertyType': 'LocationsDropdown'
             })
@@ -221,7 +221,7 @@ export default class ReservationDetails extends React.Component<ReservationDetai
 
         if ('user_ip' in data.meta) {
             generalDetails.push({
-                'label'       : __('User IP', 'the-booking'),
+                'label'       : __('User IP', 'thebooking'),
                 'value'       : data.meta.user_ip,
                 'propertyType': 'string'
             })
@@ -230,7 +230,7 @@ export default class ReservationDetails extends React.Component<ReservationDetai
         return (
             <div className={styles.reservationDetails + ' p-grid'}>
                 <div className={'p-col-12 p-md-12 p-lg-12 p-xl-6'}>
-                    <Panel header={__('General details', 'the-booking')} className={styles.panelWithTable}>
+                    <Panel header={__('General details', 'thebooking')} className={styles.panelWithTable}>
                         <DataTable autoLayout={false} value={generalDetails}>
                             <Column field={'label'}/>
                             <Column field={'value'} body={this.propertyTemplate} className={styles.propertyValue}/>
@@ -239,7 +239,7 @@ export default class ReservationDetails extends React.Component<ReservationDetai
                 </div>
                 {bookingData.length > 0 && (
                     <div className={'p-col-12 p-md-12 p-lg-12 p-xl-6'}>
-                        <Panel header={__('Reservation data', 'the-booking')} className={styles.panelWithTable}>
+                        <Panel header={__('Reservation data', 'thebooking')} className={styles.panelWithTable}>
 
                             <DataTable autoLayout={false} value={bookingDataRows}>
                                 <Column field={'label'}/>
@@ -247,7 +247,7 @@ export default class ReservationDetails extends React.Component<ReservationDetai
                             </DataTable>
                             <div className={'p-d-flex ' + styles.saveProperties}>
                                 <Button
-                                    label={__('Save', 'the-booking')}
+                                    label={__('Save', 'thebooking')}
                                     className={'p-ml-auto'}
                                     disabled={this.props.isBusy || lodash.isEmpty(this.state.bookingData)}
                                     onClick={() => {

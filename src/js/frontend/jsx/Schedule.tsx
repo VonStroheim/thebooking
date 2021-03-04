@@ -292,15 +292,15 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
         return {
             service : this.state.selectedService && activeStep !== 'service'
                 ? this.props.services[this.state.selectedService].name
-                : __('Select a service', 'the-booking'),
-            login   : __('Log-in', 'the-booking'),
+                : __('Select a service', 'thebooking'),
+            login   : __('Log-in', 'thebooking'),
             location: this.state.selectedLocation && activeStep !== 'location'
                 ? TBK.locations[this.state.selectedLocation].address
-                : __('Choose a location', 'the-booking'),
+                : __('Choose a location', 'thebooking'),
             timeslot: this.state.selectedTimeSlot && activeStep !== 'timeslot'
                 ? globals.formatTime(toDate(this.state.selectedTimeSlot.start))
-                : __('Pick a time slot', 'the-booking'),
-            form    : __('Your information', 'the-booking')
+                : __('Pick a time slot', 'thebooking'),
+            form    : __('Your information', 'thebooking')
         }
     }
 
@@ -317,7 +317,7 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
                     this.setState(redux(actions))
                 }}
             >
-                {__('Next', 'the-booking')}
+                {__('Next', 'thebooking')}
             </Button>
         )
     }
@@ -488,18 +488,18 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
             <>
                 <Button
                     size={'small'}
-                    aria-label={__('Log-in', 'the-booking')}
+                    aria-label={__('Log-in', 'thebooking')}
                     onClick={() => {
                         const url = new URL(window.location.href);
                         url.searchParams.set('redirect_to', TBK.loginUrl);
                         window.location.href = url.toString();
                     }}
                 >
-                    {__('Log-in', 'the-booking')}
+                    {__('Log-in', 'thebooking')}
                 </Button>
                 <Button
                     disableElevation
-                    aria-label={__('Register to book', 'the-booking')}
+                    aria-label={__('Register to book', 'thebooking')}
                     color={'primary'}
                     variant={'contained'}
                     size={'small'}
@@ -509,7 +509,7 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
                         window.location.href = url.toString();
                     }}
                 >
-                    {__('Register to book', 'the-booking')}
+                    {__('Register to book', 'thebooking')}
                 </Button>
             </>
         );
@@ -537,7 +537,7 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
                     update: {},
                     data  : {
                         type   : 'fail',
-                        tagline: __('There was an error.', 'the-booking'),
+                        tagline: __('There was an error.', 'thebooking'),
                         message: error.response.data.error || error.response.data.message
                     },
                     status: 'KO'

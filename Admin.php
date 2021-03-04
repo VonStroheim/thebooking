@@ -20,11 +20,11 @@ defined('ABSPATH') || exit;
  */
 class Admin
 {
-    const SLUG_DEFAULT           = 'the-booking';
-    const SLUG_CORE_PAGE         = 'the-booking-core';
-    const SLUG_AVAILABILITY_PAGE = 'the-booking-availability';
-    const SLUG_SERVICES_PAGE     = 'the-booking-services';
-    const SLUG_CUSTOMERS_PAGE    = 'the-booking-customers';
+    const SLUG_DEFAULT           = 'thebooking';
+    const SLUG_CORE_PAGE         = 'thebooking-core';
+    const SLUG_AVAILABILITY_PAGE = 'thebooking-availability';
+    const SLUG_SERVICES_PAGE     = 'thebooking-services';
+    const SLUG_CUSTOMERS_PAGE    = 'thebooking-customers';
 
     public static function backend_menu()
     {
@@ -51,16 +51,16 @@ class Admin
             'TheBooking',
             'TheBooking',
             TheBooking::admin_cap(),
-            'the-booking',
+            'thebooking',
             [__CLASS__, 'admin_backend_page']
         );
 
         add_submenu_page(
-            'the-booking',
+            'thebooking',
             'TheBooking',
             'Reservations',
             'manage_options',
-            'the-booking',
+            'thebooking',
             [
                 __CLASS__,
                 'admin_backend_page',
@@ -68,7 +68,7 @@ class Admin
         );
 
         add_submenu_page(
-            'the-booking',
+            'thebooking',
             'Services - TheBooking',
             'Services',
             'manage_options',
@@ -80,7 +80,7 @@ class Admin
         );
 
         add_submenu_page(
-            'the-booking',
+            'thebooking',
             'Customers - TheBooking',
             'Customers',
             'manage_options',
@@ -92,7 +92,7 @@ class Admin
         );
 
         add_submenu_page(
-            'the-booking',
+            'thebooking',
             'Availability - TheBooking',
             'Availability',
             'manage_options',
@@ -104,7 +104,7 @@ class Admin
         );
 
         add_submenu_page(
-            'the-booking',
+            'thebooking',
             'Core - TheBooking',
             'Core settings',
             'manage_options',
@@ -131,7 +131,7 @@ class Admin
         /**
          * let's load only if we're on TheBooking dashboard
          */
-        if (strpos($hook, 'page_the-booking') !== FALSE) {
+        if (strpos($hook, 'page_thebooking') !== FALSE) {
             wp_enqueue_style('wp-color-picker');
             wp_enqueue_style('wp-components');
             wp_enqueue_media();
@@ -162,7 +162,7 @@ class Admin
             /**
              * JS translations
              */
-            wp_set_script_translations('tbk-admin-script', 'the-booking', WP_LANG_DIR . '/plugins/');
+            wp_set_script_translations('tbk-admin-script', 'thebooking', WP_LANG_DIR . '/plugins/');
         }
     }
 
@@ -178,7 +178,7 @@ class Admin
             [
                 [
                     'slug'  => 'tbkl-bookings',
-                    'title' => __('Booking tools', 'the-booking')
+                    'title' => __('Booking tools', 'thebooking')
                 ],
             ]
         );

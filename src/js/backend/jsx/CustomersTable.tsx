@@ -98,7 +98,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
             quoteStrings    : '"',
             decimalSeparator: '.',
             showLabels      : true,
-            filename        : __('Customers', 'the-booking'),
+            filename        : __('Customers', 'thebooking'),
             useTextFile     : false,
             useKeysAsHeaders: true,
         });
@@ -109,7 +109,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
         return (
             <div className={styles.tableHeader}>
                 <div>
-                    <Button label={__('New customer', 'the-booking')}
+                    <Button label={__('New customer', 'thebooking')}
                             icon={'pi pi-plus'}
                             className={styles.newResourceButton}
                             onClick={(e) => this.setState({displayNewDialog: true})}
@@ -118,7 +118,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                         className={'p-button-secondary'}
                         icon={'pi pi-download'}
                         onClick={this.exportCsv}
-                        label={this.state.selected.length > 0 ? __('Export selected', 'the-booking') + ' (' + this.state.selected.length + ')' : __('Export all', 'the-booking')}
+                        label={this.state.selected.length > 0 ? __('Export selected', 'thebooking') + ' (' + this.state.selected.length + ')' : __('Export all', 'thebooking')}
                     />
                 </div>
                 <div>
@@ -126,7 +126,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                     <i className="pi pi-search"/>
                     <InputText type="search"
                                onInput={(e: any) => this.setState({globalFilter: e.target.value})}
-                               placeholder={__('Search all', 'the-booking')}/>
+                               placeholder={__('Search all', 'thebooking')}/>
                     </span>
                 </div>
             </div>
@@ -164,7 +164,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                 contentStyle={{
                     overflowY: 'visible'
                 }}
-                header={id ? tbkCommon.customers[id].name : __('New customer', 'the-booking')}
+                header={id ? tbkCommon.customers[id].name : __('New customer', 'thebooking')}
                 baseZIndex={100000}
                 onHide={() => this.setState({
                     displayNewDialog: false,
@@ -182,11 +182,11 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                     <div>
                         {!this.props.isBusy && (
                             <div>
-                                <Button label={__('Cancel', 'the-booking')}
+                                <Button label={__('Cancel', 'thebooking')}
                                         icon="pi pi-times"
                                         onClick={() => this.setState({displayNewDialog: false})}
                                         className="p-button-text"/>
-                                <Button label={id ? __('Save', 'the-booking') : __('Create customer', 'the-booking')}
+                                <Button label={id ? __('Save', 'thebooking') : __('Create customer', 'thebooking')}
                                         icon="pi pi-check"
                                         disabled={!customerData.name.length || !customerData.email.length}
                                         onClick={id ? this.editCustomer : this.createCustomer}
@@ -200,12 +200,12 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                 }>
                 <div className={'p-fluid'}>
                     <div className={'p-field'}>
-                        <label>{__('Map the customer to a WordPress user', 'the-booking')}</label>
+                        <label>{__('Map the customer to a WordPress user', 'thebooking')}</label>
                         <CustomersDropdown
                             customers={{
                                 ...{
                                     0       : {
-                                        name    : __('Do not map the customer.', 'the-booking'),
+                                        name    : __('Do not map the customer.', 'thebooking'),
                                         email   : '',
                                         phone   : '',
                                         wpUserId: 0,
@@ -213,7 +213,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                                         id      : 0
                                     },
                                     99999999: {
-                                        name    : __('Create a new WordPress user.', 'the-booking'),
+                                        name    : __('Create a new WordPress user.', 'thebooking'),
                                         email   : '',
                                         phone   : '',
                                         wpUserId: 0,
@@ -237,7 +237,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                         />
                     </div>
                     <div className={'p-field'}>
-                        <label htmlFor={'newCustomerName'}>{__('Name', 'the-booking')} *</label>
+                        <label htmlFor={'newCustomerName'}>{__('Name', 'thebooking')} *</label>
                         <InputText id={'newCustomerName'} required={true} type={'text'}
                                    disabled={customerData.wpUserId > 0}
                                    value={customerData.name}
@@ -250,7 +250,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                                    }}/>
                     </div>
                     <div className={'p-field'}>
-                        <label htmlFor={'newCustomerEmail'}>{__('Email', 'the-booking')} *</label>
+                        <label htmlFor={'newCustomerEmail'}>{__('Email', 'thebooking')} *</label>
                         <InputText id={'newCustomerEmail'} required={true}
                                    disabled={customerData.wpUserId > 0}
                                    type={'text'}
@@ -264,7 +264,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                                    }}/>
                     </div>
                     <div className={'p-field'}>
-                        <label htmlFor={'newCustomerPhone'}>{__('Phone', 'the-booking')}</label>
+                        <label htmlFor={'newCustomerPhone'}>{__('Phone', 'thebooking')}</label>
                         <PhoneInput
                             country={tbkCommon.i18n.locale.slice(-2)}
                             inputProps={{id: 'newCustomerPhone'}}
@@ -287,8 +287,8 @@ export default class CustomersTable extends React.Component<SProps, SState> {
     confirm = (event: any, callback: any) => {
         confirmPopup({
             target : event.currentTarget,
-            message: __('Are you sure you want to proceed?', 'the-booking'),
-            header : __('Confirmation', 'the-booking'),
+            message: __('Are you sure you want to proceed?', 'thebooking'),
+            header : __('Confirmation', 'thebooking'),
             icon   : 'pi pi-exclamation-triangle',
             accept : callback,
             reject : null
@@ -471,7 +471,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                     ref={(el) => this.dt = el}
                     paginator
                     rows={25}
-                    currentPageReportTemplate={sprintf(__('Showing %1$s to %2$s of %3$s customers', 'the-booking'), '{first}', '{last}', '{totalRecords}')}
+                    currentPageReportTemplate={sprintf(__('Showing %1$s to %2$s of %3$s customers', 'thebooking'), '{first}', '{last}', '{totalRecords}')}
                     expandedRows={this.state.expandedRows as unknown as any[]}
                     rowsPerPageOptions={[10, 25, 50]}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -490,20 +490,20 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                         sortFunction={this.sortFunction}
                         field={'name'}
                         sortable
-                        header={__('Name', 'the-booking')}
+                        header={__('Name', 'thebooking')}
                         body={this.nameBodyTemplate}
                     />
                     <Column
                         sortFunction={this.sortFunction}
                         field={'email'}
                         sortable
-                        header={__('Email', 'the-booking')}
+                        header={__('Email', 'thebooking')}
                     />
                     <Column
                         sortFunction={this.sortFunction}
                         field={'phone'}
                         sortable
-                        header={__('Phone', 'the-booking')}
+                        header={__('Phone', 'thebooking')}
                         body={this.phoneBodyTemplate}
                     />
                     <Column

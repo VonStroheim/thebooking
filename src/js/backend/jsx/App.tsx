@@ -120,7 +120,7 @@ export default class App extends React.Component<AppProps, AppState> {
                                 SAVE_SETTINGS: {}
                             }
                         })
-                        this.showSuccess(__('Settings saved.', 'the-booking'));
+                        this.showSuccess(__('Settings saved.', 'thebooking'));
                     })
                 break;
             case 'SAVE_AVAILABILITY':
@@ -139,7 +139,7 @@ export default class App extends React.Component<AppProps, AppState> {
                             UI    : tbkCommon,
                             isBusy: false
                         })
-                        this.showSuccess(__('Availability saved.', 'the-booking'));
+                        this.showSuccess(__('Availability saved.', 'thebooking'));
                     }
 
                 })
@@ -169,7 +169,7 @@ export default class App extends React.Component<AppProps, AppState> {
                                 SAVE_SETTINGS: {}
                             }
                         })
-                        this.showSuccess(__('Settings saved.', 'the-booking'));
+                        this.showSuccess(__('Settings saved.', 'thebooking'));
                     })
                 break;
             case 'DELETE_SERVICES':
@@ -190,7 +190,7 @@ export default class App extends React.Component<AppProps, AppState> {
                                 SAVE_SETTINGS: {}
                             }
                         })
-                        this.showSuccess(__('Service deleted.', 'the-booking'));
+                        this.showSuccess(__('Service deleted.', 'thebooking'));
                     })
 
                 break;
@@ -212,7 +212,7 @@ export default class App extends React.Component<AppProps, AppState> {
                                 SAVE_SETTINGS: {}
                             }
                         })
-                        this.showSuccess(__('Reservations deleted.', 'the-booking'));
+                        this.showSuccess(__('Reservations deleted.', 'thebooking'));
                     })
 
                 break;
@@ -247,7 +247,7 @@ export default class App extends React.Component<AppProps, AppState> {
                             },
                             isStickyShown  : isStickyShown
                         })
-                        this.showSuccess(__('Settings saved.', 'the-booking'));
+                        this.showSuccess(__('Settings saved.', 'thebooking'));
                     })
                 break;
             case 'CREATE_CUSTOMER':
@@ -265,7 +265,7 @@ export default class App extends React.Component<AppProps, AppState> {
                             UI    : tbkCommon,
                             isBusy: false
                         })
-                        this.showSuccess(__('Customer created.', 'the-booking'));
+                        this.showSuccess(__('Customer created.', 'thebooking'));
                     }
 
                 })
@@ -286,7 +286,7 @@ export default class App extends React.Component<AppProps, AppState> {
                             UI    : tbkCommon,
                             isBusy: false
                         })
-                        this.showSuccess(__('Location created.', 'the-booking'));
+                        this.showSuccess(__('Location created.', 'thebooking'));
                     }
 
                 })
@@ -306,7 +306,7 @@ export default class App extends React.Component<AppProps, AppState> {
                             UI    : tbkCommon,
                             isBusy: false
                         })
-                        this.showSuccess(__('Service created.', 'the-booking'));
+                        this.showSuccess(__('Service created.', 'thebooking'));
                     }
 
                 })
@@ -327,7 +327,7 @@ export default class App extends React.Component<AppProps, AppState> {
                             UI    : tbkCommon,
                             isBusy: false
                         })
-                        this.showSuccess(__('Customer saved.', 'the-booking'));
+                        this.showSuccess(__('Customer saved.', 'thebooking'));
                     }
 
                 })
@@ -347,7 +347,7 @@ export default class App extends React.Component<AppProps, AppState> {
                             UI    : tbkCommon,
                             isBusy: false
                         })
-                        this.showSuccess(__('Customer removed.', 'the-booking'));
+                        this.showSuccess(__('Customer removed.', 'thebooking'));
                     }
 
                 })
@@ -367,7 +367,7 @@ export default class App extends React.Component<AppProps, AppState> {
                             UI    : tbkCommon,
                             isBusy: false
                         })
-                        this.showSuccess(__('Locations removed.', 'the-booking'));
+                        this.showSuccess(__('Locations removed.', 'thebooking'));
                     }
 
                 })
@@ -384,7 +384,7 @@ export default class App extends React.Component<AppProps, AppState> {
                     } else {
                         tbkCommon.reservationStatusUpdate = [];
                         if (action.payload) {
-                            this.showSuccess(__('Notifications sent.', 'the-booking'));
+                            this.showSuccess(__('Notifications sent.', 'thebooking'));
                         }
                         this.setState({
                             UI           : tbkCommon,
@@ -410,7 +410,7 @@ export default class App extends React.Component<AppProps, AppState> {
 
     renderAlt() {
         switch (this.state.page) {
-            case 'the-booking':
+            case 'thebooking':
                 return (
                     <ReservationsTable
                         reservations={this.prepareReservations(this.state.UI.reservations)}
@@ -420,7 +420,7 @@ export default class App extends React.Component<AppProps, AppState> {
                         showHeader={true}
                     />
                 )
-            case 'the-booking-services':
+            case 'thebooking-services':
                 return (
                     <ServicesTable
                         onUpdate={this.handleChanges}
@@ -430,7 +430,7 @@ export default class App extends React.Component<AppProps, AppState> {
                         renderSettingPanel={this.renderSettingPanel}
                     />
                 )
-            case 'the-booking-customers':
+            case 'thebooking-customers':
                 return (
                     <CustomersTable
                         onUpdate={this.handleChanges}
@@ -439,7 +439,7 @@ export default class App extends React.Component<AppProps, AppState> {
                         renderSettingPanel={this.renderSettingPanel}
                     />
                 )
-            case 'the-booking-core':
+            case 'thebooking-core':
                 const coreMenuItems = this.state.UI.UIx.panels.map((panel: SettingPanelBackend) => {
                     return {
                         label: panel.panelLabel,
@@ -459,7 +459,7 @@ export default class App extends React.Component<AppProps, AppState> {
                         ))}
                     </>
                 )
-            case 'the-booking-availability':
+            case 'thebooking-availability':
                 let avMenuItems = this.state.UI.UIx.panels.map((panel: SettingPanelBackend) => {
                     return {
                         label: panel.panelLabel,
@@ -483,11 +483,11 @@ export default class App extends React.Component<AppProps, AppState> {
     }
 
     showSuccess(message: string) {
-        this.toast.show({severity: 'success', summary: __('Success', 'the-booking'), detail: message});
+        this.toast.show({severity: 'success', summary: __('Success', 'thebooking'), detail: message});
     }
 
     showError(message: string) {
-        this.toast.show({severity: 'error', summary: __('Error', 'the-booking'), detail: message});
+        this.toast.show({severity: 'error', summary: __('Error', 'thebooking'), detail: message});
     }
 
     showStickyMessage(message: any) {
@@ -498,13 +498,13 @@ export default class App extends React.Component<AppProps, AppState> {
         if (tbkCommon.reservationStatusUpdate.length) {
             this.showStickyMessage(
                 <div>
-                    <h4>{__('Some reservations changed their status.', 'the-booking')}</h4>
-                    <p>{__('Do you want to trigger notifications of the new statuses?', 'the-booking')}</p>
+                    <h4>{__('Some reservations changed their status.', 'thebooking')}</h4>
+                    <p>{__('Do you want to trigger notifications of the new statuses?', 'thebooking')}</p>
                     <div className="p-grid p-fluid">
                         <div className="p-col-6">
                             <Button
                                 type="button"
-                                label={__('Yes', 'the-booking')}
+                                label={__('Yes', 'thebooking')}
                                 className="p-button-success"
                                 onClick={() => {
                                     this.stickyToast.clear();
@@ -515,7 +515,7 @@ export default class App extends React.Component<AppProps, AppState> {
                         <div className="p-col-6">
                             <Button
                                 type="button"
-                                label={__('No', 'the-booking')}
+                                label={__('No', 'thebooking')}
                                 className="p-button-secondary"
                                 onClick={() => {
                                     this.stickyToast.clear();
@@ -713,7 +713,7 @@ export default class App extends React.Component<AppProps, AppState> {
                                             const groupedHooks = lodash.groupBy(component.templateHooks.concat(specificHooks), (x: NotificationHook) => x.contextLabel);
 
                                             return (
-                                                <Panel toggleable header={__('Email content', 'the-booking')} collapsed={true} className={styles.settingPanelEmail}>
+                                                <Panel toggleable header={__('Email content', 'thebooking')} collapsed={true} className={styles.settingPanelEmail}>
                                                     <Editor
                                                         key={component.settingId}
                                                         tinymceScriptSrc={this.state.UI.pluginUrl + 'js/backend/tiny/tinymce.min.js'}

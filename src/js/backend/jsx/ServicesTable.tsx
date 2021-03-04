@@ -66,7 +66,7 @@ class ServicesTable extends React.Component<SProps, SState> {
             <div className={tableStyles.tableHeader}>
                 <div>
                     <Button
-                        label={__('New service', 'the-booking')}
+                        label={__('New service', 'thebooking')}
                         icon={'pi pi-plus'}
                         className={styles.newServiceButton}
                         onClick={(e) => this.setState({displayNewDialog: true})}
@@ -82,7 +82,7 @@ class ServicesTable extends React.Component<SProps, SState> {
                                 )
                             )
                         }
-                        label={this.state.selected.length > 0 ? __('Delete selected', 'the-booking') + ' (' + this.state.selected.length + ')' : __('Delete all', 'the-booking')}
+                        label={this.state.selected.length > 0 ? __('Delete selected', 'thebooking') + ' (' + this.state.selected.length + ')' : __('Delete all', 'thebooking')}
                     />
                 </div>
                 <div>
@@ -90,7 +90,7 @@ class ServicesTable extends React.Component<SProps, SState> {
                     <i className="pi pi-search"/>
                     <InputText type="search"
                                onInput={(e: any) => this.setState({globalFilter: e.target.value})}
-                               placeholder={__('Search all', 'the-booking')}/>
+                               placeholder={__('Search all', 'thebooking')}/>
                     </span>
                 </div>
             </div>
@@ -136,7 +136,7 @@ class ServicesTable extends React.Component<SProps, SState> {
                 contentStyle={{
                     overflowY: 'visible'
                 }}
-                header={__('New service', 'the-booking')}
+                header={__('New service', 'thebooking')}
                 baseZIndex={100000}
                 onHide={() => this.setState({
                     displayNewDialog: false,
@@ -149,11 +149,11 @@ class ServicesTable extends React.Component<SProps, SState> {
                     <div>
                         {!this.props.isBusy && (
                             <div>
-                                <Button label={__('Cancel', 'the-booking')}
+                                <Button label={__('Cancel', 'thebooking')}
                                         icon="pi pi-times"
                                         onClick={() => this.setState({displayNewDialog: false})}
                                         className="p-button-text"/>
-                                <Button label={nameTaken ? __('Name already used', 'the-booking') : __('Create service', 'the-booking')}
+                                <Button label={nameTaken ? __('Name already used', 'thebooking') : __('Create service', 'thebooking')}
                                         icon="pi pi-check"
                                         disabled={!serviceData.name.length || nameTaken}
                                         onClick={this.createService}
@@ -167,7 +167,7 @@ class ServicesTable extends React.Component<SProps, SState> {
                 }>
                 <div className={'p-fluid'}>
                     <div className={'p-field'}>
-                        <label>{__('Service name', 'the-booking')} *</label>
+                        <label>{__('Service name', 'thebooking')} *</label>
                         <InputText id={'newServiceName'} required={true} type={'text'}
                                    value={serviceData.name}
                                    onChange={(e: any) => {
@@ -243,7 +243,7 @@ class ServicesTable extends React.Component<SProps, SState> {
                         className={styles.sidebarButton}
                         icon={'pi pi-arrow-left'}
                         iconPos={'left'}
-                        label={__('Back to services', 'the-booking')}
+                        label={__('Back to services', 'thebooking')}
                         onClick={() => {
                             window.location.hash = '';
                             this.setState({current: null})
@@ -327,7 +327,7 @@ class ServicesTable extends React.Component<SProps, SState> {
                     ref={(el) => this.dt = el}
                     paginator
                     rows={25}
-                    currentPageReportTemplate={sprintf(__('Showing %1$s to %2$s of %3$s services', 'the-booking'), '{first}', '{last}', '{totalRecords}')}
+                    currentPageReportTemplate={sprintf(__('Showing %1$s to %2$s of %3$s services', 'thebooking'), '{first}', '{last}', '{totalRecords}')}
                     rowsPerPageOptions={[10, 25, 50]}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     globalFilter={this.state.globalFilter}
@@ -342,11 +342,11 @@ class ServicesTable extends React.Component<SProps, SState> {
                         sortFunction={this.sortFunction}
                         field={'name'}
                         sortable
-                        header={__('Service', 'the-booking')}
+                        header={__('Service', 'thebooking')}
                         body={this.nameBodyTemplate}/>
                     <Column
                         field={'active'}
-                        header={__('Active', 'the-booking')}
+                        header={__('Active', 'thebooking')}
                         body={this.activeBodyTemplate}
                     />
                     <Column

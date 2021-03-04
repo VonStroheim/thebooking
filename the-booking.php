@@ -2,7 +2,7 @@
 
 /*
 Plugin Name:        TheBooking
-Plugin URI:         https://github.com/VonStroheim/the-booking
+Plugin URI:         https://github.com/VonStroheim/thebooking
 Description:        A WordPress booking plugin.
 Version:            1.0.0
 Requires PHP:       5.6
@@ -10,7 +10,7 @@ Requires at least:  5.0
 Author:             VonStroheim
 License:            GPL v2 or later
 License URI:        https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain:        the-booking
+Text Domain:        thebooking
 */
 
 defined('ABSPATH') || exit;

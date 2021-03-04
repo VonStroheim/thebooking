@@ -52,7 +52,7 @@ final class UI
         /**
          * JS translations
          */
-        wp_set_script_translations('tbk-frontend-script', 'the-booking', WP_LANG_DIR . '/plugins/');
+        wp_set_script_translations('tbk-frontend-script', 'thebooking', WP_LANG_DIR . '/plugins/');
 
         wp_add_inline_script('tbk-frontend-script', 'var TBK=lodash.merge(' . json_encode(localize_frontend_script()) . ', TBK || {})', 'before');
     }

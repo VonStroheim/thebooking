@@ -96,7 +96,7 @@ export default class FileUpload extends React.Component<FileUploadProps, FileUpl
             this.fileInput.current.value = '';
             this.setState({
                 progress   : 0,
-                message    : __('File format not accepted.', 'the-booking'),
+                message    : __('File format not accepted.', 'thebooking'),
                 currentFile: undefined,
                 isError    : true,
                 isBusy     : false
@@ -131,7 +131,7 @@ export default class FileUpload extends React.Component<FileUploadProps, FileUpl
                     this.fileInput.current.value = '';
                     this.setState({
                         progress   : 0,
-                        message    : __('Could not upload the file.', 'the-booking'),
+                        message    : __('Could not upload the file.', 'thebooking'),
                         currentFile: undefined,
                         isError    : true,
                         isBusy     : false

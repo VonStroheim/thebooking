@@ -10,11 +10,11 @@ class Panel_Frontend
     {
         return [
             'panelRef'   => 'section-frontend',
-            'panelLabel' => __('Frontend', 'the-booking'),
+            'panelLabel' => __('Frontend', 'thebooking'),
             'blocks'     => [
                 [
-                    'title'       => __('Load the calendar at the closest month/week/day with available slots', 'the-booking'),
-                    'description' => __('If turned on, the frontend calendar is automatically loaded at the closest free slot.', 'the-booking'),
+                    'title'       => __('Load the calendar at the closest month/week/day with available slots', 'thebooking'),
+                    'description' => __('If turned on, the frontend calendar is automatically loaded at the closest free slot.', 'thebooking'),
                     'components'  => [
                         [
                             'settingId' => 'load_calendar_at_closest_slot',
@@ -23,13 +23,13 @@ class Panel_Frontend
                         [
                             'type'   => 'notice',
                             'intent' => 'warning',
-                            'text'   => __('Page loading can be a little bit slower if this setting is active.', 'the-booking'),
+                            'text'   => __('Page loading can be a little bit slower if this setting is active.', 'thebooking'),
                         ]
                     ]
                 ],
                 [
-                    'title'       => __('Hide weekends from the calendar', 'the-booking'),
-                    'description' => __('If turned on, the frontend calendar will not display Saturdays and Sundays.', 'the-booking'),
+                    'title'       => __('Hide weekends from the calendar', 'thebooking'),
+                    'description' => __('If turned on, the frontend calendar will not display Saturdays and Sundays.', 'thebooking'),
                     'components'  => [
                         [
                             'settingId' => 'frontend_days_in_week',
@@ -38,7 +38,7 @@ class Panel_Frontend
                     ]
                 ],
                 [
-                    'title'      => __('Primary color', 'the-booking'),
+                    'title'      => __('Primary color', 'thebooking'),
                     'components' => [
                         [
                             'settingId' => 'frontend_primary_color',
@@ -47,7 +47,7 @@ class Panel_Frontend
                     ]
                 ],
                 [
-                    'title'      => __('Secondary color', 'the-booking'),
+                    'title'      => __('Secondary color', 'thebooking'),
                     'components' => [
                         [
                             'settingId' => 'frontend_secondary_color',

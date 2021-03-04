@@ -4,5 +4,5 @@
 /css/
 /js/
 .gitignore
-/languages/the-booking-backend.pot
-/languages/the-booking-frontend.pot
+/languages/thebooking-backend.pot
+/languages/thebooking-frontend.pot

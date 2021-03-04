@@ -553,7 +553,7 @@ export default class App extends React.Component<IProps, IState> {
                         update  : {},
                         response: {
                             type   : 'fail',
-                            tagline: __('There was an error.', 'the-booking'),
+                            tagline: __('There was an error.', 'thebooking'),
                             message: error.response.data.error
                         }
                     }

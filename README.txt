@@ -24,7 +24,7 @@ Collect customers data through a reservation form using the built-in form builde
 
 == Contribute ==
 
-Source code can be found @ https://github.com/VonStroheim/the-booking
+Source code can be found @ https://github.com/VonStroheim/thebooking
 
 == Changelog ==
 

@@ -70,7 +70,7 @@ export default class SettingDuration extends React.Component<SettingDurationProp
             <div className="p-formgroup-inline">
                 {this.props.showDays && (
                     <div className="p-field">
-                        <label>{__('Days', 'the-booking')}</label>
+                        <label>{__('Days', 'thebooking')}</label>
                         <Dropdown disabled={this.props.disabled} options={this.daysOptions()} value={this.state.days}
                                   onChange={
                                       (e: any) => {
@@ -85,7 +85,7 @@ export default class SettingDuration extends React.Component<SettingDurationProp
                 )}
                 {this.props.showHours && (
                     <div className="p-field">
-                        <label>{__('Hours', 'the-booking')}</label>
+                        <label>{__('Hours', 'thebooking')}</label>
                         <Dropdown
                             disabled={this.props.disabled} options={this.hoursOptions()} value={this.state.hours}
                             onChange={
@@ -101,7 +101,7 @@ export default class SettingDuration extends React.Component<SettingDurationProp
                 )}
                 {this.props.showMinutes && (
                     <div className="p-field">
-                        <label>{__('Minutes', 'the-booking')}</label>
+                        <label>{__('Minutes', 'thebooking')}</label>
                         <Dropdown
                             disabled={this.props.disabled} options={this.minutesOptions()} value={this.state.minutes}
                             onChange={

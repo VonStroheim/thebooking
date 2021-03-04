@@ -30,7 +30,7 @@ class Panel_Redirects
         $order_page_options = [
             [
                 'value' => 0,
-                'label' => __('No page selected', 'the-booking')
+                'label' => __('No page selected', 'thebooking')
             ]
         ];
         foreach ($pages as $page) {
@@ -42,11 +42,11 @@ class Panel_Redirects
 
         return [
             'panelRef'   => 'section-redirects',
-            'panelLabel' => __('URLs and redirects', 'the-booking'),
+            'panelLabel' => __('URLs and redirects', 'thebooking'),
             'blocks'     => [
                 [
-                    'title'       => __('Login URL', 'the-booking'),
-                    'description' => __('Registered users only services will invite users to login from this page. Leave blank to use WordPress default.', 'the-booking'),
+                    'title'       => __('Login URL', 'thebooking'),
+                    'description' => __('Registered users only services will invite users to login from this page. Leave blank to use WordPress default.', 'thebooking'),
                     'components'  => [
                         [
                             'settingId'   => 'login_url',
@@ -56,8 +56,8 @@ class Panel_Redirects
                     ]
                 ],
                 [
-                    'title'       => __('Registration URL', 'the-booking'),
-                    'description' => __('Registered users only services will invite users to register from this page. Leave blank to use WordPress default.', 'the-booking'),
+                    'title'       => __('Registration URL', 'thebooking'),
+                    'description' => __('Registered users only services will invite users to register from this page. Leave blank to use WordPress default.', 'thebooking'),
                     'components'  => [
                         [
                             'settingId'   => 'registration_url',
@@ -67,7 +67,7 @@ class Panel_Redirects
                     ]
                 ],
                 [
-                    'title'      => __('Reservation status page', 'the-booking'),
+                    'title'      => __('Reservation status page', 'thebooking'),
                     'components' => [
                         [
                             'settingId' => 'order_status_page',
@@ -76,7 +76,7 @@ class Panel_Redirects
                         ],
                         [
                             'type' => 'notice',
-                            'text' => sprintf(__('The selected page must have the %s shortcode somewhere.', 'the-booking'), '[tbk-order-status]'),
+                            'text' => sprintf(__('The selected page must have the %s shortcode somewhere.', 'thebooking'), '[tbk-order-status]'),
                         ]
                     ]
                 ],

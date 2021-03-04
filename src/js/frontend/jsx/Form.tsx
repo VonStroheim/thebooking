@@ -167,7 +167,7 @@ export default class Form extends React.Component<FormProps, FormState> {
         }
 
         if (isRequired && !value) {
-            errors[key] = __('This is required.', 'the-booking');
+            errors[key] = __('This is required.', 'thebooking');
         } else {
             delete errors[key];
         }
@@ -406,7 +406,7 @@ export default class Form extends React.Component<FormProps, FormState> {
                     <Grid item xs={12} className={styles.actions}>
                         {this.props.actions}
                         <Button variant={'contained'} disabled={this.state.isBusy} color={'primary'} onClick={this.handleSubmit}>
-                            {__('Book now', 'the-booking')}
+                            {__('Book now', 'thebooking')}
                         </Button>
                     </Grid>
                 </Grid>

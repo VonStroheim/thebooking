@@ -133,7 +133,7 @@ function hourly_jobs()
  */
 function personal_data_exporter_register($exporters)
 {
-    $exporters['the-booking'] = [
+    $exporters['thebooking'] = [
         'exporter_friendly_name' => __('TheBooking'),
         'callback'               => 'TheBooking\personal_data_exporter',
     ];
@@ -148,7 +148,7 @@ function personal_data_exporter_register($exporters)
  */
 function personal_data_eraser_register($erasers)
 {
-    $erasers['the-booking'] = [
+    $erasers['thebooking'] = [
         'eraser_friendly_name' => __('TheBooking'),
         'callback'             => 'TheBooking\personal_data_eraser',
     ];
@@ -199,7 +199,7 @@ function personal_data_exporter($email_address, $page = 1)
         }
         $export_items[] = [
             'group_id'    => 'tbk-reservations',
-            'group_label' => __('TheBooking reservations', 'the-booking'),
+            'group_label' => __('TheBooking reservations', 'thebooking'),
             'item_id'     => 'tbk-reservation-' . $reservation->id(),
             'data'        => $data
         ];
@@ -319,34 +319,34 @@ function localize_backend_script()
         'i18n'                => [
             'locale'        => str_replace('_', '-', get_locale()),
             'settingPanels' => [
-                'saveSettings' => __('Save', 'the-booking'),
+                'saveSettings' => __('Save', 'thebooking'),
             ],
             'shared'        => [
-                'cancel'            => __('Cancel', 'the-booking'),
-                'delete'            => __('Delete', 'the-booking'),
-                'back'              => __('Back', 'the-booking'),
-                'next'              => __('Next', 'the-booking'),
-                'confirm'           => __('Confirm', 'the-booking'),
-                'settings'          => __('Settings', 'the-booking'),
-                'reservations'      => __('Reservations', 'the-booking'),
-                'noUndone'          => __('This cannot be undone!', 'the-booking'),
-                'deleteAll'         => __('Delete all', 'the-booking'),
-                'deleteSelected'    => __('Delete selected', 'the-booking'),
-                'globalSearch'      => __('Search all', 'the-booking'),
-                'exportAllCsv'      => __('Export all', 'the-booking'),
-                'exportSelectedCsv' => __('Export selected', 'the-booking'),
+                'cancel'            => __('Cancel', 'thebooking'),
+                'delete'            => __('Delete', 'thebooking'),
+                'back'              => __('Back', 'thebooking'),
+                'next'              => __('Next', 'thebooking'),
+                'confirm'           => __('Confirm', 'thebooking'),
+                'settings'          => __('Settings', 'thebooking'),
+                'reservations'      => __('Reservations', 'thebooking'),
+                'noUndone'          => __('This cannot be undone!', 'thebooking'),
+                'deleteAll'         => __('Delete all', 'thebooking'),
+                'deleteSelected'    => __('Delete selected', 'thebooking'),
+                'globalSearch'      => __('Search all', 'thebooking'),
+                'exportAllCsv'      => __('Export all', 'thebooking'),
+                'exportSelectedCsv' => __('Export selected', 'thebooking'),
             ],
         ],
         'mainMenuItems'       => _main_menu_items(),
         'settings'            => _tbk_settings(),
         'statuses'            => [
-            ValueTypes\Status::DRAFT     => __('Draft', 'the-booking'),
-            ValueTypes\Status::PENDING   => __('Pending', 'the-booking'),
-            ValueTypes\Status::CONFIRMED => __('Confirmed', 'the-booking'),
-            ValueTypes\Status::CANCELLED => __('Canceled', 'the-booking'),
-            ValueTypes\Status::ARCHIVED  => __('Archived', 'the-booking'),
-            ValueTypes\Status::OPEN      => __('Open', 'the-booking'),
-            ValueTypes\Status::CLOSED    => __('Closed', 'the-booking'),
+            ValueTypes\Status::DRAFT     => __('Draft', 'thebooking'),
+            ValueTypes\Status::PENDING   => __('Pending', 'thebooking'),
+            ValueTypes\Status::CONFIRMED => __('Confirmed', 'thebooking'),
+            ValueTypes\Status::CANCELLED => __('Canceled', 'thebooking'),
+            ValueTypes\Status::ARCHIVED  => __('Archived', 'thebooking'),
+            ValueTypes\Status::OPEN      => __('Open', 'thebooking'),
+            ValueTypes\Status::CLOSED    => __('Closed', 'thebooking'),
         ]
     ]);
 }
@@ -424,39 +424,39 @@ function _tbk_settings()
  */
 function _main_menu_items()
 {
-    $root_url = admin_url('admin.php?page=the-booking');
+    $root_url = admin_url('admin.php?page=thebooking');
 
     return apply_filters('tbk_backend_main_menu_items',
         [
             [
                 'href'  => $root_url,
                 'icon'  => 'dashicons-portfolio',
-                'label' => __('Reservations', 'the-booking'),
-                'slug'  => 'the-booking'
+                'label' => __('Reservations', 'thebooking'),
+                'slug'  => 'thebooking'
             ],
             [
                 'href'  => $root_url . '-services',
                 'icon'  => 'dashicons-products',
-                'label' => __('Services', 'the-booking'),
-                'slug'  => 'the-booking-services'
+                'label' => __('Services', 'thebooking'),
+                'slug'  => 'thebooking-services'
             ],
             [
                 'href'  => $root_url . '-customers',
                 'icon'  => 'dashicons-users',
-                'label' => __('Customers', 'the-booking'),
-                'slug'  => 'the-booking-customers'
+                'label' => __('Customers', 'thebooking'),
+                'slug'  => 'thebooking-customers'
             ],
             [
                 'href'  => $root_url . '-availability',
                 'icon'  => 'dashicons-calendar',
-                'label' => __('Availability', 'the-booking'),
-                'slug'  => 'the-booking-availability'
+                'label' => __('Availability', 'thebooking'),
+                'slug'  => 'thebooking-availability'
             ],
             [
                 'href'  => $root_url . '-core',
                 'icon'  => 'dashicons-admin-generic',
-                'label' => __('Settings', 'the-booking'),
-                'slug'  => 'the-booking-core'
+                'label' => __('Settings', 'thebooking'),
+                'slug'  => 'thebooking-core'
             ]
         ]
     );

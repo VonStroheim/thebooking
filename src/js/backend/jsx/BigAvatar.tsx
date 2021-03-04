@@ -33,7 +33,7 @@ export default class BigAvatar extends React.Component<AProps, AState> {
 
     mediaUploader = () => {
         const image = wp.media({
-            title   : __('Upload image', 'the-booking'),
+            title   : __('Upload image', 'thebooking'),
             multiple: false
         }).open()
             .on('select', (e: any) => {

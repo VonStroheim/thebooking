@@ -139,14 +139,14 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                     type            : 'text',
                     description     : '',
                     hideIfRegistered: false,
-                    label           : __('New text field', 'the-booking'),
+                    label           : __('New text field', 'thebooking'),
                 }
                 break;
             case 'checkbox':
                 props[propKey] = {
                     type            : 'boolean',
                     description     : '',
-                    label           : __('New checkbox', 'the-booking'),
+                    label           : __('New checkbox', 'thebooking'),
                     defaultValue    : false,
                     hideIfRegistered: false,
                 }
@@ -155,7 +155,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                 props[propKey] = {
                     type            : 'number',
                     description     : '',
-                    label           : __('New number field', 'the-booking'),
+                    label           : __('New number field', 'thebooking'),
                     minimum         : 0,
                     maximum         : 1000,
                     hideIfRegistered: false,
@@ -165,19 +165,19 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                 props[propKey] = {
                     type            : 'options',
                     description     : '',
-                    label           : __('New options', 'the-booking'),
+                    label           : __('New options', 'thebooking'),
                     options         : [
                         {
-                            value: __('Option 1', 'the-booking'),
-                            label: __('Option 1', 'the-booking'),
+                            value: __('Option 1', 'thebooking'),
+                            label: __('Option 1', 'thebooking'),
                         },
                         {
-                            value: __('Option 2', 'the-booking'),
-                            label: __('Option 2', 'the-booking'),
+                            value: __('Option 2', 'thebooking'),
+                            label: __('Option 2', 'thebooking'),
                         },
                         {
-                            value: __('Option 3', 'the-booking'),
-                            label: __('Option 3', 'the-booking'),
+                            value: __('Option 3', 'thebooking'),
+                            label: __('Option 3', 'thebooking'),
                         }
                     ],
                     uiType          : 'radio',
@@ -188,7 +188,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                 props[propKey] = {
                     type            : 'file',
                     description     : '',
-                    label           : __('New file upload', 'the-booking'),
+                    label           : __('New file upload', 'thebooking'),
                     maxSize         : 20,
                     mimeTypes       : [],
                     hideIfRegistered: false,
@@ -198,7 +198,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                 props[propKey] = {
                     type            : 'paragraph',
                     description     : '',
-                    label           : __('New paragraph', 'the-booking'),
+                    label           : __('New paragraph', 'thebooking'),
                     defaultValue    : '',
                     hideIfRegistered: false,
                 }
@@ -361,8 +361,8 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
     addSchemaOption = (property: string) => {
         const options = this.state.schema.elements[property].options;
         options.push({
-            label     : __('New option', 'the-booking') + ' ' + options.length,
-            value     : __('New option', 'the-booking') + ' ' + options.length,
+            label     : __('New option', 'thebooking') + ' ' + options.length,
+            value     : __('New option', 'thebooking') + ' ' + options.length,
             additional: ''
         });
         this.updateSchemaProperty(property, 'options', options);
@@ -412,7 +412,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                         return (
                             <span className={styles.dependsOn}>
                                 <i className={'pi pi-reply'}/>
-                                {sprintf(__('depends on %s', 'the-booking'), this.state.schema.elements[propKey].label)}
+                                {sprintf(__('depends on %s', 'thebooking'), this.state.schema.elements[propKey].label)}
                             </span>
                         )
                     }
@@ -670,14 +670,14 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
 
         const FieldStates: { value: FormFieldConditionalStates, label: string }[] = (this.schemaPropIs(this.state.schema.elements[key]) === 'paragraph')
             ? [
-                {value: 'visible', label: __('Visible', 'the-booking')},
-                {value: 'hidden', label: __('Hidden', 'the-booking')}
+                {value: 'visible', label: __('Visible', 'thebooking')},
+                {value: 'hidden', label: __('Hidden', 'thebooking')}
             ]
             : [
-                {value: 'visible', label: __('Visible', 'the-booking')},
-                {value: 'hidden', label: __('Hidden', 'the-booking')},
-                {value: 'required', label: __('Required', 'the-booking')},
-                {value: 'notRequired', label: __('Not required', 'the-booking')},
+                {value: 'visible', label: __('Visible', 'thebooking')},
+                {value: 'hidden', label: __('Hidden', 'thebooking')},
+                {value: 'required', label: __('Required', 'thebooking')},
+                {value: 'notRequired', label: __('Not required', 'thebooking')},
             ];
 
         for (const [propKey, prop] of Object.entries(this.state.schema.elements)) {
@@ -686,7 +686,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                 let options: any[] = [];
                 switch (propType) {
                     case 'checkbox':
-                        options = [{label: __('Checked', 'the-booking'), value: true}, {label: __('Not checked', 'the-booking'), value: false}];
+                        options = [{label: __('Checked', 'thebooking'), value: true}, {label: __('Not checked', 'thebooking'), value: false}];
                         break;
                     case 'options':
                         options = prop.options.map(option => (
@@ -695,9 +695,9 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                         break;
                     case 'number':
                         options = [
-                            {label: __('Greated than', 'the-booking'), value: '>'},
-                            {label: __('Less than', 'the-booking'), value: '<'},
-                            {label: __('Equal to', 'the-booking'), value: '='}
+                            {label: __('Greated than', 'thebooking'), value: '>'},
+                            {label: __('Less than', 'thebooking'), value: '<'},
+                            {label: __('Equal to', 'thebooking'), value: '='}
                         ];
                         break;
                 }
@@ -734,13 +734,13 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                     <div className={'p-fluid p-formgrid p-grid'}>
                         <div className={'p-field p-col-12'}>
                             <label htmlFor={key + 'conditional_THEN'} className={'p-d-block'}>
-                                {__('The field is', 'the-booking')}
+                                {__('The field is', 'thebooking')}
                             </label>
                             <Dropdown
                                 inputId={key + 'conditional_THEN'}
                                 value={STATE__VALUE2}
                                 options={FieldStates}
-                                placeholder={otherFields.length < 1 ? __('No valid fields in this form', 'the-booking') : __('Select a state', 'the-booking')}
+                                placeholder={otherFields.length < 1 ? __('No valid fields in this form', 'thebooking') : __('Select a state', 'thebooking')}
                                 disabled={otherFields.length < 1}
                                 showClear
                                 onChange={(e) => {
@@ -750,13 +750,13 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                         </div>
                         <div className={'p-field p-col-12'}>
                             <label htmlFor={key + 'conditional_IF'} className={'p-d-block'}>
-                                {__('depending on', 'the-booking')}
+                                {__('depending on', 'thebooking')}
                             </label>
                             <Dropdown
                                 inputId={key + 'conditional_IF'}
                                 value={childKey__VALUE1}
                                 options={otherFields}
-                                placeholder={otherFields.length < 1 ? __('No valid fields in this form', 'the-booking') : __('Select a field', 'the-booking')}
+                                placeholder={otherFields.length < 1 ? __('No valid fields in this form', 'thebooking') : __('Select a field', 'thebooking')}
                                 disabled={otherFields.length < 1}
                                 onChange={(e: any) => {
                                     this.updateSchemaConditionals(key, childKey__VALUE1, 'childKey', e.value);
@@ -767,13 +767,13 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                             <>
                                 <div className={'p-field p-col-12 ' + (this.schemaPropIs(this.state.schema.elements[childKey__VALUE1]) === 'number' ? 'p-lg-6' : '')}>
                                     <label htmlFor={key + 'conditional_IS'} className={'p-d-block'}>
-                                        {__('being', 'the-booking')}
+                                        {__('being', 'thebooking')}
                                     </label>
                                     <Dropdown
                                         inputId={key + 'conditional_IS'}
                                         value={this.schemaPropIs(this.state.schema.elements[childKey__VALUE1]) === 'number' ? OPERATOR : CONDITION_IS__VALUE3}
                                         options={isOptions}
-                                        placeholder={isOptions.length < 2 ? __('Parent field options must be 2 or more', 'the-booking') : __('Select a value', 'the-booking')}
+                                        placeholder={isOptions.length < 2 ? __('Parent field options must be 2 or more', 'thebooking') : __('Select a value', 'thebooking')}
                                         disabled={isOptions.length < 2}
                                         onChange={(e: any) => {
                                             this.updateSchemaConditionals(
@@ -787,7 +787,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                                 {this.schemaPropIs(this.state.schema.elements[childKey__VALUE1]) === 'number' && (
                                     <div className={'p-field p-col-12 p-lg-6'}>
                                         <label htmlFor={key + 'conditional_IS_1'} className={'p-d-block'}>
-                                            {__('this number', 'the-booking')}
+                                            {__('this number', 'thebooking')}
                                         </label>
                                         <InputNumber
                                             inputId={key + 'conditional_IS_1'}
@@ -823,7 +823,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                 <div className="p-fluid p-formgrid p-grid">
                     <div className={'p-field p-col-12'}>
                         <label htmlFor={key + 'pattern'} className={'p-d-block'}>
-                            {__('Regex', 'the-booking')} (<a target={'_blank'} href={'https://regex101.com/library'}>{__('Need help with regex expressions?', 'the-booking')}</a>)
+                            {__('Regex', 'thebooking')} (<a target={'_blank'} href={'https://regex101.com/library'}>{__('Need help with regex expressions?', 'thebooking')}</a>)
                         </label>
                         <InputText
                             id={key + 'pattern'}
@@ -836,27 +836,27 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                     </div>
                 </div>
                 <div className="p-buttonset">
-                    <Button className={'p-button-text p-button-plain p-button-sm'} label={__('No validation', 'the-booking')}
+                    <Button className={'p-button-text p-button-plain p-button-sm'} label={__('No validation', 'thebooking')}
                             onClick={() => {
                                 this.updateSchemaProperty(key, 'pattern', null)
                             }}
                     />
-                    <Button className={'p-button-text p-button-plain p-button-sm'} label={__('Email', 'the-booking')}
+                    <Button className={'p-button-text p-button-plain p-button-sm'} label={__('Email', 'thebooking')}
                             onClick={() => {
                                 this.updateSchemaProperty(key, 'pattern', '/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6})*$/')
                             }}
                     />
-                    <Button className={'p-button-text p-button-plain p-button-sm'} label={__('Phone (international)', 'the-booking')}
+                    <Button className={'p-button-text p-button-plain p-button-sm'} label={__('Phone (international)', 'thebooking')}
                             onClick={() => {
                                 this.updateSchemaProperty(key, 'pattern', '/^(?:(?:\\(?(?:00|\\+)([1-4]\\d\\d|[1-9]\\d?)\\)?)?[\\-\\.\\ \\\\\\/]?)?((?:\\(?\\d{1,}\\)?[\\-\\.\\ \\\\\\/]?){0,})(?:[\\-\\.\\ \\\\\\/]?(?:#|ext\\.?|extension|x)[\\-\\.\\ \\\\\\/]?(\\d+))?$/')
                             }}
                     />
-                    <Button className={'p-button-text p-button-plain p-button-sm'} label={__('Alphanumeric with space', 'the-booking')}
+                    <Button className={'p-button-text p-button-plain p-button-sm'} label={__('Alphanumeric with space', 'thebooking')}
                             onClick={() => {
                                 this.updateSchemaProperty(key, 'pattern', '/^[a-zA-Z0-9 ]*$/')
                             }}
                     />
-                    <Button className={'p-button-text p-button-plain p-button-sm'} label={__('URL', 'the-booking')}
+                    <Button className={'p-button-text p-button-plain p-button-sm'} label={__('URL', 'thebooking')}
                             onClick={() => {
                                 this.updateSchemaProperty(key, 'pattern', '/https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#()?&//=]*)/')
                             }}
@@ -868,12 +868,12 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
 
     advancedPanel = (key: string) => {
         return (
-            <Panel header={__('Advanced', 'the-booking')} className={styles.innerPanel} toggleable collapsed={true}>
+            <Panel header={__('Advanced', 'thebooking')} className={styles.innerPanel} toggleable collapsed={true}>
                 <div className="p-fluid p-formgrid p-grid">
 
                     <div className={'p-field p-col-12 p-lg-6'}>
                         <label htmlFor={key + 'hideIfRegistered'} className={'p-d-block'}>
-                            {__('Hide from registered users', 'the-booking')}
+                            {__('Hide from registered users', 'thebooking')}
                         </label>
                         <InputSwitch
                             id={key + 'hideIfRegistered'}
@@ -886,7 +886,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                     {this.schemaPropIs(this.state.schema.elements[key]) === 'text' && (
                         <div className={'p-field p-col-12 p-lg-6'}>
                             <label htmlFor={key + 'asContact'} className={'p-d-block'}>
-                                {__('Use as customer email address', 'the-booking')}
+                                {__('Use as customer email address', 'thebooking')}
                             </label>
                             <InputSwitch
                                 id={key + 'asContact'}
@@ -900,7 +900,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                     )}
                     <div className={'p-field p-col-12 p-lg-6'}>
                         <label htmlFor={key + 'hook'} className={'p-d-block'}>
-                            {__('Notification template placeholder', 'the-booking')}
+                            {__('Notification template placeholder', 'thebooking')}
                         </label>
                         <div className="p-inputgroup">
                             <span className="p-inputgroup-addon">[</span>
@@ -914,43 +914,43 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                             />
                             <span className="p-inputgroup-addon">]</span>
                         </div>
-                        <p>{__('This placeholder, when found inside a notification template, will be replaced with the value of the field. It must be unique in the context of the service.', 'the-booking')}</p>
+                        <p>{__('This placeholder, when found inside a notification template, will be replaced with the value of the field. It must be unique in the context of the service.', 'thebooking')}</p>
                     </div>
                     {(this.schemaPropIs(this.state.schema.elements[key]) === 'text'
                         || this.schemaPropIs(this.state.schema.elements[key]) === 'number') && (
                         <div className={'p-field p-col-12 p-lg-6'}>
                             <label htmlFor={key + 'metakey'} className={'p-d-block'}>
-                                {__('Pre-fill user meta-key', 'the-booking')}
+                                {__('Pre-fill user meta-key', 'thebooking')}
                             </label>
                             <Dropdown
                                 inputId={key + 'metakey'}
                                 value={this.state.schema.elements[key].metakey}
                                 options={[
                                     {
-                                        label: __('Email', 'the-booking'),
+                                        label: __('Email', 'thebooking'),
                                         value: 'user_email'
                                     },
                                     {
-                                        label: __('First name', 'the-booking'),
+                                        label: __('First name', 'thebooking'),
                                         value: 'first_name'
                                     },
                                     {
-                                        label: __('Last name', 'the-booking'),
+                                        label: __('Last name', 'thebooking'),
                                         value: 'last_name'
                                     },
                                     {
-                                        label: __('User URL', 'the-booking'),
+                                        label: __('User URL', 'thebooking'),
                                         value: 'user_url'
                                     },
                                 ]}
-                                placeholder={__('Write a metakey or select one', 'the-booking')}
+                                placeholder={__('Write a metakey or select one', 'thebooking')}
                                 showClear
                                 editable
                                 onChange={(e) => {
                                     this.updateSchemaProperty(key, 'metakey', e.value);
                                 }}
                             />
-                            <p>{__('The field will be pre-populated with the corresponding user meta when available (even if the field is hidden).', 'the-booking')}</p>
+                            <p>{__('The field will be pre-populated with the corresponding user meta when available (even if the field is hidden).', 'thebooking')}</p>
                         </div>
                     )}
                 </div>
@@ -965,7 +965,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                     {this.state.schema.order.length < 1 && (
                         <div className={styles.emptyState}>
                             <img src={tbkCommon.pluginUrl + 'assets/empty-state.svg'}/>
-                            <h2>{__('There are no fields in this form.', 'the-booking')}</h2>
+                            <h2>{__('There are no fields in this form.', 'thebooking')}</h2>
                         </div>
                     )}
                     {this.state.schema.order.length > 0 && (
@@ -1006,12 +1006,12 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                     )}
                 </div>
                 <div className={styles.elements}>
-                    <Button label={__('Text', 'the-booking')} icon={'pi pi-pencil'} className={'p-button-text p-button-plain'} onClick={() => this.addSchemaItem('text')}/>
-                    <Button label={__('Checkbox', 'the-booking')} icon={'pi pi-check-square'} className={'p-button-text p-button-plain'} onClick={() => this.addSchemaItem('checkbox')}/>
-                    <Button label={__('Number', 'the-booking')} icon={'pi pi-sort-numeric-down'} className={'p-button-text p-button-plain'} onClick={() => this.addSchemaItem('number')}/>
-                    <Button label={__('Options', 'the-booking')} icon={'pi pi-list'} className={'p-button-text p-button-plain'} onClick={() => this.addSchemaItem('options')}/>
-                    <Button label={__('File upload', 'the-booking')} icon={'pi pi-upload'} className={'p-button-text p-button-plain'} onClick={() => this.addSchemaItem('file')}/>
-                    <Button label={__('Paragraph', 'the-booking')} icon={'pi pi-align-left'} className={'p-button-text p-button-plain'} onClick={() => this.addSchemaItem('paragraph')}/>
+                    <Button label={__('Text', 'thebooking')} icon={'pi pi-pencil'} className={'p-button-text p-button-plain'} onClick={() => this.addSchemaItem('text')}/>
+                    <Button label={__('Checkbox', 'thebooking')} icon={'pi pi-check-square'} className={'p-button-text p-button-plain'} onClick={() => this.addSchemaItem('checkbox')}/>
+                    <Button label={__('Number', 'thebooking')} icon={'pi pi-sort-numeric-down'} className={'p-button-text p-button-plain'} onClick={() => this.addSchemaItem('number')}/>
+                    <Button label={__('Options', 'thebooking')} icon={'pi pi-list'} className={'p-button-text p-button-plain'} onClick={() => this.addSchemaItem('options')}/>
+                    <Button label={__('File upload', 'thebooking')} icon={'pi pi-upload'} className={'p-button-text p-button-plain'} onClick={() => this.addSchemaItem('file')}/>
+                    <Button label={__('Paragraph', 'thebooking')} icon={'pi pi-align-left'} className={'p-button-text p-button-plain'} onClick={() => this.addSchemaItem('paragraph')}/>
                 </div>
             </div>
         );

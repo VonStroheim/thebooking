@@ -14,14 +14,14 @@ class Panel_Cart
         $expiration_options = [
             [
                 'value' => 0,
-                'label' => __('No expiration', 'the-booking')
+                'label' => __('No expiration', 'thebooking')
             ]
         ];
 
         foreach ($minutes as $minute) {
             $expiration_options[] = [
                 'value' => $minute * MINUTE_IN_SECONDS,
-                'label' => sprintf(_n('%d minute', '%d minutes', $minute, 'the-booking'), $minute)
+                'label' => sprintf(_n('%d minute', '%d minutes', $minute, 'thebooking'), $minute)
             ];
         }
         foreach ($hours as $hour) {
@@ -39,11 +39,11 @@ class Panel_Cart
 
         return [
             'panelRef'   => 'section-cart',
-            'panelLabel' => __('Cart settings', 'the-booking'),
+            'panelLabel' => __('Cart settings', 'thebooking'),
             'blocks'     => [
                 [
-                    'title'       => __('Activate cart', 'the-booking'),
-                    'description' => __('Customers will be able to add multiple reservations in the cart and book them in a single order.', 'the-booking'),
+                    'title'       => __('Activate cart', 'thebooking'),
+                    'description' => __('Customers will be able to add multiple reservations in the cart and book them in a single order.', 'thebooking'),
                     'components'  => [
                         [
                             'settingId' => 'cart_is_active',
@@ -52,8 +52,8 @@ class Panel_Cart
                     ]
                 ],
                 [
-                    'title'       => __('Show cart icon in website menu', 'the-booking'),
-                    'description' => __('The plugin will add an item in your main website menu to display the cart.', 'the-booking'),
+                    'title'       => __('Show cart icon in website menu', 'thebooking'),
+                    'description' => __('The plugin will add an item in your main website menu to display the cart.', 'thebooking'),
                     'components'  => [
                         [
                             'settingId' => 'show_cart_in_menu',
@@ -62,8 +62,8 @@ class Panel_Cart
                     ]
                 ],
                 [
-                    'title'       => __('Show cart icon inside the plugin widget', 'the-booking'),
-                    'description' => __('A cart icon will be shown at the top of the booking widget if the cart is not empty.', 'the-booking'),
+                    'title'       => __('Show cart icon inside the plugin widget', 'thebooking'),
+                    'description' => __('A cart icon will be shown at the top of the booking widget if the cart is not empty.', 'thebooking'),
                     'components'  => [
                         [
                             'settingId' => 'show_cart_in_widget',
@@ -72,10 +72,10 @@ class Panel_Cart
                     ]
                 ],
                 [
-                    'title'       => __('Cart expiration time', 'the-booking'),
+                    'title'       => __('Cart expiration time', 'thebooking'),
                     'description' => sprintf(
-                        __('How long a reservation is allowed to remain in cart before being automatically removed. If set to "%s", reservations will remain in cart as long as the session cookie is valid.', 'the-booking'),
-                        __('No expiration', 'the-booking')
+                        __('How long a reservation is allowed to remain in cart before being automatically removed. If set to "%s", reservations will remain in cart as long as the session cookie is valid.', 'thebooking'),
+                        __('No expiration', 'thebooking')
                     ),
                     'components'  => [
                         [

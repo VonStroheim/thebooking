@@ -166,7 +166,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
     confirm = (event: any, callback: any) => {
         confirmPopup({
             target : event.currentTarget,
-            message: __('Are you sure you want to proceed?', 'the-booking'),
+            message: __('Are you sure you want to proceed?', 'thebooking'),
             icon   : 'pi pi-exclamation-triangle',
             accept : callback,
             reject : null
@@ -186,7 +186,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         icon={'pi pi-info-circle'}
                         disabled={true}
                         className={'p-button-rounded p-button-text'}
-                        tooltip={__('Status is changed.', 'the-booking')}
+                        tooltip={__('Status is changed.', 'thebooking')}
                     />
                 )}
             </>
@@ -220,7 +220,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         return user.ID === a.customerId
                     })[0] || {
                         ID          : 0,
-                        display_name: __('Unregistered', 'the-booking'),
+                        display_name: __('Unregistered', 'thebooking'),
                         user_email  : null,
                         user_login  : null,
                         avatar      : null
@@ -229,7 +229,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         return user.ID === b.customerId
                     })[0] || {
                         ID          : 0,
-                        display_name: __('Unregistered', 'the-booking'),
+                        display_name: __('Unregistered', 'thebooking'),
                         user_email  : null,
                         user_login  : null,
                         avatar      : null
@@ -275,7 +275,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             quoteStrings    : '"',
             decimalSeparator: '.',
             showLabels      : true,
-            filename        : __('Reservations', 'the-booking'),
+            filename        : __('Reservations', 'thebooking'),
             useTextFile     : false,
             useKeysAsHeaders: true,
         });
@@ -288,10 +288,10 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                 <SplitButton
                     icon={'pi pi-download'}
                     onClick={this.exportCsv}
-                    label={this.state.selected.length > 0 ? __('Export selected', 'the-booking') + ' (' + this.state.selected.length + ')' : __('Export all', 'the-booking')}
+                    label={this.state.selected.length > 0 ? __('Export selected', 'thebooking') + ' (' + this.state.selected.length + ')' : __('Export all', 'thebooking')}
                     model={[
                         {
-                            label  : this.state.selected.length > 0 ? __('Delete selected', 'the-booking') + ' (' + this.state.selected.length + ')' : __('Delete all', 'the-booking'),
+                            label  : this.state.selected.length > 0 ? __('Delete selected', 'thebooking') + ' (' + this.state.selected.length + ')' : __('Delete all', 'thebooking'),
                             icon   : 'pi pi-trash',
                             command: (event: any) => {
                                 this.confirm(event, () => this.deleteReservations(this.state.selected.length > 0 ? this.state.selected : this.props.reservations))
@@ -313,7 +313,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                                        globalFilter: e.target.value
                                    })
                                }}
-                               placeholder={__('Search all', 'the-booking')}/>
+                               placeholder={__('Search all', 'thebooking')}/>
                     </span>
                 </div>
             </div>
@@ -388,7 +388,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             <Calendar
                 value={this.state.reservationDateFilter}
                 onChange={this.onReservationDateFilterChange}
-                placeholder={__('Date', 'the-booking')}
+                placeholder={__('Date', 'thebooking')}
                 showButtonBar
                 className={'p-column-filter'}
             />
@@ -408,7 +408,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                          options={options}
                          onChange={this.onServiceFilterChange}
                          className={styles.statusBadge}
-                         placeholder={__('Service', 'the-booking')}
+                         placeholder={__('Service', 'thebooking')}
                          maxSelectedLabels={4}
                          selectedItemTemplate={
                              (option) => {
@@ -440,7 +440,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                          options={options}
                          onChange={this.onStatusFilterChange}
                          className={styles.statusBadge}
-                         placeholder={__('Status', 'the-booking')}
+                         placeholder={__('Status', 'thebooking')}
                          maxSelectedLabels={4}
                          selectedItemTemplate={
                              (option) => {
@@ -502,7 +502,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     filterMatchMode={'custom'}
                     filterElement={this.renderReservationServiceFilter()}
                     filter={this.props.showFilters}
-                    header={__('Service', 'the-booking')}
+                    header={__('Service', 'thebooking')}
                     body={this.serviceBodyTemplate}
                 />
             case 'customer':
@@ -513,7 +513,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     filter={this.props.showFilters}
                     filterFunction={this.filterCustomer}
                     filterMatchMode={'custom'}
-                    header={__('Customer', 'the-booking')}
+                    header={__('Customer', 'thebooking')}
                     body={this.customerTemplate}
                 />
             case 'startDate':
@@ -526,7 +526,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     filterMatchMode={'custom'}
                     filterFunction={this.filterReservationDate}
                     filterElement={this.renderReservationDateFilter()}
-                    header={__('Date and time', 'the-booking')}
+                    header={__('Date and time', 'thebooking')}
                     body={this.dateOfReservationBodyTemplate}
                 />
             case 'status':
@@ -538,7 +538,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     filterMatchMode={'custom'}
                     filterFunction={this.filterStatus}
                     filterElement={this.renderReservationStatusFilter()}
-                    header={__('Status', 'the-booking')}
+                    header={__('Status', 'thebooking')}
                     body={this.statusBodyTemplate}
                 />
             case 'actions':
@@ -561,7 +561,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     ref={(el) => this.dt = el}
                     paginator
                     rows={25}
-                    currentPageReportTemplate={sprintf(__('Showing %1$s to %2$s of %3$s reservations', 'the-booking'), '{first}', '{last}', '{totalRecords}')}
+                    currentPageReportTemplate={sprintf(__('Showing %1$s to %2$s of %3$s reservations', 'thebooking'), '{first}', '{last}', '{totalRecords}')}
                     rowsPerPageOptions={[10, 25, 50]}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     expandedRows={this.state.expandedRows as unknown as any[]}

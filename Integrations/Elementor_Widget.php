@@ -27,7 +27,7 @@ class Elementor_Widget extends \Elementor\Widget_Base
 
     public function get_title()
     {
-        return __('TheBooking widget', 'the-booking');
+        return __('TheBooking widget', 'thebooking');
     }
 
     public function get_icon()
@@ -42,14 +42,14 @@ class Elementor_Widget extends \Elementor\Widget_Base
             'restrictions_section' => [
                 'data'     =>
                     [
-                        'label' => __('Restrictions', 'the-booking'),
+                        'label' => __('Restrictions', 'thebooking'),
                         'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
                     ],
                 'controls' =>
                     [
                         'restrict_services' =>
                             [
-                                'label'       => __('Restrict services', 'the-booking'),
+                                'label'       => __('Restrict services', 'thebooking'),
                                 'label_block' => TRUE,
                                 'type'        => \Elementor\Controls_Manager::SELECT2,
                                 'multiple'    => TRUE,

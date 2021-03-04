@@ -10,11 +10,11 @@ class Panel_Locations
     {
         return [
             'panelRef'   => 'section-locations',
-            'panelLabel' => __('Locations', 'the-booking'),
+            'panelLabel' => __('Locations', 'thebooking'),
             'noSave'     => TRUE,
             'blocks'     => [
                 [
-                    'title'      => __('Locations', 'the-booking'),
+                    'title'      => __('Locations', 'thebooking'),
                     'components' => [
                         [
                             'settingId' => 'locations',

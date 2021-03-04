@@ -37,7 +37,7 @@ export default function ReservationHeader(props: ReservationHeaderProps) {
         <Typography component={'div'}>
             <Typography component={'div'} variant={'h6'}>
                 <span style={styles.preText}>
-                    {__('Reservation for', 'the-booking')}
+                    {__('Reservation for', 'thebooking')}
                 </span>
                 <span>
                     {props.serviceName}

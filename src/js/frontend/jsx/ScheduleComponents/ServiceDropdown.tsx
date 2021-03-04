@@ -23,12 +23,12 @@ export default function ServiceDropdown(props: SelectProps) {
         <Autocomplete
             renderInput={(params) =>
                 <>
-                    <TextField {...params} label={__('Service', 'the-booking')} variant="outlined"/>
+                    <TextField {...params} label={__('Service', 'thebooking')} variant="outlined"/>
                 </>
             }
             disableClearable
             openOnFocus
-            noOptionsText={__('No services', 'the-booking')}
+            noOptionsText={__('No services', 'thebooking')}
             options={props.services}
             value={props.value}
             onChange={props.onChange}

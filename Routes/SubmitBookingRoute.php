@@ -50,7 +50,7 @@ final class SubmitBookingRoute implements Route
                      * Server-side checks
                      */
                     if ($service->registered_only() && !get_current_user_id()) {
-                        return new REST_Error_Unauthorized(__('This service can be booked by registered users only.', 'the-booking'));
+                        return new REST_Error_Unauthorized(__('This service can be booked by registered users only.', 'thebooking'));
                     }
 
                     /**

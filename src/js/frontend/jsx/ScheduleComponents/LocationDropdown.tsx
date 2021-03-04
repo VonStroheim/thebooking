@@ -20,12 +20,12 @@ export default function LocationDropdown(props: SelectProps) {
         <Autocomplete
             renderInput={(params) =>
                 <>
-                    <TextField {...params} label={__('Location', 'the-booking')} variant="outlined"/>
+                    <TextField {...params} label={__('Location', 'thebooking')} variant="outlined"/>
                 </>
             }
             disableClearable
             openOnFocus
-            noOptionsText={__('No locations', 'the-booking')}
+            noOptionsText={__('No locations', 'thebooking')}
             options={props.locations}
             value={props.value}
             onChange={props.onChange}

@@ -72,7 +72,7 @@ final class TheBooking extends Single
     {
         $rel_path = plugin_basename(TBKG_FILE__) . '/languages/';
 
-        return load_plugin_textdomain('the-booking', FALSE, $rel_path);
+        return load_plugin_textdomain('thebooking', FALSE, $rel_path);
     }
 
     public function init()

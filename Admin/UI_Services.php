@@ -19,11 +19,11 @@ final class UI_Services
         return [
             [
                 'panelRef'   => 'general',
-                'panelLabel' => __('General', 'the-booking'),
+                'panelLabel' => __('General', 'thebooking'),
                 'icon'       => 'pi pi-cog',
                 'blocks'     => [
                     [
-                        'title'      => __('Name', 'the-booking'),
+                        'title'      => __('Name', 'thebooking'),
                         'components' => [
                             [
                                 'settingId' => 'name',
@@ -32,8 +32,8 @@ final class UI_Services
                         ]
                     ],
                     [
-                        'title'       => __('Short description', 'the-booking'),
-                        'description' => __('Brief description of the service, text only. It will be shown in places that require short text.', 'the-booking'),
+                        'title'       => __('Short description', 'thebooking'),
+                        'description' => __('Brief description of the service, text only. It will be shown in places that require short text.', 'thebooking'),
                         'components'  => [
                             [
                                 'settingId' => 'shortDescription',
@@ -42,8 +42,8 @@ final class UI_Services
                         ]
                     ],
                     [
-                        'title'       => __('Description', 'the-booking'),
-                        'description' => __('A full description of the service. You can use HTML.', 'the-booking'),
+                        'title'       => __('Description', 'thebooking'),
+                        'description' => __('A full description of the service. You can use HTML.', 'thebooking'),
                         'components'  => [
                             [
                                 'settingId' => 'description',
@@ -52,7 +52,7 @@ final class UI_Services
                         ]
                     ],
                     [
-                        'title'      => __('Color', 'the-booking'),
+                        'title'      => __('Color', 'thebooking'),
                         'components' => [
                             [
                                 'settingId' => 'color',
@@ -64,12 +64,12 @@ final class UI_Services
             ],
             [
                 'panelRef'   => 'duration',
-                'panelLabel' => __('Duration', 'the-booking'),
+                'panelLabel' => __('Duration', 'thebooking'),
                 'icon'       => 'pi pi-clock',
                 'blocks'     => [
                     [
-                        'title'       => __('Time slot duration', 'the-booking'),
-                        'description' => __('Configure the duration of the appointment.', 'the-booking'),
+                        'title'       => __('Time slot duration', 'thebooking'),
+                        'description' => __('Configure the duration of the appointment.', 'thebooking'),
                         'components'  => [
                             [
                                 'settingId' => 'duration',
@@ -82,12 +82,12 @@ final class UI_Services
             ],
             [
                 'panelRef'   => 'reservation-data',
-                'panelLabel' => __('Data collection', 'the-booking'),
+                'panelLabel' => __('Data collection', 'thebooking'),
                 'icon'       => 'pi pi-inbox',
                 'blocks'     => [
                     [
-                        'title'       => __('Booking data', 'the-booking'),
-                        'description' => __('Configure the data users need to provide during the booking process of this service.', 'the-booking'),
+                        'title'       => __('Booking data', 'thebooking'),
+                        'description' => __('Configure the data users need to provide during the booking process of this service.', 'thebooking'),
                         'components'  => [
                             [
                                 'settingId' => 'meta::reservationForm',
@@ -99,12 +99,12 @@ final class UI_Services
             ],
             [
                 'panelRef'   => 'user',
-                'panelLabel' => __('User and permissions', 'the-booking'),
+                'panelLabel' => __('User and permissions', 'thebooking'),
                 'icon'       => 'pi pi-lock-open',
                 'blocks'     => [
                     [
-                        'title'       => __('Registered users only', 'the-booking'),
-                        'description' => __('If turned on, only registered users can book this service.', 'the-booking'),
+                        'title'       => __('Registered users only', 'thebooking'),
+                        'description' => __('If turned on, only registered users can book this service.', 'thebooking'),
                         'components'  => [
                             [
                                 'settingId' => 'registeredOnly',
@@ -113,8 +113,8 @@ final class UI_Services
                         ]
                     ],
                     [
-                        'title'       => __('Log unregistered users IP', 'the-booking'),
-                        'description' => __('Please consider any privacy implication before turning this feature on', 'the-booking'),
+                        'title'       => __('Log unregistered users IP', 'thebooking'),
+                        'description' => __('Please consider any privacy implication before turning this feature on', 'thebooking'),
                         'components'  => [
                             [
                                 'settingId' => 'meta::saveIp',
@@ -126,12 +126,12 @@ final class UI_Services
             ],
             [
                 'panelRef'   => 'location',
-                'panelLabel' => __('Locations', 'the-booking'),
+                'panelLabel' => __('Locations', 'thebooking'),
                 'icon'       => 'pi pi-map-marker',
                 'blocks'     => [
                     [
-                        'title'       => __('Service locations', 'the-booking'),
-                        'description' => __('If this service is offered in specific locations, select one or more of them.', 'the-booking'),
+                        'title'       => __('Service locations', 'thebooking'),
+                        'description' => __('If this service is offered in specific locations, select one or more of them.', 'thebooking'),
                         'components'  => [
                             [
                                 'settingId' => 'meta::locations',

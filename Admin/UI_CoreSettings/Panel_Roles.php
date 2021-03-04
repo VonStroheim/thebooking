@@ -12,11 +12,11 @@ class Panel_Roles
     {
         return [
             'panelRef'   => 'section-roles',
-            'panelLabel' => __('Roles and permissions', 'the-booking'),
+            'panelLabel' => __('Roles and permissions', 'thebooking'),
             'blocks'     => [
                 [
-                    'title'       => __('Roles allowed to be plugin administrators', 'the-booking'),
-                    'description' => __('Select the WordPress roles that are supposed to fully manage the plugin. If you want a specific role for that (e.g. Booking Admin), create it with a role management plugin.', 'the-booking'),
+                    'title'       => __('Roles allowed to be plugin administrators', 'thebooking'),
+                    'description' => __('Select the WordPress roles that are supposed to fully manage the plugin. If you want a specific role for that (e.g. Booking Admin), create it with a role management plugin.', 'thebooking'),
                     'components'  => [
                         [
                             'settingId' => 'admin_roles',
@@ -25,7 +25,7 @@ class Panel_Roles
                         ],
                         [
                             'type' => 'notice',
-                            'text' => __('Administrators are always allowed.', 'the-booking')
+                            'text' => __('Administrators are always allowed.', 'thebooking')
                         ]
                     ]
                 ]
