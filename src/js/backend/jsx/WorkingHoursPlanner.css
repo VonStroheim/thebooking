@@ -29,7 +29,9 @@
   padding-right: 0;
 }
 .workingHoursPlanner ul :global(.noUi-horizontal) {
-  height: 30px;
+  height: 6px;
+  box-shadow: none;
+  border: none;
 }
 .workingHoursPlanner ul :global(.noUi-horizontal)[disabled] :global(.noUi-handle) {
   cursor: not-allowed;
@@ -41,14 +43,19 @@
 .workingHoursPlanner ul :global(.noUi-horizontal)[disabled] :global(.noUi-tooltip) {
   display: none !important;
 }
+.workingHoursPlanner ul :global(.noUi-horizontal) :global(.noUi-connects) {
+  background: #d4e9f9;
+}
 .workingHoursPlanner ul :global(.noUi-horizontal) :global(.noUi-handle) {
   height: 16px;
   cursor: grab;
   width: 16px;
   right: -7px;
-  border-color: #9B9B9B;
   border-radius: 20px;
-  top: 6px;
+  background: #2196f3;
+  border: none;
+  box-shadow: none;
+  top: -5px;
 }
 .workingHoursPlanner ul :global(.noUi-horizontal) :global(.noUi-handle):after {
   left: 8px;
@@ -79,12 +86,14 @@
 }
 .workingHoursPlanner ul :global(.noUi-tooltip) {
   padding: 0;
-  color: #0f0f0f;
-  top: 26px;
+  color: #065fa7;
+  top: 10px;
   border: none;
+  font-size: 12px;
+  font-weight: 900;
 }
 .workingHoursPlanner ul :global(.noUi-connect) {
-  background: #4e88b1;
+  background: #2196F3;
 }
 .workingHoursPlanner :global(.intervals-margins) {
   display: flex;

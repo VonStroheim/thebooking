@@ -42,7 +42,9 @@
     }
 
     :global(.noUi-horizontal) {
-      height: 30px;
+      height: 6px;
+      box-shadow: none;
+      border: none;
 
       &[disabled] {
         :global(.noUi-handle) {
@@ -59,14 +61,20 @@
         }
       }
 
+      :global(.noUi-connects) {
+        background: #d4e9f9;
+      }
+
       :global(.noUi-handle) {
         height: 16px;
         cursor: grab;
         width: 16px;
         right: -7px;
-        border-color: @color_Gray_light;
         border-radius: 20px;
-        top: 6px;
+        background: #2196f3;
+        border: none;
+        box-shadow: none;
+        top: -5px;
 
         &:after {
           left: 8px;
@@ -106,13 +114,15 @@
 
     :global(.noUi-tooltip) {
       padding: 0;
-      color: @color_Black;
-      top: 26px;
+      color: #065fa7;
+      top: 10px;
       border: none;
+      font-size: 12px;
+      font-weight: 900;
     }
 
     :global(.noUi-connect) {
-      background: @color_Paperblue_light;
+      background: #2196F3;
     }
   }
 
