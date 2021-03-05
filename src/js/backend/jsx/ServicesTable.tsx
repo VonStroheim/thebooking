@@ -19,6 +19,7 @@ import BigAvatar from "./BigAvatar";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
+declare const _: any;
 const {__, _x, _n, _nx, sprintf} = wp.i18n;
 
 export interface SProps {
@@ -74,6 +75,7 @@ class ServicesTable extends React.Component<SProps, SState> {
                     <Button
                         className={'p-button-secondary'}
                         icon={'pi pi-trash'}
+                        disabled={_.isEmpty(tbkCommon.services)}
                         onClick={
                             (event) => this.confirm(
                                 event,

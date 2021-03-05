@@ -286,6 +286,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         return (
             <div className={tableStyles.tableHeader}>
                 <SplitButton
+                    disabled={this.props.reservations.length < 1}
                     icon={'pi pi-download'}
                     onClick={this.exportCsv}
                     label={this.state.selected.length > 0 ? __('Export selected', 'thebooking') + ' (' + this.state.selected.length + ')' : __('Export all', 'thebooking')}

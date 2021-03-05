@@ -18,6 +18,7 @@ import ReservationsTable from "./ReservationsTable";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
+declare const _: any;
 const {__, _x, _n, _nx, sprintf} = wp.i18n;
 
 export interface SProps {
@@ -117,6 +118,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                     <Button
                         className={'p-button-secondary'}
                         icon={'pi pi-download'}
+                        disabled={_.isEmpty(tbkCommon.customers)}
                         onClick={this.exportCsv}
                         label={this.state.selected.length > 0 ? __('Export selected', 'thebooking') + ' (' + this.state.selected.length + ')' : __('Export all', 'thebooking')}
                     />
