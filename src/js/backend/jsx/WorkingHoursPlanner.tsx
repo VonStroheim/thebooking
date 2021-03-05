@@ -85,7 +85,7 @@ const baseSliderSettings: SliderSettings = {
     margin   : 5,
 };
 
-export default class WorkingHoursPlanner extends React.PureComponent<WProps, WState> {
+export default class WorkingHoursPlanner extends React.Component<WProps, WState> {
     private readonly id: string;
     private sliders: any[];
 
