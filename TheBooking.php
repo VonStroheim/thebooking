@@ -169,6 +169,7 @@ final class TheBooking extends Single
         }
 
         Modules::load_modules();
+        Actions::load_actions();
 
         do_action('tbk-init');
 

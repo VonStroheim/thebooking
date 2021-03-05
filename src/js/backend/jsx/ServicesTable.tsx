@@ -100,8 +100,7 @@ class ServicesTable extends React.Component<SProps, SState> {
     confirm = (event: any, callback: any) => {
         confirmPopup({
             target : event.currentTarget,
-            message: 'Are you sure you want to proceed?',
-            header : 'Confirmation',
+            message: __('Are you sure? All the reservations made for this service will be removed. The action cannot be undone.', 'thebooking'),
             icon   : 'pi pi-exclamation-triangle',
             accept : callback,
             reject : null

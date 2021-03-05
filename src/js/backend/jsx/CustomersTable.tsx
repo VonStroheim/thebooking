@@ -287,8 +287,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
     confirm = (event: any, callback: any) => {
         confirmPopup({
             target : event.currentTarget,
-            message: __('Are you sure you want to proceed?', 'thebooking'),
-            header : __('Confirmation', 'thebooking'),
+            message: __('Are you sure? All the reservations made by this customer will be removed. The action cannot be undone.', 'thebooking'),
             icon   : 'pi pi-exclamation-triangle',
             accept : callback,
             reject : null
@@ -296,15 +295,12 @@ export default class CustomersTable extends React.Component<SProps, SState> {
     }
 
     actionsBodyTemplate = (customer: CustomerBackendRecord) => {
-        const customerReservations = tbkCommon.reservations.filter(reservation => {
-            return reservation.customerId === customer.id;
-        })
         return (
             <>
                 <Button
                     icon={'pi pi-trash'}
                     className={'p-button-rounded p-button-text p-button-danger'}
-                    disabled={this.props.isBusy || customerReservations.length > 0}
+                    disabled={this.props.isBusy}
                     onClick={(event) => this.confirm(event, () => this.deleteCustomer(customer.id))}
                 />
                 <Button
