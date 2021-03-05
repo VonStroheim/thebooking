@@ -145,9 +145,10 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
     }
 
     getDefaultState = (): ScheduleState => {
+        const availableServices = this.getAvailableServicesKeys();
         return {
             activeStep         : 0,
-            selectedService    : null,
+            selectedService    : availableServices.length === 1 ? availableServices[0] : null,
             selectedLocation   : null,
             selectedTimeSlot   : null,
             stepsDynamicContent: {},
@@ -272,9 +273,18 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
 
         let basicSteps = ['service', 'timeslot', 'form'];
 
+        const servicesNumber = this.getAvailableServicesKeys().length;
+
+        if (servicesNumber === 1) {
+            basicSteps = ['timeslot', 'form'];
+        }
+
         if (this.state.selectedService) {
 
             if (this.props.services[this.state.selectedService].registeredOnly && TBK.currentUser === 0) {
+                if (servicesNumber === 1) {
+                    return ['login'];
+                }
                 return ['service', 'login'];
             }
 
@@ -407,14 +417,30 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
                 const items = this.groupItems()[this.state.selectedService];
 
                 return (
-                    <TimeslotDropdown
-                        value={this.state.selectedTimeSlot}
-                        items={items}
-                        onChange={(event, newValue: TimeSlot) => {
-                            if (newValue) {
-                                this.onTimeslotSelection(newValue)
-                            }
-                        }}/>
+                    <Grid container spacing={3}>
+                        {this.getAvailableServicesKeys().length === 1 && (
+                            <Grid item xs={12}>
+                                <Collapse mountOnEnter unmountOnExit in={!!this.state.selectedService}>
+                                    <ServiceCard
+                                        service={this.props.services[this.state.selectedService]}
+                                        showActions={false}
+                                        showLongDescription={true}
+                                        showLocation={true}
+                                    />
+                                </Collapse>
+                            </Grid>
+                        )}
+                        <Grid item xs={12}>
+                            <TimeslotDropdown
+                                value={this.state.selectedTimeSlot}
+                                items={items}
+                                onChange={(event, newValue: TimeSlot) => {
+                                    if (newValue) {
+                                        this.onTimeslotSelection(newValue)
+                                    }
+                                }}/>
+                        </Grid>
+                    </Grid>
                 )
             case 'location':
                 const locations = this.props.services[this.state.selectedService].meta.locations;

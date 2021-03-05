@@ -615,6 +615,9 @@ export default class App extends React.Component<IProps, IState> {
                         viewMode={'monthly'}
                         selectedDay={this.state.selectedDay}
                         onDayClick={(date: Date | null) => {
+                            if (this.getDayItems(date).length < 1) {
+                                return;
+                            }
                             const actions = [
                                 {
                                     type   : 'CHANGE_VIEW',
