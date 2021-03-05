@@ -285,24 +285,6 @@ export interface tbkCommonB {
     users: BackendUser[],
     i18n: {
         locale: string,
-        settingPanels: {
-            saveSettings: string
-        },
-        shared: {
-            cancel: string,
-            delete: string,
-            back: string,
-            next: string,
-            confirm: string,
-            settings: string,
-            reservations: string,
-            noUndone: string,
-            deleteAll: string,
-            deleteSelected: string,
-            globalSearch: string,
-            exportAllCsv: string,
-            exportSelectedCsv: string,
-        }
     },
     mainMenuItems: BackendMainMenuItem[],
     settings: {

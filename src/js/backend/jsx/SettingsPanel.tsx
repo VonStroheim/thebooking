@@ -6,6 +6,8 @@ import {Card} from 'primereact/card';
 import {tbkCommonB} from "../../typedefs";
 
 declare const tbkCommon: tbkCommonB;
+declare const wp: any;
+const {__, _x, _n, _nx, sprintf} = wp.i18n;
 
 export interface SettingsPanelProps {
     isBusy: boolean,
@@ -31,7 +33,7 @@ export default class SettingsPanel extends React.PureComponent<SettingsPanelProp
                 </div>
                 {!this.props.noSave && (
                     <Button icon={icon}
-                            label={tbkCommon.i18n.settingPanels.saveSettings}
+                            label={__('Save', 'thebooking')}
                             onClick={this.props.onUpdate}
                             className={styles.saveButton}
                             disabled={this.props.isBusy}/>
