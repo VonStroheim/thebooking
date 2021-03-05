@@ -16,6 +16,7 @@ import {confirmPopup} from 'primereact/confirmpopup';
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
+declare const _: any;
 const {__, _x, _n, _nx, sprintf} = wp.i18n;
 
 export interface SProps {
@@ -68,6 +69,7 @@ class LocationsTable extends React.Component<SProps, SState> {
                     />
                     <Button
                         className={'p-button-secondary'}
+                        disabled={_.isEmpty(tbkCommon.locations)}
                         icon={'pi pi-trash'}
                         onClick={
                             (event) => this.confirm(
