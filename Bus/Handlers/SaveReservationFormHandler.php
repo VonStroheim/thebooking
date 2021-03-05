@@ -44,12 +44,10 @@ class SaveReservationFormHandler implements Handler
         $required = array_values(array_filter($command->getRequired(), static function ($req) use ($command) {
             return array_key_exists($req, $command->getElements());
         }));
-        $contact  = array_key_exists($command->getContactField(), $command->getElements()) ? $command->getContactField() : NULL;
 
         $service->addMeta('formFieldsOrder', $order);
         $service->addMeta('formFieldsRequired', $required);
         $service->addMeta('formFieldsConditions', $command->getConditions());
-        $service->addMeta('formFieldContact', $contact);
         $factory = tbkg()->services;
         $factory::update($service);
     }

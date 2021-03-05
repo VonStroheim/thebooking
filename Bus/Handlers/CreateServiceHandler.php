@@ -31,9 +31,9 @@ class CreateServiceHandler implements Handler
         /**
          * Default form fields
          */
-        $name_uid  = uniqid('tbk');
-        $email_uid = uniqid('tbk');
-        $phone_uid = uniqid('tbk');
+        $name_uid  = 'name';
+        $email_uid = 'email';
+        $phone_uid = 'phone';
         $command   = new SaveReservationForm(
             $service->id(),
             [
@@ -55,8 +55,7 @@ class CreateServiceHandler implements Handler
             ],
             [$name_uid, $email_uid, $phone_uid],
             [$name_uid, $email_uid, $phone_uid],
-            [],
-            $email_uid
+            []
         );
         tbkg()->bus->dispatch($command);
 

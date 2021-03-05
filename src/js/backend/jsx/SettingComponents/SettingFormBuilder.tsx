@@ -68,8 +68,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                 elements  : elements,
                 required  : props.schema.required || [],
                 order     : props.schema.order || [],
-                conditions: conditions,
-                contact   : props.schema.contact || null
+                conditions: conditions
             }
         }
     }
@@ -125,7 +124,6 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                 ...{elements: props},
                 ...{required: required},
                 ...{order: order},
-                ...{contact: this.state.schema.contact === key ? null : this.state.schema.contact}
             }
         }, this.handleChange)
     }
@@ -349,15 +347,6 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
         // }
     }
 
-    updateSchemaContact = (property: string) => {
-        this.setState({
-            schema: {
-                ...this.state.schema,
-                ...{contact: property || null}
-            }
-        }, this.handleChange)
-    }
-
     addSchemaOption = (property: string) => {
         const options = this.state.schema.elements[property].options;
         options.push({
@@ -454,14 +443,14 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                         <i className={['pi pi-ellipsis-v', styles.handleIcon].join(' ')}/>
                         <i className={['pi pi-ellipsis-v', styles.handleIcon].join(' ')}/>
                         {prop.label}
-                        {(this.state.schema.required.includes(propKey) || this.state.schema.contact === propKey) && (
+                        {(this.state.schema.required.includes(propKey) || propKey === 'email') && (
                             <span className={styles.requiredSymbol}>*</span>
                         )}
                         {this.state.schema.conditions[propKey]
-                        && this.state.schema.contact !== propKey
+                        && propKey !== 'email'
                         && this.renderDependsOnHelper(this.state.schema.conditions[propKey])}
                     </span>
-                {this.state.schema.contact !== propKey && (
+                {!['email', 'phone', 'name'].includes(propKey) && (
                     <span>
                         <Button
                             icon={'pi pi-trash'}
@@ -515,7 +504,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                     </div>
                 )}
 
-                {this.schemaPropIs(prop) !== 'paragraph' && this.state.schema.contact !== propKey && (
+                {this.schemaPropIs(prop) !== 'paragraph' && propKey !== 'email' && (
                     <div className="p-field-checkbox p-col-12 p-lg-6">
                         <Checkbox
                             inputId={propKey + 'required'}
@@ -607,8 +596,8 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
 
             </div>
             {this.schemaPropIs(prop) === 'options' && this.optionsPanel(propKey)}
-            {this.schemaPropIs(prop) === 'text' && this.state.schema.contact !== propKey && this.validationPanel(propKey)}
-            {this.state.schema.contact !== propKey && this.conditionalPanel(propKey)}
+            {this.schemaPropIs(prop) === 'text' && propKey !== 'email' && this.validationPanel(propKey)}
+            {propKey !== 'email' && this.conditionalPanel(propKey)}
             {this.advancedPanel(propKey)}
         </Panel>
     }
@@ -883,21 +872,6 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                             }}
                         />
                     </div>
-                    {this.schemaPropIs(this.state.schema.elements[key]) === 'text' && (
-                        <div className={'p-field p-col-12 p-lg-6'}>
-                            <label htmlFor={key + 'asContact'} className={'p-d-block'}>
-                                {__('Use as customer email address', 'thebooking')}
-                            </label>
-                            <InputSwitch
-                                id={key + 'asContact'}
-                                checked={this.state.schema.contact === key}
-                                disabled={this.state.schema.contact === key}
-                                onChange={(e) => {
-                                    this.updateSchemaContact(e.value ? key : null);
-                                }}
-                            />
-                        </div>
-                    )}
                     <div className={'p-field p-col-12 p-lg-6'}>
                         <label htmlFor={key + 'hook'} className={'p-d-block'}>
                             {__('Notification template placeholder', 'thebooking')}

@@ -81,7 +81,7 @@ final class SubmitBookingRoute implements Route
                     // TODO: what identifies a customer??
                     $customers          = tbkg()->customers->all();
                     $customerId         = NULL;
-                    $customerEmailField = $request->get_param('bookingData')[ $service->getMeta('formFieldContact') ];
+                    $customerEmailField = $request->get_param('bookingData')['email'];
                     $customerEmail      = strtolower(trim($customerEmailField['value']));
                     foreach ($customers as $customer) {
                         if ($customer->email() === $customerEmail) {

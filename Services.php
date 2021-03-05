@@ -125,8 +125,7 @@ class Services
                             $value['elements'],
                             $value['required'],
                             $value['order'],
-                            $value['conditions'],
-                            $value['contact']
+                            $value['conditions']
                         );
                         tbkg()->bus->dispatch($command);
                         break;
@@ -375,8 +374,7 @@ class Services
             return !$meta instanceof ValueTypes\FormField
                 && $key !== 'formFieldsOrder'
                 && $key !== 'formFieldsRequired'
-                && $key !== 'formFieldsConditions'
-                && $key !== 'formFieldContact';
+                && $key !== 'formFieldsConditions';
         }, ARRAY_FILTER_USE_BOTH);
 
         if ($service->image()) {

@@ -39,11 +39,6 @@ class SaveReservationForm implements Command
     private $conditions;
 
     /**
-     * @var string
-     */
-    private $contactField;
-
-    /**
      * SaveReservationForm constructor.
      *
      * @param string $serviceId
@@ -51,16 +46,14 @@ class SaveReservationForm implements Command
      * @param array  $required
      * @param array  $order
      * @param array  $conditions
-     * @param string $contactField
      */
-    public function __construct($serviceId, $elements, $required, $order, $conditions, $contactField)
+    public function __construct($serviceId, $elements, $required, $order, $conditions)
     {
         $this->serviceId    = $serviceId;
         $this->elements     = $elements;
         $this->required     = $required;
         $this->order        = $order;
         $this->conditions   = $conditions;
-        $this->contactField = $contactField;
     }
 
     /**
@@ -93,14 +86,6 @@ class SaveReservationForm implements Command
     public function getConditions()
     {
         return $this->conditions;
-    }
-
-    /**
-     * @return string
-     */
-    public function getContactField()
-    {
-        return $this->contactField;
     }
 
     /**

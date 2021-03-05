@@ -146,7 +146,7 @@ export default class Form extends React.Component<FormProps, FormState> {
     }
 
     handleValidation = (field: AllFields, key: string, value: any, errors: any, conditionalStates: { [key: string]: FormFieldConditionalStates | null }) => {
-        let isRequired = ('required' in field && field.required) || ('isContact' in field && field.isContact);
+        let isRequired = ('required' in field && field.required) || key === 'email';
         if (typeof conditionalStates[key] !== 'undefined') {
             switch (conditionalStates[key]) {
                 case 'hidden':
@@ -175,7 +175,7 @@ export default class Form extends React.Component<FormProps, FormState> {
         // Clean other errors
         for (const key of Object.keys(errors)) {
             const field = this.props.fields[key];
-            let isNotRequired = ('required' in field && !field.required) && ('isContact' in field && !field.isContact);
+            let isNotRequired = ('required' in field && !field.required) && key !== 'email';
             if (isNotRequired && conditionalStates[key] !== 'required') {
                 delete errors[key];
             }
@@ -215,7 +215,7 @@ export default class Form extends React.Component<FormProps, FormState> {
 
     mapField = (field: AllFields, key: string) => {
 
-        let isRequired = ('required' in field && field.required) || ('isContact' in field && field.isContact);
+        let isRequired = ('required' in field && field.required) || key === 'email';
         if (typeof this.state.conditionalState[key] !== 'undefined') {
             switch (this.state.conditionalState[key]) {
                 case 'hidden':

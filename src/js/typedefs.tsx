@@ -126,7 +126,6 @@ export type UiTypesOptions = 'radio' | 'select' | 'address';
 export interface ServiceRecordReservationFormElementText extends ServiceRecordReservationFormElement {
     uiType: UiTypesText,
     required: boolean,
-    isContact?: boolean,
     pattern?: string
 }
 
@@ -160,7 +159,6 @@ export interface ServiceRecordReservationFormBackend {
             [key: string]: RulesLogic
         }
     },
-    contact: string | null,
     elements: {
         [key: string]: ServiceRecordReservationFormElementBackend
     },

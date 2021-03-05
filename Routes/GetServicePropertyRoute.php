@@ -45,7 +45,6 @@ final class GetServicePropertyRoute implements Route
                             $ffOrder      = $service->getMeta('formFieldsOrder');
                             $ffRequired   = $service->getMeta('formFieldsRequired');
                             $ffConditions = $service->getMeta('formFieldsConditions');
-                            $ffContact    = $service->getMeta('formFieldContact');
                             $ff           = array_filter($service->metadata(), static function ($meta) {
                                 return $meta instanceof FormField;
                             });
@@ -58,7 +57,6 @@ final class GetServicePropertyRoute implements Route
                                 $field               = $ff[ $fieldKey ]->getValue();
                                 $field['required']   = in_array($fieldKey, $ffRequired, TRUE);
                                 $field['conditions'] = isset($ffConditions[ $fieldKey ]) ? $ffConditions[ $fieldKey ] : [];
-                                $field['isContact']  = $ffContact === $fieldKey;
 
                                 /**
                                  * i18n TODO
