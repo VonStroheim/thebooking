@@ -191,7 +191,9 @@ export default class App extends React.Component<IProps, IState> {
 
         if (TBK.loadAtClosestSlot && view === 'monthlyCalendar') {
             const firstUpcomingItem = this.getFirstUpcomingItem(props.availability || [], props.reservations || []);
-            thisDate = toDate(firstUpcomingItem.start)
+            if (typeof firstUpcomingItem !== 'undefined') {
+                thisDate = toDate(firstUpcomingItem.start)
+            }
         }
 
         this.state = {
