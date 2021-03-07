@@ -64,7 +64,7 @@ final class UI_Services
             ],
             [
                 'panelRef'   => 'duration',
-                'panelLabel' => __('Duration', 'thebooking'),
+                'panelLabel' => __('Duration and availability', 'thebooking'),
                 'icon'       => 'pi pi-clock',
                 'blocks'     => [
                     [
@@ -75,6 +75,46 @@ final class UI_Services
                                 'settingId' => 'duration',
                                 'type'      => 'durationSelect',
                                 'showDays'  => FALSE,
+                            ]
+                        ]
+                    ],
+                    [
+                        'title'       => __('Close reservations before', 'thebooking'),
+                        'description' => __('Specify if the reservations should be closed within a certain period before the time slot date and time.', 'thebooking'),
+                        'components'  => [
+                            [
+                                'settingId' => 'meta::closeReservations',
+                                'type'      => 'toggle'
+                            ],
+                            [
+                                'settingId' => 'meta::closeReservationsPeriod',
+                                'type'      => 'durationSelect',
+                                'dependencies' => [
+                                    [
+                                        'on'    => 'meta::closeReservations',
+                                        'being' => TRUE
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    [
+                        'title'       => __('Open reservations before', 'thebooking'),
+                        'description' => __('Specify if the reservations should open only within a certain period before the time slot date and time.', 'thebooking'),
+                        'components'  => [
+                            [
+                                'settingId' => 'meta::openReservations',
+                                'type'      => 'toggle'
+                            ],
+                            [
+                                'settingId' => 'meta::openReservationsPeriod',
+                                'type'      => 'durationSelect',
+                                'dependencies' => [
+                                    [
+                                        'on'    => 'meta::openReservations',
+                                        'being' => TRUE
+                                    ]
+                                ]
                             ]
                         ]
                     ],

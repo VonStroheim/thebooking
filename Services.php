@@ -129,6 +129,36 @@ class Services
                         );
                         tbkg()->bus->dispatch($command);
                         break;
+                    case 'meta::closeReservations':
+                        if (!filter_var($value, FILTER_VALIDATE_BOOLEAN)) {
+                            $service->dropMeta('closeReservations');
+                            $service->dropMeta('closeReservationsPeriod');
+                        } else {
+                            $service->addMeta('closeReservations', filter_var($value, FILTER_VALIDATE_BOOLEAN));
+                        }
+                        break;
+                    case 'meta::closeReservationsPeriod':
+                        if (!(int)$value || !$service->getMeta('closeReservations')) {
+                            $service->dropMeta('closeReservationsPeriod');
+                        } else {
+                            $service->addMeta('closeReservationsPeriod', (int)$value);
+                        }
+                        break;
+                    case 'meta::openReservations':
+                        if (!filter_var($value, FILTER_VALIDATE_BOOLEAN)) {
+                            $service->dropMeta('openReservations');
+                            $service->dropMeta('openReservationsPeriod');
+                        } else {
+                            $service->addMeta('openReservations', filter_var($value, FILTER_VALIDATE_BOOLEAN));
+                        }
+                        break;
+                    case 'meta::openReservationsPeriod':
+                        if (!(int)$value || !$service->getMeta('openReservations')) {
+                            $service->dropMeta('openReservationsPeriod');
+                        } else {
+                            $service->addMeta('openReservationsPeriod', (int)$value);
+                        }
+                        break;
                     case 'registeredOnly':
                         $service->registered_only(filter_var($value, FILTER_VALIDATE_BOOLEAN));
                         break;

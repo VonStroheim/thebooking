@@ -18,7 +18,7 @@ import {
     compareAsc as compareAscDate,
     add as addToDate,
     isFuture,
-    areIntervalsOverlapping
+    areIntervalsOverlapping, subSeconds
 } from 'date-fns';
 import {toDate} from 'date-fns-tz';
 import {createMuiTheme, ThemeProvider, StylesProvider, createGenerateClassName, jssPreset} from '@material-ui/core/styles';
@@ -283,6 +283,24 @@ export default class App extends React.Component<IProps, IState> {
         return items.shift();
     }
 
+    /**
+     * Checks if a time slot is outside date/time boundaries.
+     *
+     * @param start
+     * @param end
+     * @param service
+     */
+    isItemInTime = (start: Date, end: Date, service: ServiceRecord): boolean => {
+        let eligible = isFuture(start);
+        if ('closeReservations' in service.meta && service.meta.closeReservations && eligible) {
+            eligible = isFuture(subSeconds(start, parseInt(service.meta.closeReservationsPeriod)));
+        }
+        if ('openReservations' in service.meta && service.meta.openReservations && eligible) {
+            eligible = !isFuture(subSeconds(start, parseInt(service.meta.openReservationsPeriod)));
+        }
+        return eligible;
+    }
+
     getItemsBetween = (start: Date, end: Date): TimeSlot[] => {
         const items: TimeSlot[] = [];
         for (let availability of this.state.availability) {
@@ -315,10 +333,7 @@ export default class App extends React.Component<IProps, IState> {
                 let eventStart = instance;
                 let eventEnd = addToDate(instance, eventDuration);
                 while (eventEnd <= endOfLoop) {
-                    /**
-                     * TODO: drop condition
-                     */
-                    if (isFuture(eventStart)) {
+                    if (this.isItemInTime(eventStart, eventEnd, service)) {
 
                         const bookableItem = {
                             id            : availability.uid + '_' + formatRFC3339(eventStart) + '_' + availability.serviceId,
