@@ -12,16 +12,6 @@ final class Settings extends \VSHM_Framework\Settings
     protected static $tag = 'tbk_settings';
 
     /**
-     * Dots logic (monthly view)
-     */
-    const DOTS_LOGIC__HIDDEN                   = 0;
-    const DOTS_LOGIC__SLOTS                    = 1;
-    const DOTS_LOGIC__TICKETS                  = 2;
-    const DOTS_LOGIC__SERVICE_NAME             = 3;
-    const DOTS_LOGIC__SERVICE_NAME_AND_SLOTS   = 4;
-    const DOTS_LOGIC__SERVICE_NAME_AND_TICKETS = 5;
-
-    /**
      * @param null|bool $bool
      *
      * @return bool
