@@ -376,7 +376,7 @@ export default class Form extends React.Component<FormProps, FormState> {
         const fields: any[] = [];
         for (const [key, field] of Object.entries(fieldsToRender)) {
 
-            if ('active' in field && !field['active']) {
+            if (key !== 'email' && 'active' in field && !field.active) {
                 continue;
             }
 

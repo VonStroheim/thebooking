@@ -109,6 +109,7 @@ export interface ServiceRecordReservationFormElement {
     description: string,
     defaultValue: string | number | boolean,
     hook: string,
+    active?: boolean,
     hideIfRegistered: boolean, // necessario?
     metakey?: string, // necessario?
     fields?: { [key: string]: AllFields },
