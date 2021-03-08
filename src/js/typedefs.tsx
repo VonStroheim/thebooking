@@ -163,7 +163,8 @@ export interface ServiceRecordReservationFormBackend {
         [key: string]: ServiceRecordReservationFormElementBackend
     },
     order: string[],
-    required: string[]
+    required: string[],
+    active: string[]
 }
 
 export interface ServiceRecordBackend {

@@ -376,6 +376,10 @@ export default class Form extends React.Component<FormProps, FormState> {
         const fields: any[] = [];
         for (const [key, field] of Object.entries(fieldsToRender)) {
 
+            if ('active' in field && !field['active']) {
+                continue;
+            }
+
             const classes = [styles.fieldContainer];
 
             if (typeof this.state.conditionalState[key] !== 'undefined') {

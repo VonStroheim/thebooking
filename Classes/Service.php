@@ -219,6 +219,9 @@ abstract class Service implements Service_Interface
             } elseif ($key === 'formFieldsConditions') {
                 $reservationFormMeta['conditions'] = $metadatum;
 
+            } elseif ($key === 'formFieldsActive') {
+                $reservationFormMeta['active'] = $metadatum;
+
             } elseif ($metadatum instanceof ValueTypes\FormField) {
                 $reservationFormMeta['elements'][ $key ] = $metadatum->getValue();
 

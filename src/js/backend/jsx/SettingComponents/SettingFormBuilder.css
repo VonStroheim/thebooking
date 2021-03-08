@@ -49,11 +49,11 @@
   margin-right: 4px;
 }
 .formBuilder .form :global(.p-panel-title) .fieldHeader .handleIcon {
-  margin-right: -6px;
-  margin-left: -4px;
+  margin-right: -3px;
+  margin-left: -6px;
 }
 .formBuilder .form :global(.p-panel-title) .fieldHeader .handleIcon:last-of-type {
-  margin-right: 10px;
+  margin-right: 6px;
 }
 .formBuilder .form .numberOfOptions {
   color: #9B9B9B;

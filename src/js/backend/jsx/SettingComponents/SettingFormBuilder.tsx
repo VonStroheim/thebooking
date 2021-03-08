@@ -68,6 +68,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                 elements  : elements,
                 required  : props.schema.required || [],
                 order     : props.schema.order || [],
+                active    : props.schema.active || [],
                 conditions: conditions
             }
         }
@@ -112,6 +113,13 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
         if (requiredIndex !== -1) {
             required.splice(requiredIndex, 1);
         }
+
+        const active = this.state.schema.active;
+        const activeIndex = active.indexOf(key);
+        if (activeIndex !== -1) {
+            active.splice(activeIndex, 1);
+        }
+
         const order = this.state.schema.order;
         const orderIndex = order.indexOf(key);
         if (orderIndex !== -1) {
@@ -124,6 +132,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                 ...{elements: props},
                 ...{required: required},
                 ...{order: order},
+                ...{active: active},
             }
         }, this.handleChange)
     }
@@ -206,6 +215,9 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
         const order = this.state.schema.order;
         order.push(propKey)
 
+        const active = this.state.schema.active;
+        active.push(propKey)
+
         this.setState({
             schema: {
                 ...this.state.schema,
@@ -214,6 +226,9 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                 },
                 ...{
                     order: order
+                },
+                ...{
+                    active: active
                 }
             }
         }, this.handleChange)
@@ -450,23 +465,36 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                         && propKey !== 'email'
                         && this.renderDependsOnHelper(this.state.schema.conditions[propKey])}
                     </span>
-                {!['email', 'phone', 'name'].includes(propKey) && (
-                    <span>
+                <span style={{display: 'flex', alignItems: 'center'}}>
+                    {!['email'].includes(propKey) && (
+                        <InputSwitch
+                            id={propKey + 'fieldIsActive'}
+                            style={{marginRight: '6px', zoom: '0.7'}}
+                            checked={this.state.schema.active.includes(propKey)}
+                            onChange={(e) => {
+                                this.setState({
+                                    schema: {...this.state.schema, ...{active: lodash.xor(this.state.schema.active, [propKey])}}
+                                }, this.handleChange);
+                            }}
+                        />
+                    )}
+                    {!['email', 'phone', 'name'].includes(propKey) && (
                         <Button
                             icon={'pi pi-trash'}
+                            style={{marginRight: '6px'}}
                             className={['p-panel-header-icon', styles.deleteField].join(' ')}
                             onClick={(e) => {
                                 this.removeSchemaItem(propKey)
                             }}
                         />
-                    </span>
-                )}
+                    )}
+                </span>
 
             </div>
         return <Panel header={header} toggleable collapsed={true} key={propKey}>
             <div className="p-fluid p-formgrid p-grid">
                 <div className="p-field p-col-12 p-lg-6">
-                    <label htmlFor={propKey + 'label'} className={'p-d-block'}>Label</label>
+                    <label htmlFor={propKey + 'label'} className={'p-d-block'}>{__('Label', 'thebooking')}</label>
                     <InputText
                         id={propKey + 'label'}
                         className={'p-d-block'}
@@ -477,7 +505,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                     />
                 </div>
                 <div className="p-field p-col-12 p-lg-6">
-                    <label htmlFor={propKey + 'description'} className={'p-d-block'}>Description</label>
+                    <label htmlFor={propKey + 'description'} className={'p-d-block'}>{__('Description', 'thebooking')}</label>
                     <InputText
                         id={propKey + 'description'}
                         className={'p-d-block'}
@@ -515,7 +543,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                                 }, this.handleChange);
                             }}
                         />
-                        <label htmlFor={propKey + 'required'}>Required</label>
+                        <label htmlFor={propKey + 'required'}>{__('Required', 'thebooking')}</label>
                     </div>
                 )}
 
@@ -528,14 +556,14 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                                 this.updateSchemaProperty(propKey, 'uiType', e.checked ? 'multiline' : null);
                             }}
                         />
-                        <label htmlFor={propKey + 'required'}>Multiline</label>
+                        <label htmlFor={propKey + 'required'}>{__('Multiline', 'thebooking')}</label>
                     </div>
                 )}
 
                 {this.schemaPropIs(prop) === 'file' && (
                     <>
                         <div className="p-field p-col-12 p-lg-6">
-                            <label htmlFor={propKey + 'maxSize'} className={'p-d-block'}>Size limit</label>
+                            <label htmlFor={propKey + 'maxSize'} className={'p-d-block'}>{__('Size limit', 'thebooking')}</label>
                             <InputNumber
                                 id={propKey + 'maxSize'}
                                 min={1}
@@ -548,7 +576,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                             />
                         </div>
                         <div className="p-field p-col-12">
-                            <label htmlFor={propKey + 'mimeTypes'} className={'p-d-block'}>Allowed file types</label>
+                            <label htmlFor={propKey + 'mimeTypes'} className={'p-d-block'}>{__('Allowed file types', 'thebooking')}</label>
                             <MultiSelect
                                 id={propKey + 'mimeTypes'}
                                 optionLabel={'desc'}
@@ -567,7 +595,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                 {this.schemaPropIs(prop) === 'number' && (
                     <>
                         <div className="p-field p-col-12 p-lg-3">
-                            <label htmlFor={propKey + 'min'} className={'p-d-block'}>Min</label>
+                            <label htmlFor={propKey + 'min'} className={'p-d-block'}>{__('Min', 'thebooking')}</label>
                             <InputNumber
                                 id={propKey + 'min'}
                                 min={0}
@@ -580,7 +608,7 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                             />
                         </div>
                         <div className="p-field p-col-12 p-lg-3">
-                            <label htmlFor={propKey + 'max'} className={'p-d-block'}>Max</label>
+                            <label htmlFor={propKey + 'max'} className={'p-d-block'}>{__('Max', 'thebooking')}</label>
                             <InputNumber
                                 id={propKey + 'max'}
                                 min={1}

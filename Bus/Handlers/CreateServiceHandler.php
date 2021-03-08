@@ -55,7 +55,8 @@ class CreateServiceHandler implements Handler
             ],
             [$name_uid, $email_uid, $phone_uid],
             [$name_uid, $email_uid, $phone_uid],
-            []
+            [],
+            [$name_uid, $email_uid, $phone_uid]
         );
         tbkg()->bus->dispatch($command);
 
