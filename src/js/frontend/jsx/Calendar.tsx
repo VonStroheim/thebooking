@@ -3,8 +3,9 @@ import styles from './Calendar.css';
 import React from 'react';
 import CalendarDayItem from './CalendarDayItem';
 import {
-    ButtonBase, Theme,
+    ButtonBase, Theme
 } from '@material-ui/core';
+import {withStyles} from '@material-ui/core/styles';
 import {
     startOfMonth,
     endOfMonth,
@@ -47,7 +48,7 @@ interface IState {
     firstDayOfWeek: 0 | 5 | 1 | 2 | 3 | 4 | 6
 }
 
-export default class Calendar extends React.PureComponent<IProps, IState> {
+export default class Calendar extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
 
@@ -65,6 +66,54 @@ export default class Calendar extends React.PureComponent<IProps, IState> {
         } else {
             this.props.onDayClick(null);
         }
+    }
+
+    getStyledDayButton = (events: TimeSlot[], label: string | number, dayStyle: any) => {
+        const AvailableStyledButton = withStyles({
+            root: {
+                // @ts-ignore
+                background: this.props.theme.TBK.availableColor,
+                // @ts-ignore
+                color    : this.props.theme.palette.getContrastText(this.props.theme.TBK.availableColor),
+                '&:hover': {
+                    // @ts-ignore
+                    backgroundColor: this.props.theme.TBK.availableColorLight + ' !important'
+                }
+            }
+        })(ButtonBase);
+
+        const BookedStyledButton = withStyles({
+            root: {
+                // @ts-ignore
+                background: this.props.theme.TBK.bookedColor,
+                // @ts-ignore
+                color    : this.props.theme.palette.getContrastText(this.props.theme.TBK.bookedColor),
+                '&:hover': {
+                    // @ts-ignore
+                    backgroundColor: this.props.theme.TBK.bookedColorLight + ' !important'
+                }
+            }
+        })(ButtonBase);
+
+        let available = false;
+
+        events.some((event) => {
+            if (!event.soldOut) {
+                available = true;
+                return;
+            }
+        })
+
+        if (available) {
+            return <AvailableStyledButton className={styles.dayButton} style={dayStyle} focusRipple>
+                {label}
+            </AvailableStyledButton>
+        }
+
+        return <BookedStyledButton className={styles.dayButton} style={dayStyle} focusRipple>
+            {label}
+        </BookedStyledButton>
+
     }
 
     renderMonthly = () => {
@@ -137,17 +186,22 @@ export default class Calendar extends React.PureComponent<IProps, IState> {
                         }
                     } else if (isSameDay(currentCueDay, this.props.selectedDay)) {
                         classes.push(styles.selected);
-                        dayStyle = {backgroundColor: this.props.theme.palette.primary.main, color: this.props.theme.palette.primary.contrastText}
                     } else if (isToday(currentCueDay)) {
                         classes.push(styles.today);
                         dayStyle = {color: this.props.theme.palette.secondary.main}
                     }
                     classes.push(styles.day);
+
                     content.push(
                         <div className={styles.dayButtonContainer} key={currentCueDay.getDate()}>
-                            <ButtonBase className={styles.dayButton} style={dayStyle} focusRipple>
-                                {currentCueDay.getDate()}
-                            </ButtonBase>
+                            {Array.isArray(mappedEvents[currentCueDay.getDate()]) && (
+                                this.getStyledDayButton(mappedEvents[currentCueDay.getDate()], currentCueDay.getDate(), dayStyle)
+                            )}
+                            {!Array.isArray(mappedEvents[currentCueDay.getDate()]) && (
+                                <ButtonBase className={styles.dayButton} style={dayStyle} focusRipple>
+                                    {currentCueDay.getDate()}
+                                </ButtonBase>
+                            )}
                         </div>
                     );
 
@@ -244,9 +298,11 @@ export default class Calendar extends React.PureComponent<IProps, IState> {
 
                 dayElementProps.className = classes.join(' ');
 
-                const day = <div {...dayElementProps} key={dayRows.length}>
-                    {content}
-                </div>;
+                const day =
+                    <div {...dayElementProps} key={dayRows.length}>
+                        {content}
+                    </div>
+                ;
                 dayRows.push(day);
                 rowCue++;
             }

@@ -1,10 +1,11 @@
 .calendar {
-  font-size: 16px;
   padding: 10px;
 }
 .calendar .weekDays {
   text-align: center;
-  font-size: 16px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 .calendar .dayButtonContainer {
   text-align: center;
@@ -47,19 +48,14 @@
   grid-gap: 2px;
   grid-template-rows: min-content;
 }
-.calendar .days .day:hover,
-.calendar .weekDays .day:hover,
-.calendar .days .day:focus,
-.calendar .weekDays .day:focus {
-  background: #EFEFEF;
-}
 .calendar .days .day.pastDay,
 .calendar .weekDays .day.pastDay {
-  color: #D3D3D3;
+  opacity: 0.3;
 }
-.calendar .days .day:not(.pastDay) .dayButton:hover,
-.calendar .weekDays .day:not(.pastDay) .dayButton:hover {
-  background: rgba(0, 0, 0, 0.12);
+.calendar .days .day.pastDay .dayButton:hover,
+.calendar .weekDays .day.pastDay .dayButton:hover {
+  background: none !important;
+  cursor: default;
 }
 .calendar .days .day .dayLabel,
 .calendar .weekDays .day .dayLabel {

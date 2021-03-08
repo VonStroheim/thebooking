@@ -62,6 +62,36 @@ final class Settings extends \VSHM_Framework\Settings
     }
 
     /**
+     * @param string $hex
+     *
+     * @return string
+     */
+    public function frontend_background_color($hex = NULL)
+    {
+        return $this->_option_string($this->options['frontend_background_color'], $hex);
+    }
+
+    /**
+     * @param string $hex
+     *
+     * @return string
+     */
+    public function frontend_available_color($hex = NULL)
+    {
+        return $this->_option_string($this->options['frontend_available_color'], $hex);
+    }
+
+    /**
+     * @param string $hex
+     *
+     * @return string
+     */
+    public function frontend_booked_color($hex = NULL)
+    {
+        return $this->_option_string($this->options['frontend_booked_color'], $hex);
+    }
+
+    /**
      * @param null|bool $bool
      *
      * @return bool
@@ -189,6 +219,9 @@ final class Settings extends \VSHM_Framework\Settings
             'load_gmaps_library'            => TRUE,
             'frontend_primary_color'        => '#0693E3',
             'frontend_secondary_color'      => '#FCB900',
+            'frontend_background_color'     => '#FAFAFA',
+            'frontend_available_color'      => '#4CAF50',
+            'frontend_booked_color'         => '#E85952',
             'gmaps_api_key'                 => NULL,
             'login_url'                     => '',
             'registration_url'              => '',

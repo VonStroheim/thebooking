@@ -38,8 +38,9 @@ class Panel_Frontend
                     ]
                 ],
                 [
-                    'title'      => __('Primary color', 'thebooking'),
-                    'components' => [
+                    'title'       => __('Primary color', 'thebooking'),
+                    'description' => __('Used by primary elements such as action buttons.', 'thebooking'),
+                    'components'  => [
                         [
                             'settingId' => 'frontend_primary_color',
                             'type'      => 'colorPicker'
@@ -47,10 +48,41 @@ class Panel_Frontend
                     ]
                 ],
                 [
-                    'title'      => __('Secondary color', 'thebooking'),
-                    'components' => [
+                    'title'       => __('Secondary color', 'thebooking'),
+                    'description' => __('Used by secondary elements such as form field labels.', 'thebooking'),
+                    'components'  => [
                         [
                             'settingId' => 'frontend_secondary_color',
+                            'type'      => 'colorPicker'
+                        ]
+                    ]
+                ],
+                [
+                    'title'       => __('Background color', 'thebooking'),
+                    'description' => __('Background color of the entire booking widget. Foreground text adapts automatically.', 'thebooking'),
+                    'components'  => [
+                        [
+                            'settingId' => 'frontend_background_color',
+                            'type'      => 'colorPicker'
+                        ]
+                    ]
+                ],
+                [
+                    'title'       => __('Color of days with available time slots', 'thebooking'),
+                    'description' => __('A day of the calendar has this color if it contains at least one available time slot.', 'thebooking'),
+                    'components'  => [
+                        [
+                            'settingId' => 'frontend_available_color',
+                            'type'      => 'colorPicker'
+                        ]
+                    ]
+                ],
+                [
+                    'title'       => __('Color of days with booked time slots', 'thebooking'),
+                    'description' => __('A day of the calendar has this color if it only contains booked timeslots.', 'thebooking'),
+                    'components'  => [
+                        [
+                            'settingId' => 'frontend_booked_color',
                             'type'      => 'colorPicker'
                         ]
                     ]

@@ -64,6 +64,15 @@ class SaveSettingsHandler implements Handler
                     case 'frontend_secondary_color':
                         tbkg()->settings->frontend_secondary_color(trim($value));
                         break;
+                    case 'frontend_background_color':
+                        tbkg()->settings->frontend_background_color(trim($value));
+                        break;
+                    case 'frontend_available_color':
+                        tbkg()->settings->frontend_available_color(trim($value));
+                        break;
+                    case 'frontend_booked_color':
+                        tbkg()->settings->frontend_booked_color(trim($value));
+                        break;
                     case 'login_url':
                         tbkg()->settings->login_url(trim($value));
                         break;

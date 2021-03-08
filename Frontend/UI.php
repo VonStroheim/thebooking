@@ -2,6 +2,7 @@
 
 namespace TheBooking\Frontend;
 
+use VSHM_Framework\Tools;
 use function TheBooking\localize_frontend_script;
 
 defined('ABSPATH') || exit;
@@ -61,8 +62,9 @@ final class UI
     {
         $base_font_size = 16;
 
-        $primary   = tbkg()->settings->frontend_primary_color();
-        $secondary = tbkg()->settings->frontend_secondary_color();
+        $primary    = tbkg()->settings->frontend_primary_color();
+        $secondary  = tbkg()->settings->frontend_secondary_color();
+        $background = tbkg()->settings->frontend_background_color();
 
         return [
             'typography' => [
@@ -256,6 +258,9 @@ final class UI
                 'MuiAutocomplete'      => [
                     'inputRoot' => [
                         'background' => 'rgba(0, 0, 0, 0.09)'
+                    ],
+                    'paper'     => [
+                        'background' => Tools::adjustBrightness($background, Tools::requiresDarkTheme($background) ? '0.1' : '-0.1')
                     ]
                 ],
                 'MuiBackdrop'          => [
@@ -274,12 +279,23 @@ final class UI
                 ]
             ],
             'palette'    => [
-                'primary'   => [
+                'primary'    => [
                     'main' => $primary
                 ],
-                'secondary' => [
+                'secondary'  => [
                     'main' => $secondary
-                ]
+                ],
+                'background' => [
+                    'default' => $background,
+                    'paper'   => 'rgb(255 255 255 / 20%)'
+                ],
+                'type'       => Tools::requiresDarkTheme($background) ? 'dark' : 'light'
+            ],
+            'TBK'        => [
+                'availableColor'      => tbkg()->settings->frontend_available_color(),
+                'availableColorLight' => Tools::adjustBrightness(tbkg()->settings->frontend_available_color(), 0.3),
+                'bookedColor'         => tbkg()->settings->frontend_booked_color(),
+                'bookedColorLight'    => Tools::adjustBrightness(tbkg()->settings->frontend_booked_color(), 0.3),
             ]
         ];
     }
