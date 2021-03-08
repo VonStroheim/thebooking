@@ -216,15 +216,7 @@ class Admin
         );
 
         $services = array_map(static function (Service $service) {
-            $serviceArray                        = tbkg()->services->mapToFrontend($service->id());
-            $serviceArray['meta']['blocksOther'] = [
-                [
-                    'by'   => 'serviceId',
-                    'rule' => 'all'
-                ]
-            ];
-
-            return $serviceArray;
+            return tbkg()->services->mapToFrontend($service->id());
         }, tbkg()->services->all());
 
         $availability = [];

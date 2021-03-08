@@ -39,15 +39,7 @@ class Shortcode_Booking extends Shortcode
                 continue;
             }
 
-            $serviceArray                        = tbkg()->services->mapToFrontend($service->id());
-            $serviceArray['meta']['blocksOther'] = [
-                [
-                    'by'   => 'serviceId',
-                    'rule' => 'all'
-                ]
-            ];
-
-            $services[ $key ] = $serviceArray;
+            $services[ $key ] = tbkg()->services->mapToFrontend($service->id());
 
         }
 

@@ -160,6 +160,19 @@ class Services
                             $service->addMeta('openReservationsPeriod', (int)$value);
                         }
                         break;
+                    case 'meta::blocksOther':
+                        $service->addMeta('blocksOther', in_array($value, ['some', 'all', 'none']) ? $value : 'all');
+                        if ($value !== 'some') {
+                            $service->dropMeta('blocksOtherList');
+                        }
+                        break;
+                    case 'meta::blocksOtherList':
+                        if ($service->getMeta('blocksOther') !== 'some') {
+                            $service->dropMeta('blocksOtherList');
+                        } else {
+                            $service->addMeta('blocksOtherList', $value);
+                        }
+                        break;
                     case 'registeredOnly':
                         $service->registered_only(filter_var($value, FILTER_VALIDATE_BOOLEAN));
                         break;
@@ -406,7 +419,9 @@ class Services
                 && $key !== 'formFieldsOrder'
                 && $key !== 'formFieldsRequired'
                 && $key !== 'formFieldsActive'
-                && $key !== 'formFieldsConditions';
+                && $key !== 'formFieldsConditions'
+                && $key !== 'blocksOther'
+                && $key !== 'blocksOtherList';
         }, ARRAY_FILTER_USE_BOTH);
 
         if ($service->image()) {
@@ -414,6 +429,21 @@ class Services
         } else {
             $imageUrl = NULL;
         }
+
+        /**
+         * Preparing blocking rules
+         */
+        $block = $service->getMeta('blocksOther');
+        if ($block === 'all' || $block === 'some') {
+            $list                        = $service->getMeta('blocksOtherList') ?: [];
+            $filteredMeta['blocksOther'] = [
+                [
+                    'by'   => 'serviceId',
+                    'rule' => $block === 'all' ? 'all' : $list
+                ]
+            ];
+        }
+
 
         return [
             'uid'            => $service->id(),

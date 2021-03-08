@@ -26,6 +26,7 @@ class CreateServiceHandler implements Handler
         $service->id($command->getUid());
         $service->name($command->getName());
         $service->duration(3600);
+        $service->addMeta('blocksOther', 'all');
         tbkg()->services->insert($service);
 
         /**

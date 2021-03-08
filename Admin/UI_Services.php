@@ -87,8 +87,8 @@ final class UI_Services
                                 'type'      => 'toggle'
                             ],
                             [
-                                'settingId' => 'meta::closeReservationsPeriod',
-                                'type'      => 'durationSelect',
+                                'settingId'    => 'meta::closeReservationsPeriod',
+                                'type'         => 'durationSelect',
                                 'dependencies' => [
                                     [
                                         'on'    => 'meta::closeReservations',
@@ -107,8 +107,8 @@ final class UI_Services
                                 'type'      => 'toggle'
                             ],
                             [
-                                'settingId' => 'meta::openReservationsPeriod',
-                                'type'      => 'durationSelect',
+                                'settingId'    => 'meta::openReservationsPeriod',
+                                'type'         => 'durationSelect',
                                 'dependencies' => [
                                     [
                                         'on'    => 'meta::openReservations',
@@ -132,6 +132,48 @@ final class UI_Services
                             [
                                 'settingId' => 'meta::reservationForm',
                                 'type'      => 'formBuilder',
+                            ]
+                        ]
+                    ],
+                ]
+            ],
+            [
+                'panelRef'   => 'interactions',
+                'panelLabel' => __('Interactions', 'thebooking'),
+                'icon'       => 'pi pi-share-alt',
+                'blocks'     => [
+                    [
+                        'title'       => __('Overlapping time slots', 'thebooking'),
+                        'description' => __('Configure how a reserved time slot of this service should interact with a free time slot of other services when they overlap.', 'thebooking'),
+                        'components'  => [
+                            [
+                                'settingId' => 'meta::blocksOther',
+                                'type'      => 'radios',
+                                'options'   => [
+                                    [
+                                        'label' => __('Block any', 'thebooking'),
+                                        'value' => 'all'
+                                    ],
+                                    [
+                                        'label' => __('Block none', 'thebooking'),
+                                        'value' => 'none'
+                                    ],
+                                    [
+                                        'label' => __('Block some', 'thebooking'),
+                                        'value' => 'some'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'settingId'    => 'meta::blocksOtherList',
+                                'type'         => 'multiselect',
+                                'options'      => self::_services(),
+                                'dependencies' => [
+                                    [
+                                        'on'    => 'meta::blocksOther',
+                                        'being' => 'some'
+                                    ]
+                                ]
                             ]
                         ]
                     ],
@@ -183,6 +225,19 @@ final class UI_Services
                 ]
             ],
         ];
+    }
+
+    protected static function _services()
+    {
+        $services = [];
+        foreach (tbkg()->services->all() as $uid => $service) {
+            $services[] = [
+                'label' => $service->name(),
+                'value' => $uid
+            ];
+        }
+
+        return $services;
     }
 
     protected static function _locations()

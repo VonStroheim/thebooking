@@ -20,7 +20,26 @@ final class Actions
     public static function load_actions()
     {
         tbkg()->loader->add_action('tbk_dispatched_DeleteService', self::class, 'delete_reservations_after_service');
+        tbkg()->loader->add_action('tbk_dispatched_DeleteService', self::class, 'delete_interactions_with_service');
         tbkg()->loader->add_action('tbk_dispatched_DeleteCustomer', self::class, 'delete_reservations_after_customer');
+    }
+
+    /**
+     * Removes interactions with a service after it is removed.
+     *
+     * @param DeleteService $command
+     */
+    public static function delete_interactions_with_service(DeleteService $command)
+    {
+        $serviceFactory = tbkg()->services;
+        foreach ($serviceFactory->all() as $service) {
+            $blocksList = $service->getMeta('blocksOtherList');
+            if (is_array($blocksList) && ($key = array_search($command->getUid(), $blocksList, TRUE)) !== FALSE) {
+                unset($blocksList[ $key ]);
+            }
+            $service->addMeta('blocksOtherList', $blocksList);
+            $serviceFactory::update($service);
+        }
     }
 
     /**
