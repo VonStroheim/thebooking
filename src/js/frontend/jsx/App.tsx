@@ -735,7 +735,7 @@ export default class App extends React.Component<IProps, IState> {
                                     ]))
                                 })
                             }}>
-                                Continue booking
+                                {__('Continue booking', 'thebooking')}
                             </Button>
                         </CardActions>
                     </Card>
