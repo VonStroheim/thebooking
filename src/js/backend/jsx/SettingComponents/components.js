@@ -1,12 +1,12 @@
 export {default as Toggle} from './SettingToggle';
 export {default as Notice} from './SettingNotice';
 export {default as Checkboxes} from './SettingCheckboxes';
+export {default as Radios} from './SettingRadios';
 export {default as Color} from './SettingColor';
 export {default as TextInput} from './SettingTextInput';
 export {default as Select} from './SettingSelect';
 export {default as MultiSelect} from './SettingMultiselect';
 export {default as DurationSelect} from './SettingDuration';
-export {default as SettingButtonGroup} from './SettingButtonGroup';
 export {default as FormBuilder} from './SettingFormBuilder';
 export {default as WorkingHoursPlanner} from './../WorkingHoursPlanner';
 export {default as ClosingDatesPlanner} from './../ClosingDatesPlanner';

@@ -659,6 +659,17 @@ export default class App extends React.Component<AppProps, AppState> {
                                                     disabled={this.state.isBusy}
                                                 />
                                             )
+                                        case 'radios':
+                                            return (
+                                                <SettingComponents.Radios
+                                                    options={component.options}
+                                                    value={settingValue}
+                                                    settingId={component.settingId}
+                                                    key={component.settingId}
+                                                    onChange={this.haltSettingsChanges}
+                                                    disabled={this.state.isBusy}
+                                                />
+                                            )
                                         case 'checkboxes':
                                             return (
                                                 <SettingComponents.Checkboxes
