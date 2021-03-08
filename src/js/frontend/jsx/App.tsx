@@ -591,6 +591,12 @@ export default class App extends React.Component<IProps, IState> {
                 for (const [key, value] of Object.entries(res.data.update)) {
                     switch (key) {
                         case 'reservations':
+                            // Syncing the global object
+                            TBK.UI.instances[this.props.instanceId].reservations = value as ReservationRecord[];
+
+                            // Invalidating cache
+                            this.cache = {};
+
                             actions.push({
                                 type   : 'UPDATE_RESERVATIONS',
                                 payload: value
@@ -705,12 +711,29 @@ export default class App extends React.Component<IProps, IState> {
                         </CardContent>
                         <CardActions className={styles.userMessageActions}>
                             <Button href={''} type={'text'} onClick={() => {
-                                this.setState(redux([{
-                                    type   : 'CHANGE_VIEW',
-                                    payload: {
-                                        viewMode: 'monthlyCalendar'
+                                this.setState(redux([
+                                    {
+                                        type   : 'CHANGE_VIEW',
+                                        payload: {
+                                            viewMode: 'monthlyCalendar'
+                                        }
+                                    },
+                                    {
+                                        type   : 'SET_DAY',
+                                        payload: null
+                                    },
+                                    {
+                                        type   : 'SLIDER_DIRECTION',
+                                        payload: 'right'
                                     }
-                                }]))
+                                ]), () => {
+                                    this.setState(redux([
+                                        {
+                                            type   : 'SLIDER_DIRECTION',
+                                            payload: 'left'
+                                        }
+                                    ]))
+                                })
                             }}>
                                 Continue booking
                             </Button>
