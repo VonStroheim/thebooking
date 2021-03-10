@@ -409,8 +409,8 @@ export default class App extends React.Component<IProps, IState> {
                     return false;
                 }
 
-                if ('blocksOther' in this.state.services[blockingItem.serviceId].meta) {
-                    const blocksOther = this.state.services[blockingItem.serviceId].meta.blocksOther;
+                if ('blocksOther' in this.props.services[blockingItem.serviceId].meta) {
+                    const blocksOther = this.props.services[blockingItem.serviceId].meta.blocksOther;
                     for (let rule of blocksOther) {
                         switch (rule.by) {
                             case 'serviceId':
