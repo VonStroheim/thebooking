@@ -59,13 +59,14 @@ final class GetServicePropertyRoute implements Route
                                 $field               = $ff[ $fieldKey ]->getValue();
                                 $field['required']   = in_array($fieldKey, $ffRequired, TRUE);
                                 $field['conditions'] = isset($ffConditions[ $fieldKey ]) ? $ffConditions[ $fieldKey ] : [];
-                                $field['active']     = in_array($fieldKey, $ffActive, TRUE);
 
                                 /**
                                  * i18n TODO
                                  */
 
-                                $ordered_ff[ $fieldKey ] = $field;
+                                if ($fieldKey === 'email' || in_array($fieldKey, $ffActive, TRUE)) {
+                                    $ordered_ff[ $fieldKey ] = $field;
+                                }
                             }
                             $response = $ordered_ff;
                             break;
