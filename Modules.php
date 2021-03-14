@@ -250,13 +250,16 @@ final class Modules
 
         if ($service->getMeta(self::CUSTOMER_CONFIRMATION_EMAIL_META) && $reservation->status()->getValue() === Status::CONFIRMED) {
 
-            $hooksSpec = array_filter($service->metadata(), static function ($meta, $key) {
-                return $meta instanceof Classes\ValueTypes\FormField;
+            $activeFields = $service->getMeta('formFieldsActive') ?: [];
+
+            $hooksSpec = array_filter($service->metadata(), static function ($meta, $key) use ($activeFields) {
+                return $meta instanceof Classes\ValueTypes\FormField && in_array($meta->getValue()['hook'], $activeFields, TRUE);
             }, ARRAY_FILTER_USE_BOTH);
             foreach ($hooksSpec as $key => $item) {
                 if (NULL !== $item->getValue()['hook']) {
                     /** @var $value UserInput */
-                    $value                                       = $reservation->getMeta($key) ?: '';
+                    $value = $reservation->getMeta($key) ?: new UserInput(['value' => '', 'type' => UserInput::TEXT, 'label' => '']);
+
                     $preparedValues[ $item->getValue()['hook'] ] = $value->getValue();
                 }
             }
