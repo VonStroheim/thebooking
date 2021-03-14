@@ -135,6 +135,20 @@ final class UI
                         '& textarea'     => [
                             'background' => 'none'
                         ],
+                        '& table'        => [
+                            'margin' => '0'
+                        ],
+                        '& th'           => [
+                            'border' => 'none'
+                        ],
+                        '& td'           => [
+                            'border' => 'none'
+                        ]
+                    ]
+                ],
+                'MuiTableCell'         => [
+                    'head' => [
+                        'fontWeight' => 600,
                     ]
                 ],
                 'MuiButton'            => [

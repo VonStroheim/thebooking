@@ -6,6 +6,7 @@ use TheBooking\Bus\Command;
 use TheBooking\Bus\Commands\CreateCustomer;
 use TheBooking\Bus\Handler;
 use VSHM_Framework\db;
+use VSHM_Framework\Tools;
 
 defined('ABSPATH') || exit;
 
@@ -28,6 +29,7 @@ class CreateCustomerHandler implements Handler
             'phone'         => $command->getPhone(),
             'wp_user'       => $command->getWpUserId(),
             'birthday'      => $command->getBirthday(),
+            'access_token'  => Tools::generate_token(),
             'created'       => time()
         ]);
     }

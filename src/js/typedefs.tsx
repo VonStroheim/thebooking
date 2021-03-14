@@ -38,14 +38,13 @@ export interface StateAction {
     payload?: any
 }
 
-export type availableViews = 'monthlyCalendar' | 'userMessage' | 'stepper';
+export type availableViews = 'monthlyCalendar' | 'userMessage' | 'stepper' | 'reservations';
 
-export type ReservationStatuses = 'pending' | 'confirmed';
+export type ReservationStatuses = 'pending' | 'confirmed' | 'cancelled';
 
 export interface ReservationRecordCustomer {
     name: string,
-    id: number,
-    email?: string
+    hash: string
 }
 
 export interface ReservationRecordBackend {
@@ -325,6 +324,7 @@ export interface tbkCommonF {
     hideWeekends: boolean,
     registrationUrl: string,
     currentUser: number,
+    currentUserHash: string,
     loginUrl: string,
     shortWeekDaysLabels: string[],
     monthLabels: string[],
@@ -346,6 +346,15 @@ export interface tbkCommonF {
         },
         theme: Theme,
         [key: string]: any
+    },
+    statuses: {
+        draft: string,
+        pending: string,
+        confirmed: string,
+        cancelled: string,
+        archived: string,
+        open: string,
+        closed: string,
     }
 }
 

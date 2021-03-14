@@ -30,7 +30,11 @@ final class RedirectRoute implements Route
                     switch ($request->get_param('to')) {
                         case 'reservationStatusPage':
                             $pageLink = get_page_link(tbkg()->settings->order_status_page());
-                            wp_redirect(add_query_arg('tbkg_view', 'reservations', $pageLink));
+                            $hash     = isset($_GET['hash']) ? sanitize_text_field($_GET['hash']) : '';
+                            wp_redirect(add_query_arg([
+                                'tbkg_view'          => 'reservations',
+                                'tbkg_customer_hash' => $hash
+                            ], $pageLink));
                             exit;
                         default:
                             return new REST_Error_404();

@@ -356,9 +356,9 @@ class Reservations
         $res          = $this->reservations[ $reservationId ];
         $customer     = tbkg()->customers->get($res->customer_id());
         $customerData = [
-            'id'    => $res->customer_id(),
-            'name'  => $customer->name(),
-            'email' => $customer->email()
+            'id'   => $res->customer_id(),
+            'wpId' => $customer->wp_user(),
+            'hash' => md5($customer->access_token())
         ];
 
         return [

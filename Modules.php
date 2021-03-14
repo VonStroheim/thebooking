@@ -221,10 +221,12 @@ final class Modules
     private static function _notification_send($uid)
     {
         $reservation = tbkg()->reservations->all()[ $uid ];
+        $customer    = tbkg()->customers->get($reservation->customer_id());
         $service     = tbkg()->services->get($reservation->service_id());
+        $status_link = \VSHM_Framework\REST_Controller::get_root_rest_url() . '/redirect/reservationStatusPage';
 
         $preparedValues = [
-            'status_link'               => \VSHM_Framework\REST_Controller::get_root_rest_url() . '/redirect/reservationStatusPage',
+            'status_link'               => add_query_arg('hash', md5($customer->access_token()), $status_link),
             'service::name'             => $service->name(),
             'service::description'      => $service->description(),
             'service::shortDescription' => $service->short_description(),

@@ -16,9 +16,10 @@ import {
     endOfDay,
     formatRFC3339,
     compareAsc as compareAscDate,
+    compareDesc as compareDescDate,
     add as addToDate,
     isFuture,
-    areIntervalsOverlapping, subSeconds
+    areIntervalsOverlapping, subSeconds, isPast
 } from 'date-fns';
 import {toDate} from 'date-fns-tz';
 import {createMuiTheme, ThemeProvider, StylesProvider, createGenerateClassName, jssPreset} from '@material-ui/core/styles';
@@ -33,9 +34,18 @@ import {
     CardContent,
     CardActions,
     Theme,
-    Slide
+    Slide,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableContainer,
+    TableRow,
+    Chip,
+    Switch,
+    FormControlLabel, CardHeader, Avatar
 } from '@material-ui/core';
-import {ChevronRight, ChevronLeft, DoneAll, Error as ErrorIcon, Undo} from '@material-ui/icons';
+import {ChevronRight, ChevronLeft, DoneAll, Done as DoneIcon, Update as UpdateIcon, Clear as ClearIcon, Error as ErrorIcon, Undo} from '@material-ui/icons';
 import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
 import {RRuleSet, rrulestr} from 'rrule';
 import {AvailabilityRecord, availableViews, ReservationRecord, ServiceRecord, StateAction, tbkCommonF, TimeSlot} from "../../typedefs";
@@ -196,6 +206,12 @@ export default class App extends React.Component<IProps, IState> {
             }
         }
 
+        const reservations = props.reservations || [];
+        reservations.sort((a, b) => {
+            if (!a.start) return 0;
+            return compareDescDate(toDate(a.start), toDate(b.start));
+        })
+
         this.state = {
             day  : props.day || thisDate.getDate(), //j
             month: props.month || thisDate.getMonth() + 1, //n
@@ -208,7 +224,7 @@ export default class App extends React.Component<IProps, IState> {
 
             selectedDay  : null,
             selectedItem : null,
-            reservations : props.reservations || [],
+            reservations : reservations,
             services     : props.services,
             availability : props.availability || [],
             internalDomId: internalID
@@ -467,6 +483,36 @@ export default class App extends React.Component<IProps, IState> {
         return items;
     }
 
+    getBackButton = (viewMode: availableViews) => {
+        return <IconButton
+            onClick={() => this.setState(redux(
+                [
+                    {
+                        type   : 'CHANGE_VIEW',
+                        payload: {viewMode: viewMode}
+                    },
+                    {
+                        type   : 'SET_DAY',
+                        payload: null
+                    },
+                    {
+                        type   : 'SLIDER_DIRECTION',
+                        payload: 'right'
+                    }
+                ]
+            ), () => {
+                this.setState(redux([
+                    {
+                        type   : 'SLIDER_DIRECTION',
+                        payload: 'left'
+                    }
+                ]))
+            })}
+        >
+            <Undo/>
+        </IconButton>
+    }
+
     getNavComponents = () => {
         switch (this.state.viewMode) {
             case 'monthlyCalendar':
@@ -497,37 +543,10 @@ export default class App extends React.Component<IProps, IState> {
                         </IconButton>
                     </>
                 )
-
             case 'stepper':
                 return (
                     <>
-                        <IconButton
-                            onClick={() => this.setState(redux(
-                                [
-                                    {
-                                        type   : 'CHANGE_VIEW',
-                                        payload: {viewMode: 'monthlyCalendar'}
-                                    },
-                                    {
-                                        type   : 'SET_DAY',
-                                        payload: null
-                                    },
-                                    {
-                                        type   : 'SLIDER_DIRECTION',
-                                        payload: 'right'
-                                    }
-                                ]
-                            ), () => {
-                                this.setState(redux([
-                                    {
-                                        type   : 'SLIDER_DIRECTION',
-                                        payload: 'left'
-                                    }
-                                ]))
-                            })}
-                        >
-                            <Undo/>
-                        </IconButton>
+                        {this.getBackButton('monthlyCalendar')}
                         <Typography component={'span'} variant={'h6'}>
                             {this.state.selectedDay && (
                                 <span className={styles.strongText}>
@@ -541,6 +560,32 @@ export default class App extends React.Component<IProps, IState> {
                         </Typography>
                         <IconButton disabled>
                         </IconButton>
+                    </>
+                )
+            case 'reservations':
+                return (
+                    <>
+                        {this.getBackButton('monthlyCalendar')}
+                        <Typography component={'span'} variant={'h6'}>
+                            <span className={styles.strongText}>
+                                {__('Your reservations', 'thebooking')}
+                            </span>
+                        </Typography>
+                        <FormControlLabel
+                            control={<Switch size="small" checked={!!this.state.viewData.showPast} onChange={(e: any) => {
+                                this.setState(redux([
+                                    {
+                                        type   : 'CHANGE_VIEW',
+                                        payload: {
+                                            viewData: {
+                                                showPast: e.target.checked
+                                            }
+                                        }
+                                    }
+                                ]))
+                            }}/>}
+                            label={__('Show past', 'thebooking')}
+                        />
                     </>
                 )
         }
@@ -684,6 +729,87 @@ export default class App extends React.Component<IProps, IState> {
                         services={this.props.services}
                     />
                 )
+            case 'reservations':
+                const filteredReservations = this.props.reservations.filter(reservation => {
+                    if (reservation.customer.hash !== TBK.currentUserHash) {
+                        return false;
+                    }
+                    const date = toDate(reservation.start);
+                    if (!this.state.viewData.showPast && isPast(date)) {
+                        return false;
+                    }
+                    return true;
+                })
+                return (
+                    <>
+                        {filteredReservations.length > 0 && (
+                            <TableContainer>
+                                <Table
+                                    size={'small'}
+                                >
+                                    <TableBody>
+                                        {filteredReservations.map((reservation) => {
+                                            const date = toDate(reservation.start);
+                                            const service = this.props.services[reservation.serviceId];
+                                            let statusIcon;
+                                            switch (reservation.status) {
+                                                case 'cancelled':
+                                                    statusIcon = <ClearIcon style={{color: theme.palette.error.main}}/>;
+                                                    break;
+                                                case 'confirmed':
+                                                    statusIcon = <DoneIcon style={{color: theme.palette.success.main}}/>;
+                                                    break;
+                                                case 'pending':
+                                                    statusIcon = <UpdateIcon style={{color: theme.palette.warning.main}}/>;
+                                                    break;
+                                                default:
+                                                    statusIcon = <DoneIcon style={{color: theme.palette.success.main}}/>;
+                                                    break;
+                                            }
+                                            return (
+                                                <TableRow hover>
+                                                    <TableCell>
+                                                        <CardHeader
+                                                            avatar={
+                                                                <Avatar
+                                                                    style={{background: service.image ? null : service.color}}
+                                                                    src={service.image ? service.image[0] : null}
+                                                                    alt={service.name}
+                                                                >
+                                                                    {service.name.charAt(0)}
+                                                                </Avatar>
+                                                            }
+                                                            title={service.name}
+                                                            subheader={service.description.short}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell>
+                                                <span className={styles.dateTimeCell}>
+                                                    {globals.formatDate(date)}
+                                                    <span>
+                                                        {globals.formatTime(date)}
+                                                    </span>
+                                                </span>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Chip variant='outlined' size='small' icon={statusIcon} label={TBK.statuses[reservation.status]}/>
+                                                    </TableCell>
+                                                </TableRow>
+                                            )
+                                        })}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        )}
+                        {filteredReservations.length < 1 && (
+                            <Typography component={'div'} variant={'body2'}>
+                                <div style={{padding: '20px 30px'}}>
+                                    {__('You have no reservations.', 'thebooking')}
+                                </div>
+                            </Typography>
+                        )}
+                    </>
+                )
             case 'userMessage':
                 const classes = [styles.userMessage];
                 switch (this.state.viewData.type) {
@@ -754,6 +880,12 @@ export default class App extends React.Component<IProps, IState> {
                 <Slide mountOnEnter unmountOnExit in={this.state.viewMode === 'stepper'} direction={this.state.sliderDirection}>
                     <Typography variant={'body2'} component={'div'}>
                         {this.state.viewMode === 'stepper' && this.getViews()}
+                    </Typography>
+                </Slide>
+
+                <Slide mountOnEnter unmountOnExit in={this.state.viewMode === 'reservations'} direction={this.state.sliderDirection}>
+                    <Typography variant={'body2'} component={'div'}>
+                        {this.state.viewMode === 'reservations' && this.getViews()}
                     </Typography>
                 </Slide>
 

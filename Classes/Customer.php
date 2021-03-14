@@ -46,6 +46,11 @@ class Customer extends Resource
      */
     protected $birthday = '';
 
+    /**
+     * @var string
+     */
+    protected $access_token = '';
+
     public function __construct()
     {
     }
@@ -111,19 +116,30 @@ class Customer extends Resource
     }
 
     /**
+     * @param string $token
+     *
+     * @return string
+     */
+    public function access_token($token = NULL)
+    {
+        return $this->_get_or_set(__FUNCTION__, $token);
+    }
+
+    /**
      * @return array
      */
     public function as_array()
     {
         return [
-            'wpUserId' => $this->wp_user,
-            'email'    => $this->email,
-            'phone'    => $this->phone,
-            'birthday' => $this->birthday,
-            'name'     => $this->name,
-            'created'  => $this->created,
-            'updated'  => $this->updated,
-            'id'       => $this->id
+            'wpUserId'    => $this->wp_user,
+            'email'       => $this->email,
+            'phone'       => $this->phone,
+            'birthday'    => $this->birthday,
+            'name'        => $this->name,
+            'created'     => $this->created,
+            'updated'     => $this->updated,
+            'id'          => $this->id,
+            'accessToken' => $this->access_token
         ];
     }
 }

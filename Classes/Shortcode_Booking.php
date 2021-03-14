@@ -74,7 +74,6 @@ class Shortcode_Booking extends Shortcode
             }
         }
 
-
         ob_start();
 
         ?>
@@ -85,6 +84,9 @@ class Shortcode_Booking extends Shortcode
                 if (typeof TBK.UI.instances === 'undefined') {
                     TBK.UI.instances = {};
                 }
+                <?php if (isset($_GET['tbkg_customer_hash'])) { ?>
+                TBK.currentUserHash = '<?php echo sanitize_text_field($_GET['tbkg_customer_hash']) ?>';
+                <?php } ?>
                 TBK.UI.instances['<?php echo esc_attr($instance_id) ?>'] = {
                     availability          : <?php echo json_encode($availability) ?>,
                     services              : <?php echo json_encode($services) ?>,

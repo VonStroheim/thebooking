@@ -31,6 +31,7 @@ class Customers
     public static $table_structure = [
         'customer_name' => ['type' => 'text', 'null' => TRUE],
         'email'         => 'varchar',
+        'access_token'  => 'varchar',
         'phone'         => ['type' => 'varchar', 'null' => TRUE],
         'wp_user'       => 'int',
         'created'       => 'int',
@@ -72,6 +73,7 @@ class Customers
             $customer->birthday($record->birthday);
             $customer->phone($record->phone);
             $customer->wp_user($record->wp_user);
+            $customer->access_token($record->access_token);
             $customer->id($record->id);
             $this->customers[ $record->id ] = $customer;
         }
@@ -117,7 +119,7 @@ class Customers
     {
         foreach (tbkg()->customers->all() as $customer) {
             if ($customer->wp_user() === $user_id) {
-                $user = get_user_by('ID', $user_id);
+                $user    = get_user_by('ID', $user_id);
                 $command = new EditCustomer(
                     $user->display_name,
                     $user->user_email,
@@ -151,6 +153,27 @@ class Customers
         }
 
         return $this->customers[ $id ];
+    }
+
+    /**
+     * Returns a customer from a WordPress User ID.
+     *
+     * @param int $wp_id
+     *
+     * @return Customer
+     */
+    public function getByWpId($wp_id)
+    {
+        if ($wp_id === 0) {
+            return NULL;
+        }
+        foreach ($this->customers as $customer) {
+            if ($customer->wp_user() === $wp_id) {
+                return $customer;
+            }
+        }
+
+        return NULL;
     }
 
     /**

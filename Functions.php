@@ -355,6 +355,8 @@ function print_filters_for($hook = '')
  */
 function localize_frontend_script()
 {
+    $customer = tbkg()->customers->getByWpId(get_current_user_id());
+
     return apply_filters('tbk_frontend_js_data_common', [
         'weekDaysLabels'      => \VSHM_Framework\Tools::i18n_weekdays_labels(),
         'shortWeekDaysLabels' => \VSHM_Framework\Tools::i18n_weekdays_labels('D'),
@@ -366,12 +368,22 @@ function localize_frontend_script()
         'registrationUrl'     => tbkg()->settings->registration_url(),
         'nonce'               => wp_create_nonce('tbk_nonce'),
         'currentUser'         => get_current_user_id(),
+        'currentUserHash'     => NULL !== $customer ? md5($customer->access_token()) : '',
         'hideWeekends'        => tbkg()->settings->frontend_days_in_week() !== 7,
         'loadAtClosestSlot'   => tbkg()->settings->load_calendar_at_closest_slot(),
         'locations'           => tbkg()->availability->locations(),
         'gMapsApiKey'         => tbkg()->settings->gmaps_api_key(),
         'i18n'                => [
             'locale' => str_replace('_', '-', get_locale()),
+        ],
+        'statuses'            => [
+            ValueTypes\Status::DRAFT     => __('Draft', 'thebooking'),
+            ValueTypes\Status::PENDING   => __('Pending', 'thebooking'),
+            ValueTypes\Status::CONFIRMED => __('Confirmed', 'thebooking'),
+            ValueTypes\Status::CANCELLED => __('Canceled', 'thebooking'),
+            ValueTypes\Status::ARCHIVED  => __('Archived', 'thebooking'),
+            ValueTypes\Status::OPEN      => __('Open', 'thebooking'),
+            ValueTypes\Status::CLOSED    => __('Closed', 'thebooking'),
         ]
     ]);
 }
