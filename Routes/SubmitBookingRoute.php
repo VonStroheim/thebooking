@@ -110,7 +110,7 @@ final class SubmitBookingRoute implements Route
                             foreach ($customers as $customer) {
                                 if ($customer->wp_user() === $userId) {
                                     // Current logged-in user is already mapped to a customer. TODO: decide if we map or discard
-                                    #$customerId = $customer->id(); // THIS CHANGES THE CUSTOMER; FORCING THE RESERVATION TO BE LIKED TO LOGGED USER
+                                    #$customerId = $customer->id(); // THIS CHANGES THE CUSTOMER; FORCING THE RESERVATION TO BE LINKED TO LOGGED USER
                                     $userId = 0; // THIS DISCARDS THE CURRENT LOGGED USER AS IT'S MAPPED ALREADY TO ANOTHER EMAIL ADDRESS
                                 }
                             }
@@ -120,10 +120,28 @@ final class SubmitBookingRoute implements Route
 
                             // TODO conditional: if $userID is still 0 and $customerId is still NULL, decide if we want to create a WP user here.
 
+                            /**
+                             * Phone
+                             */
+                            $customerPhoneField =
+                                isset($request->get_param('bookingData')['phone'])
+                                    ? $request->get_param('bookingData')['phone']
+                                    : ['value' => ''];
+                            $customerPhone      = strtolower(trim($customerPhoneField['value']));
+
+                            /**
+                             * Name
+                             */
+                            $customerNameField =
+                                isset($request->get_param('bookingData')['name'])
+                                    ? $request->get_param('bookingData')['name']
+                                    : ['value' => ''];
+                            $customerName      = strtolower(trim($customerNameField['value']));
+
                             tbkg()->bus->dispatch(new CreateCustomer(
-                                    NULL,
+                                    $customerName ?: NULL,
                                     $customerEmail,
-                                    NULL,
+                                    $customerPhone ?: NULL,
                                     $userId,
                                     NULL)
                             );
