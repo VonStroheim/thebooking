@@ -224,6 +224,7 @@ final class Modules
         $service     = tbkg()->services->get($reservation->service_id());
 
         $preparedValues = [
+            'status_link'               => \VSHM_Framework\REST_Controller::get_root_rest_url() . '/redirect/reservationStatusPage',
             'service::name'             => $service->name(),
             'service::description'      => $service->description(),
             'service::shortDescription' => $service->short_description(),
@@ -307,7 +308,7 @@ final class Modules
     private static function _findAndReplaceHooks($string, array $variables)
     {
         // Enclosure hooks (WordPress 4.4.0+ only)
-        $pattern = get_shortcode_regex(['cancellation_link', 'decline_link', 'approve_link', 'pay_link', 'ics_link']);
+        $pattern = get_shortcode_regex(['status_link']);
         $string  = preg_replace_callback("/$pattern/s", static function ($matches) use ($variables) {
             if (isset($variables[ strtolower(trim($matches[2], '[]')) ])) {
                 $link = $variables[ strtolower(trim($matches[2], '[]')) ];

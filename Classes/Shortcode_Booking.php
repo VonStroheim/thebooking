@@ -62,6 +62,18 @@ class Shortcode_Booking extends Shortcode
             }
         }
 
+        $defaultView = 'monthlyCalendar';
+        if (isset($_GET['tbkg_view'])) {
+            $defaultView = sanitize_text_field($_GET['tbkg_view']);
+            switch (sanitize_text_field($_GET['tbkg_view'])) {
+                case 'reservations':
+                    $defaultView = 'reservations';
+                    break;
+                default:
+                    break;
+            }
+        }
+
 
         ob_start();
 
@@ -78,6 +90,7 @@ class Shortcode_Booking extends Shortcode
                     services              : <?php echo json_encode($services) ?>,
                     reservations          : <?php echo json_encode($reservations) ?>,
                     groupSlots            : true,
+                    viewMode              : '<?php echo $defaultView ?>',
                     monthlyViewAverageDots: 5,
                     monthlyViewShowAllDots: false
                 }

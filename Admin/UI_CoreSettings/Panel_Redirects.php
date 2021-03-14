@@ -67,8 +67,9 @@ class Panel_Redirects
                     ]
                 ],
                 [
-                    'title'      => __('Reservation status page', 'thebooking'),
-                    'components' => [
+                    'title'       => __('Reservation status page', 'thebooking'),
+                    'description' => __('If you intend to allow customers to check the status of their reservations, select here the page that will be shown when the relative link in the confirmation email is visited.', 'thebooking'),
+                    'components'  => [
                         [
                             'settingId' => 'order_status_page',
                             'type'      => 'select',
@@ -76,7 +77,7 @@ class Panel_Redirects
                         ],
                         [
                             'type' => 'notice',
-                            'text' => sprintf(__('The selected page must have the %s shortcode somewhere.', 'thebooking'), '[tbk-order-status]'),
+                            'text' => sprintf(__('The selected page must have the %s shortcode somewhere.', 'thebooking'), '[tbk-booking]'),
                         ]
                     ]
                 ],
