@@ -54,6 +54,14 @@ See the [documentation](https://docs.thebookingplugin.com/ "TheBooking documenta
 
 Source code can be found [here](https://github.com/VonStroheim/thebooking "TheBooking repository")
 
+== Screenshots ==
+
+1. The frontend calendar
+2. Reservations list
+3. Availability settings
+4. Booking process
+5. Form builder
+
 == Changelog ==
 
 = 1.0 =
