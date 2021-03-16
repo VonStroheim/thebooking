@@ -207,14 +207,15 @@ final class Modules
 
     private static function _notification_cancellation_send($uid)
     {
-        $reservation = tbkg()->reservations->all()[ $uid ];
-        $service     = tbkg()->services->get($reservation->service_id());
+        $reservation    = tbkg()->reservations->all()[ $uid ];
+        $service        = tbkg()->services->get($reservation->service_id());
+        $preparedValues = self::_prepare_placeholders($uid);
 
         if ($service->getMeta(self::CUSTOMER_CANCELLATION_EMAIL_META)) {
 
             tbkg()->bus->dispatch(new SendEmail(
-                wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CANCELLATION_EMAIL_SUBJECT_META), [])),
-                self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CANCELLATION_EMAIL_CONTENT_META), []),
+                wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CANCELLATION_EMAIL_SUBJECT_META), $preparedValues)),
+                self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CANCELLATION_EMAIL_CONTENT_META), $preparedValues),
                 tbkg()->customers->get($reservation->customer_id())->email(),
                 [
                     'address' => get_option('admin_email'),
@@ -225,16 +226,17 @@ final class Modules
     }
 
     /**
-     * Sends notification when a reservation is CONFIRMED
+     * @param string $reservation_id
      *
-     * @param $uid
+     * @return array
      */
-    private static function _notification_send($uid)
+    private static function _prepare_placeholders($reservation_id)
     {
-        $reservation = tbkg()->reservations->all()[ $uid ];
-        $customer    = tbkg()->customers->get($reservation->customer_id());
-        $service     = tbkg()->services->get($reservation->service_id());
-        $status_link = \VSHM_Framework\REST_Controller::get_root_rest_url() . '/redirect/reservationStatusPage';
+        $reservation  = tbkg()->reservations->all()[ $reservation_id ];
+        $customer     = tbkg()->customers->get($reservation->customer_id());
+        $service      = tbkg()->services->get($reservation->service_id());
+        $status_link  = \VSHM_Framework\REST_Controller::get_root_rest_url() . '/redirect/reservationStatusPage';
+        $activeFields = $service->getMeta('formFieldsActive') ?: [];
 
         $preparedValues = [
             'status_link'               => add_query_arg('hash', md5($customer->access_token()), $status_link),
@@ -247,6 +249,36 @@ final class Modules
             'reservation::endDate'      => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->end())->localized_date(),
             'reservation::duration'     => '' // TODO
         ];
+
+        $hooksSpec = array_filter($service->metadata(), static function ($meta, $key) use ($activeFields) {
+
+            return $meta instanceof Classes\ValueTypes\FormField
+                && in_array($key, $activeFields, TRUE)
+                && !empty($meta->getValue()['hook']);
+        }, ARRAY_FILTER_USE_BOTH);
+
+        foreach ($hooksSpec as $key => $item) {
+            if (NULL !== $item->getValue()['hook']) {
+                /** @var $value UserInput */
+                $value = $reservation->getMeta($key) ?: new UserInput(['value' => '', 'type' => UserInput::TEXT, 'label' => '']);
+
+                $preparedValues[ $item->getValue()['hook'] ] = $value->getValue();
+            }
+        }
+
+        return $preparedValues;
+    }
+
+    /**
+     * Sends notification when a reservation is CONFIRMED
+     *
+     * @param $uid
+     */
+    private static function _notification_send($uid)
+    {
+        $reservation    = tbkg()->reservations->all()[ $uid ];
+        $service        = tbkg()->services->get($reservation->service_id());
+        $preparedValues = self::_prepare_placeholders($uid);
 
         if ($service->getMeta(self::ADMIN_CONFIRMATION_EMAIL_META)) {
 
@@ -262,20 +294,6 @@ final class Modules
         }
 
         if ($service->getMeta(self::CUSTOMER_CONFIRMATION_EMAIL_META) && $reservation->status()->getValue() === Status::CONFIRMED) {
-
-            $activeFields = $service->getMeta('formFieldsActive') ?: [];
-
-            $hooksSpec = array_filter($service->metadata(), static function ($meta, $key) use ($activeFields) {
-                return $meta instanceof Classes\ValueTypes\FormField && in_array($meta->getValue()['hook'], $activeFields, TRUE);
-            }, ARRAY_FILTER_USE_BOTH);
-            foreach ($hooksSpec as $key => $item) {
-                if (NULL !== $item->getValue()['hook']) {
-                    /** @var $value UserInput */
-                    $value = $reservation->getMeta($key) ?: new UserInput(['value' => '', 'type' => UserInput::TEXT, 'label' => '']);
-
-                    $preparedValues[ $item->getValue()['hook'] ] = $value->getValue();
-                }
-            }
 
             tbkg()->bus->dispatch(new SendEmail(
                 wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CONFIRMATION_EMAIL_SUBJECT_META), $preparedValues)),
