@@ -60,7 +60,7 @@ class Admin
             'thebooking',
             'TheBooking',
             'Reservations',
-            'manage_options',
+            'tbk_can_admin',
             'thebooking',
             [
                 __CLASS__,
@@ -72,7 +72,7 @@ class Admin
             'thebooking',
             'Services - TheBooking',
             'Services',
-            'manage_options',
+            'tbk_can_admin',
             self::SLUG_SERVICES_PAGE,
             [
                 __CLASS__,
@@ -84,7 +84,7 @@ class Admin
             'thebooking',
             'Customers - TheBooking',
             'Customers',
-            'manage_options',
+            'tbk_can_admin',
             self::SLUG_CUSTOMERS_PAGE,
             [
                 __CLASS__,
@@ -96,7 +96,7 @@ class Admin
             'thebooking',
             'Availability - TheBooking',
             'Availability',
-            'manage_options',
+            'tbk_can_admin',
             self::SLUG_AVAILABILITY_PAGE,
             [
                 __CLASS__,
@@ -108,7 +108,7 @@ class Admin
             'thebooking',
             'Core - TheBooking',
             'Core settings',
-            'manage_options',
+            'tbk_can_admin',
             self::SLUG_CORE_PAGE,
             [
                 __CLASS__,
