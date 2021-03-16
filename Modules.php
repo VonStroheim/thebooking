@@ -23,6 +23,7 @@ final class Modules
         tbkg()->loader->add_filter('tbk_notification_template_hooks', self::class, 'templateHooks', 10, 2);
         tbkg()->loader->add_filter('tbk_notification_template_hooks_spec', self::class, 'templateHooksSpec', 10, 2);
         tbkg()->loader->add_action('tbk_reservation_status_updated_actions', self::class, 'triggerNotificationsAfterUpdate');
+        tbkg()->loader->add_action('tbk_success_booking_message', self::class, 'successBookingMessage', 10, 2);
     }
 
     /**
@@ -41,6 +42,16 @@ final class Modules
     const CUSTOMER_APPROVAL_EMAIL_META             = 'userApprovalEmail';
     const CUSTOMER_APPROVAL_EMAIL_CONTENT_META     = self::CUSTOMER_APPROVAL_EMAIL_META . 'Content';
     const CUSTOMER_APPROVAL_EMAIL_SUBJECT_META     = self::CUSTOMER_APPROVAL_EMAIL_META . 'Subject';
+
+    public static function successBookingMessage($message, CreateReservation $command)
+    {
+        $send = (bool)tbkg()->services->get($command->getServiceId())->getMeta(self::CUSTOMER_CONFIRMATION_EMAIL_META);
+        if ($send) {
+            $message = __('You will receive an email shortly.', 'thebooking');
+        }
+
+        return $message;
+    }
 
     public static function notificationsPanel($panels)
     {

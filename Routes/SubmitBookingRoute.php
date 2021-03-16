@@ -176,8 +176,8 @@ final class SubmitBookingRoute implements Route
                     $response['bookingId'] = $reservationId;
                     $response['response']  = [
                         'type'    => 'success',
-                        'tagline' => 'Thanks for your reservation',
-                        'message' => 'You will receive an email shortly.',
+                        'tagline' => __('Thanks for your reservation', 'thebooking'),
+                        'message' => apply_filters('tbk_success_booking_message', '', $command),
                         'actions' => []
                     ];
 
