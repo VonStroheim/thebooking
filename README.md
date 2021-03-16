@@ -11,7 +11,7 @@ TheBooking is a modern booking plugin to manage reservations, focused on usabili
 2. Configure the availability times and closing days in `TheBooking > Availability`
 3. Place the frontend calendar widget anywhere in your website using one of the following methods:
    * Use the WP block editor element (Elementor blocks are also provided).
-   * Use the `[tbk-widget]` shortcode.
+   * Use the `[tbk-booking]` shortcode.
     
 ## Email notifications
 Email notifications can be configured per-service. To do that, go in `TheBooking > Services`, click on the cog icon of the desired service and select `Notifications` from the configuration side menu.
