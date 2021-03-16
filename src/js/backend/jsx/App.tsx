@@ -291,6 +291,28 @@ export default class App extends React.Component<AppProps, AppState> {
 
                 })
                 break;
+            case 'EDIT_LOCATION':
+                Api.post('/edit/location/', {
+                    name   : action.payload.name,
+                    address: action.payload.address,
+                    uid    : action.payload.uid
+                }).then((res: any) => {
+                    if (res.data.status === 'KO') {
+                        this.showError(res.data.error);
+                        this.setState({
+                            isBusy: false
+                        })
+                    } else {
+                        tbkCommon.locations = res.data.locations;
+                        this.setState({
+                            UI    : tbkCommon,
+                            isBusy: false
+                        })
+                        this.showSuccess(__('Location modified.', 'thebooking'));
+                    }
+
+                })
+                break;
             case 'CREATE_SERVICE':
                 Api.post('/create/service/', {
                     service: action.payload

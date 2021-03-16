@@ -98,7 +98,6 @@ class LocationsTable extends React.Component<SProps, SState> {
         confirmPopup({
             target : event.currentTarget,
             message: __('Are you sure you want to proceed?', 'thebooking'),
-            header : __('Confirmation', 'thebooking'),
             icon   : 'pi pi-exclamation-triangle',
             accept : callback,
             reject : null
@@ -106,12 +105,20 @@ class LocationsTable extends React.Component<SProps, SState> {
     }
 
     createLocation = () => {
-        this.props.onUpdate({
-            type   : 'CREATE_LOCATION',
-            payload: this.state.newLocationData
-        });
+        if (this.state.current) {
+            this.props.onUpdate({
+                type   : 'EDIT_LOCATION',
+                payload: {...{uid: this.state.current}, ...this.state.newLocationData}
+            });
+        } else {
+            this.props.onUpdate({
+                type   : 'CREATE_LOCATION',
+                payload: this.state.newLocationData
+            });
+        }
         this.setState({
             displayNewDialog: false,
+            current         : null,
             newLocationData : {
                 name   : '',
                 address: '',
@@ -155,7 +162,7 @@ class LocationsTable extends React.Component<SProps, SState> {
                             <div>
                                 <Button label={__('Cancel', 'thebooking')}
                                         icon="pi pi-times"
-                                        onClick={() => this.setState({displayNewDialog: false})}
+                                        onClick={() => this.setState({displayNewDialog: false, current: null})}
                                         className="p-button-text"/>
                                 <Button label={nameTaken ? __('Name already used', 'thebooking') : (id ? __('Save', 'thebooking') : __('Create location', 'thebooking'))}
                                         icon="pi pi-check"
@@ -255,26 +262,6 @@ class LocationsTable extends React.Component<SProps, SState> {
                 break;
         }
         return value;
-    }
-
-    activeBodyTemplate = (service: ServiceRecordBackend) => {
-        return (
-            <InputSwitch
-                checked={service.active}
-                disabled={this.props.isBusy}
-                onChange={(e) => {
-                    this.props.onUpdate({
-                        type   : 'SAVE_SERVICE_SETTINGS',
-                        payload: {
-                            id      : service.uid,
-                            settings: {
-                                service_active: e.value
-                            }
-                        }
-                    })
-                }}
-            />
-        )
     }
 
     nameBodyTemplate = (location: Location) => {

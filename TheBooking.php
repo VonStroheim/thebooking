@@ -123,6 +123,7 @@ final class TheBooking extends Single
             Routes\SaveAvailabilityRoute::register();
             Routes\DeleteCustomerRoute::register();
             Routes\CreateLocationRoute::register();
+            Routes\EditLocationRoute::register();
             Routes\DeleteLocationRoute::register();
             Routes\CleanReservationStatusChangesRoute::register();
             Routes\RedirectRoute::register();
