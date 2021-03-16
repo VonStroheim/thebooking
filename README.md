@@ -25,3 +25,21 @@ The form builder is quite flexible. Conditional fields are also a feature.
 + 1.0.0
 
    First release.
+  
+### Credits
+This plugin uses the following libraries/products:
+
++ [Material-UI](https://github.com/mui-org/material-ui "Material-UI")
++ [TinyMCE](https://github.com/tinymce/tinymce "TinyMCE")
++ [date-fns](https://github.com/date-fns/date-fns "date-fns")
++ [PrimeReact](https://github.com/primefaces/primereact "PrimeReact")
++ [Axios](https://github.com/axios/axios "Axios")
++ [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd "react-beautiful-dnd")
++ [DOMPurify](https://github.com/cure53/DOMPurify "DOMPurify")
++ [rc-year-calendar](https://github.com/year-calendar/rc-year-calendar "rc-year-calendar")
++ [react-google-maps-api](https://github.com/JustFly1984/react-google-maps-api "react-google-maps-api")
++ [react-phone-input-2](https://github.com/bl00mber/react-phone-input-2 "react-phone-input-2")
++ [rrule.js](https://github.com/jakubroztocil/rrule "rrule.js")
++ [react-color](https://github.com/casesandberg/react-color "react-color")
++ [export-to-csv](https://github.com/alexcaza/export-to-csv "export-to-csv")
++ [autosuggest-highlight](https://github.com/moroshko/autosuggest-highlight "autosuggest-highlight")
