@@ -37,11 +37,11 @@ register_uninstall_hook(TBKG_FILE__, 'TheBooking\plugin_uninstall');
 /**
  * Main instance of TheBooking.
  *
- * @return \TheBooking\TheBooking
+ * @return \TheBooking\TheBookingClass
  */
 function tbkg()
 {
-    return \TheBooking\TheBooking::instance();
+    return \TheBooking\TheBookingClass::instance();
 }
 
 /**

@@ -5,7 +5,7 @@ namespace TheBooking\Bus\Handlers;
 use TheBooking\Bus\Command;
 use TheBooking\Bus\Commands\AddReservationPendingStatusUpdate;
 use TheBooking\Bus\Handler;
-use TheBooking\TheBooking;
+use TheBooking\TheBookingClass;
 
 defined('ABSPATH') || exit;
 
@@ -22,7 +22,7 @@ class AddReservationPendingStatusUpdateHandler implements Handler
     {
         /** @var $command AddReservationPendingStatusUpdate */
 
-        if (TheBooking::isAdministrator()) {
+        if (TheBookingClass::isAdministrator()) {
             $stored = get_option($this->option_key, []);
 
             if (!in_array($command->getData(), $stored, TRUE)) {

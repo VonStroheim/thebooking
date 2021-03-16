@@ -19,7 +19,7 @@ defined('ABSPATH') || exit;
  * @author  VonStroheim
  * @since   1.0.0
  */
-final class TheBooking extends Single
+final class TheBookingClass extends Single
 {
     /**
      * @var Loader

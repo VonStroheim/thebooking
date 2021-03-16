@@ -50,7 +50,7 @@ class Admin
         $page_hook = add_menu_page(
             'TheBooking',
             'TheBooking',
-            TheBooking::admin_cap(),
+            TheBookingClass::admin_cap(),
             'thebooking',
             [__CLASS__, 'admin_backend_page'],
             'data:image/svg+xml;base64,PHN2ZyBpZD0iTGl2ZWxsb18xIiBkYXRhLW5hbWU9IkxpdmVsbG8gMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTA0LjI5IDgwLjI4Ij48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6bm9uZTt9LmNscy0ye2ZpbGw6I2I5MjQyNDt9LmNscy0ze2ZpbGw6I2ZmZGIwNTt9LmNscy00e2ZpbGw6IzEzODZjOTt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmljb248L3RpdGxlPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMTIuNTUiIHk9IjU3LjIxIiB3aWR0aD0iMjkuMjUiIGhlaWdodD0iMTguMjgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xOC45NCAtMTYuMikgcm90YXRlKC02LjUpIi8+PHJlY3QgY2xhc3M9ImNscy0yIiB4PSIxMi41NSIgeT0iNTcuMjEiIHdpZHRoPSIyOS4yNSIgaGVpZ2h0PSIxOC4yOCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE4Ljk0IC0xNi4yKSByb3RhdGUoLTYuNSkiLz48cmVjdCBjbGFzcz0iY2xzLTMiIHg9IjUzLjc5IiB5PSI4MC4xMSIgd2lkdGg9IjI5LjI1IiBoZWlnaHQ9IjE4LjI4IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjEuMjcgLTExLjM4KSByb3RhdGUoLTYuNSkiLz48cmVjdCBjbGFzcz0iY2xzLTQiIHg9Ijg1LjcyIiB5PSIyMS4yOSIgd2lkdGg9IjI5LjI1IiBoZWlnaHQ9IjE4LjI4IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTQuNDEgLTguMTUpIHJvdGF0ZSgtNi41KSIvPjwvc3ZnPg=='

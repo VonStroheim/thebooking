@@ -33,7 +33,7 @@ function plugin_install()
      */
     foreach (wp_roles()->roles as $name => $role) {
         if ($name === 'administrator') {
-            wp_roles()->add_cap($name, TheBooking::admin_cap());
+            wp_roles()->add_cap($name, TheBookingClass::admin_cap());
         }
     }
 
@@ -94,7 +94,7 @@ function plugin_uninstall()
         delete_option(Settings::tag());
 
         foreach (wp_roles()->roles as $name => $role) {
-            wp_roles()->remove_cap($name, TheBooking::admin_cap());
+            wp_roles()->remove_cap($name, TheBookingClass::admin_cap());
         }
     }
 
@@ -545,7 +545,7 @@ function _wp_roles()
         if ($name === 'administrator') {
             continue;
         }
-        $roles[ $name ] = isset($role['capabilities'][ TheBooking::admin_cap() ]);
+        $roles[ $name ] = isset($role['capabilities'][ TheBookingClass::admin_cap() ]);
     }
 
     return $roles;

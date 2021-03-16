@@ -5,7 +5,7 @@ namespace TheBooking\Bus\Handlers;
 use TheBooking\Bus\Command;
 use TheBooking\Bus\Commands\SaveSettings;
 use TheBooking\Bus\Handler;
-use TheBooking\TheBooking;
+use TheBooking\TheBookingClass;
 use function TheBooking\_tbk_settings;
 
 defined('ABSPATH') || exit;
@@ -46,9 +46,9 @@ class SaveSettingsHandler implements Handler
                                 continue;
                             }
                             if (filter_var($allowed, FILTER_VALIDATE_BOOLEAN)) {
-                                wp_roles()->add_cap($role, TheBooking::admin_cap());
+                                wp_roles()->add_cap($role, TheBookingClass::admin_cap());
                             } else {
-                                wp_roles()->remove_cap($role, TheBooking::admin_cap());
+                                wp_roles()->remove_cap($role, TheBookingClass::admin_cap());
                             }
                         }
                         break;

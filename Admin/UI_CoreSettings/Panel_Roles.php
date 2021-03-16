@@ -2,7 +2,7 @@
 
 namespace TheBooking\Admin\UI_CoreSettings;
 
-use TheBooking\TheBooking;
+use TheBooking\TheBookingClass;
 
 defined('ABSPATH') || exit;
 

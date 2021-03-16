@@ -5,7 +5,7 @@ namespace TheBooking\Bus\Handlers;
 use TheBooking\Bus\Command;
 use TheBooking\Bus\Commands\CleanReservationPendingStatusUpdate;
 use TheBooking\Bus\Handler;
-use TheBooking\TheBooking;
+use TheBooking\TheBookingClass;
 
 defined('ABSPATH') || exit;
 
@@ -22,7 +22,7 @@ class CleanReservationPendingStatusUpdateHandler implements Handler
     {
         /** @var $command CleanReservationPendingStatusUpdate */
 
-        if (TheBooking::isAdministrator()) {
+        if (TheBookingClass::isAdministrator()) {
 
             if ($command->getData()) {
                 /**
