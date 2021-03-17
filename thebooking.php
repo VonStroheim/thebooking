@@ -4,7 +4,7 @@
 Plugin Name:        TheBooking
 Plugin URI:         https://github.com/VonStroheim/thebooking
 Description:        A WordPress booking plugin.
-Version:            1.0.0
+Version:            1.0
 Requires PHP:       5.6
 Requires at least:  5.0
 Author:             VonStroheim
