@@ -181,6 +181,51 @@ export default class Form extends React.Component<FormProps, FormState> {
             }
         }
 
+        // We should continue with validation only if there are no errors at this point.
+        if (typeof errors[key] !== 'undefined') {
+            return errors;
+        }
+
+        // Text validation
+        if (field.type === 'text' && (('pattern' in field && field.pattern) || key === 'email')) {
+            let pattern;
+            if (key === 'email') {
+                pattern = "^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$";
+            } else if ('pattern' in field && field.pattern) {
+                pattern = field.pattern;
+            }
+            if (pattern.charAt(0) === '/') {
+                pattern = pattern.substring(1);
+            }
+            if (pattern.charAt(pattern.length - 1) === '/') {
+                pattern = pattern.slice(0, -1);
+            }
+            const regex = new RegExp(pattern);
+            if (!regex.test(value)) {
+                errors[key] = __('Please provide a valid data.', 'thebooking');
+            } else {
+                delete errors[key];
+            }
+        }
+
+        // Number validation
+        if (field.type === 'number') {
+            if ('minimum' in field && field.minimum) {
+                if (parseInt(value) < field.minimum) {
+                    errors[key] = __('Number too small.', 'thebooking');
+                } else {
+                    delete errors[key];
+                }
+            }
+            if ('maximum' in field && field.maximum) {
+                if (parseInt(value) > field.maximum) {
+                    errors[key] = __('Number too big.', 'thebooking');
+                } else {
+                    delete errors[key];
+                }
+            }
+        }
+
         return errors;
     }
 
