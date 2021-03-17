@@ -15,6 +15,7 @@ export interface TextFieldProps {
     min?: number,
     max?: number,
     step?: number,
+    pattern?: any
 
     onChange(event: any): any
 }
@@ -25,9 +26,10 @@ export default function TextField(props: TextFieldProps) {
             <TextFieldUI autoComplete={props.autoComplete}
                          variant={'filled'}
                          inputProps={{
-                             min : props.min || 0,
-                             max : props.max,
-                             step: props.step || 1
+                             min    : props.min || 0,
+                             max    : props.max,
+                             step   : props.step || 1,
+                             pattern: props.pattern || null
                          }}
                          id={globals.uuidv4()}
                          label={props.label}

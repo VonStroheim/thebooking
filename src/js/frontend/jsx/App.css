@@ -4,6 +4,12 @@
   font-display: swap;
   position: relative;
 }
+.app .absolutePositioned {
+  position: absolute !important;
+}
+.app .upperCase {
+  text-transform: uppercase !important;
+}
 .app .secondaryText {
   color: #636363;
   margin-left: 4px;

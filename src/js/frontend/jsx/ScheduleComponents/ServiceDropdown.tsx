@@ -26,6 +26,10 @@ export default function ServiceDropdown(props: SelectProps) {
                     <TextField {...params} label={__('Service', 'thebooking')} variant="outlined"/>
                 </>
             }
+            classes={{
+                // Ensures compatibility with TwentyTwentyOne theme
+                popupIndicator: 'has-background has-text-color'
+            }}
             disableClearable
             openOnFocus
             noOptionsText={__('No services', 'thebooking')}

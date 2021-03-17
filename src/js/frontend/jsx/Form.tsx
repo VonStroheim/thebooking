@@ -238,8 +238,9 @@ export default class Form extends React.Component<FormProps, FormState> {
             case 'number':
                 return (
                     <div>
-                        <TextField type={field.type}
+                        <TextField type={key === 'email' ? 'email' : field.type}
                                    label={field.label}
+                                   pattern={'pattern' in field && field.pattern ? field.pattern : null}
                                    value={this.state.values[key]}
                                    required={isRequired}
                                    error={typeof this.state.errors[key] !== 'undefined'}
@@ -405,7 +406,12 @@ export default class Form extends React.Component<FormProps, FormState> {
                     {this.renderFields(this.props.fields)}
                     <Grid item xs={12} className={styles.actions}>
                         {this.props.actions}
-                        <Button variant={'contained'} disabled={this.state.isBusy} color={'primary'} onClick={this.handleSubmit}>
+                        <Button
+                            variant={'contained'}
+                            disabled={this.state.isBusy}
+                            color={'primary'}
+                            component={'div'}
+                            onClick={this.handleSubmit}>
                             {__('Book now', 'thebooking')}
                         </Button>
                     </Grid>

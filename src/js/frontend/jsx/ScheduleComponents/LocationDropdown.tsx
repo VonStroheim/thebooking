@@ -23,6 +23,10 @@ export default function LocationDropdown(props: SelectProps) {
                     <TextField {...params} label={__('Location', 'thebooking')} variant="outlined"/>
                 </>
             }
+            classes={{
+                // Ensures compatibility with TwentyTwentyOne theme
+                popupIndicator: 'has-background has-text-color'
+            }}
             disableClearable
             openOnFocus
             noOptionsText={__('No locations', 'thebooking')}

@@ -105,12 +105,14 @@ export default class Calendar extends React.Component<IProps, IState> {
         })
 
         if (available) {
-            return <AvailableStyledButton className={styles.dayButton} style={dayStyle} focusRipple>
+            // @ts-ignore
+            return <AvailableStyledButton component={'div'} className={styles.dayButton} style={dayStyle} focusRipple>
                 {label}
             </AvailableStyledButton>
         }
 
-        return <BookedStyledButton className={styles.dayButton} style={dayStyle} focusRipple>
+        // @ts-ignore
+        return <BookedStyledButton component={'div'} className={styles.dayButton} style={dayStyle} focusRipple>
             {label}
         </BookedStyledButton>
 
@@ -198,7 +200,7 @@ export default class Calendar extends React.Component<IProps, IState> {
                                 this.getStyledDayButton(mappedEvents[currentCueDay.getDate()], currentCueDay.getDate(), dayStyle)
                             )}
                             {!Array.isArray(mappedEvents[currentCueDay.getDate()]) && (
-                                <ButtonBase className={styles.dayButton} style={dayStyle} focusRipple>
+                                <ButtonBase component={'div'} className={styles.dayButton} style={dayStyle} focusRipple>
                                     {currentCueDay.getDate()}
                                 </ButtonBase>
                             )}

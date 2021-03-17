@@ -29,6 +29,10 @@ export default function Select(props: SelectProps) {
 
     return (
         <Autocomplete
+            classes={{
+                // Ensures compatibility with TwentyTwentyOne theme
+                popupIndicator: 'has-background has-text-color'
+            }}
             defaultValue={props.value}
             onChange={props.onChange}
             noOptionsText={__('No options', 'thebooking')}

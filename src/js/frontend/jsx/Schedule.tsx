@@ -317,6 +317,7 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
     _stepNextButton = (active: boolean) => {
         return (
             <Button
+                component={'div'}
                 variant="outlined"
                 disabled={!active}
                 endIcon={<ArrowForward/>}
@@ -513,6 +514,7 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
         return (
             <>
                 <Button
+                    component={'div'}
                     size={'small'}
                     aria-label={__('Log-in', 'thebooking')}
                     onClick={() => {
@@ -524,6 +526,7 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
                     {__('Log-in', 'thebooking')}
                 </Button>
                 <Button
+                    component={'div'}
                     disableElevation
                     aria-label={__('Register to book', 'thebooking')}
                     color={'primary'}
@@ -596,6 +599,7 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
                     {this.getSteps().map((id, index) => (
                         <Step key={id}>
                             <StepButton
+                                component={'div'}
                                 disableRipple={true}
                                 className={'noHover'}
                                 onClick={() => {

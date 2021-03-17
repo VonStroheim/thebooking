@@ -485,6 +485,7 @@ export default class App extends React.Component<IProps, IState> {
 
     getBackButton = (viewMode: availableViews) => {
         return <IconButton
+            component={'div'}
             onClick={() => this.setState(redux(
                 [
                     {
@@ -519,6 +520,7 @@ export default class App extends React.Component<IProps, IState> {
                 return (
                     <>
                         <IconButton
+                            component={'div'}
                             onClick={() => {
                                 this.setState(dateReducer(this.state, {type: 'PREV_MONTH'}))
                             }}>
@@ -536,6 +538,7 @@ export default class App extends React.Component<IProps, IState> {
                             </span>
                         </Typography>
                         <IconButton
+                            component={'div'}
                             onClick={() => {
                                 this.setState(dateReducer(this.state, {type: 'NEXT_MONTH'}))
                             }}>
@@ -558,7 +561,7 @@ export default class App extends React.Component<IProps, IState> {
                                 {this.state.year}
                             </span>
                         </Typography>
-                        <IconButton disabled>
+                        <IconButton disabled component={'div'}>
                         </IconButton>
                     </>
                 )
@@ -572,18 +575,24 @@ export default class App extends React.Component<IProps, IState> {
                             </span>
                         </Typography>
                         <FormControlLabel
-                            control={<Switch size="small" checked={!!this.state.viewData.showPast} onChange={(e: any) => {
-                                this.setState(redux([
-                                    {
-                                        type   : 'CHANGE_VIEW',
-                                        payload: {
-                                            viewData: {
-                                                showPast: e.target.checked
+                            control={<Switch
+                                size="small"
+                                checked={!!this.state.viewData.showPast}
+                                classes={{
+                                    input: styles.absolutePositioned
+                                }}
+                                onChange={(e: any) => {
+                                    this.setState(redux([
+                                        {
+                                            type   : 'CHANGE_VIEW',
+                                            payload: {
+                                                viewData: {
+                                                    showPast: e.target.checked
+                                                }
                                             }
                                         }
-                                    }
-                                ]))
-                            }}/>}
+                                    ]))
+                                }}/>}
                             label={__('Show past', 'thebooking')}
                         />
                     </>
@@ -835,31 +844,37 @@ export default class App extends React.Component<IProps, IState> {
                             </Typography>
                         </CardContent>
                         <CardActions className={styles.userMessageActions}>
-                            <Button href={''} type={'text'} onClick={() => {
-                                this.setState(redux([
-                                    {
-                                        type   : 'CHANGE_VIEW',
-                                        payload: {
-                                            viewMode: 'monthlyCalendar'
-                                        }
-                                    },
-                                    {
-                                        type   : 'SET_DAY',
-                                        payload: null
-                                    },
-                                    {
-                                        type   : 'SLIDER_DIRECTION',
-                                        payload: 'right'
-                                    }
-                                ]), () => {
+                            <Button
+                                href={''}
+                                component={'div'}
+                                classes={{
+                                    root: styles.upperCase
+                                }}
+                                onClick={() => {
                                     this.setState(redux([
                                         {
+                                            type   : 'CHANGE_VIEW',
+                                            payload: {
+                                                viewMode: 'monthlyCalendar'
+                                            }
+                                        },
+                                        {
+                                            type   : 'SET_DAY',
+                                            payload: null
+                                        },
+                                        {
                                             type   : 'SLIDER_DIRECTION',
-                                            payload: 'left'
+                                            payload: 'right'
                                         }
-                                    ]))
-                                })
-                            }}>
+                                    ]), () => {
+                                        this.setState(redux([
+                                            {
+                                                type   : 'SLIDER_DIRECTION',
+                                                payload: 'left'
+                                            }
+                                        ]))
+                                    })
+                                }}>
                                 {__('Continue booking', 'thebooking')}
                             </Button>
                         </CardActions>

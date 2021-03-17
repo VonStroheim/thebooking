@@ -22,6 +22,10 @@ export default function TimeslotDropdown(props: SelectProps) {
         <Autocomplete
             renderInput={(params) => <TextField {...params} label={__('Start time', 'thebooking')} variant="outlined"/>}
             options={props.items}
+            classes={{
+                // Ensures compatibility with TwentyTwentyOne theme
+                popupIndicator: 'has-background has-text-color'
+            }}
             disableClearable
             openOnFocus
             getOptionDisabled={(option) => option.soldOut}
