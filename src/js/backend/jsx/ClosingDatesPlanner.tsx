@@ -1,11 +1,11 @@
 // @ts-ignore
 import styles from './WorkingHoursPlanner.css';
-import globals from '../../globals';
 import React from "react";
 import {tbkCommonB} from "../../typedefs";
 import {RRule, RRuleSet, rrulestr} from 'rrule';
-// @ts-ignore
-import Calendar from 'rc-year-calendar';
+import {Calendar as PCalendar} from 'primereact/calendar';
+import {addYears, setMonth, subYears} from "date-fns";
+import {Button} from "primereact/button";
 
 declare const tbkCommon: tbkCommonB;
 declare const _: any;
@@ -18,12 +18,12 @@ export interface WProps {
 }
 
 interface WState {
-    exDates: any
+    exDates: any,
+    viewDate: Date
 }
 
 
-export default class ClosingDatesPlanner extends React.PureComponent<WProps, WState> {
-
+export default class ClosingDatesPlanner extends React.Component<WProps, WState> {
 
     constructor(props: WProps) {
 
@@ -44,9 +44,10 @@ export default class ClosingDatesPlanner extends React.PureComponent<WProps, WSt
         })
 
         this.state = {
-            exDates: exDates.map(date => {
+            exDates : exDates.map(date => {
                 return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
-            })
+            }),
+            viewDate: setMonth(new Date(), 0)
         }
     }
 
@@ -92,41 +93,27 @@ export default class ClosingDatesPlanner extends React.PureComponent<WProps, WSt
 
         return (
             <div className={styles.workingHoursPlanner}>
-                <div className={styles.exDates} style={{wordBreak: "normal", height: '700px', lineHeight: 'normal', display: 'flex'}}>
-                    <Calendar
-                        style={'border'}
-                        language={tbkCommon.i18n.locale.substring(0, 1)}
-                        onDayClick={(e: any) => {
-                            if (globals.isDateInArray(this.state.exDates, e.date)) {
-                                this.setState({
-                                    exDates: this.state.exDates.filter((date: Date) => {
-                                        return date.getTime() !== e.date.getTime()
-                                    })
-                                }, this.handleChange)
-                            } else {
-                                this.setState({exDates: [...this.state.exDates, e.date]}, this.handleChange)
-                            }
-
-                        }}
-                        onRangeSelected={(e: any) => {
-                            this.setState({exDates: globals.getDaysArray(e.startDate, e.endDate)}, this.handleChange)
-                        }}
-                        dataSource={this.getMappedExdates()}/>
+                <div className="p-d-flex p-ai-center p-jc-center">
+                    <Button icon="pi pi-chevron-left" className="p-button-rounded p-button-text p-button-plain p-m-1"
+                            onClick={() => this.setState({viewDate: subYears(this.state.viewDate, 1)})}/>
+                    <div style={{padding: '1rem', fontWeight: 600, color: 'var(--primary-color)'}}>
+                        {this.state.viewDate.getFullYear()}
+                    </div>
+                    <Button icon="pi pi-chevron-right" className="p-button-rounded p-button-text p-button-plain p-m-1"
+                            onClick={() => this.setState({viewDate: addYears(this.state.viewDate, 1)})}/>
+                </div>
+                <div className={styles.exDates} key={this.state.viewDate.getFullYear()}>
+                    <PCalendar inline value={this.state.exDates}
+                               locale={tbkCommon.i18n.locale.substring(0, 2)}
+                               selectionMode="multiple"
+                               viewDate={this.state.viewDate}
+                               onChange={(e: any) => {
+                                   this.setState({exDates: e.value}, this.handleChange)
+                               }}
+                               numberOfMonths={12}
+                    />
                 </div>
             </div>
         )
     }
-
-    getMappedExdates = () => {
-        const mapped: any = [];
-        this.state.exDates.forEach((date: Date) => {
-            mapped.push({
-                startDate: date,
-                endDate  : date,
-                color    : '#B92F37'
-            })
-        })
-        return mapped;
-    }
-
 }

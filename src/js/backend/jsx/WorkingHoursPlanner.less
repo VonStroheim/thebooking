@@ -147,6 +147,46 @@
       }
     }
 
+    :global(.p-datepicker-inline) {
+      padding: 0 !important;
+      border: none !important;
+
+      :global(.p-datepicker-group-container) {
+        flex-wrap: wrap !important;
+
+        :global(.p-datepicker-group) {
+          border: none !important;
+          flex: 1 0 25%;
+
+          &:first-child {
+            padding-left: 0.5rem !important;
+          }
+
+          &:last-child {
+            padding-right: 0.5rem !important;
+          }
+
+          :global(.p-datepicker-prev),
+          :global(.p-datepicker-next) {
+            display: none !important;
+          }
+
+          table {
+            font-size: 0.85rem !important;
+
+            td {
+              padding: 0.1rem !important;
+
+              > span {
+                width: 2rem !important;
+                height: 2rem !important;
+              }
+            }
+          }
+        }
+      }
+    }
+
   }
 
   .exDateTag {

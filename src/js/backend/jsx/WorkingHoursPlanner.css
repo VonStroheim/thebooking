@@ -109,6 +109,37 @@
 .workingHoursPlanner .exDates :global(.calendar) :global(.months-container) {
   opacity: 1 !important;
 }
+.workingHoursPlanner .exDates :global(.p-datepicker-inline) {
+  padding: 0 !important;
+  border: none !important;
+}
+.workingHoursPlanner .exDates :global(.p-datepicker-inline) :global(.p-datepicker-group-container) {
+  flex-wrap: wrap !important;
+}
+.workingHoursPlanner .exDates :global(.p-datepicker-inline) :global(.p-datepicker-group-container) :global(.p-datepicker-group) {
+  border: none !important;
+  flex: 1 0 25%;
+}
+.workingHoursPlanner .exDates :global(.p-datepicker-inline) :global(.p-datepicker-group-container) :global(.p-datepicker-group):first-child {
+  padding-left: 0.5rem !important;
+}
+.workingHoursPlanner .exDates :global(.p-datepicker-inline) :global(.p-datepicker-group-container) :global(.p-datepicker-group):last-child {
+  padding-right: 0.5rem !important;
+}
+.workingHoursPlanner .exDates :global(.p-datepicker-inline) :global(.p-datepicker-group-container) :global(.p-datepicker-group) :global(.p-datepicker-prev),
+.workingHoursPlanner .exDates :global(.p-datepicker-inline) :global(.p-datepicker-group-container) :global(.p-datepicker-group) :global(.p-datepicker-next) {
+  display: none !important;
+}
+.workingHoursPlanner .exDates :global(.p-datepicker-inline) :global(.p-datepicker-group-container) :global(.p-datepicker-group) table {
+  font-size: 0.85rem !important;
+}
+.workingHoursPlanner .exDates :global(.p-datepicker-inline) :global(.p-datepicker-group-container) :global(.p-datepicker-group) table td {
+  padding: 0.1rem !important;
+}
+.workingHoursPlanner .exDates :global(.p-datepicker-inline) :global(.p-datepicker-group-container) :global(.p-datepicker-group) table td > span {
+  width: 2rem !important;
+  height: 2rem !important;
+}
 .workingHoursPlanner .exDateTag {
   color: white !important;
   background: #b92f37 !important;
