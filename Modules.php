@@ -237,17 +237,20 @@ final class Modules
         $service      = tbkg()->services->get($reservation->service_id());
         $status_link  = \VSHM_Framework\REST_Controller::get_root_rest_url() . '/redirect/reservationStatusPage';
         $activeFields = $service->getMeta('formFieldsActive') ?: [];
+        $locationId   = $reservation->getMeta('location');
 
         $preparedValues = [
-            'status_link'               => add_query_arg('hash', md5($customer->access_token()), $status_link),
-            'service::name'             => $service->name(),
-            'service::description'      => $service->description(),
-            'service::shortDescription' => $service->short_description(),
-            'reservation::startTime'    => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->start())->localized_time(),
-            'reservation::startDate'    => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->start())->localized_date(),
-            'reservation::endTime'      => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->end())->localized_time(),
-            'reservation::endDate'      => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->end())->localized_date(),
-            'reservation::duration'     => '' // TODO
+            'status_link'                  => add_query_arg('hash', md5($customer->access_token()), $status_link),
+            'service::name'                => $service->name(),
+            'service::description'         => $service->description(),
+            'service::shortDescription'    => $service->short_description(),
+            'reservation::startTime'       => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->start())->localized_time(),
+            'reservation::startDate'       => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->start())->localized_date(),
+            'reservation::endTime'         => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->end())->localized_time(),
+            'reservation::endDate'         => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->end())->localized_date(),
+            'reservation::locationName'    => $locationId ? tbkg()->availability->locations()[ $locationId ]['l_name'] : '',
+            'reservation::locationAddress' => $locationId ? tbkg()->availability->locations()[ $locationId ]['address'] : '',
+            'reservation::duration'        => '' // TODO
         ];
 
         $hooksSpec = array_filter($service->metadata(), static function ($meta, $key) use ($activeFields) {
@@ -413,6 +416,18 @@ final class Modules
         $hooks[] = [
             'value'        => 'reservation::endDate',
             'label'        => __('End date', 'thebooking'),
+            'context'      => 'reservation',
+            'contextLabel' => __('Reservation', 'thebooking')
+        ];
+        $hooks[] = [
+            'value'        => 'reservation::locationName',
+            'label'        => __('Location (name)', 'thebooking'),
+            'context'      => 'reservation',
+            'contextLabel' => __('Reservation', 'thebooking')
+        ];
+        $hooks[] = [
+            'value'        => 'reservation::locationAddress',
+            'label'        => __('Location (address)', 'thebooking'),
             'context'      => 'reservation',
             'contextLabel' => __('Reservation', 'thebooking')
         ];
