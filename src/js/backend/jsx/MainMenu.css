@@ -84,7 +84,7 @@
 .mainMenu .selected:after {
   position: absolute;
   content: '';
-  background: #226A9D;
+  background: var(--primary-color);
   bottom: 0;
   left: calc(50% - 30px);
   height: 2px;
