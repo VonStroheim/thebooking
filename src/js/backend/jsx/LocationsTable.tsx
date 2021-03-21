@@ -57,6 +57,17 @@ class LocationsTable extends React.Component<SProps, SState> {
 
     }
 
+    resetNewDialog = () => {
+        this.setState({
+            displayNewDialog: false,
+            current         : null,
+            newLocationData : {
+                name   : '',
+                address: '',
+            }
+        })
+    }
+
     renderHeader() {
         return (
             <div className={tableStyles.tableHeader}>
@@ -116,14 +127,7 @@ class LocationsTable extends React.Component<SProps, SState> {
                 payload: this.state.newLocationData
             });
         }
-        this.setState({
-            displayNewDialog: false,
-            current         : null,
-            newLocationData : {
-                name   : '',
-                address: '',
-            }
-        })
+        this.resetNewDialog()
     }
 
     newLocationDialog = () => {
@@ -133,13 +137,14 @@ class LocationsTable extends React.Component<SProps, SState> {
         const id = this.state.current;
 
         let nameTaken = false;
-        Object.values(tbkCommon.locations).forEach(location => {
+
+        for (const [key, location] of Object.entries(tbkCommon.locations)) {
             if (locationData.name.length
                 && locationData.name.toLocaleLowerCase() === location.l_name.toLocaleLowerCase()
-                && locationData.name.toLocaleLowerCase() !== tbkCommon.locations[id].l_name.toLocaleLowerCase()) {
+                && id !== key) {
                 nameTaken = true;
             }
-        })
+        }
 
         return (
             <Dialog
@@ -148,13 +153,7 @@ class LocationsTable extends React.Component<SProps, SState> {
                 }}
                 header={id ? tbkCommon.locations[id].l_name : __('New location', 'thebooking')}
                 baseZIndex={100000}
-                onHide={() => this.setState({
-                    displayNewDialog: false,
-                    newLocationData : {
-                        name   : '',
-                        address: '',
-                    }
-                })}
+                onHide={this.resetNewDialog}
                 visible={this.state.displayNewDialog}
                 footer={
                     <div>
@@ -162,7 +161,7 @@ class LocationsTable extends React.Component<SProps, SState> {
                             <div>
                                 <Button label={__('Cancel', 'thebooking')}
                                         icon="pi pi-times"
-                                        onClick={() => this.setState({displayNewDialog: false, current: null})}
+                                        onClick={this.resetNewDialog}
                                         className="p-button-text"/>
                                 <Button label={nameTaken ? __('Name already used', 'thebooking') : (id ? __('Save', 'thebooking') : __('Create location', 'thebooking'))}
                                         icon="pi pi-check"
