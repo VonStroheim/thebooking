@@ -11,6 +11,7 @@ import watchify from 'watchify';
 import concat from 'concat-stream';
 import path from 'path';
 import zip from 'gulp-zip';
+import rename from 'gulp-rename';
 import {fileURLToPath} from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -21,6 +22,82 @@ const dir = {
     src  : 'src/',
     build: ''
 };
+
+function copyTinyCustomPlugin(options = {}) {
+    const defs = {
+        dir: 'src/js/backend/',
+        ...options
+    }
+    return gulp.src([
+        defs.dir + 'tinyCustomPlugin.js',
+    ])
+        .pipe(terser())
+        .pipe(rename('plugin.min.js'))
+        .pipe(gulp.dest('js/backend/tiny/plugins/tbk-hooks'))
+}
+
+function copyTiny(options = {}) {
+    const defs = {
+        dir: 'node_modules/tinymce/',
+        ...options
+    }
+    return gulp.src([
+        defs.dir + 'tinymce.min.js',
+        defs.dir + '*icons/**/*',
+        defs.dir + '*skins/**/*',
+        defs.dir + '*themes/silver/theme.min.js',
+        defs.dir + '*plugins/code/plugin.min.js',
+        defs.dir + '*plugins/fullscreen/plugin.min.js',
+        defs.dir + '*plugins/link/plugin.min.js',
+        defs.dir + '*plugins/noneditable/plugin.min.js',
+        defs.dir + '*plugins/preview/plugin.min.js',
+        defs.dir + '*plugins/quickbars/plugin.min.js'
+    ])
+        .pipe(gulp.dest('js/backend/tiny/'))
+}
+
+function copyPrime(options = {}) {
+    const defs = {
+        dir: 'node_modules/',
+        ...options
+    }
+    return gulp.src([
+        defs.dir + 'primereact/resources/themes/saga-blue/theme.css',
+        defs.dir + 'primereact/resources/primereact.min.css',
+        defs.dir + 'primeflex/primeflex.min.css',
+        defs.dir + 'primeicons/primeicons.css',
+        defs.dir + 'primeicons/*fonts/**/*',
+    ])
+        .pipe(gulp.dest('css'))
+}
+
+function copyNoUiSliderJS(options = {}) {
+    const defs = {
+        dir: 'node_modules/nouislider/distribute/',
+        ...options
+    }
+    return gulp.src(defs.dir + 'nouislider.min.js')
+        .pipe(gulp.dest('js/backend'))
+}
+
+function copyNoUiSliderCSS(options = {}) {
+    const defs = {
+        dir: 'node_modules/nouislider/distribute/',
+        ...options
+    }
+    return gulp.src(defs.dir + 'nouislider.min.css')
+        .pipe(gulp.dest('css'))
+}
+
+function copyPhoneInputCSS(options = {}) {
+    const defs = {
+        dir: 'node_modules/react-phone-input-2/lib/',
+        ...options
+    }
+    return gulp.src(defs.dir + 'style.css')
+        .pipe(rename('phoneInputStyle.css'))
+        .pipe(gulp.dest('css'))
+}
 
 function cssifyJSXcomponents(options = {}) {
     const defs = {
@@ -176,10 +253,32 @@ function compileJS(options = {}) {
 
 }
 
-const build = gulp.series(cssifyJSXcomponents, compileJS);
+const build = gulp.series(
+    copyTiny,
+    copyTinyCustomPlugin,
+    copyNoUiSliderCSS,
+    copyNoUiSliderJS,
+    copyPhoneInputCSS,
+    copyPrime,
+    cssifyJSXcomponents,
+    compileJS
+);
 const buildFrontend = gulp.series(cssifyJSXcomponentsFrontend, compileJSfrontend);
 
-const buildProduction = gulp.series(cssifyJSXcomponents, buildProductionBackend, cssifyJSXcomponentsFrontend, buildProductionFrontend, zippy);
+const buildProduction = gulp.series(
+    copyTiny,
+    copyTinyCustomPlugin,
+    copyNoUiSliderCSS,
+    copyNoUiSliderJS,
+    copyPhoneInputCSS,
+    copyPrime,
+    cssifyJSXcomponents,
+    buildProductionBackend,
+    cssifyJSXcomponentsFrontend,
+    buildProductionFrontend,
+    zippy
+);
+
 const zipPlugin = gulp.series(zippy);
 
 export {build as build};

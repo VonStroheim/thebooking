@@ -12,7 +12,7 @@ import Calendar from 'rc-year-calendar';
 declare const tbkCommon: tbkCommonB;
 declare const _: any;
 declare const lodash: any;
-declare const noUiSliderTbk: any;
+declare const noUiSlider: any;
 declare const wp: any;
 const {__, _x, _n, _nx, sprintf} = wp.i18n;
 
@@ -155,13 +155,13 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
     inject = (sliders: HTMLCollectionOf<any>) => {
         this.sliders = [];
         for (let i = 0; i < sliders.length; i++) {
-            if (typeof sliders[i].noUiSliderTbk !== 'undefined') {
-                sliders[i].noUiSliderTbk.off();
-                sliders[i].noUiSliderTbk.destroy();
+            if (typeof sliders[i].noUiSlider !== 'undefined') {
+                sliders[i].noUiSlider.off();
+                sliders[i].noUiSlider.destroy();
             }
             sliders[i].removeAttribute('disabled');
 
-            noUiSliderTbk.create(sliders[i], {
+            noUiSlider.create(sliders[i], {
                 ...this.state.slidersDefaults[i], ...{
                     range: {
                         min: this.state.preferences.rangeStart,
@@ -169,7 +169,7 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
                     }
                 }
             });
-            sliders[i].noUiSliderTbk.on('update', this.updateTotalTime);
+            sliders[i].noUiSlider.on('update', this.updateTotalTime);
             if (this.state.slidersDefaults[i].start.length === 1) {
                 sliders[i].setAttribute('disabled', 'true');
             } else {
@@ -232,13 +232,13 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
         const sliders = document.getElementById(this.id).getElementsByClassName('slider');
         for (let i = 0; i < sliders.length; i++) {
             // @ts-ignore
-            sliders[i].noUiSliderTbk.off();
+            sliders[i].noUiSlider.off();
             // @ts-ignore
-            sliders[i].noUiSliderTbk.destroy();
+            sliders[i].noUiSlider.destroy();
         }
     }
 
-    updateTotalTime = (values: any, handle: any, unencoded: number[], tap: any, positions: any, noUiSliderTbk: any) => {
+    updateTotalTime = (values: any, handle: any, unencoded: number[], tap: any, positions: any, noUiSlider: any) => {
 
         let totalTime = 0;
         if (unencoded.length > 1) {
@@ -255,8 +255,8 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
         const h = Math.trunc(totalTime / 60);
         const m = (totalTime % 60);
 
-        const nodes = Array.from(noUiSliderTbk.target.closest('ul').children);
-        const thisIndex = nodes.indexOf(noUiSliderTbk.target.closest('li'));
+        const nodes = Array.from(noUiSlider.target.closest('ul').children);
+        const thisIndex = nodes.indexOf(noUiSlider.target.closest('li'));
         const prevTotals = this.state.totalTimeLabels;
         prevTotals[thisIndex] = h + 'h' + m + 'm';
         this.setState({
@@ -278,16 +278,16 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
     cutMargins = () => {
         for (let i = 0; i < this.sliders.length; i++) {
             // @ts-ignore
-            this.sliders[i].noUiSliderTbk.updateOptions({
+            this.sliders[i].noUiSlider.updateOptions({
                 range: {
                     'min': this.state.preferences.rangeStart,
                     'max': this.state.preferences.rangeEnd,
                 }
             }, true);
             // @ts-ignore
-            this.sliders[i].noUiSliderTbk.off();
+            this.sliders[i].noUiSlider.off();
             // @ts-ignore
-            this.sliders[i].noUiSliderTbk.on('update', this.updateTotalTime);
+            this.sliders[i].noUiSlider.on('update', this.updateTotalTime);
             if (this.state.slidersDefaults[i].tooltips) {
                 this.mergeTooltips(this.sliders[i], 10, ' - ');
             }
@@ -341,9 +341,9 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
             }, this.handleChange
         );
 
-        slider.noUiSliderTbk.off();
-        slider.noUiSliderTbk.destroy();
-        noUiSliderTbk.create(slider, {
+        slider.noUiSlider.off();
+        slider.noUiSlider.destroy();
+        noUiSlider.create(slider, {
             ...this.state.slidersDefaults[thisIndex], ...{
                 range: {
                     min: this.state.preferences.rangeStart,
@@ -351,7 +351,7 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
                 }
             }
         });
-        slider.noUiSliderTbk.on('update', this.updateTotalTime);
+        slider.noUiSlider.on('update', this.updateTotalTime);
         if (Number(intervals) !== 0) {
             this.mergeTooltips(slider, 10, ' - ');
         }
@@ -361,7 +361,7 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
         const values = [];
         for (let i = 0; i < this.sliders.length; i++) {
             // @ts-ignore
-            let reading = this.sliders[i].noUiSliderTbk.get();
+            let reading = this.sliders[i].noUiSlider.get();
             if (Array.isArray(reading)) {
                 values.push(reading.map(function (value, i) {
                     return Number(value);
@@ -381,10 +381,10 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
     mergeTooltips = (slider: any, threshold: number, separator: string) => {
 
         const textIsRtl = getComputedStyle(slider).direction === 'rtl';
-        const isRtl = slider.noUiSliderTbk.options.direction === 'rtl';
-        const isVertical = slider.noUiSliderTbk.options.orientation === 'vertical';
-        const tooltips = slider.noUiSliderTbk.getTooltips();
-        const origins = slider.noUiSliderTbk.getOrigins();
+        const isRtl = slider.noUiSlider.options.direction === 'rtl';
+        const isVertical = slider.noUiSlider.options.orientation === 'vertical';
+        const tooltips = slider.noUiSlider.getTooltips();
+        const origins = slider.noUiSlider.getOrigins();
 
         // Move tooltips into the origin element. The default stylesheet handles this.
         tooltips.forEach(function (tooltip: any, index: number) {
@@ -395,7 +395,7 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
 
         const _this = this;
 
-        slider.noUiSliderTbk.on('update', function (values: any[], handle: any, unencoded: number[], tap: any, positions: any[]) {
+        slider.noUiSlider.on('update', function (values: any[], handle: any, unencoded: number[], tap: any, positions: any[]) {
 
             const pools: any[][] = [[]];
             const poolPositions: number[][] = [[]];

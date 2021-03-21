@@ -140,11 +140,10 @@ class Admin
             \VSHM_Framework\Tools::enqueue_style('tbk-admin-style-primeflex', '/css/primeflex.min.css');
             \VSHM_Framework\Tools::enqueue_style('tbk-admin-style-prime', '/css/primereact.min.css');
             \VSHM_Framework\Tools::enqueue_style('tbk-admin-style-prime-icons', '/css/primeicons.css');
-            \VSHM_Framework\Tools::enqueue_style('tbk-admin-nouislider-style', '/css/nouislider.css');
-            \VSHM_Framework\Tools::enqueue_style('tbk-admin-daypicker-style', '/css/react-day-picker.css');
+            \VSHM_Framework\Tools::enqueue_style('tbk-admin-nouislider-style', '/css/nouislider.min.css');
             \VSHM_Framework\Tools::enqueue_style('tbk-phone-input-style', '/css/phoneInputStyle.css');
             \VSHM_Framework\Tools::enqueue_style('tbk-admin-style', '/css/backend.css');
-            \VSHM_Framework\Tools::enqueue_script('tbk-admin-nouislider-script', '/js/backend/nouislider.js');
+            \VSHM_Framework\Tools::enqueue_script('tbk-admin-nouislider-script', '/js/backend/nouislider.min.js');
             \VSHM_Framework\Tools::enqueue_script('tbk-admin-script', '/js/backend/tbk.js',
                 [
                     'jquery',
@@ -157,7 +156,6 @@ class Admin
                     'lodash'
                 ],
                 TRUE);
-            \VSHM_Framework\Tools::enqueue_script('tbk-admin-daypicker-script', '/js/backend/react-day-picker.min.js', [], TRUE);
             wp_add_inline_script('tbk-admin-script', 'var tbkCommon=' . json_encode(localize_backend_script()), 'before');
 
             /**
