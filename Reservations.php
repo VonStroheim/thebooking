@@ -76,6 +76,17 @@ class Reservations
         tbkg()->loader->add_action('tbk_dispatched_ChangeReservationStatus', self::class, 'add_status_update');
         tbkg()->loader->add_action('tbk_dispatched_DeleteReservation', self::class, 'remove_status_update');
         tbkg()->loader->add_filter('tbk_backend_js_data_common', self::class, 'add_status_update_list');
+        tbkg()->loader->add_action('tbk_location_deleted', $this, 'location_deleted');
+    }
+
+    public function location_deleted($id)
+    {
+        foreach ($this->reservations as $reservation) {
+            if ($reservation->getMeta('location') === $id) {
+                $reservation->dropMeta('location');
+                $this->sync_meta($reservation->id());
+            }
+        }
     }
 
     public static function add_status_update_list($array)
