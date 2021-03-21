@@ -2,7 +2,7 @@
 import styles from './MainMenu.css';
 import React from 'react';
 import {Menubar} from 'primereact/menubar';
-import {Chip} from 'primereact/chip';
+import {Tag} from 'primereact/tag';
 import {BackendMainMenuItem, tbkCommonB} from "../../typedefs";
 
 declare const tbkCommon: tbkCommonB;
@@ -31,7 +31,10 @@ class MainMenu extends React.Component<MainMenuProps> {
 
     render() {
         const logo: any = <img src={tbkCommon.pluginUrl + 'assets/full_logo_black.svg'} width={120} className={styles.logo}/>;
-        const versionLabel: any = <Chip label="v1.0.0"/>;
+        const versionLabel: any = <Tag style={{
+            background: 'var(--bluegray-100)',
+            color     : 'var(--bluegray-700)',
+        }} icon="pi pi-tag" value={tbkCommon.pluginVersion}/>;
         return (
             <div className={styles.mainMenu}>
                 <Menubar start={logo} model={this.primeMap()} end={versionLabel}/>

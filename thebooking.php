@@ -18,8 +18,9 @@ defined('ABSPATH') || exit;
 // Set the right include path (temporary)...
 $prev_include_path = set_include_path(__DIR__);
 
-const TBKG_FILE__ = __FILE__;
-const TBKG_DIR__  = __DIR__;
+const TBKG_FILE__  = __FILE__;
+const TBKG_DIR__   = __DIR__;
+const TBKG_VERSION = '1.0';
 define('TBKG_PATH__', plugin_dir_path(TBKG_FILE__));
 define('TBKG_URL__', plugin_dir_url(TBKG_FILE__));
 

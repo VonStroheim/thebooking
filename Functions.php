@@ -284,6 +284,7 @@ function localize_backend_script()
     return apply_filters('tbk_backend_js_data_common', [
         'adminUrl'            => admin_url('admin.php?'),
         'pluginUrl'           => TBKG_URL__,
+        'pluginVersion'       => TBKG_VERSION,
         'restRouteRoot'       => \VSHM_Framework\REST_Controller::get_root_rest_url(),
         'tbk_nonce'           => wp_create_nonce('tbk_nonce'),
         'saveSettingsRoute'   => \VSHM_Framework\REST_Controller::get_root_rest_url() . '/save/settings',

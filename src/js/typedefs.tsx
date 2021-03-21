@@ -265,6 +265,7 @@ export interface tbkCommonB {
     restRouteRoot: string,
     reservationStatusUpdate: string[];
     pluginUrl: string,
+    pluginVersion: string,
     tbk_nonce: string,
     saveSettingsRoute: string,
     weekDaysLabels: string[],
