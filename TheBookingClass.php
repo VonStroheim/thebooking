@@ -127,6 +127,7 @@ final class TheBookingClass extends Single
             Routes\DeleteLocationRoute::register();
             Routes\CleanReservationStatusChangesRoute::register();
             Routes\RedirectRoute::register();
+            Routes\SaveUserPrefsRoute::register();
 
         } elseif (\VSHM_Framework\Tools::is_request('frontend')) {
             $this->loader->add_action('wp_enqueue_scripts', Frontend\UI::class, 'load_resources');

@@ -96,6 +96,11 @@ function plugin_uninstall()
         foreach (wp_roles()->roles as $name => $role) {
             wp_roles()->remove_cap($name, TheBookingClass::admin_cap());
         }
+
+        foreach (get_users() as $user) {
+            /** @var $user \WP_User */
+            delete_user_option($user->ID, 'tbkgUserPrefs');
+        }
     }
 
     return TRUE;
