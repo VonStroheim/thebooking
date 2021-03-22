@@ -217,6 +217,7 @@ class ServicesTable extends React.Component<SProps, SState> {
     }
 
     renderServiceConfig = () => {
+        const service = tbkCommon.services[this.state.current];
         const menuItems = this.props.panels.map(panel => {
             return {
                 label: panel.panelLabel,
@@ -227,9 +228,12 @@ class ServicesTable extends React.Component<SProps, SState> {
         return (
             <>
                 <div>
+                    <div className="p-text-center p-pb-4 p-px-2" style={{fontSize: '1.5rem', fontWeight: 600, lineHeight: '1.2'}}>
+                        {service.name}
+                    </div>
                     <BigAvatar
-                        bgColor={tbkCommon.services[this.state.current].color}
-                        bgImage={tbkCommon.services[this.state.current].image}
+                        bgColor={service.color}
+                        bgImage={service.image}
                         onUpdate={(attachmentID) => this.props.onUpdate({
                             type   : 'SAVE_SERVICE_SETTINGS',
                             payload: {
@@ -254,7 +258,7 @@ class ServicesTable extends React.Component<SProps, SState> {
                 </div>
                 {this.props.panels.map((panel, i) => {
                     if (this.props.currentHash === panel.panelRef || (!this.props.currentHash && i === 0)) {
-                        return this.props.renderSettingPanel(panel, tbkCommon.services[this.state.current], {type: 'SAVE_SERVICE_SETTINGS', id: this.state.current})
+                        return this.props.renderSettingPanel(panel, service, {type: 'SAVE_SERVICE_SETTINGS', id: this.state.current})
                     }
                 })}
             </>
