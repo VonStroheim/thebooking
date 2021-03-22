@@ -289,6 +289,7 @@ export interface tbkCommonB {
         locale: string,
     },
     mainMenuItems: BackendMainMenuItem[],
+    userPrefs: { [key: string]: any },
     settings: {
         load_calendar_at_closest_slot: boolean,
         frontend_days_in_week: boolean,

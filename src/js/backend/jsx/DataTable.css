@@ -43,13 +43,13 @@
   border-top-left-radius: 3px;
   border-width: 0 0 1px 0 !important;
 }
+.dataTable :global(.p-filter-column) > :global(.p-component):not(:global(.p-checkbox)) {
+  width: 100%;
+}
 .dataTable :global(.p-paginator-bottom) {
   border-width: 0 !important;
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
-}
-.dataTable .newResourceButton {
-  margin-right: 10px;
 }
 .dataTable .readOnlyPhone :global(.react-tel-input) {
   font-family: inherit !important;
@@ -74,4 +74,7 @@
 }
 .dataTable .readOnlyPhone :global(.react-tel-input) > :global(.flag-dropdown) :global(.selected-flag) :global(.arrow) {
   display: none !important;
+}
+.columnSelector :global(.p-listbox-item):global(.p-highlight) {
+  background: transparent !important;
 }

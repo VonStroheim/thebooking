@@ -12,6 +12,9 @@ import {toDate} from 'date-fns-tz';
 import {isSameDay, isValid} from 'date-fns';
 // @ts-ignore
 import {confirmPopup} from 'primereact/confirmpopup';
+import {OverlayPanel} from 'primereact/overlaypanel';
+import {ListBox} from 'primereact/listbox';
+import {Checkbox} from 'primereact/checkbox';
 // @ts-ignore
 import styles from './ReservationsTable.css';
 // @ts-ignore
@@ -41,14 +44,17 @@ interface ReservationTableState {
     reservationServiceFilter: any[] | null,
     selected: ReservationRecordBackend[] | null,
     expandedRows: { [key: string]: boolean },
+    columns: string[]
 }
 
 class ReservationsTable extends React.Component<ReservationTableProps, ReservationTableState> {
     private dt: any;
+    private readonly columnFilter: React.RefObject<OverlayPanel>;
 
     constructor(props: ReservationTableProps) {
         super(props);
 
+        this.columnFilter = React.createRef();
 
         this.state = {
             globalFilter            : null,
@@ -57,6 +63,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             reservationServiceFilter: null,
             selected                : [],
             expandedRows            : null,
+            columns                 : tbkCommon.userPrefs.reservationsTableColumns || ['service', 'customer', 'startDate', 'status']
         }
 
     }
@@ -285,21 +292,68 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
     renderHeader() {
         return (
             <div className={tableStyles.tableHeader}>
-                <SplitButton
-                    disabled={this.props.reservations.length < 1}
-                    icon={'pi pi-download'}
-                    onClick={this.exportCsv}
-                    label={this.state.selected.length > 0 ? __('Export selected', 'thebooking') + ' (' + this.state.selected.length + ')' : __('Export all', 'thebooking')}
-                    model={[
-                        {
-                            label  : this.state.selected.length > 0 ? __('Delete selected', 'thebooking') + ' (' + this.state.selected.length + ')' : __('Delete all', 'thebooking'),
-                            icon   : 'pi pi-trash',
-                            command: (event: any) => {
-                                this.confirm(event, () => this.deleteReservations(this.state.selected.length > 0 ? this.state.selected : this.props.reservations))
-                            }
-                        },
-                    ]}
-                />
+                <div>
+                    <SplitButton
+                        className={'p-mr-2'}
+                        disabled={this.props.reservations.length < 1}
+                        icon={'pi pi-download'}
+                        onClick={this.exportCsv}
+                        label={this.state.selected.length > 0 ? __('Export selected', 'thebooking') + ' (' + this.state.selected.length + ')' : __('Export all', 'thebooking')}
+                        model={[
+                            {
+                                label  : this.state.selected.length > 0 ? __('Delete selected', 'thebooking') + ' (' + this.state.selected.length + ')' : __('Delete all', 'thebooking'),
+                                icon   : 'pi pi-trash',
+                                command: (event: any) => {
+                                    this.confirm(event, () => this.deleteReservations(this.state.selected.length > 0 ? this.state.selected : this.props.reservations))
+                                }
+                            },
+                        ]}
+                    />
+                    <OverlayPanel
+                        ref={this.columnFilter}
+                    >
+                        <label className={'p-px-3 p-text-bold'}>
+                            {__('Columns to display', 'thebooking')}
+                        </label>
+                        <ListBox
+                            className={tableStyles.columnSelector}
+                            style={{border: 'none'}}
+                            multiple
+                            value={this.state.columns}
+                            options={[
+                                {label: __('Service name', 'thebooking'), value: 'service'},
+                                {label: __('Customer', 'thebooking'), value: 'customer'},
+                                {label: __('Date and time', 'thebooking'), value: 'startDate'},
+                                {label: __('Status', 'thebooking'), value: 'status'},
+                            ]}
+                            onChange={(e) => {
+                                this.setState({columns: e.value},
+                                    () => {
+                                        this.props.onUpdate({
+                                            type   : 'SAVE_USER_PREFS',
+                                            payload: {
+                                                name : 'reservationsTableColumns',
+                                                value: this.state.columns
+                                            }
+                                        })
+                                    });
+                            }}
+                            itemTemplate={(option: any) => {
+                                return (
+                                    <div className="p-field-checkbox" style={{marginBottom: '0'}}>
+                                        <Checkbox name="columns" value={option.value} checked={this.state.columns.indexOf(option.value) !== -1}/>
+                                        <label>{option.label}</label>
+                                    </div>
+                                )
+                            }}
+                        />
+                    </OverlayPanel>
+                    <Button
+                        className="p-button-rounded p-button-text p-button-plain"
+                        icon="pi pi-filter"
+                        onClick={(event) => this.columnFilter.current.toggle(event)}
+                    />
+                </div>
                 <div>
                     <span className="p-input-icon-left">
                     <i className="pi pi-search"/>
@@ -552,10 +606,19 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         }
     }
 
-    render() {
+    getColumnsToDisplay = () => {
         const columns = this.props.displayedColumns ? this.props.displayedColumns : [
             'selector', 'expander', 'service', 'customer', 'startDate', 'status', 'actions'
         ]
+        return columns.filter((item) => {
+            if (item === 'selector' || item === 'expander' || item === 'actions') {
+                return true;
+            }
+            return this.state.columns.includes(item);
+        })
+    }
+
+    render() {
         return (
             <div className={tableStyles.dataTable + ' ' + styles.reservationsTable}>
                 <DataTable
@@ -575,7 +638,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     rowExpansionTemplate={this.rowExpansionTemplate}
                     loading={this.props.isBusy}
                 >
-                    {columns.map(column => (this.renderColumn(column)))}
+                    {this.getColumnsToDisplay().map(column => (this.renderColumn(column)))}
                 </DataTable>
             </div>
         )

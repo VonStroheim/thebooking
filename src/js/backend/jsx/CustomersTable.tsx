@@ -3,6 +3,9 @@ import {Column} from 'primereact/column';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {Dialog} from 'primereact/dialog';
+import {OverlayPanel} from 'primereact/overlaypanel';
+import {ListBox} from 'primereact/listbox';
+import {Checkbox} from 'primereact/checkbox';
 // @ts-ignore
 import {confirmPopup} from 'primereact/confirmpopup';
 import {ProgressBar} from 'primereact/progressbar';
@@ -15,6 +18,7 @@ import CustomersDropdown from "./CustomersDropdown";
 import globals from "../../globals";
 import {ExportToCsv} from "export-to-csv";
 import ReservationsTable from "./ReservationsTable";
+import tableStyles from "./DataTable.css";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -24,6 +28,7 @@ const {__, _x, _n, _nx, sprintf} = wp.i18n;
 export interface SProps {
     isBusy: boolean,
     currentHash: string,
+    displayedColumns?: string[],
 
     renderSettingPanel(panel: SettingPanelBackend, dataSource: CustomerBackendRecord, action: { type: string, id: number }): any,
 
@@ -36,7 +41,8 @@ interface SState {
     displayNewDialog: boolean,
     expandedRows: { [key: string]: boolean },
     current: number | null,
-    newCustomerData: newCustomerData
+    newCustomerData: newCustomerData,
+    columns: string[]
 }
 
 interface newCustomerData {
@@ -66,9 +72,12 @@ const redux = globals.combineReducers({
 
 export default class CustomersTable extends React.Component<SProps, SState> {
     private dt: any;
+    private readonly columnFilter: React.RefObject<OverlayPanel>;
 
     constructor(props: SProps) {
         super(props);
+
+        this.columnFilter = React.createRef();
 
         this.state = {
             selected        : [],
@@ -82,7 +91,8 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                 phone   : '',
                 birthday: '',
                 wpUserId: 0
-            }
+            },
+            columns         : tbkCommon.userPrefs.customersTableColumns || ['name', 'email', 'phone']
         }
 
     }
@@ -112,15 +122,58 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                 <div>
                     <Button label={__('New customer', 'thebooking')}
                             icon={'pi pi-plus'}
-                            className={styles.newResourceButton}
+                            className={'p-mr-2'}
                             onClick={(e) => this.setState({displayNewDialog: true})}
                     />
                     <Button
-                        className={'p-button-secondary'}
+                        className={'p-button-secondary p-mr-2'}
                         icon={'pi pi-download'}
                         disabled={_.isEmpty(tbkCommon.customers)}
                         onClick={this.exportCsv}
                         label={this.state.selected.length > 0 ? __('Export selected', 'thebooking') + ' (' + this.state.selected.length + ')' : __('Export all', 'thebooking')}
+                    />
+                    <OverlayPanel
+                        ref={this.columnFilter}
+                    >
+                        <label className={'p-px-3 p-text-bold'}>
+                            {__('Columns to display', 'thebooking')}
+                        </label>
+                        <ListBox
+                            className={tableStyles.columnSelector}
+                            style={{border: 'none'}}
+                            multiple
+                            value={this.state.columns}
+                            options={[
+                                {label: __('Name', 'thebooking'), value: 'name'},
+                                {label: __('Email', 'thebooking'), value: 'email'},
+                                {label: __('Phone', 'thebooking'), value: 'phone'},
+                            ]}
+                            onChange={(e) => {
+                                this.setState({columns: e.value},
+                                    () => {
+                                        this.props.onUpdate({
+                                            type   : 'SAVE_USER_PREFS',
+                                            payload: {
+                                                name : 'customersTableColumns',
+                                                value: this.state.columns
+                                            }
+                                        })
+                                    });
+                            }}
+                            itemTemplate={(option: any) => {
+                                return (
+                                    <div className="p-field-checkbox" style={{marginBottom: '0'}}>
+                                        <Checkbox name="columns" value={option.value} checked={this.state.columns.indexOf(option.value) !== -1}/>
+                                        <label>{option.label}</label>
+                                    </div>
+                                )
+                            }}
+                        />
+                    </OverlayPanel>
+                    <Button
+                        className="p-button-rounded p-button-text p-button-plain"
+                        icon="pi pi-filter"
+                        onClick={(event) => this.columnFilter.current.toggle(event)}
                     />
                 </div>
                 <div>
@@ -462,6 +515,54 @@ export default class CustomersTable extends React.Component<SProps, SState> {
         return this.renderTable();
     }
 
+    renderColumn = (columnId: string) => {
+        switch (columnId) {
+            case 'selector':
+                return <Column selectionMode={'multiple'} style={{width: '3em'}}/>
+            case 'expander':
+                return <Column expander style={{width: '3em'}}/>
+            case 'name':
+                return <Column
+                    sortFunction={this.sortFunction}
+                    field={'name'}
+                    sortable
+                    header={__('Name', 'thebooking')}
+                    body={this.nameBodyTemplate}
+                />
+            case 'email':
+                return <Column
+                    sortFunction={this.sortFunction}
+                    field={'email'}
+                    sortable
+                    header={__('Email', 'thebooking')}
+                />
+            case 'phone':
+                return <Column
+                    sortFunction={this.sortFunction}
+                    field={'phone'}
+                    sortable
+                    header={__('Phone', 'thebooking')}
+                    body={this.phoneBodyTemplate}
+                />
+            case 'actions':
+                return <Column
+                    body={this.actionsBodyTemplate}
+                />
+        }
+    }
+
+    getColumnsToDisplay = () => {
+        const columns = this.props.displayedColumns ? this.props.displayedColumns : [
+            'selector', 'expander', 'name', 'email', 'phone', 'actions'
+        ]
+        return columns.filter((item) => {
+            if (item === 'selector' || item === 'expander' || item === 'actions') {
+                return true;
+            }
+            return this.state.columns.includes(item);
+        })
+    }
+
     renderTable = () => {
         return (
             <div className={styles.dataTable}>
@@ -482,31 +583,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                     onRowToggle={e => this.setState({expandedRows: e.data as any})}
                     loading={this.props.isBusy}
                 >
-                    <Column selectionMode={'multiple'} style={{width: '3em'}}/>
-                    <Column expander style={{width: '3em'}}/>
-                    <Column
-                        sortFunction={this.sortFunction}
-                        field={'name'}
-                        sortable
-                        header={__('Name', 'thebooking')}
-                        body={this.nameBodyTemplate}
-                    />
-                    <Column
-                        sortFunction={this.sortFunction}
-                        field={'email'}
-                        sortable
-                        header={__('Email', 'thebooking')}
-                    />
-                    <Column
-                        sortFunction={this.sortFunction}
-                        field={'phone'}
-                        sortable
-                        header={__('Phone', 'thebooking')}
-                        body={this.phoneBodyTemplate}
-                    />
-                    <Column
-                        body={this.actionsBodyTemplate}
-                    />
+                    {this.getColumnsToDisplay().map(column => (this.renderColumn(column)))}
                 </DataTable>
                 {this.newCustomerDialog()}
             </div>

@@ -327,6 +327,10 @@ function localize_backend_script()
         ],
         'mainMenuItems'       => _main_menu_items(),
         'settings'            => _tbk_settings(),
+        'userPrefs'           => get_user_option('tbkgUserPrefs') ?: [
+            'reservationsTableColumns' => ['service', 'customer', 'startDate', 'status'],
+            'customersTableColumns'    => ['name', 'email', 'phone'],
+        ],
         'statuses'            => [
             ValueTypes\Status::DRAFT     => __('Draft', 'thebooking'),
             ValueTypes\Status::PENDING   => __('Pending', 'thebooking'),

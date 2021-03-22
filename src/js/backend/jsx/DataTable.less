@@ -53,14 +53,19 @@
     border-width: 0 0 1px 0 !important;
   }
 
+
+  :global(.p-filter-column) {
+    > :global(.p-component) {
+      &:not(:global(.p-checkbox)) {
+        width: 100%;
+      }
+    }
+  }
+
   :global(.p-paginator-bottom) {
     border-width: 0 !important;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
-  }
-
-  .newResourceButton {
-    margin-right: 10px;
   }
 
   .readOnlyPhone {
@@ -94,5 +99,12 @@
       }
     }
   }
+}
 
+.columnSelector {
+  :global(.p-listbox-item) {
+    &:global(.p-highlight) {
+      background: transparent !important;
+    }
+  }
 }

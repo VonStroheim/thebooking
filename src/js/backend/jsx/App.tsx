@@ -97,7 +97,9 @@ export default class App extends React.Component<AppProps, AppState> {
     }
 
     handleChanges = (action: StateAction) => {
-        this.setState({isBusy: true});
+        if (action.type !== 'SAVE_USER_PREFS') {
+            this.setState({isBusy: true});
+        }
         switch (action.type) {
             case 'SAVE_SETTINGS':
                 fetch(this.state.UI.saveSettingsRoute, {
@@ -122,6 +124,14 @@ export default class App extends React.Component<AppProps, AppState> {
                         })
                         this.showSuccess(__('Settings saved.', 'thebooking'));
                     })
+                break;
+            case 'SAVE_USER_PREFS':
+                Api.post('/save/prefs/', {
+                    prefName : action.payload.name,
+                    prefValue: action.payload.value
+                }).then((res: any) => {
+                    console.log(res);
+                })
                 break;
             case 'SAVE_AVAILABILITY':
                 Api.post('/save/availability/', {
