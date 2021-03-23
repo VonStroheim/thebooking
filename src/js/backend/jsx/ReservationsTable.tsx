@@ -149,7 +149,6 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         return (
             <>
                 <Dropdown
-                    className={styles.statusBadge}
                     value={reservation.status}
                     options={options}
                     valueTemplate={(option) => (<span className={styles.statusWrapper}><span className={'status' + option.value}></span>{option.label}</span>)}
