@@ -572,6 +572,22 @@ export default class App extends React.Component<AppProps, AppState> {
         );
     }
 
+    resolveSettingsBlockLogic = (rules: any, values: { [key: string]: any }) => {
+        let show = true;
+        rules.forEach(rule => {
+            let parentValue = this.state.actionsToCommit['SAVE_SETTINGS'][rule.on];
+            if (typeof parentValue === 'undefined') {
+                parentValue = rule.on.startsWith('meta::')
+                    ? values.meta[rule.on.replace('meta::', '')]
+                    : values[rule.on];
+            }
+            if (parentValue !== rule.being) {
+                show = false;
+            }
+        })
+        return show;
+    }
+
     /**
      * It renders a generic setting panel.
      *
@@ -589,6 +605,16 @@ export default class App extends React.Component<AppProps, AppState> {
                                onUpdate={() => this.commitChanges(commitAction)}
                                isBusy={this.state.isBusy}>
                     {panel.blocks.map((block, i: number) => {
+
+                        /**
+                         * Taking care of logic
+                         */
+                        if ('dependencies' in block) {
+                            if (!this.resolveSettingsBlockLogic(block.dependencies, values)) {
+                                return;
+                            }
+                        }
+
                         return (
                             <SettingComponents.Block
                                 key={'block-' + i}
@@ -601,19 +627,7 @@ export default class App extends React.Component<AppProps, AppState> {
                                      * Taking care of logic
                                      */
                                     if ('dependencies' in component) {
-                                        let show = true;
-                                        component.dependencies.forEach(rule => {
-                                            let parentValue = this.state.actionsToCommit['SAVE_SETTINGS'][rule.on];
-                                            if (typeof parentValue === 'undefined') {
-                                                parentValue = rule.on.startsWith('meta::')
-                                                    ? values.meta[rule.on.replace('meta::', '')]
-                                                    : values[rule.on];
-                                            }
-                                            if (parentValue !== rule.being) {
-                                                show = false;
-                                            }
-                                        })
-                                        if (!show) {
+                                        if (!this.resolveSettingsBlockLogic(component.dependencies, values)) {
                                             return;
                                         }
                                     }
