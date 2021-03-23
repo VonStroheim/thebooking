@@ -138,8 +138,16 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
 
     statusBodyTemplate = (reservation: ReservationRecordBackend) => {
         const options = [];
+        const service = tbkCommon.services[reservation.serviceId];
+
+        const allowedStatuses = ['confirmed', 'cancelled'];
+        if (service.meta.requiresApproval) {
+            allowedStatuses.push('pending', 'declined');
+        }
+
         for (const [key, value] of Object.entries(tbkCommon.statuses)) {
-            if (['pending', 'confirmed', 'cancelled'].includes(key)) {
+            // the second part of the conditional avoids the script to break if the service setting changes
+            if (allowedStatuses.includes(key) || reservation.status === key) {
                 options.push({
                     label: value,
                     value: key
@@ -461,7 +469,6 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             <MultiSelect value={this.state.reservationServiceFilter}
                          options={options}
                          onChange={this.onServiceFilterChange}
-                         className={styles.statusBadge}
                          placeholder={__('Service', 'thebooking')}
                          maxSelectedLabels={4}
                          selectedItemTemplate={
@@ -482,7 +489,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
     renderReservationStatusFilter = () => {
         const options = [];
         for (const [key, value] of Object.entries(tbkCommon.statuses)) {
-            if (['pending', 'confirmed', 'cancelled'].includes(key)) {
+            if (['pending', 'confirmed', 'cancelled', 'declined'].includes(key)) {
                 options.push({
                     label: value,
                     value: key
@@ -493,7 +500,6 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             <MultiSelect value={this.state.statusFilter}
                          options={options}
                          onChange={this.onStatusFilterChange}
-                         className={styles.statusBadge}
                          placeholder={__('Status', 'thebooking')}
                          maxSelectedLabels={4}
                          selectedItemTemplate={

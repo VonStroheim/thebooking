@@ -42,6 +42,9 @@ final class Modules
     const CUSTOMER_APPROVAL_EMAIL_META             = 'userApprovalEmail';
     const CUSTOMER_APPROVAL_EMAIL_CONTENT_META     = self::CUSTOMER_APPROVAL_EMAIL_META . 'Content';
     const CUSTOMER_APPROVAL_EMAIL_SUBJECT_META     = self::CUSTOMER_APPROVAL_EMAIL_META . 'Subject';
+    const CUSTOMER_DECLINE_EMAIL_META              = 'userDeclineEmail';
+    const CUSTOMER_DECLINE_EMAIL_CONTENT_META      = self::CUSTOMER_DECLINE_EMAIL_META . 'Content';
+    const CUSTOMER_DECLINE_EMAIL_SUBJECT_META      = self::CUSTOMER_DECLINE_EMAIL_META . 'Subject';
 
     public static function successBookingMessage($message, CreateReservation $command)
     {
@@ -90,6 +93,84 @@ final class Modules
                                     'being' => TRUE
                                 ]
                             ]
+                        ]
+                    ]
+                ],
+                [
+                    'title'        => __('User approved reservation email', 'thebooking'),
+                    'description'  => __('User will receive this message right after the approval of the reservation.', 'thebooking'),
+                    'components'   => [
+                        [
+                            'settingId' => 'meta::' . self::CUSTOMER_APPROVAL_EMAIL_META,
+                            'type'      => 'toggle',
+                        ],
+                        [
+                            'settingId'    => 'meta::' . self::CUSTOMER_APPROVAL_EMAIL_SUBJECT_META,
+                            'type'         => 'text',
+                            'label'        => __('Email subject', 'thebooking'),
+                            'dependencies' => [
+                                [
+                                    'on'    => 'meta::' . self::CUSTOMER_APPROVAL_EMAIL_META,
+                                    'being' => TRUE
+                                ]
+                            ]
+                        ],
+                        [
+                            'settingId'         => 'meta::' . self::CUSTOMER_APPROVAL_EMAIL_CONTENT_META,
+                            'type'              => 'email',
+                            'templateHooks'     => apply_filters('tbk_notification_template_hooks', [], self::CUSTOMER_APPROVAL_EMAIL_META),
+                            'templateHooksSpec' => apply_filters('tbk_notification_template_hooks_spec', [], self::CUSTOMER_APPROVAL_EMAIL_META),
+                            'dependencies'      => [
+                                [
+                                    'on'    => 'meta::' . self::CUSTOMER_APPROVAL_EMAIL_META,
+                                    'being' => TRUE
+                                ]
+                            ]
+                        ]
+                    ],
+                    'dependencies' => [
+                        [
+                            'on'    => 'meta::requiresApproval',
+                            'being' => TRUE
+                        ]
+                    ]
+                ],
+                [
+                    'title'        => __('User declined reservation email', 'thebooking'),
+                    'description'  => __('User will receive this message right after the reservation is declined.', 'thebooking'),
+                    'components'   => [
+                        [
+                            'settingId' => 'meta::' . self::CUSTOMER_DECLINE_EMAIL_META,
+                            'type'      => 'toggle',
+                        ],
+                        [
+                            'settingId'    => 'meta::' . self::CUSTOMER_DECLINE_EMAIL_SUBJECT_META,
+                            'type'         => 'text',
+                            'label'        => __('Email subject', 'thebooking'),
+                            'dependencies' => [
+                                [
+                                    'on'    => 'meta::' . self::CUSTOMER_DECLINE_EMAIL_META,
+                                    'being' => TRUE
+                                ]
+                            ]
+                        ],
+                        [
+                            'settingId'         => 'meta::' . self::CUSTOMER_DECLINE_EMAIL_CONTENT_META,
+                            'type'              => 'email',
+                            'templateHooks'     => apply_filters('tbk_notification_template_hooks', [], self::CUSTOMER_DECLINE_EMAIL_META),
+                            'templateHooksSpec' => apply_filters('tbk_notification_template_hooks_spec', [], self::CUSTOMER_DECLINE_EMAIL_META),
+                            'dependencies'      => [
+                                [
+                                    'on'    => 'meta::' . self::CUSTOMER_DECLINE_EMAIL_META,
+                                    'being' => TRUE
+                                ]
+                            ]
+                        ]
+                    ],
+                    'dependencies' => [
+                        [
+                            'on'    => 'meta::requiresApproval',
+                            'being' => TRUE
                         ]
                     ]
                 ],
@@ -171,6 +252,14 @@ final class Modules
             $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_CONFIRMATION_EMAIL_META, filter_var($value, FILTER_VALIDATE_BOOLEAN));
         }
+        if ($settingId === 'meta::' . self::CUSTOMER_APPROVAL_EMAIL_META) {
+            $service = tbkg()->services->get($serviceId);
+            $service->addMeta(self::CUSTOMER_APPROVAL_EMAIL_META, filter_var($value, FILTER_VALIDATE_BOOLEAN));
+        }
+        if ($settingId === 'meta::' . self::CUSTOMER_DECLINE_EMAIL_META) {
+            $service = tbkg()->services->get($serviceId);
+            $service->addMeta(self::CUSTOMER_DECLINE_EMAIL_META, filter_var($value, FILTER_VALIDATE_BOOLEAN));
+        }
         if ($settingId === 'meta::' . self::CUSTOMER_CANCELLATION_EMAIL_META) {
             $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_CANCELLATION_EMAIL_META, filter_var($value, FILTER_VALIDATE_BOOLEAN));
@@ -183,6 +272,14 @@ final class Modules
             $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_CONFIRMATION_EMAIL_CONTENT_META, $value);
         }
+        if ($settingId === 'meta::' . self::CUSTOMER_APPROVAL_EMAIL_CONTENT_META) {
+            $service = tbkg()->services->get($serviceId);
+            $service->addMeta(self::CUSTOMER_APPROVAL_EMAIL_CONTENT_META, $value);
+        }
+        if ($settingId === 'meta::' . self::CUSTOMER_DECLINE_EMAIL_CONTENT_META) {
+            $service = tbkg()->services->get($serviceId);
+            $service->addMeta(self::CUSTOMER_DECLINE_EMAIL_CONTENT_META, $value);
+        }
         if ($settingId === 'meta::' . self::CUSTOMER_CANCELLATION_EMAIL_CONTENT_META) {
             $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_CANCELLATION_EMAIL_CONTENT_META, $value);
@@ -194,6 +291,14 @@ final class Modules
         if ($settingId === 'meta::' . self::CUSTOMER_CONFIRMATION_EMAIL_SUBJECT_META) {
             $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_CONFIRMATION_EMAIL_SUBJECT_META, trim($value));
+        }
+        if ($settingId === 'meta::' . self::CUSTOMER_APPROVAL_EMAIL_SUBJECT_META) {
+            $service = tbkg()->services->get($serviceId);
+            $service->addMeta(self::CUSTOMER_APPROVAL_EMAIL_SUBJECT_META, trim($value));
+        }
+        if ($settingId === 'meta::' . self::CUSTOMER_DECLINE_EMAIL_SUBJECT_META) {
+            $service = tbkg()->services->get($serviceId);
+            $service->addMeta(self::CUSTOMER_DECLINE_EMAIL_SUBJECT_META, trim($value));
         }
         if ($settingId === 'meta::' . self::CUSTOMER_CANCELLATION_EMAIL_SUBJECT_META) {
             $service = tbkg()->services->get($serviceId);
@@ -224,6 +329,27 @@ final class Modules
             ));
         }
     }
+
+    private static function _notification_admin_send($uid)
+    {
+        $reservation    = tbkg()->reservations->all()[ $uid ];
+        $service        = tbkg()->services->get($reservation->service_id());
+        $preparedValues = self::_prepare_placeholders($uid);
+
+        if ($service->getMeta(self::ADMIN_CONFIRMATION_EMAIL_META)) {
+
+            tbkg()->bus->dispatch(new SendEmail(
+                wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::ADMIN_CONFIRMATION_EMAIL_SUBJECT_META), $preparedValues)),
+                self::_findAndReplaceHooks($service->getMeta(self::ADMIN_CONFIRMATION_EMAIL_CONTENT_META), $preparedValues),
+                [get_option('admin_email')],
+                [
+                    'address' => tbkg()->customers->get($reservation->customer_id())->email(),
+                    'name'    => tbkg()->customers->get($reservation->customer_id())->name()
+                ]
+            ));
+        }
+    }
+
 
     /**
      * @param string $reservation_id
@@ -273,7 +399,7 @@ final class Modules
     }
 
     /**
-     * Sends notification when a reservation is CONFIRMED
+     * Sends notification to the customer
      *
      * @param $uid
      */
@@ -283,20 +409,7 @@ final class Modules
         $service        = tbkg()->services->get($reservation->service_id());
         $preparedValues = self::_prepare_placeholders($uid);
 
-        if ($service->getMeta(self::ADMIN_CONFIRMATION_EMAIL_META)) {
-
-            tbkg()->bus->dispatch(new SendEmail(
-                wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::ADMIN_CONFIRMATION_EMAIL_SUBJECT_META), $preparedValues)),
-                self::_findAndReplaceHooks($service->getMeta(self::ADMIN_CONFIRMATION_EMAIL_CONTENT_META), $preparedValues),
-                [get_option('admin_email')],
-                [
-                    'address' => tbkg()->customers->get($reservation->customer_id())->email(),
-                    'name'    => tbkg()->customers->get($reservation->customer_id())->name()
-                ]
-            ));
-        }
-
-        if ($service->getMeta(self::CUSTOMER_CONFIRMATION_EMAIL_META) && $reservation->status()->getValue() === Status::CONFIRMED) {
+        if ($service->getMeta(self::CUSTOMER_CONFIRMATION_EMAIL_META)) {
 
             tbkg()->bus->dispatch(new SendEmail(
                 wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CONFIRMATION_EMAIL_SUBJECT_META), $preparedValues)),
@@ -310,18 +423,79 @@ final class Modules
         }
     }
 
+    /**
+     * Sends notification when a reservation is CONFIRMED
+     *
+     * @param $uid
+     */
+    private static function _approval_send($uid)
+    {
+        $reservation    = tbkg()->reservations->all()[ $uid ];
+        $service        = tbkg()->services->get($reservation->service_id());
+        $preparedValues = self::_prepare_placeholders($uid);
+
+        if ($service->getMeta(self::CUSTOMER_APPROVAL_EMAIL_META)) {
+
+            tbkg()->bus->dispatch(new SendEmail(
+                wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_APPROVAL_EMAIL_SUBJECT_META), $preparedValues)),
+                self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_APPROVAL_EMAIL_CONTENT_META), $preparedValues),
+                [tbkg()->customers->get($reservation->customer_id())->email()],
+                [
+                    'address' => get_option('admin_email'),
+                    'name'    => get_option('blogname')
+                ]
+            ));
+        }
+    }
+
+    /**
+     * Sends notification when a reservation is CONFIRMED
+     *
+     * @param $uid
+     */
+    private static function _decline_send($uid)
+    {
+        $reservation    = tbkg()->reservations->all()[ $uid ];
+        $service        = tbkg()->services->get($reservation->service_id());
+        $preparedValues = self::_prepare_placeholders($uid);
+
+        if ($service->getMeta(self::CUSTOMER_DECLINE_EMAIL_META)) {
+
+            tbkg()->bus->dispatch(new SendEmail(
+                wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_DECLINE_EMAIL_SUBJECT_META), $preparedValues)),
+                self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_DECLINE_EMAIL_CONTENT_META), $preparedValues),
+                [tbkg()->customers->get($reservation->customer_id())->email()],
+                [
+                    'address' => get_option('admin_email'),
+                    'name'    => get_option('blogname')
+                ]
+            ));
+        }
+    }
+
     public static function notificationSend(CreateReservation $command)
     {
         self::_notification_send($command->getUid());
+        self::_notification_admin_send($command->getUid());
     }
 
     public static function triggerNotificationsAfterUpdate($uids)
     {
         foreach ($uids as $uid) {
             $reservation = tbkg()->reservations->all()[ $uid ];
+            $service     = tbkg()->services->get($reservation->service_id());
             switch ($reservation->status()->getValue()) {
                 case Status::CONFIRMED:
-                    self::_notification_send($uid);
+                    if ($service->getMeta('requiresApproval')) {
+                        self::_approval_send($uid);
+                    } else {
+                        self::_notification_send($uid);
+                    }
+                    break;
+                case Status::DECLINED:
+                    if ($service->getMeta('requiresApproval')) {
+                        self::_decline_send($uid);
+                    }
                     break;
                 case Status::CANCELLED:
                     self::_notification_cancellation_send($uid);

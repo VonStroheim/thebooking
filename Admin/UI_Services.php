@@ -195,6 +195,16 @@ final class UI_Services
                         ]
                     ],
                     [
+                        'title'       => __('Reservations must be approved', 'thebooking'),
+                        'description' => __('If turned on, any new reservation will be in a pending status upon approval.', 'thebooking'),
+                        'components'  => [
+                            [
+                                'settingId' => 'meta::requiresApproval',
+                                'type'      => 'toggle',
+                            ]
+                        ]
+                    ],
+                    [
                         'title'       => __('Log unregistered users IP', 'thebooking'),
                         'description' => __('Please consider any privacy implication before turning this feature on', 'thebooking'),
                         'components'  => [

@@ -15,6 +15,7 @@ final class Status
     const DRAFT     = 'draft';
     const PENDING   = 'pending';
     const CONFIRMED = 'confirmed';
+    const DECLINED  = 'declined';
     const CANCELLED = 'cancelled';
     const ARCHIVED  = 'archived';
     const OPEN      = 'open';

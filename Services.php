@@ -183,6 +183,13 @@ class Services
                             $service->addMeta('saveIp', filter_var($value, FILTER_VALIDATE_BOOLEAN));
                         }
                         break;
+                    case 'meta::requiresApproval':
+                        if (!filter_var($value, FILTER_VALIDATE_BOOLEAN)) {
+                            $service->dropMeta('requiresApproval');
+                        } else {
+                            $service->addMeta('requiresApproval', filter_var($value, FILTER_VALIDATE_BOOLEAN));
+                        }
+                        break;
                     case 'meta::locations':
                         if (!$value) {
                             $service->dropMeta('locations');

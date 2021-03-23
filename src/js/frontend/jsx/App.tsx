@@ -45,7 +45,17 @@ import {
     Switch,
     FormControlLabel, CardHeader, Avatar
 } from '@material-ui/core';
-import {ChevronRight, ChevronLeft, DoneAll, Done as DoneIcon, Update as UpdateIcon, Clear as ClearIcon, Error as ErrorIcon, Undo} from '@material-ui/icons';
+import {
+    ChevronRight,
+    ChevronLeft,
+    DoneAll,
+    Done as DoneIcon,
+    Update as UpdateIcon,
+    Clear as ClearIcon,
+    Error as ErrorIcon,
+    Undo,
+    Block as BlockIcon
+} from '@material-ui/icons';
 import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
 import {RRuleSet, rrulestr} from 'rrule';
 import {AvailabilityRecord, availableViews, ReservationRecord, ServiceRecord, StateAction, tbkCommonF, TimeSlot} from "../../typedefs";
@@ -770,6 +780,9 @@ export default class App extends React.Component<IProps, IState> {
                                                     break;
                                                 case 'pending':
                                                     statusIcon = <UpdateIcon style={{color: theme.palette.warning.main}}/>;
+                                                    break;
+                                                case 'declined':
+                                                    statusIcon = <BlockIcon style={{color: theme.palette.text.secondary}}/>;
                                                     break;
                                                 default:
                                                     statusIcon = <DoneIcon style={{color: theme.palette.success.main}}/>;

@@ -156,6 +156,14 @@ final class SubmitBookingRoute implements Route
                         }
                     }
 
+                    /**
+                     * Set the initial reservation status
+                     */
+                    $r_status = Status::CONFIRMED;
+                    if ($service->getMeta('requiresApproval')) {
+                        $r_status = Status::PENDING;
+                    }
+
                     $command = new CreateReservation(
                         $reservationId,
                         $service->id(),
@@ -163,7 +171,7 @@ final class SubmitBookingRoute implements Route
                         $item['start'],
                         $item['end'],
                         $meta,
-                        new Status(Status::CONFIRMED)
+                        new Status($r_status)
                     );
 
                     tbkg()->bus->dispatch($command);

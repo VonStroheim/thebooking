@@ -40,7 +40,7 @@ export interface StateAction {
 
 export type availableViews = 'monthlyCalendar' | 'userMessage' | 'stepper' | 'reservations';
 
-export type ReservationStatuses = 'pending' | 'confirmed' | 'cancelled';
+export type ReservationStatuses = 'pending' | 'confirmed' | 'cancelled' | 'declined';
 
 export interface ReservationRecordCustomer {
     name: string,
@@ -314,6 +314,7 @@ export interface tbkCommonB {
         draft: string,
         pending: string,
         confirmed: string,
+        declined: string,
         cancelled: string,
         archived: string,
         open: string,
@@ -352,6 +353,7 @@ export interface tbkCommonF {
     statuses: {
         draft: string,
         pending: string,
+        declined: string,
         confirmed: string,
         cancelled: string,
         archived: string,
@@ -384,7 +386,8 @@ export interface SettingPanelBlockComponentBackend {
 export interface SettingPanelBlockBackend {
     title: string,
     description?: string,
-    components: SettingPanelBlockComponentBackend[]
+    components: SettingPanelBlockComponentBackend[],
+    dependencies?: SettingPanelBlockComponentDependencyBackend[]
 }
 
 export interface SettingPanelBackend {
