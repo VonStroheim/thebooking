@@ -74,8 +74,6 @@ class Reservations
         tbkg()->loader->add_action('tbk-backend-settings-save', $this, 'save_settings_callback', 10, 2);
         tbkg()->loader->add_action('tbk-loaded', $this, 'gather');
         tbkg()->loader->add_action('tbk_dispatched_ChangeReservationStatus', self::class, 'add_status_update');
-        tbkg()->loader->add_action('tbk_dispatched_DeleteReservation', self::class, 'remove_status_update');
-        tbkg()->loader->add_filter('tbk_backend_js_data_common', self::class, 'add_status_update_list');
         tbkg()->loader->add_action('tbk_location_deleted', $this, 'location_deleted');
     }
 
@@ -85,30 +83,6 @@ class Reservations
             if ($reservation->getMeta('location') === $id) {
                 $reservation->dropMeta('location');
                 $this->sync_meta($reservation->id());
-            }
-        }
-    }
-
-    public static function add_status_update_list($array)
-    {
-        $array['reservationStatusUpdate'] = get_option('tbkl_reservations_status_updates', []);
-
-        return $array;
-    }
-
-    /**
-     * Clean the updated statuses record when a reservation is removed.
-     *
-     * @param DeleteReservation $command
-     */
-    public static function remove_status_update($command)
-    {
-        $stored = get_option('tbkl_reservations_status_updates', []);
-        if (!empty($stored)) {
-            $key = array_search($command->getUid(), $stored, TRUE);
-            if ($key !== FALSE) {
-                unset($stored[ $key ]);
-                update_option('tbkl_reservations_status_updates', $stored);
             }
         }
     }
@@ -170,8 +144,6 @@ class Reservations
                 $response['reservations'] = array_values(array_map(static function (Reservation $reservation) {
                     return $reservation->as_array();
                 }, tbkg()->reservations->all()));
-
-                $response['reservationStatusUpdate'] = get_option('tbkl_reservations_status_updates', []);
 
                 return $response;
             });

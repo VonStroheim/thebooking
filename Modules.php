@@ -2,6 +2,7 @@
 
 namespace TheBooking;
 
+use TheBooking\Bus\Commands\ChangeReservationStatus;
 use TheBooking\Bus\Commands\CreateReservation;
 use TheBooking\Bus\Commands\SendEmail;
 use TheBooking\Classes\DateTimeTbk;
@@ -22,7 +23,7 @@ final class Modules
         tbkg()->loader->add_action('tbk_dispatched_CreateReservation', self::class, 'notificationSend', 10, 2);
         tbkg()->loader->add_filter('tbk_notification_template_hooks', self::class, 'templateHooks', 10, 2);
         tbkg()->loader->add_filter('tbk_notification_template_hooks_spec', self::class, 'templateHooksSpec', 10, 2);
-        tbkg()->loader->add_action('tbk_reservation_status_updated_actions', self::class, 'triggerNotificationsAfterUpdate');
+        tbkg()->loader->add_action('tbk_reservation_status_change_actions', self::class, 'triggerNotificationsAfterUpdate');
         tbkg()->loader->add_action('tbk_success_booking_message', self::class, 'successBookingMessage', 10, 2);
     }
 
@@ -479,30 +480,28 @@ final class Modules
         self::_notification_admin_send($command->getUid());
     }
 
-    public static function triggerNotificationsAfterUpdate($uids)
+    public static function triggerNotificationsAfterUpdate(ChangeReservationStatus $command)
     {
-        foreach ($uids as $uid) {
-            $reservation = tbkg()->reservations->all()[ $uid ];
-            $service     = tbkg()->services->get($reservation->service_id());
-            switch ($reservation->status()->getValue()) {
-                case Status::CONFIRMED:
-                    if ($service->getMeta('requiresApproval')) {
-                        self::_approval_send($uid);
-                    } else {
-                        self::_notification_send($uid);
-                    }
-                    break;
-                case Status::DECLINED:
-                    if ($service->getMeta('requiresApproval')) {
-                        self::_decline_send($uid);
-                    }
-                    break;
-                case Status::CANCELLED:
-                    self::_notification_cancellation_send($uid);
-                    break;
-                default:
-                    break;
-            }
+        $reservation = tbkg()->reservations->all()[ $command->getUid() ];
+        $service     = tbkg()->services->get($reservation->service_id());
+        switch ($command->getStatus()) {
+            case Status::CONFIRMED:
+                if ($service->getMeta('requiresApproval')) {
+                    self::_approval_send($command->getUid());
+                } else {
+                    self::_notification_send($command->getUid());
+                }
+                break;
+            case Status::DECLINED:
+                if ($service->getMeta('requiresApproval')) {
+                    self::_decline_send($command->getUid());
+                }
+                break;
+            case Status::CANCELLED:
+                self::_notification_cancellation_send($command->getUid());
+                break;
+            default:
+                break;
         }
     }
 

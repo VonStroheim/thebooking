@@ -263,7 +263,6 @@ export interface tbkCommonB {
     UIx?: any,
     adminUrl: string,
     restRouteRoot: string,
-    reservationStatusUpdate: string[];
     pluginUrl: string,
     pluginVersion: string,
     tbk_nonce: string,

@@ -57,14 +57,13 @@ export default class App extends React.Component<AppProps, AppState> {
             actionsToCommit: {
                 SAVE_SETTINGS: {}
             },
-            isStickyShown  : tbkCommon.reservationStatusUpdate.length > 0
+            isStickyShown  : false
         }
 
     }
 
     componentDidMount() {
         window.addEventListener('hashchange', this.onHashChange);
-        this.reservationsChangedStatusesNotification()
     }
 
     componentWillUnmount() {
@@ -241,21 +240,12 @@ export default class App extends React.Component<AppProps, AppState> {
                     .then(res => res.json())
                     .then(res => {
                         tbkCommon.reservations = res.reservations;
-                        let isStickyShown = this.state.isStickyShown;
-                        if (tbkCommon.reservationStatusUpdate.length !== res.reservationStatusUpdate.length) {
-                            tbkCommon.reservationStatusUpdate = res.reservationStatusUpdate;
-                            if (!isStickyShown) {
-                                this.reservationsChangedStatusesNotification();
-                            }
-                            isStickyShown = true;
-                        }
                         this.setState({
                             UI             : tbkCommon,
                             isBusy         : false,
                             actionsToCommit: {
                                 SAVE_SETTINGS: {}
-                            },
-                            isStickyShown  : isStickyShown
+                            }
                         })
                         this.showSuccess(__('Settings saved.', 'thebooking'));
                     })
@@ -404,9 +394,10 @@ export default class App extends React.Component<AppProps, AppState> {
 
                 })
                 break;
-            case 'CLEAR_RESERVATIONS_UPDATED_STATUSES':
-                Api.post('/clean/reservation/status/changes/', {
-                    doActions: action.payload
+            case 'CHANGE_RESERVATION_STATUS':
+                Api.post('/reservation/status/change/', {
+                    status: action.payload.status,
+                    id    : action.payload.id
                 }).then((res: any) => {
                     if (res.data.status === 'KO') {
                         this.showError(res.data.error);
@@ -414,18 +405,15 @@ export default class App extends React.Component<AppProps, AppState> {
                             isBusy: false
                         })
                     } else {
-                        tbkCommon.reservationStatusUpdate = [];
-                        if (action.payload) {
-                            this.showSuccess(__('Notifications sent.', 'thebooking'));
-                        }
+                        tbkCommon.reservations = res.data.reservations;
+                        this.showSuccess(__('Status changed.', 'thebooking'));
                         this.setState({
-                            UI           : tbkCommon,
-                            isBusy       : false,
-                            isStickyShown: false
+                            UI    : tbkCommon,
+                            isBusy: false
                         })
                     }
-
                 })
+                break;
         }
     }
 
@@ -526,41 +514,6 @@ export default class App extends React.Component<AppProps, AppState> {
         this.stickyToast.show({severity: 'info', content: message, sticky: true, closable: false});
     }
 
-    reservationsChangedStatusesNotification() {
-        if (tbkCommon.reservationStatusUpdate.length) {
-            this.showStickyMessage(
-                <div>
-                    <h4>{__('Some reservations changed their status.', 'thebooking')}</h4>
-                    <p>{__('Do you want to trigger notifications of the new statuses?', 'thebooking')}</p>
-                    <div className="p-grid p-fluid">
-                        <div className="p-col-6">
-                            <Button
-                                type="button"
-                                label={__('Yes', 'thebooking')}
-                                className="p-button-success"
-                                onClick={() => {
-                                    this.stickyToast.clear();
-                                    this.handleChanges({type: 'CLEAR_RESERVATIONS_UPDATED_STATUSES', payload: true})
-                                }}
-                            />
-                        </div>
-                        <div className="p-col-6">
-                            <Button
-                                type="button"
-                                label={__('No', 'thebooking')}
-                                className="p-button-secondary"
-                                onClick={() => {
-                                    this.stickyToast.clear();
-                                    this.handleChanges({type: 'CLEAR_RESERVATIONS_UPDATED_STATUSES', payload: false})
-                                }}
-                            />
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-    }
-
     render() {
         return (
             <div className={styles.container}>
@@ -574,7 +527,7 @@ export default class App extends React.Component<AppProps, AppState> {
 
     resolveSettingsBlockLogic = (rules: any, values: { [key: string]: any }) => {
         let show = true;
-        rules.forEach(rule => {
+        rules.forEach((rule: any) => {
             let parentValue = this.state.actionsToCommit['SAVE_SETTINGS'][rule.on];
             if (typeof parentValue === 'undefined') {
                 parentValue = rule.on.startsWith('meta::')

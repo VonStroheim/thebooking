@@ -21,7 +21,7 @@ import styles from './ReservationsTable.css';
 import tableStyles from './DataTable.css';
 import React from "react";
 import globals from '../../globals';
-import {BackendUser, CustomerBackendRecord, ReservationRecordBackend, tbkCommonB} from "../../typedefs";
+import {BackendUser, CustomerBackendRecord, ReservationRecordBackend, ReservationStatuses, tbkCommonB} from "../../typedefs";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -177,7 +177,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         )
     }
 
-    confirm = (event: any, callback: any) => {
+    confirmDeletion = (event: any, callback: any) => {
         confirmPopup({
             target : event.currentTarget,
             message: __('Are you sure you want to proceed?', 'thebooking'),
@@ -187,22 +187,51 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         })
     }
 
+    confirmStatusChange = (event: any, callback: any) => {
+        confirmPopup({
+            target     : event.currentTarget,
+            message    : __('Notifications of the new status will be sent according to the service settings.', 'thebooking'),
+            icon       : 'pi pi-info-circle',
+            accept     : callback,
+            acceptLabel: __('Proceed', 'thebooking'),
+            rejectLabel: __('Cancel', 'thebooking'),
+            reject     : null
+        })
+    }
+
     actionsBodyTemplate = (reservation: ReservationRecordBackend) => {
+        const service = tbkCommon.services[reservation.serviceId];
         return (
             <>
                 <Button
                     icon={'pi pi-trash'}
                     tooltip={__('Delete', 'thebooking')}
                     className={'p-button-rounded p-button-text p-button-danger'}
-                    onClick={(event) => this.confirm(event, () => this.deleteReservations([reservation]))}
+                    onClick={(event) => this.confirmDeletion(event, () => this.deleteReservations([reservation]))}
                 />
-                {tbkCommon.reservationStatusUpdate.includes(reservation.uid) && (
+                {reservation.status === 'confirmed' && service.meta.requiresApproval && (
                     <Button
-                        icon={'pi pi-info-circle'}
-                        disabled={true}
-                        className={'p-button-rounded p-button-text'}
-                        tooltip={__('Status is changed.', 'thebooking')}
+                        icon={'pi pi-times'}
+                        tooltip={__('Cancel', 'thebooking')}
+                        className={'p-button-rounded p-button-text p-button-danger'}
+                        onClick={(event) => this.confirmStatusChange(event, () => this.changeStatus('cancelled', reservation.uid))}
                     />
+                )}
+                {reservation.status === 'pending' && service.meta.requiresApproval && (
+                    <>
+                        <Button
+                            icon={'pi pi-thumbs-up'}
+                            tooltip={__('Approve', 'thebooking')}
+                            className={'p-button-rounded p-button-text p-button-success'}
+                            onClick={(event) => this.confirmStatusChange(event, () => this.changeStatus('confirmed', reservation.uid))}
+                        />
+                        <Button
+                            icon={'pi pi-thumbs-down'}
+                            tooltip={__('Decline', 'thebooking')}
+                            className={'p-button-rounded p-button-text p-button-plain'}
+                            onClick={(event) => this.confirmStatusChange(event, () => this.changeStatus('declined', reservation.uid))}
+                        />
+                    </>
                 )}
             </>
         )
@@ -217,6 +246,21 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         })
         this.setState({
             selected: []
+        })
+    }
+
+    /**
+     * Function called when a reservation status changes due to explicit actions
+     * such as approval, cancel and so on. As opposed to a status edit, this allows
+     * the backend to trigger actions.
+     */
+    changeStatus = (status: ReservationStatuses, reservationId: string) => {
+        this.props.onUpdate({
+            type   : 'CHANGE_RESERVATION_STATUS',
+            payload: {
+                status: status,
+                id    : reservationId
+            }
         })
     }
 
@@ -312,7 +356,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                                 label  : this.state.selected.length > 0 ? __('Delete selected', 'thebooking') + ' (' + this.state.selected.length + ')' : __('Delete all', 'thebooking'),
                                 icon   : 'pi pi-trash',
                                 command: (event: any) => {
-                                    this.confirm(event, () => this.deleteReservations(this.state.selected.length > 0 ? this.state.selected : this.props.reservations))
+                                    this.confirmDeletion(event, () => this.deleteReservations(this.state.selected.length > 0 ? this.state.selected : this.props.reservations))
                                 }
                             },
                         ]}
