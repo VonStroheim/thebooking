@@ -189,13 +189,15 @@ class ServicesTable extends React.Component<SProps, SState> {
             <>
                 <Button
                     icon={'pi pi-trash'}
+                    tooltip={__('Delete', 'thebooking')}
                     className={'p-button-rounded p-button-text p-button-danger'}
                     disabled={this.props.isBusy}
                     onClick={(event) => this.confirm(event, () => this.deleteServices([service]))}
                 />
                 <Button
                     icon={'pi pi-cog'}
-                    className={'p-button-rounded p-button-text'}
+                    tooltip={__('Settings', 'thebooking')}
+                    className={'p-button-rounded p-button-text p-button-plain'}
                     disabled={this.props.isBusy}
                     onClick={() => this.setState({current: service.uid})}/>
             </>
