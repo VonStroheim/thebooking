@@ -209,7 +209,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     className={'p-button-rounded p-button-text p-button-danger'}
                     onClick={(event) => this.confirmDeletion(event, () => this.deleteReservations([reservation]))}
                 />
-                {reservation.status === 'confirmed' && service.meta.requiresApproval && (
+                {reservation.status === 'confirmed' && (
                     <Button
                         icon={'pi pi-times'}
                         tooltip={__('Cancel', 'thebooking')}
