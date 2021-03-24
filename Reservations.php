@@ -120,10 +120,10 @@ class Reservations
                             $metaKey = str_replace('meta::', '', $settingId);
                             switch ($value['type']) {
                                 case 'UserInput':
-                                    $reservation->addMeta($metaKey, new UserInput($value));
+                                    $reservation->addMeta($metaKey, new UserInput($value['value']));
                                     break;
                                 default:
-                                    $reservation->addMeta($metaKey, $value);
+                                    $reservation->addMeta($metaKey, $value['value']);
                                     break;
                             }
                         }

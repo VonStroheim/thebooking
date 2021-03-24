@@ -253,8 +253,15 @@ export default class ReservationDetails extends React.Component<ReservationDetai
                                     onClick={() => {
                                         const toUpdate: any = {};
                                         for (const [key, value] of Object.entries(this.state.bookingData)) {
-                                            toUpdate[key] = {...this.props.item.meta[key.replace('meta::', '')], ...{value: value}}
+                                            toUpdate[key] = {
+                                                type : 'UserInput',
+                                                value: {
+                                                    ...this.props.item.meta[key.replace('meta::', '')],
+                                                    ...{value: value}
+                                                }
+                                            }
                                         }
+                                        console.log(toUpdate);
                                         this.props.onUpdate(toUpdate)
                                     }}
                                 />
