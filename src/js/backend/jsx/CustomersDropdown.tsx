@@ -12,13 +12,29 @@ export interface CustomersDropdownProps {
         [key: number]: CustomerBackendRecord
     },
     selected: number,
+    inDialog?: boolean,
 
     onChange(e: any): any
 }
 
-export default function CustomersDropdown(props: CustomersDropdownProps) {
+interface CustomersDropdownState {
+    mounted: boolean
+}
 
-    const itemTemplate = (option: CustomerBackendRecord) => {
+export default class CustomersDropdown extends React.Component<CustomersDropdownProps, CustomersDropdownState> {
+    private readonly container: React.RefObject<any>;
+
+    constructor(props: CustomersDropdownProps) {
+        super(props);
+
+        this.container = React.createRef();
+
+        this.state = {
+            mounted: false
+        }
+    }
+
+    itemTemplate = (option: CustomerBackendRecord) => {
         if (option === null) return;
         const users = tbkCommon.users.filter(user => {
             return user.ID === option.wpUserId;
@@ -41,16 +57,29 @@ export default function CustomersDropdown(props: CustomersDropdownProps) {
         )
     }
 
-    return (
-        <Dropdown
-            options={Object.values(props.customers)}
-            value={props.selected}
-            optionValue={'id'}
-            optionLabel={'name'}
-            filter
-            valueTemplate={itemTemplate}
-            itemTemplate={itemTemplate}
-            onChange={props.onChange}
-        />
-    )
+    componentDidMount() {
+        this.setState({mounted: true});
+    }
+
+    render() {
+        return (
+            <div ref={this.container} style={{position: "relative"}} key={'customersDropdown'}>
+                {this.state.mounted && (
+                    <Dropdown
+                        options={Object.values(this.props.customers)}
+                        value={this.props.selected}
+                        optionValue={'id'}
+                        optionLabel={'name'}
+                        filter
+                        appendTo={this.props.inDialog ? this.container.current : null}
+                        valueTemplate={this.itemTemplate}
+                        itemTemplate={this.itemTemplate}
+                        onChange={this.props.onChange}
+                        panelClassName={this.props.inDialog ? styles.panelFix : ''}
+                    />
+                )}
+            </div>
+        )
+
+    }
 }

@@ -18,7 +18,6 @@ import CustomersDropdown from "./CustomersDropdown";
 import globals from "../../globals";
 import {ExportToCsv} from "export-to-csv";
 import ReservationsTable from "./ReservationsTable";
-import tableStyles from "./DataTable.css";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -139,7 +138,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                             {__('Columns to display', 'thebooking')}
                         </label>
                         <ListBox
-                            className={tableStyles.columnSelector}
+                            className={styles.columnSelector}
                             style={{border: 'none'}}
                             multiple
                             value={this.state.columns}
@@ -257,6 +256,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                     <div className={'p-field'}>
                         <label>{__('Map the customer to a WordPress user', 'thebooking')}</label>
                         <CustomersDropdown
+                            inDialog={true}
                             customers={{
                                 ...{
                                     0       : {
