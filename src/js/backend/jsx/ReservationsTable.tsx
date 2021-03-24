@@ -44,7 +44,8 @@ interface ReservationTableState {
     reservationServiceFilter: any[] | null,
     selected: ReservationRecordBackend[] | null,
     expandedRows: { [key: string]: boolean },
-    columns: string[]
+    columns: string[],
+    editMode: boolean
 }
 
 class ReservationsTable extends React.Component<ReservationTableProps, ReservationTableState> {
@@ -63,6 +64,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             reservationServiceFilter: null,
             selected                : [],
             expandedRows            : null,
+            editMode                : false,
             columns                 : tbkCommon.userPrefs.reservationsTableColumns || ['service', 'customer', 'startDate', 'status']
         }
 
@@ -156,23 +158,28 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         }
         return (
             <>
-                <Dropdown
-                    value={reservation.status}
-                    options={options}
-                    valueTemplate={(option) => (<span className={styles.statusWrapper}><span className={'status' + option.value}></span>{option.label}</span>)}
-                    itemTemplate={(option) => (<span className={styles.statusWrapper}><span className={'status' + option.value}></span>{option.label}</span>)}
-                    onChange={(e) => {
-                        this.props.onUpdate({
-                            type   : 'SAVE_RESERVATION_SETTINGS',
-                            payload: {
-                                settings: {
-                                    status: e.value
-                                },
-                                id      : reservation.uid
-                            }
-                        })
-                    }}
-                />
+                {this.state.editMode && (
+                    <Dropdown
+                        value={reservation.status}
+                        options={options}
+                        valueTemplate={(option) => (<span className={styles.statusWrapper}><span className={'status' + option.value}></span>{option.label}</span>)}
+                        itemTemplate={(option) => (<span className={styles.statusWrapper}><span className={'status' + option.value}></span>{option.label}</span>)}
+                        onChange={(e) => {
+                            this.props.onUpdate({
+                                type   : 'SAVE_RESERVATION_SETTINGS',
+                                payload: {
+                                    settings: {
+                                        status: e.value
+                                    },
+                                    id      : reservation.uid
+                                }
+                            })
+                        }}
+                    />
+                )}
+                {!this.state.editMode && (
+                    <span className={styles.statusWrapper}><span className={'status' + reservation.status}></span>{tbkCommon.statuses[reservation.status]}</span>
+                )}
             </>
         )
     }
@@ -191,6 +198,18 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         confirmPopup({
             target     : event.currentTarget,
             message    : __('Notifications of the new status will be sent according to the service settings.', 'thebooking'),
+            icon       : 'pi pi-info-circle',
+            accept     : callback,
+            acceptLabel: __('Proceed', 'thebooking'),
+            rejectLabel: __('Cancel', 'thebooking'),
+            reject     : null
+        })
+    }
+
+    confirmReSendNotifications = (event: any, callback: any) => {
+        confirmPopup({
+            target     : event.currentTarget,
+            message    : __('Notifications of the current status will be sent again, according to the service settings.', 'thebooking'),
             icon       : 'pi pi-info-circle',
             accept     : callback,
             acceptLabel: __('Proceed', 'thebooking'),
@@ -233,6 +252,12 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         />
                     </>
                 )}
+                <Button
+                    icon={'pi pi-replay'}
+                    tooltip={__('Re-send notifications', 'thebooking')}
+                    className={'p-button-rounded p-button-text p-button-plain'}
+                    onClick={(event) => this.confirmReSendNotifications(event, () => this.changeStatus(reservation.status, reservation.uid))}
+                />
             </>
         )
     }
@@ -361,6 +386,18 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                             },
                         ]}
                     />
+                    <Button
+                        className={'p-mr-2 p-button-rounded ' + (this.state.editMode ? 'p-button-secondary' : 'p-button-plain p-button-text')}
+                        onClick={(e) => this.setState({editMode: !this.state.editMode})}
+                        icon={'pi pi-pencil'}
+                        tooltip={__('Edit mode', 'thebooking')}
+                    />
+                    <Button
+                        className="p-button-rounded p-button-text p-button-plain"
+                        icon="pi pi-filter"
+                        tooltip={__('Filter columns', 'thebooking')}
+                        onClick={(event) => this.columnFilter.current.toggle(event)}
+                    />
                     <OverlayPanel
                         ref={this.columnFilter}
                     >
@@ -400,11 +437,6 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                             }}
                         />
                     </OverlayPanel>
-                    <Button
-                        className="p-button-rounded p-button-text p-button-plain"
-                        icon="pi pi-filter"
-                        onClick={(event) => this.columnFilter.current.toggle(event)}
-                    />
                 </div>
                 <div>
                     <span className="p-input-icon-left">
@@ -595,11 +627,12 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
     renderColumn = (columnId: string) => {
         switch (columnId) {
             case 'selector':
-                return <Column selectionMode={'multiple'} style={{width: '3em'}}/>
+                return <Column key={columnId} selectionMode={'multiple'} style={{width: '3em'}}/>
             case 'expander':
-                return <Column expander style={{width: '3em'}}/>
+                return <Column key={columnId} expander style={{width: '3em'}}/>
             case 'service':
                 return <Column
+                    key={columnId}
                     sortFunction={this.sortFunction}
                     field={'serviceId'}
                     sortable
@@ -613,6 +646,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             case 'customer':
                 return <Column
                     sortable
+                    key={columnId}
                     sortFunction={this.sortFunction}
                     field={'customerId'}
                     filter={this.props.showFilters}
@@ -624,6 +658,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             case 'startDate':
                 return <Column
                     sortable
+                    key={columnId}
                     sortFunction={this.sortFunction}
                     field={'dateOfReservation'}
                     filterField={'start'}
@@ -637,6 +672,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             case 'status':
                 return <Column
                     sortable
+                    key={columnId}
                     sortFunction={this.sortFunction}
                     field={'status'}
                     filter={this.props.showFilters}
@@ -648,10 +684,12 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                 />
             case 'actions':
                 return <Column
+                    key={columnId}
                     field={'uid'}
                     filterMatchMode={'custom'}
                     filterFunction={this.filterGlobal}
                     body={this.actionsBodyTemplate}
+                    header={__('Actions', 'thebooking')}
                 />
         }
     }
