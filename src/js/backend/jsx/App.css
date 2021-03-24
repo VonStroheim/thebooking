@@ -27,8 +27,19 @@ input:global(.p-inputtext) {
   border-radius: 3px !important;
   line-height: normal !important;
   padding: 0.5rem 0.5rem !important;
-  border: 1px solid #ced4da !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: #ced4da !important;
   color: #495057 !important;
+}
+input:global(.p-inputtext):enabled:hover {
+  border-color: var(--primary-color) !important;
+}
+input:global(.p-inputtext):enabled:focus {
+  outline: 0 none !important;
+  outline-offset: 0 !important;
+  box-shadow: 0 0 0 0.2rem #a6d5fa !important;
+  border-color: var(--primary-color) !important;
 }
 :global(.p-dropdown) {
   line-height: normal !important;
