@@ -25,7 +25,8 @@ export default function LocationDropdown(props: SelectProps) {
             }
             classes={{
                 // Ensures compatibility with TwentyTwentyOne theme
-                popupIndicator: 'has-background has-text-color'
+                popupIndicator: 'has-background has-text-color',
+                clearIndicator: 'has-background has-text-color'
             }}
             disableClearable
             openOnFocus

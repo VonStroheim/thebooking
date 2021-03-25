@@ -31,7 +31,8 @@ export default function Select(props: SelectProps) {
         <Autocomplete
             classes={{
                 // Ensures compatibility with TwentyTwentyOne theme
-                popupIndicator: 'has-background has-text-color'
+                popupIndicator: 'has-background has-text-color',
+                clearIndicator: 'has-background has-text-color'
             }}
             defaultValue={props.value}
             onChange={props.onChange}

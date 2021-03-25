@@ -113,7 +113,8 @@ export default function SelectAddress(props: SelectAddressProps) {
             id={elementId}
             classes={{
                 // Ensures compatibility with TwentyTwentyOne theme
-                popupIndicator: 'has-background has-text-color'
+                popupIndicator: 'has-background has-text-color',
+                clearIndicator: 'has-background has-text-color'
             }}
             defaultValue={props.value}
             noOptionsText={__('No location', 'thebooking')}
