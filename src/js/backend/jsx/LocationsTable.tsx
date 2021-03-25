@@ -10,7 +10,7 @@ import React from "react";
 import styles from './LocationsTable.css';
 // @ts-ignore
 import tableStyles from './DataTable.css';
-import {ServiceRecordBackend, StateAction, tbkCommonB, Location} from "../../typedefs";
+import {StateAction, tbkCommonB, Location} from "../../typedefs";
 // @ts-ignore
 import {confirmPopup} from 'primereact/confirmpopup';
 
