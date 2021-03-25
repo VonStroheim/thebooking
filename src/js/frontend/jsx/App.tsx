@@ -2,6 +2,7 @@
 import styles from './App.css';
 import React from 'react';
 import globals from '../../globals';
+import Scheduler from '../../scheduler';
 import Calendar from './Calendar';
 import Nav from './Nav';
 import Schedule from './Schedule';
@@ -12,14 +13,7 @@ import {create} from 'jss';
 import {
     startOfMonth,
     endOfMonth,
-    startOfDay,
-    endOfDay,
-    formatRFC3339,
-    compareAsc as compareAscDate,
-    compareDesc as compareDescDate,
-    add as addToDate,
-    isFuture,
-    areIntervalsOverlapping, subSeconds, isPast
+    compareDesc as compareDescDate, isPast
 } from 'date-fns';
 import {toDate} from 'date-fns-tz';
 import {createMuiTheme, ThemeProvider, StylesProvider, createGenerateClassName, jssPreset} from '@material-ui/core/styles';
@@ -57,7 +51,6 @@ import {
     Block as BlockIcon
 } from '@material-ui/icons';
 import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
-import {RRuleSet, rrulestr} from 'rrule';
 import {AvailabilityRecord, availableViews, ReservationRecord, ServiceRecord, StateAction, tbkCommonF, TimeSlot} from "../../typedefs";
 
 declare const TBK: tbkCommonF;
@@ -210,7 +203,13 @@ export default class App extends React.Component<IProps, IState> {
         let thisDate = today;
 
         if (TBK.loadAtClosestSlot && view === 'monthlyCalendar') {
-            const firstUpcomingItem = this.getFirstUpcomingItem(props.availability || [], props.reservations || []);
+            const scheduler = new Scheduler({
+                availability: props.availability || [],
+                services    : props.services || {},
+                reservations: props.reservations || [],
+            });
+            const firstUpcomingItem = scheduler.getFirstUpcomingItem();
+
             if (typeof firstUpcomingItem !== 'undefined') {
                 thisDate = toDate(firstUpcomingItem.start)
             }
@@ -258,212 +257,6 @@ export default class App extends React.Component<IProps, IState> {
         }
     }
 
-    getFirstUpcomingItem = (availability: AvailabilityRecord[], blockingItems: ReservationRecord[]) => {
-        const items: TimeSlot[] = [];
-        for (let availabilityRecord of availability) {
-            const rule = rrulestr(availabilityRecord.rrule, {forceset: true}) as RRuleSet;
-            const instance = rule.after(startOfDay(new Date()), true);
-            const service = this.props.services[availabilityRecord.serviceId];
-
-            // TODO:
-            if (!service.duration) {
-                continue;
-            }
-
-            const eventDuration = globals.secondsToDurationObj(service.duration);
-
-            let endOfLoop;
-            if (availabilityRecord.containerDuration) {
-                endOfLoop = addToDate(instance, availabilityRecord.containerDuration);
-            } else {
-                endOfLoop = addToDate(instance, eventDuration);
-            }
-            let eventStart = instance;
-            let eventEnd = addToDate(instance, eventDuration);
-            while (eventEnd <= endOfLoop) {
-                if (isFuture(eventStart)) {
-                    const bookableItem = {
-                        id            : availabilityRecord.uid + '_' + formatRFC3339(eventStart),
-                        availabilityId: availabilityRecord.uid,
-                        serviceId     : availabilityRecord.serviceId,
-                        start         : formatRFC3339(eventStart),
-                        end           : formatRFC3339(eventEnd),
-                        soldOut       : false,
-                        //meta          : availability.meta
-                    };
-
-                    if (!this.applyBlockingRules(bookableItem, blockingItems)) {
-                        items.push(bookableItem);
-                        break;
-                    }
-                }
-                eventStart = addToDate(eventStart, eventDuration);
-                eventEnd = addToDate(eventEnd, eventDuration);
-            }
-        }
-        items.sort((a, b) => {
-            if (!a.start) return 0;
-            return compareAscDate(toDate(a.start), toDate(b.start));
-        })
-
-        return items.shift();
-    }
-
-    /**
-     * Checks if a time slot is outside date/time boundaries.
-     *
-     * @param start
-     * @param end
-     * @param service
-     */
-    isItemInTime = (start: Date, end: Date, service: ServiceRecord): boolean => {
-        let eligible = isFuture(start);
-        if ('closeReservations' in service.meta && service.meta.closeReservations && eligible) {
-            eligible = isFuture(subSeconds(start, parseInt(service.meta.closeReservationsPeriod)));
-        }
-        if ('openReservations' in service.meta && service.meta.openReservations && eligible) {
-            eligible = !isFuture(subSeconds(start, parseInt(service.meta.openReservationsPeriod)));
-        }
-        return eligible;
-    }
-
-    getItemsBetween = (start: Date, end: Date): TimeSlot[] => {
-        const items: TimeSlot[] = [];
-        for (let availability of this.state.availability) {
-
-            const rule = rrulestr(availability.rrule, {forceset: true}) as RRuleSet;
-            const instances = rule.between(startOfDay(start), endOfDay(end), true);
-
-            const service = this.props.services[availability.serviceId];
-
-            if (!service) {
-                continue;
-            }
-
-            // TODO:
-            if (!service.duration) {
-                continue;
-            }
-
-            const eventDuration = globals.secondsToDurationObj(service.duration);
-
-            instances.forEach(instance => {
-
-                let endOfLoop;
-
-                if (availability.containerDuration) {
-                    endOfLoop = addToDate(instance, availability.containerDuration);
-                } else {
-                    endOfLoop = addToDate(instance, eventDuration);
-                }
-                let eventStart = instance;
-                let eventEnd = addToDate(instance, eventDuration);
-                while (eventEnd <= endOfLoop) {
-                    if (this.isItemInTime(eventStart, eventEnd, service)) {
-
-                        const bookableItem = {
-                            id            : availability.uid + '_' + formatRFC3339(eventStart) + '_' + availability.serviceId,
-                            availabilityId: availability.uid,
-                            serviceId     : availability.serviceId,
-                            start         : formatRFC3339(eventStart),
-                            end           : formatRFC3339(eventEnd),
-                            soldOut       : false,
-                            //meta          : availability.meta
-                        };
-
-                        if (!this.applyBlockingRules(bookableItem, this.state.reservations)) {
-                            items.push(bookableItem);
-                        }
-
-                        /**
-                         * TODO: collisions
-                         */
-
-
-                    }
-                    eventStart = addToDate(eventStart, eventDuration);
-                    eventEnd = addToDate(eventEnd, eventDuration);
-                }
-            })
-        }
-
-        items.sort((a, b) => {
-            if (!a.start) return 0;
-            return compareAscDate(toDate(a.start), toDate(b.start));
-        })
-
-        return items;
-    }
-
-    /**
-     * Handles overlapping criteria.
-     */
-    applyBlockingRules = (item: TimeSlot, blockingItems: ReservationRecord[]) => {
-
-        const itemStart = item.start ? toDate(item.start) : null;
-        const itemEnd = item.end ? toDate(item.end) : itemStart;
-
-        for (let blockingItem of blockingItems) {
-
-            const blockingItemStart = blockingItem.start;
-            const blockingItemEnd = blockingItem.end;
-
-            if (typeof blockingItemStart === 'undefined' || typeof blockingItemEnd === 'undefined') {
-                console.log('No end or start meta found in reservation ' + blockingItem.uid);
-                continue;
-            }
-
-            const blockingItemInterval = {
-                start: toDate(blockingItemStart),
-                end  : blockingItemEnd ? toDate(blockingItemEnd) : toDate(blockingItemStart)
-            }
-
-            if (areIntervalsOverlapping(
-                blockingItemInterval,
-                {start: itemStart, end: itemEnd}
-            )) {
-
-                // "Reservation is for this slot" criterion
-                if (item.serviceId === blockingItem.serviceId) {
-                    item.soldOut = true;
-
-                    /**
-                     * We are returning false here, because soldout items
-                     * should not be affected by blocking items
-                     * (i.e. they can still be visible in the frontend)
-                     */
-                    return false;
-                }
-
-                if ('blocksOther' in this.props.services[blockingItem.serviceId].meta) {
-                    const blocksOther = this.props.services[blockingItem.serviceId].meta.blocksOther;
-                    for (let rule of blocksOther) {
-                        switch (rule.by) {
-                            case 'serviceId':
-                                if (rule.rule === 'all') {
-                                    return true;
-                                }
-                                if (Array.isArray(rule.rule) && rule.rule.includes(item.serviceId)) {
-                                    return true;
-                                }
-                                break;
-                            case 'meta':
-                                break;
-                                // TODO
-                                //for (let itemMeta of item.meta) {
-                                //    if (itemMeta.id === rule.rule.id && itemMeta.text === rule.rule.text) {
-                                //        return true;
-                                //    }
-                                //}
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
     getDayItems = (date: Date): TimeSlot[] => {
         const monthStart = startOfMonth(date);
 
@@ -486,7 +279,13 @@ export default class App extends React.Component<IProps, IState> {
             return this.cache[monthStart.toISOString()];
         }
 
-        const items = this.getItemsBetween(startOfMonth(date), endOfMonth(date));
+        const scheduler = new Scheduler({
+            availability: this.state.availability,
+            services    : this.props.services,
+            reservations: this.state.reservations
+        });
+
+        const items = scheduler.getItemsBetween(startOfMonth(date), endOfMonth(date))
 
         this.cache[monthStart.toISOString()] = items;
 
