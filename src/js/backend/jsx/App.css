@@ -43,6 +43,7 @@ input:global(.p-inputtext):enabled:focus {
 }
 :global(.p-dropdown) {
   line-height: normal !important;
+  max-width: 100% !important;
 }
 :global(.p-multiselect) {
   line-height: normal !important;
