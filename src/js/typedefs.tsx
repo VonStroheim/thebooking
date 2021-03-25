@@ -208,7 +208,7 @@ export interface AvailabilityRecord {
     uid: string,
     serviceId: string,
     rrule: string,
-    meta: object[]
+    meta?: object[]
 }
 
 export interface UiInstance {
