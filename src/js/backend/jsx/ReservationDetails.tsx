@@ -12,7 +12,6 @@ import {Column} from 'primereact/column';
 import {DataTable} from 'primereact/datatable';
 import globals from '../../globals';
 import {ReservationRecordBackend, tbkCommonB} from "../../typedefs";
-import CustomersDropdown from "./CustomersDropdown";
 import LocationsDropdown from "./LocationsDropdown";
 // @ts-ignore
 import tableStyles from "./DataTable.css";
@@ -62,17 +61,6 @@ export default class ReservationDetails extends React.Component<ReservationDetai
                                 </span>
                     </div>
                 )
-            case 'CustomersDropdown':
-                selected = (data.value in tbkCommon.customers) ? tbkCommon.customers[data.value].id : null;
-                return <CustomersDropdown
-                    customers={tbkCommon.customers}
-                    selected={selected}
-                    onChange={(e) => {
-                        this.props.onUpdate({
-                            customer: e.value
-                        })
-                    }}
-                />
             case 'LocationsDropdown':
                 selected = (data.value in tbkCommon.locations) ? data.value : null;
                 return <LocationsDropdown
@@ -198,17 +186,7 @@ export default class ReservationDetails extends React.Component<ReservationDetai
                 'label'       : __('Submit date', 'thebooking'),
                 'value'       : toDate(data.created * 1000),
                 'propertyType': 'dateTime'
-            },
-            {
-                'label'       : __('Service', 'thebooking'),
-                'value'       : tbkCommon.services[data.serviceId].name,
-                'propertyType': 'string'
-            },
-            {
-                'label'       : __('Customer', 'thebooking'),
-                'value'       : data.customerId,
-                'propertyType': 'CustomersDropdown'
-            },
+            }
         ]
 
         if ('location' in data.meta) {

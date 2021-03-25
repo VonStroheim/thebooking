@@ -22,6 +22,7 @@ import tableStyles from './DataTable.css';
 import React from "react";
 import globals from '../../globals';
 import {BackendUser, CustomerBackendRecord, ReservationRecordBackend, ReservationStatuses, tbkCommonB} from "../../typedefs";
+import CustomersDropdown from "./CustomersDropdown";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -98,21 +99,43 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         const avatar = typeof users[0] !== 'undefined' ? users[0].avatar : tbkCommon.pluginUrl + 'Admin/Images/user-placeholder.png';
 
         return (
-            <div className={tableStyles.nameItem}>
-                <div className={tableStyles.nameItemAvatar}>
-                    <img src={avatar}
-                         onError={(e: any) => e.target.src = tbkCommon.pluginUrl + 'Admin/Images/user-placeholder.png'
-                         }/>
-                </div>
-                <div>
+            <>
+                {!this.state.editMode && (
+                    <div className={tableStyles.nameItem}>
+                        <div className={tableStyles.nameItemAvatar}>
+                            <img src={avatar}
+                                 onError={(e: any) => e.target.src = tbkCommon.pluginUrl + 'Admin/Images/user-placeholder.png'
+                                 }/>
+                        </div>
+                        <div>
                     <span>
                         {tbkCommon.customers[reservation.customerId].name}
                     </span>
-                    <span className={tableStyles.tableCellDescription}>
+                            <span className={tableStyles.tableCellDescription}>
                         {tbkCommon.customers[reservation.customerId].email}
                     </span>
-                </div>
-            </div>
+                        </div>
+                    </div>
+                )}
+                {this.state.editMode && (
+                    <CustomersDropdown
+                        customers={tbkCommon.customers}
+                        selected={reservation.customerId}
+                        onChange={(e) => {
+                            this.props.onUpdate({
+                                type   : 'SAVE_RESERVATION_SETTINGS',
+                                payload: {
+                                    settings: {
+                                        customer: e.value
+                                    },
+                                    id      : reservation.uid
+                                }
+                            })
+                        }}
+                    />
+                )}
+
+            </>
         )
     }
 
