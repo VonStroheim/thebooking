@@ -1,0 +1,8 @@
+.dayWithSlots {
+  color: var(--green-800);
+  background: var(--green-200);
+  padding: 10px;
+}
+:global(.p-highlight) .dayWithSlots {
+  background: var(--green-300);
+}

@@ -6,10 +6,11 @@ import {Calendar} from 'primereact/calendar';
 import {SplitButton} from 'primereact/splitbutton';
 import {Dropdown} from 'primereact/dropdown';
 import {MultiSelect} from 'primereact/multiselect';
+import {Skeleton} from 'primereact/skeleton';
 import {ExportToCsv} from 'export-to-csv';
 import ReservationDetails from './ReservationDetails';
 import {toDate} from 'date-fns-tz';
-import {isSameDay, isValid} from 'date-fns';
+import {addSeconds, isSameDay, isValid} from 'date-fns';
 // @ts-ignore
 import {confirmPopup} from 'primereact/confirmpopup';
 import {OverlayPanel} from 'primereact/overlaypanel';
@@ -21,8 +22,10 @@ import styles from './ReservationsTable.css';
 import tableStyles from './DataTable.css';
 import React from "react";
 import globals from '../../globals';
-import {BackendUser, CustomerBackendRecord, ReservationRecordBackend, ReservationStatuses, tbkCommonB} from "../../typedefs";
+import {AvailabilityRecord, BackendUser, CustomerBackendRecord, ReservationRecordBackend, ReservationStatuses, tbkCommonB} from "../../typedefs";
 import CustomersDropdown from "./CustomersDropdown";
+import Scheduler from "../../scheduler";
+import Rescheduler from "./Rescheduler";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -52,11 +55,15 @@ interface ReservationTableState {
 class ReservationsTable extends React.Component<ReservationTableProps, ReservationTableState> {
     private dt: any;
     private readonly columnFilter: React.RefObject<OverlayPanel>;
+    private readonly rescheduleOverlay: React.RefObject<OverlayPanel>;
+    private readonly rescheduleOverlayId: string;
 
     constructor(props: ReservationTableProps) {
         super(props);
 
         this.columnFilter = React.createRef();
+        this.rescheduleOverlay = React.createRef();
+        this.rescheduleOverlayId = globals.uuidDOM();
 
         this.state = {
             globalFilter            : null,
@@ -140,25 +147,68 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
     }
 
     dateOfReservationBodyTemplate = (reservation: ReservationRecordBackend) => {
-        if (typeof reservation.start !== 'undefined') {
-            const date = toDate(reservation.start);
-            return (
-                <>
-                <span>
-                    {globals.formatDate(date)}
-                </span>
-                    <span className={tableStyles.tableCellDescription}>
-                    {globals.formatTime(date)}
-                </span>
-                </>
-            )
-        } else {
-            return (
-                <>
+        const date = toDate(reservation.start);
 
-                </>
-            )
+        const availability: AvailabilityRecord[] = [];
+
+        for (const serviceId of Object.keys(tbkCommon.services)) {
+            for (const availabilityRecord of Object.values(tbkCommon.availability) as any) {
+                availability.push({
+                    serviceId        : serviceId,
+                    rrule            : availabilityRecord.rrule,
+                    uid              : availabilityRecord.uid,
+                    containerDuration: {
+                        minutes: availabilityRecord.duration
+                    }
+                })
+            }
         }
+
+        const scheduler = new Scheduler({
+            services    : tbkCommon.services,
+            availability: availability,
+            reservations: tbkCommon.reservations
+        })
+
+
+        return (
+            <div className={'p-d-inline-flex p-ai-center'}>
+                <div style={{flexShrink: 0}}>
+                    <span>
+                        {globals.formatDate(date)}
+                    </span>
+                    <span className={tableStyles.tableCellDescription}>
+                        {globals.formatTime(date)}
+                    </span>
+                </div>
+                {this.state.editMode && (
+                    <div className="p-ml-3">
+                        <Button
+                            tooltip={__('Reschedule', 'thebooking')}
+                            className="p-button-rounded p-button-text p-button-plain"
+                            icon={'pi pi-calendar'}
+                            onClick={(e) => {
+                                this.rescheduleOverlay.current.toggle(e);
+                                setTimeout(() => {
+                                    const target = document.getElementById(this.rescheduleOverlayId);
+                                    if (target) {
+                                        // @ts-ignore
+                                        ReactDOM.render(
+                                            <Rescheduler onConfirm={(date: Date) => {
+                                                this.reschedule(date, reservation)
+                                                this.rescheduleOverlay.current.hide();
+                                            }} serviceId={reservation.serviceId} date={date}/>,
+                                            document.getElementById(this.rescheduleOverlayId)
+                                        )
+                                    }
+                                }, 250)
+                            }}
+                        />
+                    </div>
+                )
+                }
+            </div>
+        )
     }
 
     statusBodyTemplate = (reservation: ReservationRecordBackend) => {
@@ -312,6 +362,17 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         })
     }
 
+    reschedule = (date: Date, reservation: ReservationRecordBackend) => {
+        this.props.onUpdate({
+            type   : 'RESCHEDULE_RESERVATION',
+            payload: {
+                start: date,
+                end  : addSeconds(date, tbkCommon.services[reservation.serviceId].duration),
+                id   : reservation.uid
+            }
+        })
+    }
+
     sortFunction = (e: any) => {
         const value = [...this.props.reservations];
         switch (e.field) {
@@ -457,25 +518,26 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                                         <label>{option.label}</label>
                                     </div>
                                 )
-                            }}
+                            }
+                            }
                         />
                     </OverlayPanel>
                 </div>
                 <div>
                     <span className="p-input-icon-left">
-                    <i className="pi pi-search"/>
-                    <InputText type="search"
-                               value={this.state.globalFilter || ''}
-                               onChange={(e: any) => {
-                                   if (e.target.value !== null) {
-                                       this.dt.filter(e.target.value, 'uid', 'custom');
-                                   } else
-                                       this.dt.filter(null, 'uid', 'equals');
-                                   this.setState({
-                                       globalFilter: e.target.value
-                                   })
-                               }}
-                               placeholder={__('Search all', 'thebooking')}/>
+                        <i className="pi pi-search"/>
+                        <InputText type="search"
+                                   value={this.state.globalFilter || ''}
+                                   onChange={(e: any) => {
+                                       if (e.target.value !== null) {
+                                           this.dt.filter(e.target.value, 'uid', 'custom');
+                                       } else
+                                           this.dt.filter(null, 'uid', 'equals');
+                                       this.setState({
+                                           globalFilter: e.target.value
+                                       })
+                                   }}
+                                   placeholder={__('Search all', 'thebooking')}/>
                     </span>
                 </div>
             </div>
@@ -751,6 +813,12 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                 >
                     {this.getColumnsToDisplay().map(column => (this.renderColumn(column)))}
                 </DataTable>
+                <OverlayPanel ref={this.rescheduleOverlay} id={this.rescheduleOverlayId}>
+                    <div className={'p-d-inline-flex p-ai-center p-flex-column'}>
+                        <Skeleton width="359px" height="350px"></Skeleton>
+                        <Skeleton width="359px" height="35px" className={'p-mt-3'}></Skeleton>
+                    </div>
+                </OverlayPanel>
             </div>
         )
     }

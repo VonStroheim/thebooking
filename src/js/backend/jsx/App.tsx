@@ -18,6 +18,7 @@ import * as SettingComponents from './SettingComponents/components';
 import globals from "../../globals";
 import {NotificationHook, ReservationRecordBackend, SettingPanelBackend, StateAction, tbkCommonB} from "../../typedefs";
 import LocationsTable from "./LocationsTable";
+import {formatRFC3339} from "date-fns";
 
 declare const tbkCommon: tbkCommonB;
 declare const lodash: any;
@@ -407,6 +408,27 @@ export default class App extends React.Component<AppProps, AppState> {
                     } else {
                         tbkCommon.reservations = res.data.reservations;
                         this.showSuccess(__('Status changed.', 'thebooking'));
+                        this.setState({
+                            UI    : tbkCommon,
+                            isBusy: false
+                        })
+                    }
+                })
+                break;
+            case 'RESCHEDULE_RESERVATION':
+                Api.post('/reservation/reschedule/', {
+                    start: formatRFC3339(action.payload.start),
+                    end  : formatRFC3339(action.payload.end),
+                    id   : action.payload.id
+                }).then((res: any) => {
+                    if (res.data.status === 'KO') {
+                        this.showError(res.data.error);
+                        this.setState({
+                            isBusy: false
+                        })
+                    } else {
+                        tbkCommon.reservations = res.data.reservations;
+                        this.showSuccess(__('Date changed.', 'thebooking'));
                         this.setState({
                             UI    : tbkCommon,
                             isBusy: false

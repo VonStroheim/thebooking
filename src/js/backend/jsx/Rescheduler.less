@@ -1,0 +1,13 @@
+@import "mixins";
+
+.dayWithSlots {
+  color: var(--green-800);
+  background: var(--green-200);
+  padding: 20px;
+}
+
+:global(.p-highlight) {
+  .dayWithSlots {
+    background: var(--green-300);
+  }
+}
