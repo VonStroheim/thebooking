@@ -81,7 +81,17 @@ export default class Scheduler {
                 }
 
                 if ('blocksOther' in this.services[blockingItem.serviceId].meta) {
-                    const blocksOther = this.services[blockingItem.serviceId].meta.blocksOther;
+                    let blocksOther = this.services[blockingItem.serviceId].meta.blocksOther;
+
+                    // TODO: this is not acceptable long term. There should be no difference between frontend and backend meta types.
+                    if (typeof blocksOther === 'string') {
+                        const list = this.services[blockingItem.serviceId].meta.blocksOtherList || [];
+                        blocksOther = [{
+                            rule: blocksOther === 'all' ? 'all' : list,
+                            by  : 'serviceId'
+                        }]
+                    }
+
                     for (let rule of blocksOther) {
                         switch (rule.by) {
                             case 'serviceId':

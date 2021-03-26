@@ -427,8 +427,7 @@ class Services
                 && $key !== 'formFieldsRequired'
                 && $key !== 'formFieldsActive'
                 && $key !== 'formFieldsConditions'
-                && $key !== 'blocksOther'
-                && $key !== 'blocksOtherList';
+                && $key !== 'blocksOther';
         }, ARRAY_FILTER_USE_BOTH);
 
         if ($service->image()) {
