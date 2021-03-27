@@ -303,7 +303,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     </>
                 )}
                 <Button
-                    icon={'pi pi-replay'}
+                    icon={'pi pi-envelope'}
                     tooltip={__('Re-send notifications', 'thebooking')}
                     className={'p-button-rounded p-button-text p-button-plain'}
                     onClick={(event) => this.confirmReSendNotifications(event, () => this.changeStatus(reservation.status, reservation.uid))}
@@ -839,8 +839,8 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                 </DataTable>
                 <OverlayPanel ref={this.rescheduleOverlay} id={this.rescheduleOverlayId}>
                     <div className={'p-d-inline-flex p-ai-center p-flex-column'}>
-                        <Skeleton width="359px" height="350px"></Skeleton>
-                        <Skeleton width="359px" height="35px" className={'p-mt-3'}></Skeleton>
+                        <Skeleton width="359px" height="350px"/>
+                        <Skeleton width="359px" height="35px" className={'p-mt-3'}/>
                     </div>
                 </OverlayPanel>
             </div>
