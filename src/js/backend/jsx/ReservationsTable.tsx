@@ -4,13 +4,14 @@ import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {Calendar} from 'primereact/calendar';
 import {SplitButton} from 'primereact/splitbutton';
+import {SelectButton} from 'primereact/selectbutton';
 import {Dropdown} from 'primereact/dropdown';
 import {MultiSelect} from 'primereact/multiselect';
 import {Skeleton} from 'primereact/skeleton';
 import {ExportToCsv} from 'export-to-csv';
 import ReservationDetails from './ReservationDetails';
 import {toDate} from 'date-fns-tz';
-import {addSeconds, isSameDay, isValid} from 'date-fns';
+import {addSeconds, isSameDay, isValid, startOfToday, startOfTomorrow} from 'date-fns';
 // @ts-ignore
 import {confirmPopup} from 'primereact/confirmpopup';
 import {OverlayPanel} from 'primereact/overlaypanel';
@@ -43,8 +44,8 @@ export interface ReservationTableProps {
 }
 
 interface ReservationTableState {
-    globalFilter: null,
-    reservationDateFilter: null,
+    globalFilter: string,
+    reservationDateFilter: Date,
     statusFilter: any[] | null,
     reservationServiceFilter: any[] | null,
     selected: ReservationRecordBackend[] | null,
@@ -452,6 +453,8 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
     }
 
     renderHeader() {
+        const today = startOfToday();
+        const tomorrow = startOfTomorrow();
         return (
             <div className={tableStyles.tableHeader}>
                 <div>
@@ -470,6 +473,38 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                                 }
                             },
                         ]}
+                    />
+                    <SelectButton
+                        className={'p-mr-2'}
+                        style={{display: 'inline'}}
+                        options={[
+                            {
+                                label: __("Today's", 'thebooking'),
+                                value: 'today'
+                            },
+                            {
+                                label: __("Tomorrow's", 'thebooking'),
+                                value: 'tomorrow'
+                            }
+                        ]}
+                        value={
+                            this.state.reservationDateFilter && this.state.reservationDateFilter.toISOString() === today.toISOString()
+                                ? 'today'
+                                : (this.state.reservationDateFilter && this.state.reservationDateFilter.toISOString() === tomorrow.toISOString()
+                                ? 'tomorrow'
+                                : null)}
+                        onChange={(e) => {
+                            if (e.value === 'today') {
+                                this.dt.filter(today, 'start', 'custom');
+                                this.setState({reservationDateFilter: today});
+                            } else if (e.value === 'tomorrow') {
+                                this.dt.filter(tomorrow, 'start', 'custom');
+                                this.setState({reservationDateFilter: tomorrow});
+                            } else {
+                                this.setState({reservationDateFilter: null});
+                                this.dt.filter(null, 'start', 'equals');
+                            }
+                        }}
                     />
                     <Button
                         className={'p-mr-2 p-button-rounded ' + (this.state.editMode ? 'p-button-secondary' : 'p-button-plain p-button-text')}
