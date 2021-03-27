@@ -160,32 +160,6 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         {globals.formatTime(date)}
                     </span>
                 </div>
-                {this.state.editMode && (
-                    <div className="p-ml-3">
-                        <Button
-                            tooltip={__('Reschedule', 'thebooking')}
-                            className="p-button-rounded p-button-text p-button-plain"
-                            icon={'pi pi-calendar'}
-                            onClick={(e) => {
-                                this.rescheduleOverlay.current.toggle(e);
-                                setTimeout(() => {
-                                    const target = document.getElementById(this.rescheduleOverlayId);
-                                    if (target) {
-                                        // @ts-ignore
-                                        ReactDOM.render(
-                                            <Rescheduler onConfirm={(date: Date) => {
-                                                this.reschedule(date, reservation)
-                                                this.rescheduleOverlay.current.hide();
-                                            }} serviceId={reservation.serviceId} date={date}/>,
-                                            document.getElementById(this.rescheduleOverlayId)
-                                        )
-                                    }
-                                }, 250)
-                            }}
-                        />
-                    </div>
-                )
-                }
             </div>
         )
     }
@@ -272,6 +246,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
 
     actionsBodyTemplate = (reservation: ReservationRecordBackend) => {
         const service = tbkCommon.services[reservation.serviceId];
+        const date = toDate(reservation.start);
         return (
             <>
                 <Button
@@ -280,6 +255,29 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     className={'p-button-rounded p-button-text p-button-danger'}
                     onClick={(event) => this.confirmDeletion(event, () => this.deleteReservations([reservation]))}
                 />
+                {['pending', 'confirmed'].includes(reservation.status) && (
+                    <Button
+                        tooltip={__('Reschedule', 'thebooking')}
+                        className="p-button-rounded p-button-text"
+                        icon={'pi pi-calendar'}
+                        onClick={(e) => {
+                            this.rescheduleOverlay.current.toggle(e);
+                            setTimeout(() => {
+                                const target = document.getElementById(this.rescheduleOverlayId);
+                                if (target) {
+                                    // @ts-ignore
+                                    ReactDOM.render(
+                                        <Rescheduler onConfirm={(date: Date) => {
+                                            this.reschedule(date, reservation)
+                                            this.rescheduleOverlay.current.hide();
+                                        }} serviceId={reservation.serviceId} date={date}/>,
+                                        document.getElementById(this.rescheduleOverlayId)
+                                    )
+                                }
+                            }, 250)
+                        }}
+                    />
+                )}
                 {reservation.status === 'confirmed' && (
                     <Button
                         icon={'pi pi-times'}
