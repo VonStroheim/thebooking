@@ -26,6 +26,7 @@ import {AvailabilityRecord, BackendUser, CustomerBackendRecord, ReservationRecor
 import CustomersDropdown from "./CustomersDropdown";
 import Scheduler from "../../scheduler";
 import Rescheduler from "./Rescheduler";
+import {Badge} from "primereact/badge";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -477,11 +478,24 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         tooltip={__('Edit mode', 'thebooking')}
                     />
                     <Button
-                        className="p-button-rounded p-button-text p-button-plain"
+                        className="p-button-rounded p-button-text p-button-plain p-overlay-badge"
                         icon="pi pi-filter"
+                        style={{overflow: 'visible'}}
                         tooltip={__('Filter columns', 'thebooking')}
                         onClick={(event) => this.columnFilter.current.toggle(event)}
-                    />
+                    >
+                        {this.state.columns.length < 4 && (
+                            <Badge severity="info" style={
+                                {
+                                    width   : '0.5rem',
+                                    minWidth: '0.5rem',
+                                    height  : '0.5rem',
+                                    top     : '4px',
+                                    right   : '4px'
+                                }
+                            }/>
+                        )}
+                    </Button>
                     <OverlayPanel
                         ref={this.columnFilter}
                     >
