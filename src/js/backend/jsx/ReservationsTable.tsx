@@ -23,9 +23,8 @@ import styles from './ReservationsTable.css';
 import tableStyles from './DataTable.css';
 import React from "react";
 import globals from '../../globals';
-import {AvailabilityRecord, BackendUser, CustomerBackendRecord, ReservationRecordBackend, ReservationStatuses, tbkCommonB} from "../../typedefs";
+import {BackendUser, CustomerBackendRecord, ReservationRecordBackend, ReservationStatuses, tbkCommonB} from "../../typedefs";
 import CustomersDropdown from "./CustomersDropdown";
-import Scheduler from "../../scheduler";
 import Rescheduler from "./Rescheduler";
 import {Badge} from "primereact/badge";
 
@@ -150,28 +149,6 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
 
     dateOfReservationBodyTemplate = (reservation: ReservationRecordBackend) => {
         const date = toDate(reservation.start);
-
-        const availability: AvailabilityRecord[] = [];
-
-        for (const serviceId of Object.keys(tbkCommon.services)) {
-            for (const availabilityRecord of Object.values(tbkCommon.availability) as any) {
-                availability.push({
-                    serviceId        : serviceId,
-                    rrule            : availabilityRecord.rrule,
-                    uid              : availabilityRecord.uid,
-                    containerDuration: {
-                        minutes: availabilityRecord.duration
-                    }
-                })
-            }
-        }
-
-        const scheduler = new Scheduler({
-            services    : tbkCommon.services,
-            availability: availability,
-            reservations: tbkCommon.reservations
-        })
-
 
         return (
             <div className={'p-d-inline-flex p-ai-center'}>
