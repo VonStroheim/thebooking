@@ -106,44 +106,42 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         });
         const avatar = typeof users[0] !== 'undefined' ? users[0].avatar : tbkCommon.pluginUrl + 'Admin/Images/user-placeholder.png';
 
+        if (this.state.editMode && Object.keys(tbkCommon.customers).length > 1) {
+            return (
+                <CustomersDropdown
+                    customers={tbkCommon.customers}
+                    selected={reservation.customerId}
+                    onChange={(e) => {
+                        this.props.onUpdate({
+                            type   : 'SAVE_RESERVATION_SETTINGS',
+                            payload: {
+                                settings: {
+                                    customer: e.value
+                                },
+                                id      : reservation.uid
+                            }
+                        })
+                    }}
+                />
+            )
+        }
+
         return (
-            <>
-                {!this.state.editMode && (
-                    <div className={tableStyles.nameItem}>
-                        <div className={tableStyles.nameItemAvatar}>
-                            <img src={avatar}
-                                 onError={(e: any) => e.target.src = tbkCommon.pluginUrl + 'Admin/Images/user-placeholder.png'
-                                 }/>
-                        </div>
-                        <div>
+            <div className={tableStyles.nameItem}>
+                <div className={tableStyles.nameItemAvatar}>
+                    <img src={avatar}
+                         onError={(e: any) => e.target.src = tbkCommon.pluginUrl + 'Admin/Images/user-placeholder.png'
+                         }/>
+                </div>
+                <div>
                     <span>
                         {tbkCommon.customers[reservation.customerId].name}
                     </span>
-                            <span className={tableStyles.tableCellDescription}>
+                    <span className={tableStyles.tableCellDescription}>
                         {tbkCommon.customers[reservation.customerId].email}
                     </span>
-                        </div>
-                    </div>
-                )}
-                {this.state.editMode && (
-                    <CustomersDropdown
-                        customers={tbkCommon.customers}
-                        selected={reservation.customerId}
-                        onChange={(e) => {
-                            this.props.onUpdate({
-                                type   : 'SAVE_RESERVATION_SETTINGS',
-                                payload: {
-                                    settings: {
-                                        customer: e.value
-                                    },
-                                    id      : reservation.uid
-                                }
-                            })
-                        }}
-                    />
-                )}
-
-            </>
+                </div>
+            </div>
         )
     }
 
