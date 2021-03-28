@@ -5,8 +5,8 @@ namespace TheBooking;
 use TheBooking\Bus\Commands\AddReservationPendingStatusUpdate;
 use TheBooking\Bus\Commands\ChangeReservationCustomer;
 use TheBooking\Bus\Commands\ChangeReservationLocation;
+use TheBooking\Bus\Commands\ChangeReservationService;
 use TheBooking\Bus\Commands\ChangeReservationStatus;
-use TheBooking\Bus\Commands\DeleteReservation;
 use TheBooking\Classes\Reservation;
 use TheBooking\Classes\ValueTypes\Status;
 use TheBooking\Classes\ValueTypes\UserInput;
@@ -113,6 +113,10 @@ class Reservations
                         break;
                     case 'location':
                         $command = new ChangeReservationLocation($reservation->id(), $value);
+                        tbkg()->bus->dispatch($command);
+                        break;
+                    case 'service':
+                        $command = new ChangeReservationService($reservation->id(), $value);
                         tbkg()->bus->dispatch($command);
                         break;
                     default:

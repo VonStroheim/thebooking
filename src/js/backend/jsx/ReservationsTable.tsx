@@ -27,6 +27,7 @@ import {BackendUser, CustomerBackendRecord, ReservationRecordBackend, Reservatio
 import CustomersDropdown from "./CustomersDropdown";
 import Rescheduler from "./Rescheduler";
 import {Badge} from "primereact/badge";
+import ServicesDropdown from "./ServicesDropdown";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -81,9 +82,30 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
 
     serviceBodyTemplate = (reservation: ReservationRecordBackend) => {
         const service = tbkCommon.services[reservation.serviceId];
+
+        if (this.state.editMode && Object.keys(tbkCommon.services).length > 1) {
+            return (
+                <ServicesDropdown
+                    services={tbkCommon.services}
+                    selected={reservation.serviceId}
+                    onChange={(e) => {
+                        // TODO: check if the change requires a re-scheduling
+                        this.props.onUpdate({
+                            type   : 'SAVE_RESERVATION_SETTINGS',
+                            payload: {
+                                settings: {
+                                    service: e.value
+                                },
+                                id      : reservation.uid
+                            }
+                        })
+                    }}
+                />
+            )
+        }
+
         return (
-            <div
-                className={tableStyles.nameItem}>
+            <div className={tableStyles.nameItem}>
                 <div
                     className={tableStyles.nameItemAvatar}
                     style={
