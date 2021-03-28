@@ -20,19 +20,6 @@ export interface TimeslotVariant {
     soldOut: boolean,
 }
 
-/**
- * @typedef bookableItemMeta
- * @property {String} icon
- * @property {String} text
- * @property {String} id
- */
-
-/**
- * @typedef bookableItemBlockRule
- * @property {'serviceId' | 'meta'} by
- * @property {String[] | {id, text} | 'all'} rule
- */
-
 export interface StateAction {
     type: string,
     payload?: any
@@ -318,7 +305,8 @@ export interface tbkCommonB {
         archived: string,
         open: string,
         closed: string,
-    }
+    },
+    modules: string[]
 }
 
 export interface tbkCommonF {
@@ -358,7 +346,8 @@ export interface tbkCommonF {
         archived: string,
         open: string,
         closed: string,
-    }
+    },
+    modules: string[]
 }
 
 export interface SettingPanelBlockComponentDependencyBackend {

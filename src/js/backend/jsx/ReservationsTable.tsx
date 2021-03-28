@@ -322,12 +322,14 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         />
                     </>
                 )}
-                <Button
-                    icon={'pi pi-envelope'}
-                    tooltip={__('Re-send notifications', 'thebooking')}
-                    className={'p-button-rounded p-button-text p-button-plain'}
-                    onClick={(event) => this.confirmReSendNotifications(event, () => this.changeStatus(reservation.status, reservation.uid))}
-                />
+                {tbkCommon.modules.includes('notifications') && (
+                    <Button
+                        icon={'pi pi-envelope'}
+                        tooltip={__('Re-send notifications', 'thebooking')}
+                        className={'p-button-rounded p-button-text p-button-plain'}
+                        onClick={(event) => this.confirmReSendNotifications(event, () => this.changeStatus(reservation.status, reservation.uid))}
+                    />
+                )}
             </>
         )
     }

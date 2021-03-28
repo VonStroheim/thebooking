@@ -340,7 +340,8 @@ function localize_backend_script()
             ValueTypes\Status::ARCHIVED  => __('Archived', 'thebooking'),
             ValueTypes\Status::OPEN      => __('Open', 'thebooking'),
             ValueTypes\Status::CLOSED    => __('Closed', 'thebooking'),
-        ]
+        ],
+        'modules'             => apply_filters('tbk_loaded_modules', [])
     ]);
 }
 
@@ -396,7 +397,8 @@ function localize_frontend_script()
             ValueTypes\Status::ARCHIVED  => __('Archived', 'thebooking'),
             ValueTypes\Status::OPEN      => __('Open', 'thebooking'),
             ValueTypes\Status::CLOSED    => __('Closed', 'thebooking'),
-        ]
+        ],
+        'modules'             => apply_filters('tbk_loaded_modules', [])
     ]);
 }
 

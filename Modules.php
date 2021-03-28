@@ -25,6 +25,14 @@ final class Modules
         tbkg()->loader->add_filter('tbk_notification_template_hooks_spec', self::class, 'templateHooksSpec', 10, 2);
         tbkg()->loader->add_action('tbk_reservation_status_change_actions', self::class, 'triggerNotificationsAfterUpdate');
         tbkg()->loader->add_action('tbk_success_booking_message', self::class, 'successBookingMessage', 10, 2);
+        tbkg()->loader->add_filter('tbk_loaded_modules', self::class, 'isLoaded');
+    }
+
+    public static function isLoaded($modules)
+    {
+        $modules[] = 'notifications';
+
+        return $modules;
     }
 
     /**
