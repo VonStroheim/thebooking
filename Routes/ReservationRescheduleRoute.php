@@ -39,6 +39,9 @@ final class ReservationRescheduleRoute implements Route
 
                         $reservation = tbkg()->reservations->all()[ $request->get_param('id') ];
 
+                        $prev_start = $reservation->start();
+                        $prev_end   = $reservation->end();
+
                         $command = new ChangeReservationDates($reservation->id(), $start, $end);
                         tbkg()->bus->dispatch($command);
 
@@ -53,7 +56,7 @@ final class ReservationRescheduleRoute implements Route
                         /**
                          * Allowing actions
                          */
-                        do_action('tbk_reservation_rescheduled_actions', $command);
+                        do_action('tbk_reservation_rescheduled_actions', $command, $prev_start, $prev_end);
 
                         $response = [
                             'status'       => 'OK',

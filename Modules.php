@@ -2,6 +2,7 @@
 
 namespace TheBooking;
 
+use TheBooking\Bus\Commands\ChangeReservationDates;
 use TheBooking\Bus\Commands\ChangeReservationStatus;
 use TheBooking\Bus\Commands\CreateReservation;
 use TheBooking\Bus\Commands\SendEmail;
@@ -25,6 +26,7 @@ final class Modules
         tbkg()->loader->add_filter('tbk_notification_template_hooks_spec', self::class, 'templateHooksSpec', 10, 2);
         tbkg()->loader->add_action('tbk_reservation_status_change_actions', self::class, 'triggerNotificationsAfterUpdate');
         tbkg()->loader->add_action('tbk_success_booking_message', self::class, 'successBookingMessage', 10, 2);
+        tbkg()->loader->add_action('tbk_reservation_rescheduled_actions', self::class, 'rescheduledMessage', 10, 3);
         tbkg()->loader->add_filter('tbk_loaded_modules', self::class, 'isLoaded');
     }
 
@@ -54,6 +56,9 @@ final class Modules
     const CUSTOMER_DECLINE_EMAIL_META              = 'userDeclineEmail';
     const CUSTOMER_DECLINE_EMAIL_CONTENT_META      = self::CUSTOMER_DECLINE_EMAIL_META . 'Content';
     const CUSTOMER_DECLINE_EMAIL_SUBJECT_META      = self::CUSTOMER_DECLINE_EMAIL_META . 'Subject';
+    const CUSTOMER_RESCHEDULE_EMAIL_META           = 'userRescheduleEmail';
+    const CUSTOMER_RESCHEDULE_EMAIL_CONTENT_META   = self::CUSTOMER_RESCHEDULE_EMAIL_META . 'Content';
+    const CUSTOMER_RESCHEDULE_EMAIL_SUBJECT_META   = self::CUSTOMER_RESCHEDULE_EMAIL_META . 'Subject';
 
     public static function successBookingMessage($message, CreateReservation $command)
     {
@@ -249,6 +254,39 @@ final class Modules
                         ]
                     ]
                 ],
+                [
+                    'title'       => __('User reschedule email', 'thebooking'),
+                    'description' => __('User will receive this message when a booking is rescheduled.', 'thebooking'),
+                    'components'  => [
+                        [
+                            'settingId' => 'meta::' . self::CUSTOMER_RESCHEDULE_EMAIL_META,
+                            'type'      => 'toggle',
+                        ],
+                        [
+                            'settingId'    => 'meta::' . self::CUSTOMER_RESCHEDULE_EMAIL_SUBJECT_META,
+                            'type'         => 'text',
+                            'label'        => __('Email subject', 'thebooking'),
+                            'dependencies' => [
+                                [
+                                    'on'    => 'meta::' . self::CUSTOMER_RESCHEDULE_EMAIL_META,
+                                    'being' => TRUE
+                                ]
+                            ]
+                        ],
+                        [
+                            'settingId'         => 'meta::' . self::CUSTOMER_RESCHEDULE_EMAIL_CONTENT_META,
+                            'type'              => 'email',
+                            'templateHooks'     => apply_filters('tbk_notification_template_hooks', [], self::CUSTOMER_RESCHEDULE_EMAIL_META),
+                            'templateHooksSpec' => apply_filters('tbk_notification_template_hooks_spec', [], self::CUSTOMER_RESCHEDULE_EMAIL_META),
+                            'dependencies'      => [
+                                [
+                                    'on'    => 'meta::' . self::CUSTOMER_RESCHEDULE_EMAIL_META,
+                                    'being' => TRUE
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
             ]
         ];
 
@@ -277,6 +315,10 @@ final class Modules
             $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::ADMIN_CONFIRMATION_EMAIL_META, filter_var($value, FILTER_VALIDATE_BOOLEAN));
         }
+        if ($settingId === 'meta::' . self::CUSTOMER_RESCHEDULE_EMAIL_META) {
+            $service = tbkg()->services->get($serviceId);
+            $service->addMeta(self::CUSTOMER_RESCHEDULE_EMAIL_META, filter_var($value, FILTER_VALIDATE_BOOLEAN));
+        }
         if ($settingId === 'meta::' . self::CUSTOMER_CONFIRMATION_EMAIL_CONTENT_META) {
             $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_CONFIRMATION_EMAIL_CONTENT_META, $value);
@@ -296,6 +338,10 @@ final class Modules
         if ($settingId === 'meta::' . self::ADMIN_CONFIRMATION_EMAIL_CONTENT_META) {
             $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::ADMIN_CONFIRMATION_EMAIL_CONTENT_META, $value);
+        }
+        if ($settingId === 'meta::' . self::CUSTOMER_RESCHEDULE_EMAIL_CONTENT_META) {
+            $service = tbkg()->services->get($serviceId);
+            $service->addMeta(self::CUSTOMER_RESCHEDULE_EMAIL_CONTENT_META, $value);
         }
         if ($settingId === 'meta::' . self::CUSTOMER_CONFIRMATION_EMAIL_SUBJECT_META) {
             $service = tbkg()->services->get($serviceId);
@@ -317,6 +363,10 @@ final class Modules
             $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::ADMIN_CONFIRMATION_EMAIL_SUBJECT_META, trim($value));
         }
+        if ($settingId === 'meta::' . self::CUSTOMER_RESCHEDULE_EMAIL_SUBJECT_META) {
+            $service = tbkg()->services->get($serviceId);
+            $service->addMeta(self::CUSTOMER_RESCHEDULE_EMAIL_SUBJECT_META, trim($value));
+        }
     }
 
     private static function _notification_cancellation_send($uid)
@@ -330,6 +380,32 @@ final class Modules
             tbkg()->bus->dispatch(new SendEmail(
                 wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CANCELLATION_EMAIL_SUBJECT_META), $preparedValues)),
                 self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CANCELLATION_EMAIL_CONTENT_META), $preparedValues),
+                tbkg()->customers->get($reservation->customer_id())->email(),
+                [
+                    'address' => get_option('admin_email'),
+                    'name'    => get_option('blogname')
+                ]
+            ));
+        }
+    }
+
+    public static function rescheduledMessage(ChangeReservationDates $command, $prevStart, $prevEnd)
+    {
+        $reservation    = tbkg()->reservations->all()[ $command->getUid() ];
+        $service        = tbkg()->services->get($reservation->service_id());
+        $preparedValues = self::_prepare_placeholders($command->getUid());
+        $preparedValues = array_merge($preparedValues, [
+            'reservation::startTime::old' => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevStart)->localized_time(),
+            'reservation::startDate::old' => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevStart)->localized_date(),
+            'reservation::::old'          => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevEnd)->localized_time(),
+            'reservation::endDate::old'   => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevEnd)->localized_date(),
+            'reservation::duration::old'  => '' // TODO
+        ]);
+        if ($service->getMeta(self::CUSTOMER_RESCHEDULE_EMAIL_META)) {
+
+            tbkg()->bus->dispatch(new SendEmail(
+                wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_RESCHEDULE_EMAIL_SUBJECT_META), $preparedValues)),
+                self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_RESCHEDULE_EMAIL_CONTENT_META), $preparedValues),
                 tbkg()->customers->get($reservation->customer_id())->email(),
                 [
                     'address' => get_option('admin_email'),
@@ -618,6 +694,39 @@ final class Modules
             'context'      => 'reservation',
             'contextLabel' => __('Reservation', 'thebooking')
         ];
+
+        if ($notificationType === self::CUSTOMER_RESCHEDULE_EMAIL_META) {
+            $hooks[] = [
+                'value'        => 'reservation::startTime::old',
+                'label'        => __('Start time (old)', 'thebooking'),
+                'context'      => 'reservation',
+                'contextLabel' => __('Reservation', 'thebooking')
+            ];
+            $hooks[] = [
+                'value'        => 'reservation::startDate::old',
+                'label'        => __('Start date (old)', 'thebooking'),
+                'context'      => 'reservation',
+                'contextLabel' => __('Reservation', 'thebooking')
+            ];
+            $hooks[] = [
+                'value'        => 'reservation::endTime::old',
+                'label'        => __('End time (old)', 'thebooking'),
+                'context'      => 'reservation',
+                'contextLabel' => __('Reservation', 'thebooking')
+            ];
+            $hooks[] = [
+                'value'        => 'reservation::endDate::old',
+                'label'        => __('End date (old)', 'thebooking'),
+                'context'      => 'reservation',
+                'contextLabel' => __('Reservation', 'thebooking')
+            ];
+            $hooks[] = [
+                'value'        => 'reservation::duration::old',
+                'label'        => __('Duration (old)', 'thebooking'),
+                'context'      => 'reservation',
+                'contextLabel' => __('Reservation', 'thebooking')
+            ];
+        }
 
         return $hooks;
     }
