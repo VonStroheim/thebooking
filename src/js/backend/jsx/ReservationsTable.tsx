@@ -188,8 +188,8 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     <Dropdown
                         value={reservation.status}
                         options={options}
-                        valueTemplate={(option) => (<span className={styles.statusWrapper}><span className={'status' + option.value}></span>{option.label}</span>)}
-                        itemTemplate={(option) => (<span className={styles.statusWrapper}><span className={'status' + option.value}></span>{option.label}</span>)}
+                        valueTemplate={(option) => (<span className={styles.statusWrapper}><span className={'status' + option.value}/>{option.label}</span>)}
+                        itemTemplate={(option) => (<span className={styles.statusWrapper}><span className={'status' + option.value}/>{option.label}</span>)}
                         onChange={(e) => {
                             this.props.onUpdate({
                                 type   : 'SAVE_RESERVATION_SETTINGS',
@@ -204,7 +204,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     />
                 )}
                 {!this.state.editMode && (
-                    <span className={styles.statusWrapper}><span className={'status' + reservation.status}></span>{tbkCommon.statuses[reservation.status]}</span>
+                    <span className={styles.statusWrapper}><span className={'status' + reservation.status}/>{tbkCommon.statuses[reservation.status]}</span>
                 )}
             </>
         )
