@@ -104,9 +104,8 @@ class DateTimeTbk extends \DateTimeImmutable
 
             return $ext_dt;
         }
-        $ext_dt->setTimestamp($dt->getTimestamp());
 
-        return $ext_dt;
+        return $ext_dt->setTimestamp($dt->getTimestamp());
     }
 
     /**
