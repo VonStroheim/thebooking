@@ -18,6 +18,7 @@ import CustomersDropdown from "./CustomersDropdown";
 import globals from "../../globals";
 import {ExportToCsv} from "export-to-csv";
 import ReservationsTable from "./ReservationsTable";
+import TableColumnsFilter from "./TableColumnsFilter";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -71,12 +72,9 @@ const redux = globals.combineReducers({
 
 export default class CustomersTable extends React.Component<SProps, SState> {
     private dt: any;
-    private readonly columnFilter: React.RefObject<OverlayPanel>;
 
     constructor(props: SProps) {
         super(props);
-
-        this.columnFilter = React.createRef();
 
         this.state = {
             selected        : [],
@@ -131,48 +129,27 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                         onClick={this.exportCsv}
                         label={this.state.selected.length > 0 ? __('Export selected', 'thebooking') + ' (' + this.state.selected.length + ')' : __('Export all', 'thebooking')}
                     />
-                    <OverlayPanel
-                        ref={this.columnFilter}
-                    >
-                        <label className={'p-px-3 p-text-bold'}>
-                            {__('Columns to display', 'thebooking')}
-                        </label>
-                        <ListBox
-                            className={styles.columnSelector}
-                            style={{border: 'none'}}
-                            multiple
-                            value={this.state.columns}
-                            options={[
+                    <TableColumnsFilter
+                        columns={
+                            [
                                 {label: __('Name', 'thebooking'), value: 'name'},
                                 {label: __('Email', 'thebooking'), value: 'email'},
                                 {label: __('Phone', 'thebooking'), value: 'phone'},
-                            ]}
-                            onChange={(e) => {
-                                this.setState({columns: e.value},
-                                    () => {
-                                        this.props.onUpdate({
-                                            type   : 'SAVE_USER_PREFS',
-                                            payload: {
-                                                name : 'customersTableColumns',
-                                                value: this.state.columns
-                                            }
-                                        })
-                                    });
-                            }}
-                            itemTemplate={(option: any) => {
-                                return (
-                                    <div className="p-field-checkbox" style={{marginBottom: '0'}}>
-                                        <Checkbox name="columns" value={option.value} checked={this.state.columns.indexOf(option.value) !== -1}/>
-                                        <label>{option.label}</label>
-                                    </div>
-                                )
-                            }}
-                        />
-                    </OverlayPanel>
-                    <Button
-                        className="p-button-rounded p-button-text p-button-plain"
-                        icon="pi pi-filter"
-                        onClick={(event) => this.columnFilter.current.toggle(event)}
+                            ]
+                        }
+                        selected={this.state.columns}
+                        onChange={(selected) => {
+                            this.setState({columns: selected},
+                                () => {
+                                    this.props.onUpdate({
+                                        type   : 'SAVE_USER_PREFS',
+                                        payload: {
+                                            name : 'customersTableColumns',
+                                            value: this.state.columns
+                                        }
+                                    })
+                                });
+                        }}
                     />
                 </div>
                 <div>

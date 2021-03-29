@@ -28,6 +28,7 @@ import CustomersDropdown from "./CustomersDropdown";
 import Rescheduler from "./Rescheduler";
 import {Badge} from "primereact/badge";
 import ServicesDropdown from "./ServicesDropdown";
+import TableColumnsFilter from "./TableColumnsFilter";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -56,14 +57,12 @@ interface ReservationTableState {
 
 class ReservationsTable extends React.Component<ReservationTableProps, ReservationTableState> {
     private dt: any;
-    private readonly columnFilter: React.RefObject<OverlayPanel>;
     private readonly rescheduleOverlay: React.RefObject<OverlayPanel>;
     private readonly rescheduleOverlayId: string;
 
     constructor(props: ReservationTableProps) {
         super(props);
 
-        this.columnFilter = React.createRef();
         this.rescheduleOverlay = React.createRef();
         this.rescheduleOverlayId = globals.uuidDOM();
 
@@ -509,65 +508,29 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         icon={'pi pi-pencil'}
                         tooltip={__('Edit mode', 'thebooking')}
                     />
-                    <Button
-                        className="p-button-rounded p-button-text p-button-plain p-overlay-badge"
-                        icon="pi pi-filter"
-                        style={{overflow: 'visible'}}
-                        tooltip={__('Filter columns', 'thebooking')}
-                        onClick={(event) => this.columnFilter.current.toggle(event)}
-                    >
-                        {this.state.columns.length < 4 && (
-                            <Badge severity="info" style={
-                                {
-                                    width   : '0.5rem',
-                                    minWidth: '0.5rem',
-                                    height  : '0.5rem',
-                                    top     : '4px',
-                                    right   : '4px'
-                                }
-                            }/>
-                        )}
-                    </Button>
-                    <OverlayPanel
-                        ref={this.columnFilter}
-                    >
-                        <label className={'p-px-3 p-text-bold'}>
-                            {__('Columns to display', 'thebooking')}
-                        </label>
-                        <ListBox
-                            className={tableStyles.columnSelector}
-                            style={{border: 'none'}}
-                            multiple
-                            value={this.state.columns}
-                            options={[
+                    <TableColumnsFilter
+                        columns={
+                            [
                                 {label: __('Service name', 'thebooking'), value: 'service'},
                                 {label: __('Customer', 'thebooking'), value: 'customer'},
                                 {label: __('Date and time', 'thebooking'), value: 'startDate'},
                                 {label: __('Status', 'thebooking'), value: 'status'},
-                            ]}
-                            onChange={(e) => {
-                                this.setState({columns: e.value},
-                                    () => {
-                                        this.props.onUpdate({
-                                            type   : 'SAVE_USER_PREFS',
-                                            payload: {
-                                                name : 'reservationsTableColumns',
-                                                value: this.state.columns
-                                            }
-                                        })
-                                    });
-                            }}
-                            itemTemplate={(option: any) => {
-                                return (
-                                    <div className="p-field-checkbox" style={{marginBottom: '0'}}>
-                                        <Checkbox name="columns" value={option.value} checked={this.state.columns.indexOf(option.value) !== -1}/>
-                                        <label>{option.label}</label>
-                                    </div>
-                                )
-                            }
-                            }
-                        />
-                    </OverlayPanel>
+                            ]
+                        }
+                        selected={this.state.columns}
+                        onChange={(selected) => {
+                            this.setState({columns: selected},
+                                () => {
+                                    this.props.onUpdate({
+                                        type   : 'SAVE_USER_PREFS',
+                                        payload: {
+                                            name : 'reservationsTableColumns',
+                                            value: this.state.columns
+                                        }
+                                    })
+                                });
+                        }}
+                    />
                 </div>
                 <div>
                     <span className="p-input-icon-left">
