@@ -397,7 +397,7 @@ final class Modules
         $preparedValues = array_merge($preparedValues, [
             'reservation::startTime::old' => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevStart)->localized_time(),
             'reservation::startDate::old' => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevStart)->localized_date(),
-            'reservation::::old'          => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevEnd)->localized_time(),
+            'reservation::endTime::old'   => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevEnd)->localized_time(),
             'reservation::endDate::old'   => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevEnd)->localized_date(),
             'reservation::duration::old'  => '' // TODO
         ]);
