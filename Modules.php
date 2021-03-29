@@ -601,12 +601,18 @@ final class Modules
      */
     private static function _findAndReplaceHooks($string, array $variables)
     {
+        // Lowercase conversion
+        $convertedVariables = [];
+        foreach ($variables as $array_key => $array_value) {
+            $convertedVariables[ strtolower($array_key) ] = $array_value;
+        }
+
         // Enclosure hooks (WordPress 4.4.0+ only)
         $pattern = get_shortcode_regex(['status_link']);
-        $string  = preg_replace_callback("/$pattern/s", static function ($matches) use ($variables) {
-            if (isset($variables[ strtolower(trim($matches[2], '[]')) ])) {
-                $link = $variables[ strtolower(trim($matches[2], '[]')) ];
-                unset($variables[ strtolower(trim($matches[2], '[]')) ]);
+        $string  = preg_replace_callback("/$pattern/s", static function ($matches) use ($convertedVariables) {
+            if (isset($convertedVariables[ strtolower(trim($matches[2], '[]')) ])) {
+                $link = $convertedVariables[ strtolower(trim($matches[2], '[]')) ];
+                unset($convertedVariables[ strtolower(trim($matches[2], '[]')) ]);
 
                 return '<a href="' . $link . '">' . $matches[5] . '</a>';
             }
@@ -616,12 +622,12 @@ final class Modules
 
         // Single hooks
         $regex  = "/(\[.*?\])/";
-        $return = preg_replace_callback($regex, static function ($matches) use ($variables) {
-            if (isset($variables[ strtolower(trim($matches[1], '[]')) ])) {
-                return self::_email_hook_replace(strtolower(trim($matches[1], '[]')), $variables);
+        $return = preg_replace_callback($regex, static function ($matches) use ($convertedVariables) {
+            if (isset($convertedVariables[ strtolower(trim($matches[1], '[]')) ])) {
+                return self::_email_hook_replace(strtolower(trim($matches[1], '[]')), $convertedVariables);
             }
 
-            return self::_email_hook_replace($matches[1], $variables);
+            return self::_email_hook_replace($matches[1], $convertedVariables);
         }, $string);
 
         return $return;
