@@ -1,50 +1,63 @@
 === WordPress Booking Plugin - TheBooking ===
 Contributors: vonstroheim
-Tags: booking, reservations, schedule, calendar, appointments, events
+Tags: booking system, reservation, appointment, schedule, booking calendar, booking, calendar, events, appointment system
 Requires at least: 5.0
 Tested up to: 5.7
-Stable tag: 1.0
+Stable tag: 1.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
+TheBooking is a modern booking plugin to manage appointments and reservations, focused on usability and nice-looking user interface.
+
 == Description ==
 
-TheBooking is a modern booking plugin to manage reservations.
+**TheBooking** is a modern **booking plugin** to manage appointments and reservations, focused on usability and nice-looking user interface.
 
-Note: the plugin is in early stage of development, so please be patient. Suggestions, bug reports and feature requests are more than welcome.
+_Note: suggestions, bug reports and feature requests are more than welcome._
 
 #### User friendly booking plugin
 
-With its reactive calendar widget and a step-by-step reservation process, TheBooking allows the users to book your services in a snap!
+With its reactive calendar widget and a step-by-step reservation process, TheBooking allows customers to book your services in a snap!
 
-#### Availability plans
+#### Availability schedule
 
-TheBooking implements an intuitive weekly planner to define working hours (i.e. the hours in which your services can be booked) and a comfortable year calendar to define vacations and day offs.
+TheBooking implements an intuitive weekly planner to define availability hours, vacations and day offs.
+
+* **Weekly working hours**: define the available time intervals for each day of the week.
+* **Closing dates**: configure the day offs.
+* **Booking time frame**: define (if needed) both reservation opening and closing time independently for any of your services
 
 #### Reservation form
 
-Define and customize a reservation form for each one of your services. TheBooking ships a nice form builder in which you can add custom fields, even set some conditional logic.
+Define and customize a **reservation form** for each one of your services. TheBooking ships with a flexible **form builder**.
 
-File upload fields are also available.
+* **Custom fields**: add your desired fields in the reservation form to collect the data you need (even **files**!)
+* **Conditional fields**: fields can be configured to show/hide or being required in consequence of values of other fields.
+* **Validation**: apply the desired validation rule to any text field, if needed.
 
-#### Service locations
+#### Locations
 
-If you offer some services in a specific location or want the customer to pick from a list of locations, you can do that with TheBooking. 
+Each service can have one or more **locations** that customer will be able to select during the booking process.
 
-Google Maps is also supported.
+**Google Maps** is also supported.
 
 #### Notification email messages
 
-TheBooking is very powerful when it comes to the configuration of the perfect confirmation and cancellation email messages. Dynamic placeholders can be used to personalize the messages with customer's user data and service data.
+TheBooking is very powerful when it comes to build the perfect **notification system** for your booking system.
+
+* **Complete stack** of notifications for any action: confirm, cancel, reschedule, approve, decline etc.
+* **Differentiate by service**: any notification can be configured independently for each service
+* **Dynamic content**: use placeholders to put dynamic data inside notification templates, such as service details, reservation details and customer's data
+* **Advanced email content editor**: create amazing HTML email content thanks to the clarity and power of TinyMCE editor
 
 #### Service restrictions
 
-Services can be configured to be booked by registered users only.
+Services can be configured to be booked by registered users only. Services can also be configured to require **approval** of the bookings.
 
 #### Data export
 
-Reservations and customers can be conveniently exported in *.CSV format.
+Reservations and customers can be **conveniently exported** in *.CSV format.
 
 == Getting started ==
 
@@ -64,6 +77,13 @@ Source code can be found [here](https://github.com/VonStroheim/thebooking "TheBo
 
 == Changelog ==
 
+= 1.1 =
+* [Feature] Approval system 
+* [Feature] Rescheduling
+* [Feature] Reservations table edit mode, column filtering, today/tomorrow shortcuts
+* [Feature] Ability to re-send notifications
+* [Fix] Minor bug fixes
+
 = 1.0 =
 * First release.
 
@@ -75,9 +95,9 @@ This plugin uses the following libraries/products:
 + [date-fns](https://github.com/date-fns/date-fns "date-fns")
 + [PrimeReact](https://github.com/primefaces/primereact "PrimeReact")
 + [Axios](https://github.com/axios/axios "Axios")
++ [noUiSlider](https://github.com/leongersen/noUiSlider "noUiSlider")
 + [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd "react-beautiful-dnd")
 + [DOMPurify](https://github.com/cure53/DOMPurify "DOMPurify")
-+ [rc-year-calendar](https://github.com/year-calendar/rc-year-calendar "rc-year-calendar")
 + [react-google-maps-api](https://github.com/JustFly1984/react-google-maps-api "react-google-maps-api")
 + [react-phone-input-2](https://github.com/bl00mber/react-phone-input-2 "react-phone-input-2")
 + [rrule.js](https://github.com/jakubroztocil/rrule "rrule.js")

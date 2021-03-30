@@ -2,315 +2,373 @@
 # This file is distributed under the same license as the TheBooking plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: TheBooking 1.0.0\n"
+"Project-Id-Version: TheBooking 1.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-booking\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-03-18T00:21:31+01:00\n"
+"POT-Creation-Date: 2021-03-30T12:05:39+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: thebooking\n"
 
-#: src/js/backend/jsx/App.tsx:140
+#: src/js/backend/jsx/App.tsx:100
+msgid "Availability saved."
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:150
 msgid "Service deleted."
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:161
+#: src/js/backend/jsx/App.tsx:171
 msgid "Reservations deleted."
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:195
+#: src/js/backend/jsx/App.tsx:196
 msgid "Settings saved."
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:214
+#: src/js/backend/jsx/App.tsx:215
 msgid "Customer created."
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:235
+#: src/js/backend/jsx/App.tsx:236
 msgid "Location created."
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:257
+#: src/js/backend/jsx/App.tsx:258
 msgid "Location modified."
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:277
+#: src/js/backend/jsx/App.tsx:278
 msgid "Service created."
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:298
+#: src/js/backend/jsx/App.tsx:299
 msgid "Customer saved."
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:318
+#: src/js/backend/jsx/App.tsx:319
 msgid "Customer removed."
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:338
+#: src/js/backend/jsx/App.tsx:339
 msgid "Locations removed."
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:355
-msgid "Notifications sent."
+#: src/js/backend/jsx/App.tsx:356
+msgid "Status changed."
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:465
+#: src/js/backend/jsx/App.tsx:378
+msgid "Date changed."
+msgstr ""
+
+#: src/js/backend/jsx/App.tsx:498
 msgid "Email content"
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:561
+#: src/js/backend/jsx/App.tsx:593
 msgid "Success"
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:564
+#: src/js/backend/jsx/App.tsx:596
 msgid "Error"
-msgstr ""
-
-#: src/js/backend/jsx/App.tsx:572
-msgid "Some reservations changed their status."
-msgstr ""
-
-#: src/js/backend/jsx/App.tsx:573
-msgid "Do you want to trigger notifications of the new statuses?"
-msgstr ""
-
-#: src/js/backend/jsx/App.tsx:576
-msgid "Yes"
-msgstr ""
-
-#: src/js/backend/jsx/App.tsx:582
-msgid "No"
-msgstr ""
-
-#: src/js/backend/jsx/App.tsx:90
-msgid "Availability saved."
 msgstr ""
 
 #: src/js/backend/jsx/BigAvatar.tsx:11
 msgid "Upload image"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:102
+#: src/js/backend/jsx/CustomersTable.tsx:103
 msgid "Create a new WordPress user."
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:157
+#: src/js/backend/jsx/CustomersTable.tsx:158
 msgid "Are you sure? All the reservations made by this customer will be removed. The action cannot be undone."
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:293
+#: src/js/backend/jsx/CustomersTable.tsx:166
+#: src/js/backend/jsx/LocationsTable.tsx:98
+#: src/js/backend/jsx/ReservationsTable.tsx:169
+#: src/js/backend/jsx/ServicesTable.tsx:80
+msgid "Delete"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:167
+#: src/js/backend/jsx/LocationsTable.tsx:99
+#: src/js/backend/jsx/ServicesTable.tsx:81
+#: Functions.php:469
+msgid "Settings"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:321
 msgid "Showing %1$s to %2$s of %3$s customers"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:296
-#: src/js/backend/jsx/LocationsTable.tsx:77
+#: src/js/backend/jsx/CustomersTable.tsx:346
+msgid "New customer"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:347
+#: src/js/backend/jsx/ReservationsTable.tsx:467
+msgid "Export selected"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:347
+#: src/js/backend/jsx/ReservationsTable.tsx:467
+msgid "Export all"
+msgstr ""
+
+#: src/js/backend/jsx/CustomersTable.tsx:349
+#: src/js/backend/jsx/LocationsTable.tsx:74
 #: Admin/UI_Services.php:26
 #: Bus/Handlers/CreateServiceHandler.php:44
-#: Modules.php:379
+#: Modules.php:645
 msgid "Name"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:297
+#: src/js/backend/jsx/CustomersTable.tsx:350
 #: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:648
 #: Bus/Handlers/CreateServiceHandler.php:49
 msgid "Email"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:298
+#: src/js/backend/jsx/CustomersTable.tsx:351
 #: Bus/Handlers/CreateServiceHandler.php:54
 msgid "Phone"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:322
-msgid "New customer"
-msgstr ""
-
-#: src/js/backend/jsx/CustomersTable.tsx:323
-#: src/js/backend/jsx/ReservationsTable.tsx:347
-msgid "Export selected"
-msgstr ""
-
-#: src/js/backend/jsx/CustomersTable.tsx:323
-#: src/js/backend/jsx/ReservationsTable.tsx:347
-msgid "Export all"
-msgstr ""
-
-#: src/js/backend/jsx/CustomersTable.tsx:328
-#: src/js/backend/jsx/LocationsTable.tsx:182
-#: src/js/backend/jsx/ReservationsTable.tsx:368
-#: src/js/backend/jsx/ServicesTable.tsx:195
+#: src/js/backend/jsx/CustomersTable.tsx:367
+#: src/js/backend/jsx/LocationsTable.tsx:179
+#: src/js/backend/jsx/ReservationsTable.tsx:533
+#: src/js/backend/jsx/ServicesTable.tsx:199
 msgid "Search all"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:42
-#: Functions.php:443
+#: src/js/backend/jsx/CustomersTable.tsx:43
+#: Functions.php:457
 msgid "Customers"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:84
-#: src/js/backend/jsx/LocationsTable.tsx:70
+#: src/js/backend/jsx/CustomersTable.tsx:85
+#: src/js/backend/jsx/LocationsTable.tsx:67
+#: src/js/backend/jsx/ReservationsTable.tsx:183
 #: src/js/backend/jsx/ServicesTable.tsx:59
 msgid "Cancel"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:85
-#: src/js/backend/jsx/LocationsTable.tsx:71
-#: src/js/backend/jsx/ReservationDetails.tsx:177
+#: src/js/backend/jsx/CustomersTable.tsx:86
+#: src/js/backend/jsx/LocationsTable.tsx:68
+#: src/js/backend/jsx/ReservationDetails.tsx:159
 #: src/js/backend/jsx/SettingsPanel.tsx:17
 msgid "Save"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:85
+#: src/js/backend/jsx/CustomersTable.tsx:86
 msgid "Create customer"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:91
+#: src/js/backend/jsx/CustomersTable.tsx:92
 msgid "Map the customer to a WordPress user"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:94
+#: src/js/backend/jsx/CustomersTable.tsx:95
 msgid "Do not map the customer."
 msgstr ""
 
-#: src/js/backend/jsx/LocationsTable.tsx:154
+#: src/js/backend/jsx/LocationsTable.tsx:151
 msgid "Showing %1$s to %2$s of %3$s locations"
 msgstr ""
 
-#: src/js/backend/jsx/LocationsTable.tsx:156
-#: src/js/backend/jsx/ReservationDetails.tsx:148
+#: src/js/backend/jsx/LocationsTable.tsx:153
+#: src/js/backend/jsx/ReservationDetails.tsx:130
 #: src/js/frontend/jsx/ScheduleComponents/LocationDropdown.tsx:8
 msgid "Location"
 msgstr ""
 
-#: src/js/backend/jsx/LocationsTable.tsx:176
+#: src/js/backend/jsx/LocationsTable.tsx:173
 msgid "New location"
 msgstr ""
 
-#: src/js/backend/jsx/LocationsTable.tsx:177
-#: src/js/backend/jsx/ReservationsTable.tsx:349
-#: src/js/backend/jsx/ServicesTable.tsx:190
+#: src/js/backend/jsx/LocationsTable.tsx:174
+#: src/js/backend/jsx/ReservationsTable.tsx:469
+#: src/js/backend/jsx/ServicesTable.tsx:194
 msgid "Delete selected"
 msgstr ""
 
-#: src/js/backend/jsx/LocationsTable.tsx:177
-#: src/js/backend/jsx/ReservationsTable.tsx:349
-#: src/js/backend/jsx/ServicesTable.tsx:190
+#: src/js/backend/jsx/LocationsTable.tsx:174
+#: src/js/backend/jsx/ReservationsTable.tsx:469
+#: src/js/backend/jsx/ServicesTable.tsx:194
 msgid "Delete all"
 msgstr ""
 
-#: src/js/backend/jsx/LocationsTable.tsx:21
-#: src/js/backend/jsx/ReservationsTable.tsx:101
+#: src/js/backend/jsx/LocationsTable.tsx:31
+#: src/js/backend/jsx/ReservationsTable.tsx:137
 msgid "Are you sure you want to proceed?"
 msgstr ""
 
-#: src/js/backend/jsx/LocationsTable.tsx:71
+#: src/js/backend/jsx/LocationsTable.tsx:68
 #: src/js/backend/jsx/ServicesTable.tsx:60
 msgid "Name already used"
 msgstr ""
 
-#: src/js/backend/jsx/LocationsTable.tsx:71
+#: src/js/backend/jsx/LocationsTable.tsx:68
 msgid "Create location"
 msgstr ""
 
-#: src/js/backend/jsx/LocationsTable.tsx:87
+#: src/js/backend/jsx/LocationsTable.tsx:84
 msgid "Address"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationDetails.tsx:111
+#: src/js/backend/jsx/Rescheduler.tsx:85
+msgid "Select a timeslot"
+msgstr ""
+
+#: src/js/backend/jsx/Rescheduler.tsx:85
+msgid "No timeslots available"
+msgstr ""
+
+#: src/js/backend/jsx/Rescheduler.tsx:88
+msgid "Confirm"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:103
 msgid "Booking ID"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationDetails.tsx:116
-#: src/js/backend/jsx/ReservationsTable.tsx:329
+#: src/js/backend/jsx/ReservationDetails.tsx:108
+#: src/js/backend/jsx/ReservationsTable.tsx:507
 msgid "Date and time"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationDetails.tsx:121
+#: src/js/backend/jsx/ReservationDetails.tsx:113
 msgid "Date and time (end)"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationDetails.tsx:126
-#: Modules.php:421
+#: src/js/backend/jsx/ReservationDetails.tsx:118
+#: Modules.php:699
 msgid "Duration"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationDetails.tsx:131
+#: src/js/backend/jsx/ReservationDetails.tsx:123
 msgid "Submit date"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationDetails.tsx:136
-#: src/js/backend/jsx/ReservationsTable.tsx:325
-#: src/js/backend/jsx/ServicesTable.tsx:169
-#: src/js/frontend/jsx/ScheduleComponents/ServiceDropdown.tsx:10
-#: Modules.php:381
-#: Modules.php:387
-#: Modules.php:393
-msgid "Service"
-msgstr ""
-
-#: src/js/backend/jsx/ReservationDetails.tsx:141
-#: src/js/backend/jsx/ReservationsTable.tsx:327
-msgid "Customer"
-msgstr ""
-
-#: src/js/backend/jsx/ReservationDetails.tsx:155
+#: src/js/backend/jsx/ReservationDetails.tsx:137
 msgid "User IP"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationDetails.tsx:162
+#: src/js/backend/jsx/ReservationDetails.tsx:144
 msgid "General details"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationDetails.tsx:170
+#: src/js/backend/jsx/ReservationDetails.tsx:152
 msgid "Reservation data"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationDetails.tsx:78
+#: src/js/backend/jsx/ReservationDetails.tsx:70
 msgid "No uploaded file."
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:110
-msgid "Status is changed."
+#: src/js/backend/jsx/ReservationsTable.tsx:146
+msgid "Notifications of the new status will be sent according to the service settings."
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:149
+#: src/js/backend/jsx/ReservationsTable.tsx:157
+msgid "Notifications of the current status will be sent again, according to the service settings."
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:160
+msgid "Proceed"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:170
+msgid "Reschedule"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:185
+msgid "Approve"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:186
+msgid "Decline"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:188
+msgid "Re-send notifications"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:251
 msgid "Unregistered"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:195
-#: Functions.php:431
+#: src/js/backend/jsx/ReservationsTable.tsx:297
+#: Functions.php:445
 msgid "Reservations"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:255
+#: src/js/backend/jsx/ReservationsTable.tsx:357
 msgid "Date"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:331
+#: src/js/backend/jsx/ReservationsTable.tsx:427
+#: src/js/backend/jsx/ServicesTable.tsx:173
+#: src/js/frontend/jsx/ScheduleComponents/ServiceDropdown.tsx:10
+#: Modules.php:647
+#: Modules.php:653
+#: Modules.php:659
+msgid "Service"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:435
+msgid "Actions"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:478
+msgid "Today's"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:482
+msgid "Tomorrow's"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:503
+msgid "Edit mode"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:505
+#: src/js/backend/jsx/ServicesTable.tsx:66
+msgid "Service name"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:506
+msgid "Customer"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTable.tsx:508
 msgid "Status"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:378
+#: src/js/backend/jsx/ReservationsTable.tsx:540
 msgid "Showing %1$s to %2$s of %3$s reservations"
 msgstr ""
 
-#: src/js/backend/jsx/ServicesTable.tsx:115
+#: src/js/backend/jsx/ServicesTable.tsx:119
 msgid "Back to services"
 msgstr ""
 
-#: src/js/backend/jsx/ServicesTable.tsx:167
+#: src/js/backend/jsx/ServicesTable.tsx:171
 msgid "Showing %1$s to %2$s of %3$s services"
 msgstr ""
 
-#: src/js/backend/jsx/ServicesTable.tsx:170
+#: src/js/backend/jsx/ServicesTable.tsx:174
 msgid "Active"
 msgstr ""
 
-#: src/js/backend/jsx/ServicesTable.tsx:189
+#: src/js/backend/jsx/ServicesTable.tsx:193
 msgid "New service"
 msgstr ""
 
@@ -320,10 +378,6 @@ msgstr ""
 
 #: src/js/backend/jsx/ServicesTable.tsx:60
 msgid "Create service"
-msgstr ""
-
-#: src/js/backend/jsx/ServicesTable.tsx:66
-msgid "Service name"
 msgstr ""
 
 #: src/js/backend/jsx/SettingComponents/SettingDuration.tsx:48
@@ -380,7 +434,7 @@ msgstr ""
 
 #: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:385
 #: Admin/UI_Services.php:45
-#: Modules.php:385
+#: Modules.php:651
 msgid "Description"
 msgstr ""
 
@@ -576,6 +630,14 @@ msgstr ""
 msgid "New checkbox"
 msgstr ""
 
+#: src/js/backend/jsx/TableColumnsFilter.tsx:20
+msgid "Filter columns"
+msgstr ""
+
+#: src/js/backend/jsx/TableColumnsFilter.tsx:31
+msgid "Columns to display"
+msgstr ""
+
 #: src/js/backend/jsx/WorkingHoursPlanner.tsx:352
 msgid "Total time: %s"
 msgstr ""
@@ -610,24 +672,24 @@ msgstr[1] ""
 msgid "%dh%sm"
 msgstr ""
 
-#: src/js/frontend/jsx/App.tsx:360
+#: src/js/frontend/jsx/App.tsx:191
 msgid "Your reservations"
 msgstr ""
 
-#: src/js/frontend/jsx/App.tsx:376
+#: src/js/frontend/jsx/App.tsx:207
 msgid "Show past"
 msgstr ""
 
-#: src/js/frontend/jsx/App.tsx:405
+#: src/js/frontend/jsx/App.tsx:236
 #: src/js/frontend/jsx/Schedule.tsx:368
 msgid "There was an error."
 msgstr ""
 
-#: src/js/frontend/jsx/App.tsx:536
+#: src/js/frontend/jsx/App.tsx:370
 msgid "You have no reservations."
 msgstr ""
 
-#: src/js/frontend/jsx/App.tsx:591
+#: src/js/frontend/jsx/App.tsx:425
 msgid "Continue booking"
 msgstr ""
 
@@ -663,11 +725,11 @@ msgstr ""
 msgid "Could not upload the file."
 msgstr ""
 
-#: src/js/frontend/jsx/FormElements/Select.tsx:9
+#: src/js/frontend/jsx/FormElements/Select.tsx:10
 msgid "No options"
 msgstr ""
 
-#: src/js/frontend/jsx/FormElements/SelectAddress.tsx:67
+#: src/js/frontend/jsx/FormElements/SelectAddress.tsx:68
 msgid "No location"
 msgstr ""
 
@@ -711,20 +773,20 @@ msgstr ""
 msgid "Select"
 msgstr ""
 
-#: src/js/frontend/jsx/ScheduleComponents/LocationDropdown.tsx:12
+#: src/js/frontend/jsx/ScheduleComponents/LocationDropdown.tsx:13
 msgid "No locations"
 msgstr ""
 
-#: src/js/frontend/jsx/ScheduleComponents/ServiceDropdown.tsx:14
+#: src/js/frontend/jsx/ScheduleComponents/ServiceDropdown.tsx:15
 msgid "No services"
 msgstr ""
 
 #: src/js/frontend/jsx/ScheduleComponents/TimeslotDropdown.tsx:10
-#: Modules.php:397
+#: Modules.php:663
 msgid "Start time"
 msgstr ""
 
-#: src/js/frontend/jsx/ScheduleComponents/TimeslotDropdown.tsx:16
+#: src/js/frontend/jsx/ScheduleComponents/TimeslotDropdown.tsx:17
 msgid "Booked"
 msgstr ""
 
@@ -760,7 +822,7 @@ msgstr ""
 msgid "VonStroheim"
 msgstr ""
 
-#: Admin.php:182
+#: Admin.php:180
 msgid "Booking tools"
 msgstr ""
 
@@ -775,7 +837,7 @@ msgstr ""
 
 #: Admin/UI_Availability/Panel_Locations.php:13
 #: Admin/UI_Availability/Panel_Locations.php:17
-#: Admin/UI_Services.php:211
+#: Admin/UI_Services.php:221
 msgid "Locations"
 msgstr ""
 
@@ -1010,7 +1072,7 @@ msgid "General"
 msgstr ""
 
 #: Admin/UI_Services.php:35
-#: Modules.php:391
+#: Modules.php:657
 msgid "Short description"
 msgstr ""
 
@@ -1103,70 +1165,79 @@ msgid "If turned on, only registered users can book this service."
 msgstr ""
 
 #: Admin/UI_Services.php:198
-msgid "Log unregistered users IP"
+msgid "Reservations must be approved"
 msgstr ""
 
 #: Admin/UI_Services.php:199
+msgid "If turned on, any new reservation will be in a pending status upon approval."
+msgstr ""
+
+#: Admin/UI_Services.php:208
+msgid "Log unregistered users IP"
+msgstr ""
+
+#: Admin/UI_Services.php:209
 msgid "Please consider any privacy implication before turning this feature on"
 msgstr ""
 
-#: Admin/UI_Services.php:215
+#: Admin/UI_Services.php:225
 msgid "Service locations"
 msgstr ""
 
-#: Admin/UI_Services.php:216
+#: Admin/UI_Services.php:226
 msgid "If this service is offered in specific locations, select one or more of them."
 msgstr ""
 
-#: Functions.php:202
+#: Functions.php:207
 msgid "TheBooking reservations"
 msgstr ""
 
-#: Functions.php:325
-#: Functions.php:380
+#: Functions.php:335
+#: Functions.php:392
 msgid "Draft"
 msgstr ""
 
-#: Functions.php:326
-#: Functions.php:381
+#: Functions.php:336
+#: Functions.php:393
 msgid "Pending"
 msgstr ""
 
-#: Functions.php:327
-#: Functions.php:382
+#: Functions.php:337
+#: Functions.php:394
 msgid "Confirmed"
 msgstr ""
 
-#: Functions.php:328
-#: Functions.php:383
+#: Functions.php:338
+#: Functions.php:395
+msgid "Declined"
+msgstr ""
+
+#: Functions.php:339
+#: Functions.php:396
 msgid "Canceled"
 msgstr ""
 
-#: Functions.php:329
-#: Functions.php:384
+#: Functions.php:340
+#: Functions.php:397
 msgid "Archived"
 msgstr ""
 
-#: Functions.php:330
-#: Functions.php:385
+#: Functions.php:341
+#: Functions.php:398
 msgid "Open"
 msgstr ""
 
-#: Functions.php:331
-#: Functions.php:386
+#: Functions.php:342
+#: Functions.php:399
 msgid "Closed"
 msgstr ""
 
-#: Functions.php:437
+#: Functions.php:451
 msgid "Services"
 msgstr ""
 
-#: Functions.php:449
+#: Functions.php:463
 msgid "Availability"
-msgstr ""
-
-#: Functions.php:455
-msgid "Settings"
 msgstr ""
 
 #: Integrations/Elementor_Widget.php:30
@@ -1181,65 +1252,127 @@ msgstr ""
 msgid "Restrict services"
 msgstr ""
 
-#: Modules.php:50
+#: Modules.php:67
 msgid "You will receive an email shortly."
 msgstr ""
 
-#: Modules.php:60
+#: Modules.php:77
 msgid "Notifications"
 msgstr ""
 
-#: Modules.php:64
+#: Modules.php:81
 msgid "User confirmation email"
 msgstr ""
 
-#: Modules.php:65
+#: Modules.php:82
 msgid "User will receive this message right after the booking process."
 msgstr ""
 
-#: Modules.php:74
-#: Modules.php:107
-#: Modules.php:140
+#: Modules.php:91
+#: Modules.php:124
+#: Modules.php:163
+#: Modules.php:202
+#: Modules.php:235
+#: Modules.php:268
 msgid "Email subject"
 msgstr ""
 
-#: Modules.php:97
+#: Modules.php:114
+msgid "User approved reservation email"
+msgstr ""
+
+#: Modules.php:115
+msgid "User will receive this message right after the approval of the reservation."
+msgstr ""
+
+#: Modules.php:153
+msgid "User declined reservation email"
+msgstr ""
+
+#: Modules.php:154
+msgid "User will receive this message right after the reservation is declined."
+msgstr ""
+
+#: Modules.php:192
 msgid "Admin notification email"
 msgstr ""
 
-#: Modules.php:98
+#: Modules.php:193
 msgid "Administrator will receive this message right after the booking process."
 msgstr ""
 
-#: Modules.php:130
+#: Modules.php:225
 msgid "User cancellation email"
 msgstr ""
 
-#: Modules.php:131
+#: Modules.php:226
 msgid "User will receive this message when a booking is cancelled."
 msgstr ""
 
-#: Modules.php:399
-#: Modules.php:405
-#: Modules.php:411
-#: Modules.php:417
-#: Modules.php:423
+#: Modules.php:258
+msgid "User reschedule email"
+msgstr ""
+
+#: Modules.php:259
+msgid "User will receive this message when a booking is rescheduled."
+msgstr ""
+
+#: Modules.php:665
+#: Modules.php:671
+#: Modules.php:677
+#: Modules.php:683
+#: Modules.php:689
+#: Modules.php:695
+#: Modules.php:701
+#: Modules.php:709
+#: Modules.php:715
+#: Modules.php:721
+#: Modules.php:727
+#: Modules.php:733
 msgid "Reservation"
 msgstr ""
 
-#: Modules.php:403
+#: Modules.php:669
 msgid "Start date"
 msgstr ""
 
-#: Modules.php:409
+#: Modules.php:675
 msgid "End time"
 msgstr ""
 
-#: Modules.php:415
+#: Modules.php:681
 msgid "End date"
 msgstr ""
 
-#: Modules.php:443
+#: Modules.php:687
+msgid "Location (name)"
+msgstr ""
+
+#: Modules.php:693
+msgid "Location (address)"
+msgstr ""
+
+#: Modules.php:707
+msgid "Start time (old)"
+msgstr ""
+
+#: Modules.php:713
+msgid "Start date (old)"
+msgstr ""
+
+#: Modules.php:719
+msgid "End time (old)"
+msgstr ""
+
+#: Modules.php:725
+msgid "End date (old)"
+msgstr ""
+
+#: Modules.php:731
+msgid "Duration (old)"
+msgstr ""
+
+#: Modules.php:754
 msgid "Form"
 msgstr ""
 
@@ -1247,6 +1380,6 @@ msgstr ""
 msgid "This service can be booked by registered users only."
 msgstr ""
 
-#: Routes/SubmitBookingRoute.php:179
+#: Routes/SubmitBookingRoute.php:187
 msgid "Thanks for your reservation"
 msgstr ""
