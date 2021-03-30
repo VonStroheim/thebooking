@@ -153,7 +153,7 @@ function zippy() {
             '!.gitignore',
             '!.idea/**',
             '!.git/**',
-            '!src/',
+            '!src/**',
             '!node_modules/**',
             '!package.json',
             '!package-lock.json',
