@@ -74,6 +74,8 @@ final class TheBookingClass extends Single
 
     public function init()
     {
+        Update::maybeUpdate();
+
         $this->services     = Services::instance();
         $this->reservations = Reservations::instance();
         $this->customers    = Customers::instance();
