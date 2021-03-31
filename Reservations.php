@@ -77,6 +77,14 @@ class Reservations
         tbkg()->loader->add_action('tbk_location_deleted', $this, 'location_deleted');
     }
 
+    /**
+     * @return array
+     */
+    public static function getSchema()
+    {
+        return static::$install_columns;
+    }
+
     public function location_deleted($id)
     {
         foreach ($this->reservations as $reservation) {
