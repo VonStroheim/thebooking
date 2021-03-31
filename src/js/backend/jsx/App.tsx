@@ -677,6 +677,11 @@ export default class App extends React.Component<AppProps, AppState> {
                                                     showDays={'showDays' in component ? component.showDays : true}
                                                     showHours={'showHours' in component ? component.showHours : true}
                                                     showMinutes={'showMinutes' in component ? component.showMinutes : true}
+                                                    daysLabel={component.daysLabel}
+                                                    minutesLabel={component.minutesLabel}
+                                                    hoursLabel={component.hoursLabel}
+                                                    maxDays={component.maxDays}
+                                                    minDays={component.minDays}
                                                     disabled={this.state.isBusy}
                                                 />
                                             )

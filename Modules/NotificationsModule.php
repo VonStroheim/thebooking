@@ -38,6 +38,10 @@ final class NotificationsModule
     const CUSTOMER_RESCHEDULE_EMAIL_META           = 'userRescheduleEmail';
     const CUSTOMER_RESCHEDULE_EMAIL_CONTENT_META   = self::CUSTOMER_RESCHEDULE_EMAIL_META . 'Content';
     const CUSTOMER_RESCHEDULE_EMAIL_SUBJECT_META   = self::CUSTOMER_RESCHEDULE_EMAIL_META . 'Subject';
+    const CUSTOMER_REMINDER_EMAIL_META             = 'userReminderEmail';
+    const CUSTOMER_REMINDER_EMAIL_CONTENT_META     = self::CUSTOMER_REMINDER_EMAIL_META . 'Content';
+    const CUSTOMER_REMINDER_EMAIL_SUBJECT_META     = self::CUSTOMER_REMINDER_EMAIL_META . 'Subject';
+    const CUSTOMER_REMINDER_EMAIL_INTERVAL_META    = self::CUSTOMER_REMINDER_EMAIL_META . 'Interval';
 
     public static function bootstrap()
     {
@@ -50,6 +54,35 @@ final class NotificationsModule
         tbkg()->loader->add_action('tbk_success_booking_message', self::class, 'successBookingMessage', 10, 2);
         tbkg()->loader->add_action('tbk_reservation_rescheduled_actions', self::class, 'rescheduledMessage', 10, 3);
         tbkg()->loader->add_filter('tbk_loaded_modules', self::class, 'isLoaded');
+        if (\VSHM_Framework\Tools::is_request('cron')) {
+            tbkg()->loader->add_action('tbk_hourly_cron', self::class, 'customerReminderEmail');
+        }
+    }
+
+    public static function customerReminderEmail()
+    {
+        $now = new DateTimeTbk();
+        foreach (tbkg()->reservations->getNextConfirmed() as $reservation) {
+            $service = tbkg()->services->get($reservation->service_id());
+            if ($service->getMeta(self::CUSTOMER_REMINDER_EMAIL_META)) {
+                $start = DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->start())->getTimestamp();
+
+                if ($start - $now->getTimestamp() <= $service->getMeta(self::CUSTOMER_REMINDER_EMAIL_INTERVAL_META)) {
+
+                    $preparedValues = self::_prepare_placeholders($reservation->id());
+
+                    tbkg()->bus->dispatch(new SendEmail(
+                        wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_REMINDER_EMAIL_SUBJECT_META), $preparedValues)),
+                        self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_REMINDER_EMAIL_CONTENT_META), $preparedValues),
+                        [tbkg()->customers->get($reservation->customer_id())->email()],
+                        [
+                            'address' => get_option('admin_email'),
+                            'name'    => get_option('blogname')
+                        ]
+                    ));
+                }
+            }
+        }
     }
 
     /**
@@ -291,6 +324,64 @@ final class NotificationsModule
                         ]
                     ]
                 ],
+                [
+                    'title'       => __('User reminder email', 'thebooking'),
+                    'description' => __('User will receive this message at scheduled time before the reservation date.', 'thebooking'),
+                    'components'  => [
+                        [
+                            'settingId' => 'meta::' . self::CUSTOMER_REMINDER_EMAIL_META,
+                            'type'      => 'toggle',
+                        ],
+                        [
+                            'settingId'    => 'meta::' . self::CUSTOMER_REMINDER_EMAIL_INTERVAL_META,
+                            'type'         => 'durationSelect',
+                            'minDays'      => 1,
+                            'showMinutes'  => FALSE,
+                            'showHours'    => FALSE,
+                            'daysLabel'    => __('How many days before', 'thebooking'),
+                            'dependencies' => [
+                                [
+                                    'on'    => 'meta::' . self::CUSTOMER_REMINDER_EMAIL_META,
+                                    'being' => TRUE
+                                ]
+                            ]
+                        ],
+                        [
+                            'settingId'    => 'meta::' . self::CUSTOMER_REMINDER_EMAIL_SUBJECT_META,
+                            'type'         => 'text',
+                            'label'        => __('Email subject', 'thebooking'),
+                            'dependencies' => [
+                                [
+                                    'on'    => 'meta::' . self::CUSTOMER_REMINDER_EMAIL_META,
+                                    'being' => TRUE
+                                ]
+                            ]
+                        ],
+                        [
+                            'settingId'         => 'meta::' . self::CUSTOMER_REMINDER_EMAIL_CONTENT_META,
+                            'type'              => 'email',
+                            'templateHooks'     => apply_filters('tbk_notification_template_hooks', [], self::CUSTOMER_REMINDER_EMAIL_META),
+                            'templateHooksSpec' => apply_filters('tbk_notification_template_hooks_spec', [], self::CUSTOMER_REMINDER_EMAIL_META),
+                            'dependencies'      => [
+                                [
+                                    'on'    => 'meta::' . self::CUSTOMER_REMINDER_EMAIL_META,
+                                    'being' => TRUE
+                                ]
+                            ]
+                        ],
+                        [
+                            'type'         => 'notice',
+                            'intent'       => 'warning',
+                            'text'         => __('The scheduling system of WordPress relies on traffic to your website. So if you set a reminder 1 day before the reservation date and no one is accessing your website at that time, the task may not run on time or at all.', 'thebooking'),
+                            'dependencies' => [
+                                [
+                                    'on'    => 'meta::' . self::CUSTOMER_REMINDER_EMAIL_META,
+                                    'being' => TRUE
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
             ]
         ];
 
@@ -323,6 +414,10 @@ final class NotificationsModule
             $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_RESCHEDULE_EMAIL_META, filter_var($value, FILTER_VALIDATE_BOOLEAN));
         }
+        if ($settingId === 'meta::' . self::CUSTOMER_REMINDER_EMAIL_META) {
+            $service = tbkg()->services->get($serviceId);
+            $service->addMeta(self::CUSTOMER_REMINDER_EMAIL_META, filter_var($value, FILTER_VALIDATE_BOOLEAN));
+        }
         if ($settingId === 'meta::' . self::CUSTOMER_CONFIRMATION_EMAIL_CONTENT_META) {
             $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_CONFIRMATION_EMAIL_CONTENT_META, $value);
@@ -347,6 +442,10 @@ final class NotificationsModule
             $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_RESCHEDULE_EMAIL_CONTENT_META, $value);
         }
+        if ($settingId === 'meta::' . self::CUSTOMER_REMINDER_EMAIL_CONTENT_META) {
+            $service = tbkg()->services->get($serviceId);
+            $service->addMeta(self::CUSTOMER_REMINDER_EMAIL_CONTENT_META, $value);
+        }
         if ($settingId === 'meta::' . self::CUSTOMER_CONFIRMATION_EMAIL_SUBJECT_META) {
             $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_CONFIRMATION_EMAIL_SUBJECT_META, trim($value));
@@ -370,6 +469,14 @@ final class NotificationsModule
         if ($settingId === 'meta::' . self::CUSTOMER_RESCHEDULE_EMAIL_SUBJECT_META) {
             $service = tbkg()->services->get($serviceId);
             $service->addMeta(self::CUSTOMER_RESCHEDULE_EMAIL_SUBJECT_META, trim($value));
+        }
+        if ($settingId === 'meta::' . self::CUSTOMER_REMINDER_EMAIL_SUBJECT_META) {
+            $service = tbkg()->services->get($serviceId);
+            $service->addMeta(self::CUSTOMER_REMINDER_EMAIL_SUBJECT_META, trim($value));
+        }
+        if ($settingId === 'meta::' . self::CUSTOMER_REMINDER_EMAIL_INTERVAL_META) {
+            $service = tbkg()->services->get($serviceId);
+            $service->addMeta(self::CUSTOMER_REMINDER_EMAIL_INTERVAL_META, (int)$value);
         }
     }
 

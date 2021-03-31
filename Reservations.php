@@ -258,6 +258,22 @@ class Reservations
 
     }
 
+    /**
+     * @return Reservation[]
+     */
+    public function getNextConfirmed()
+    {
+        global $wpdb;
+        $table_name = $wpdb->prefix . self::$table_name;
+        $records    = $wpdb->get_results("SELECT * FROM " . esc_sql($table_name) . " WHERE r_start_utc >= NOW() AND r_status = 'confirmed'");
+        $return     = [];
+        foreach ($records as $record) {
+            $return[ $record->reservation_uid ] = $this->_map_record($record);
+        }
+
+        return $return;
+    }
+
     public function gather()
     {
         $records = db::select(self::$table_name, self::$relevant_columns, [], FALSE);
