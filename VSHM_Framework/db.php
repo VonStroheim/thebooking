@@ -27,12 +27,12 @@ if (!class_exists(db::class)) {
             $table_name = $wpdb->prefix . $table_name;
             if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") !== $table_name) {
                 $charset_collate = $wpdb->get_charset_collate();
-                $sql             = "CREATE TABLE $table_name (id int NOT NULL AUTO_INCREMENT, ";
+                $sql             = "CREATE TABLE $table_name (id int NOT NULL AUTO_INCREMENT,\r\n";
                 foreach ($columns as $name => $attrs) {
                     if ($name === 'id') {
                         continue;
                     }
-                    $sql .= self::_prepare_column($name, $attrs) . ', ';
+                    $sql .= self::_prepare_column($name, $attrs) . ",\r\n";
                 }
                 $sql .= "UNIQUE KEY id (id)) $charset_collate;";
                 require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -54,12 +54,12 @@ if (!class_exists(db::class)) {
             global $wpdb;
             $table_name      = $wpdb->prefix . $table_name;
             $charset_collate = $wpdb->get_charset_collate();
-            $sql             = "CREATE TABLE $table_name (id int NOT NULL AUTO_INCREMENT, ";
+            $sql             = "CREATE TABLE $table_name (id int NOT NULL AUTO_INCREMENT,\r\n";
             foreach ($columns as $name => $attrs) {
                 if ($name === 'id') {
                     continue;
                 }
-                $sql .= self::_prepare_column($name, $attrs) . ', ';
+                $sql .= self::_prepare_column($name, $attrs) . ",\r\n";
             }
             $sql .= "UNIQUE KEY id (id)) $charset_collate;";
             require_once ABSPATH . 'wp-admin/includes/upgrade.php';
