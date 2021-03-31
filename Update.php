@@ -23,6 +23,10 @@ final class Update
             if (!$storedVersion) {
                 $storedVersion = 1.1;
             }
+            if (version_compare($storedVersion, '1.1', '>')) {
+                // Pushback
+                $storedVersion = 1.1;
+            }
             self::from($storedVersion);
             update_option('tbkg_version', TBKG_VERSION);
         }
