@@ -3,6 +3,7 @@
 namespace TheBooking\Routes;
 
 use TheBooking\Bus\Commands\ChangeReservationDates;
+use TheBooking\Classes\DateTimeTbk;
 use TheBooking\Classes\Reservation;
 use TheBooking\Reservations;
 use VSHM_Framework\db;
@@ -45,12 +46,17 @@ final class ReservationRescheduleRoute implements Route
                         $command = new ChangeReservationDates($reservation->id(), $start, $end);
                         tbkg()->bus->dispatch($command);
 
+                        $startDate = DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->start());
+                        $endDate   = DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->end());
+
                         db::update(Reservations::$table_name, [
                             'service_id'  => $reservation->service_id(),
                             'r_status'    => $reservation->status()->getValue(),
                             'customer_id' => $reservation->customer_id(),
                             'r_start'     => $reservation->start(),
                             'r_end'       => $reservation->end(),
+                            'r_start_utc' => $startDate->toDB(),
+                            'r_end_utc'   => $endDate->toDB(),
                         ], ['reservation_uid' => $reservation->id()]);
 
                         /**

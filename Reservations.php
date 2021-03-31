@@ -7,6 +7,7 @@ use TheBooking\Bus\Commands\ChangeReservationCustomer;
 use TheBooking\Bus\Commands\ChangeReservationLocation;
 use TheBooking\Bus\Commands\ChangeReservationService;
 use TheBooking\Bus\Commands\ChangeReservationStatus;
+use TheBooking\Classes\DateTimeTbk;
 use TheBooking\Classes\Reservation;
 use TheBooking\Classes\ValueTypes\Status;
 use TheBooking\Classes\ValueTypes\UserInput;
@@ -47,6 +48,8 @@ class Reservations
         'created'         => 'int',
         'r_start'         => ['type' => 'varchar', 'null' => TRUE],
         'r_end'           => ['type' => 'varchar', 'null' => TRUE],
+        'r_start_utc'     => 'datetime',
+        'r_end_utc'       => 'datetime',
         'updated'         => 'timestamp'
     ];
 
@@ -54,7 +57,7 @@ class Reservations
      * @var array
      */
     protected static $relevant_columns = [
-        'id', 'service_id', 'r_status', 'customer_id', 'reservation_uid', 'created', 'updated', 'r_start', 'r_end'
+        'id', 'service_id', 'r_status', 'customer_id', 'reservation_uid', 'created', 'updated', 'r_start', 'r_end', 'r_start_utc', 'r_end_utc'
     ];
 
     /**
@@ -310,6 +313,8 @@ class Reservations
      */
     public function insert(Reservation $reservation)
     {
+        $startDate = DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->start());
+        $endDate   = DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->end());
         db::insert(self::$table_name,
             [
                 'created'         => time(),
@@ -318,6 +323,8 @@ class Reservations
                 'customer_id'     => $reservation->customer_id(),
                 'r_start'         => $reservation->start(),
                 'r_end'           => $reservation->end(),
+                'r_start_utc'     => $startDate->toDB(),
+                'r_end_utc'       => $endDate->toDB(),
                 'r_status'        => $reservation->status()->getValue()
             ]
         );
