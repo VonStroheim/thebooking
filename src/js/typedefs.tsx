@@ -356,9 +356,14 @@ export interface SettingPanelBlockComponentDependencyBackend {
 }
 
 export interface SettingPanelBlockComponentBackend {
-    showDays: boolean;
-    showMinutes: boolean;
-    showHours: boolean;
+    showDays?: boolean;
+    showMinutes?: boolean;
+    showHours?: boolean;
+    daysLabel?: string;
+    minutesLabel?: string;
+    hoursLabel?: string;
+    minDays?: number,
+    maxDays?: number,
     label?: string;
     settingId: string,
     type: string,
