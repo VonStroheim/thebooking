@@ -109,6 +109,35 @@ class DateTimeTbk extends \DateTimeImmutable
     }
 
     /**
+     * Creates a DateTime instance from MySql formatted datetime
+     *
+     * @param string $mysql
+     * @param string $targetTimezone
+     *
+     * @return bool|\DateTime|static
+     */
+    public static function fromDB($mysql, $targetTimezone = NULL)
+    {
+        $date = static::createFromFormat('Y-m-d H:i:s', $mysql, new \DateTimeZone('UTC'));
+
+        if (NULL === $targetTimezone) {
+            return $date;
+        }
+
+        return $date->setTimezone(new \DateTimeZone($targetTimezone));
+    }
+
+    /**
+     * @return string
+     */
+    public function toDB()
+    {
+        $date = $this->setTimezone(new \DateTimeZone('UTC'));
+
+        return $date->format('Y-m-d H:i:s');
+    }
+
+    /**
      * @param string             $string
      * @param \DateTimeZone|NULL $timezone
      *
