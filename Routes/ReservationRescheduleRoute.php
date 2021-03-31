@@ -50,9 +50,6 @@ final class ReservationRescheduleRoute implements Route
                         $endDate   = DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->end());
 
                         db::update(Reservations::$table_name, [
-                            'service_id'  => $reservation->service_id(),
-                            'r_status'    => $reservation->status()->getValue(),
-                            'customer_id' => $reservation->customer_id(),
                             'r_start'     => $reservation->start(),
                             'r_end'       => $reservation->end(),
                             'r_start_utc' => $startDate->toDB(),
