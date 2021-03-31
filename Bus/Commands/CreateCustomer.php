@@ -38,13 +38,19 @@ class CreateCustomer implements Command
      */
     private $birthday;
 
-    public function __construct($name, $email, $phone, $wpUserId, $birthday)
+    /**
+     * @var string
+     */
+    private $timezone;
+
+    public function __construct($name, $email, $phone, $wpUserId, $birthday, $timezone)
     {
         $this->name     = $name;
         $this->email    = $email;
         $this->phone    = $phone;
         $this->wpUserId = $wpUserId;
         $this->birthday = $birthday;
+        $this->timezone = $timezone;
     }
 
     /**
@@ -87,6 +93,14 @@ class CreateCustomer implements Command
         return $this->birthday;
     }
 
+    /**
+     * @return string
+     */
+    public function getTimezone()
+    {
+        return $this->timezone;
+    }
+
     public function getValue()
     {
         return [
@@ -94,7 +108,8 @@ class CreateCustomer implements Command
             'email'    => $this->email,
             'phone'    => $this->phone,
             'wpUserId' => $this->wpUserId,
-            'birthday' => $this->birthday
+            'birthday' => $this->birthday,
+            'timezone' => $this->timezone
         ];
     }
 }

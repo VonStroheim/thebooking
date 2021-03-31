@@ -28,6 +28,7 @@ class EditCustomerHandler implements Handler
             'phone'         => $command->getPhone(),
             'wp_user'       => $command->getWpUserId(),
             'birthday'      => $command->getBirthday(),
+            'timezone'      => $command->getTimezone(),
         ], ['id' => $command->getId()]);
     }
 }

@@ -412,9 +412,10 @@ export default class App extends React.Component<IProps, IState> {
     onFormSubmit = (data: any) => {
         this.setState(redux([{type: 'BUSY'}]));
         Api.post('/frontend/booking/submit/', {
-            tbk_nonce  : TBK.nonce,
-            bookingData: data,
-            item       : this.state.selectedItem
+            tbk_nonce       : TBK.nonce,
+            bookingData     : data,
+            customerTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            item            : this.state.selectedItem
         })
             .catch(error => {
                 if (error.response) {

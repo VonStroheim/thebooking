@@ -53,7 +53,10 @@ final class EditCustomerRoute implements Route
                         $wpId = $newUserId;
                     }
 
-                    $command = new EditCustomer($props['name'], $props['email'], $props['phone'], $wpId, $props['birthday'], $customerId);
+                    /**
+                     * TODO: make timezone editable
+                     */
+                    $command = new EditCustomer($props['name'], $props['email'], $props['phone'], $wpId, $props['birthday'], $customerId, wp_timezone()->getName());
                     tbkg()->bus->dispatch($command);
                     tbkg()->customers->gather();
 

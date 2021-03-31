@@ -51,6 +51,11 @@ class Customer extends Resource
      */
     protected $access_token = '';
 
+    /**
+     * @var string
+     */
+    protected $timezone = '';
+
     public function __construct()
     {
     }
@@ -126,6 +131,16 @@ class Customer extends Resource
     }
 
     /**
+     * @param string $timezone
+     *
+     * @return string
+     */
+    public function timezone($timezone = NULL)
+    {
+        return $this->_get_or_set(__FUNCTION__, $timezone);
+    }
+
+    /**
      * @return array
      */
     public function as_array()
@@ -139,7 +154,8 @@ class Customer extends Resource
             'created'     => $this->created,
             'updated'     => $this->updated,
             'id'          => $this->id,
-            'accessToken' => $this->access_token
+            'accessToken' => $this->access_token,
+            'timezone'    => $this->timezone
         ];
     }
 }

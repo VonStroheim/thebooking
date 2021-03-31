@@ -36,6 +36,7 @@ class Customers
         'wp_user'       => 'int',
         'created'       => 'int',
         'birthday'      => ['type' => 'varchar', 'null' => TRUE],
+        'timezone'      => ['type' => 'varchar', 'null' => TRUE],
         'updated'       => 'timestamp'
     ];
 
@@ -44,6 +45,14 @@ class Customers
         tbkg()->loader->add_action('tbk-loaded', $this, 'gather');
         tbkg()->loader->add_action('profile_update', $this, 'wpProfileIsUpdated', 10, 2);
         tbkg()->loader->add_action('deleted_user', $this, 'wpProfileIsDeleted', 10, 3);
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getSchema()
+    {
+        return self::$table_structure;
     }
 
 
@@ -75,6 +84,7 @@ class Customers
             $customer->wp_user($record->wp_user);
             $customer->access_token($record->access_token);
             $customer->id($record->id);
+            $customer->timezone($record->timezone);
             $this->customers[ $record->id ] = $customer;
         }
     }
@@ -102,7 +112,8 @@ class Customers
                     $customer->phone(),
                     $user_reassigned ?: 0,
                     $customer->birthday(),
-                    $customer->id()
+                    $customer->id(),
+                    $customer->timezone()
                 );
                 tbkg()->bus->dispatch($command);
             }
@@ -126,7 +137,8 @@ class Customers
                     $customer->phone(),
                     $user_id,
                     $customer->birthday(),
-                    $customer->id()
+                    $customer->id(),
+                    $customer->timezone()
                 );
                 tbkg()->bus->dispatch($command);
             }

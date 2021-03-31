@@ -46,6 +46,13 @@ final class Update
                         'r_end_utc'   => $endDate->toDB(),
                     ], ['reservation_uid' => $reservation->reservation_uid]);
                 }
+                db::alter_table(Customers::$table_name, Customers::getSchema());
+                $customers = db::select(Customers::$table_name, '*', [], FALSE);
+                foreach ($customers as $customer) {
+                    db::update(Customers::$table_name, [
+                        'timezone' => wp_timezone()->getName(),
+                    ], ['id' => $customer->id]);
+                }
             default:
                 break;
         }

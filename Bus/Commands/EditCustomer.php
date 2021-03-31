@@ -43,7 +43,12 @@ class EditCustomer implements Command
      */
     private $id;
 
-    public function __construct($name, $email, $phone, $wpUserId, $birthday, $id)
+    /**
+     * @var string
+     */
+    private $timezone;
+
+    public function __construct($name, $email, $phone, $wpUserId, $birthday, $id, $timezone)
     {
         $this->name     = $name;
         $this->email    = $email;
@@ -51,6 +56,7 @@ class EditCustomer implements Command
         $this->wpUserId = $wpUserId;
         $this->birthday = $birthday;
         $this->id       = $id;
+        $this->timezone = $timezone;
     }
 
     /**
@@ -101,6 +107,14 @@ class EditCustomer implements Command
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
+    public function getTimezone()
+    {
+        return $this->timezone;
+    }
+
     public function getValue()
     {
         return [
@@ -110,6 +124,7 @@ class EditCustomer implements Command
             'wpUserId' => $this->wpUserId,
             'birthday' => $this->birthday,
             'id'       => $this->id,
+            'timezone' => $this->timezone,
         ];
     }
 }

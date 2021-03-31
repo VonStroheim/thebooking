@@ -138,12 +138,18 @@ final class SubmitBookingRoute implements Route
                                     : ['value' => ''];
                             $customerName      = strtolower(trim($customerNameField['value']));
 
+                            /**
+                             * Timezone
+                             */
+                            $timezone = $request->get_param('customerTimezone') ?: wp_timezone()->getName();
+
                             tbkg()->bus->dispatch(new CreateCustomer(
                                     $customerName ?: NULL,
                                     $customerEmail,
                                     $customerPhone ?: NULL,
                                     $userId,
-                                    NULL)
+                                    NULL,
+                                    $timezone)
                             );
 
                             tbkg()->customers->gather();

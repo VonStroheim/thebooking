@@ -30,6 +30,7 @@ class CreateCustomerHandler implements Handler
             'wp_user'       => $command->getWpUserId(),
             'birthday'      => $command->getBirthday(),
             'access_token'  => Tools::generate_token(),
+            'timezone'      => $command->getTimezone(),
             'created'       => time()
         ]);
     }

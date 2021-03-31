@@ -237,7 +237,8 @@ export interface CustomerBackendRecord {
     phone: string,
     wpUserId: number,
     birthday: string,
-    id: number
+    id: number,
+    timezone: string
 }
 
 export interface Location {
