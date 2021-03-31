@@ -14,16 +14,22 @@ export interface SettingDurationProps {
     showDays?: boolean,
     showHours?: boolean,
     showMinutes?: boolean,
+    daysLabel?: string,
+    hoursLabel?: string,
+    minutesLabel?: string,
+    minDays?: number,
+    maxDays?: number
 
     onChange(value: { [key: string]: any }): any
 }
 
 export default class SettingDuration extends React.Component<SettingDurationProps, DurationObject> {
+
     constructor(props: SettingDurationProps) {
 
         super(props);
 
-        this.state = globals.secondsToDurationObj(props.value || 0)
+        this.state = globals.secondsToDurationObj(props.value || (props.minDays || 0) * 86400)
     }
 
     handleChange = () => {
@@ -34,7 +40,9 @@ export default class SettingDuration extends React.Component<SettingDurationProp
 
     daysOptions = () => {
         const days: any[] = []
-        for (let x = 0; x < 11; x++) {
+        const min = this.props.minDays || 0;
+        const max = this.props.maxDays || 10;
+        for (let x = min; x <= max; x++) {
             days.push({
                 label: x,
                 value: x
@@ -70,8 +78,9 @@ export default class SettingDuration extends React.Component<SettingDurationProp
             <div className="p-formgroup-inline">
                 {this.props.showDays && (
                     <div className="p-field">
-                        <label>{__('Days', 'thebooking')}</label>
-                        <Dropdown disabled={this.props.disabled} options={this.daysOptions()} value={this.state.days}
+                        <label>{this.props.daysLabel || __('Days', 'thebooking')}</label>
+                        <Dropdown disabled={this.props.disabled} options={this.daysOptions()}
+                                  value={this.state.days}
                                   onChange={
                                       (e: any) => {
                                           this.setState({days: e.value}, this.handleChange)
@@ -85,9 +94,10 @@ export default class SettingDuration extends React.Component<SettingDurationProp
                 )}
                 {this.props.showHours && (
                     <div className="p-field">
-                        <label>{__('Hours', 'thebooking')}</label>
+                        <label>{this.props.hoursLabel || __('Hours', 'thebooking')}</label>
                         <Dropdown
-                            disabled={this.props.disabled} options={this.hoursOptions()} value={this.state.hours}
+                            disabled={this.props.disabled} options={this.hoursOptions()}
+                            value={this.state.hours}
                             onChange={
                                 (e: any) => {
                                     this.setState({hours: e.value}, this.handleChange)
@@ -101,9 +111,10 @@ export default class SettingDuration extends React.Component<SettingDurationProp
                 )}
                 {this.props.showMinutes && (
                     <div className="p-field">
-                        <label>{__('Minutes', 'thebooking')}</label>
+                        <label>{this.props.minutesLabel || __('Minutes', 'thebooking')}</label>
                         <Dropdown
-                            disabled={this.props.disabled} options={this.minutesOptions()} value={this.state.minutes}
+                            disabled={this.props.disabled} options={this.minutesOptions()}
+                            value={this.state.minutes}
                             onChange={
                                 (e: any) => {
                                     this.setState({minutes: e.value}, this.handleChange)
