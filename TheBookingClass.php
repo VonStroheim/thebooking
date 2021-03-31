@@ -3,9 +3,6 @@
 namespace TheBooking;
 
 use TheBooking\Bus\Bus;
-use TheBooking\Bus\Command;
-use TheBooking\Bus\Commands\CleanFiles;
-use TheBooking\Bus\Commands\DeletePastReservations;
 use TheBooking\Classes\Shortcode_Booking;
 use TheBooking\Integrations\Elementor_Widget;
 use VSHM_Framework\Abstracts\Single;
@@ -81,8 +78,6 @@ final class TheBookingClass extends Single
         $this->reservations = Reservations::instance();
         $this->customers    = Customers::instance();
         $this->availability = Availability::instance();
-
-        #var_dump(\VSHM_Framework\Tools::get_ip_address());
 
         /**
          * Set scheduled hooks
