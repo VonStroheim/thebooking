@@ -7,6 +7,7 @@ use TheBooking\Bus\Commands\ChangeReservationStatus;
 use TheBooking\Bus\Commands\CreateReservation;
 use TheBooking\Bus\Commands\SendEmail;
 use TheBooking\Classes\DateTimeTbk;
+use TheBooking\Classes\ValueTypes\FormField;
 use TheBooking\Classes\ValueTypes\Status;
 use TheBooking\Classes\ValueTypes\UserInput;
 
@@ -852,9 +853,9 @@ final class NotificationsModule
     {
         foreach (tbkg()->services->all() as $service) {
             $hooksSpecReturn = [];
-            /** @var $hooksSpec Classes\ValueTypes\FormField[] */
+            /** @var $hooksSpec FormField[] */
             $hooksSpec = array_filter($service->metadata(), static function ($meta, $key) {
-                return $meta instanceof Classes\ValueTypes\FormField;
+                return $meta instanceof FormField;
             }, ARRAY_FILTER_USE_BOTH);
             foreach ($hooksSpec as $item) {
                 if (NULL !== $item->getValue()['hook']) {
