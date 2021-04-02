@@ -593,7 +593,7 @@ if (!class_exists(Tools::class)) {
         {
             $return = [];
             for ($i = 0; $i < 7; $i++) {
-                $return[ $i ] = wp_date($format, strtotime("Sunday +{$i} days"));
+                $return[ $i ] = wp_date($format, strtotime("Sunday +{$i} days"), new \DateTimeZone('UTC'));
             }
 
             return $return;
@@ -608,7 +608,7 @@ if (!class_exists(Tools::class)) {
         {
             $return = [];
             for ($i = 0; $i < 12; $i++) {
-                $return[ $i ] = wp_date($format, strtotime("1st January +{$i} months"));
+                $return[ $i ] = wp_date($format, strtotime("1st January +{$i} months"), new \DateTimeZone('UTC'));
             }
 
             return $return;
