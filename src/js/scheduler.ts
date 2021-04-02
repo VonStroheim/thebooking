@@ -1,6 +1,17 @@
-import {AvailabilityRecord, ReservationRecord, ReservationRecordBackend, ServiceRecord, ServiceRecordBackend, TimeSlot} from "./typedefs";
-import {add as addToDate, areIntervalsOverlapping, compareAsc as compareAscDate, endOfDay, formatRFC3339, isFuture, isWithinInterval, startOfDay, subSeconds} from "date-fns";
-import {toDate} from "date-fns-tz";
+import {AvailabilityRecord, ReservationRecord, ReservationRecordBackend, ServiceRecord, ServiceRecordBackend, tbkCommonB, tbkCommonF, TimeSlot} from "./typedefs";
+import {
+    add as addToDate, addMilliseconds,
+    areIntervalsOverlapping,
+    compareAsc as compareAscDate,
+    endOfDay,
+    formatRFC3339,
+    isFuture,
+    isWithinInterval,
+    startOfDay,
+    subMilliseconds,
+    subSeconds
+} from "date-fns";
+import {getTimezoneOffset, toDate} from "date-fns-tz";
 import {RRuleSet, rrulestr} from "rrule";
 import globals from "./globals";
 
@@ -123,6 +134,7 @@ export default class Scheduler {
         for (let availability of this.availability) {
 
             const rule = rrulestr(availability.rrule, {forceset: true}) as RRuleSet;
+            const dtStart = rule.dtstart();
             const instances = rule.between(startOfDay(start), endOfDay(end), true);
 
             const service = this.services[availability.serviceId];
@@ -138,7 +150,14 @@ export default class Scheduler {
 
             const eventDuration = globals.secondsToDurationObj(service.duration);
 
-            instances.forEach(instance => {
+            instances.forEach(instanceWP => {
+
+                /**
+                 * What needs to be done to survive to DST...
+                 */
+                const diffStart = getTimezoneOffset(Intl.DateTimeFormat().resolvedOptions().timeZone, dtStart);
+                const diffNow = getTimezoneOffset(Intl.DateTimeFormat().resolvedOptions().timeZone, instanceWP);
+                let instance = addMilliseconds(instanceWP, diffStart - diffNow);
 
                 let endOfLoop;
 

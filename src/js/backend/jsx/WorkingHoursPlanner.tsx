@@ -114,7 +114,8 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
                         if (typeof intervals[weekNo] === 'undefined') {
                             intervals[weekNo] = [];
                         }
-                        const start = innerRrule.options.dtstart.getHours() * 60 + innerRrule.options.dtstart.getMinutes();
+                        let dtStart = innerRrule.options.dtstart;
+                        const start = dtStart.getHours() * 60 + dtStart.getMinutes();
                         intervals[weekNo].push(start);
                         intervals[weekNo].push(start + rule.duration);
                     }
