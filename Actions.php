@@ -22,6 +22,19 @@ final class Actions
         tbkg()->loader->add_action('tbk_dispatched_DeleteService', self::class, 'delete_reservations_after_service');
         tbkg()->loader->add_action('tbk_dispatched_DeleteService', self::class, 'delete_interactions_with_service');
         tbkg()->loader->add_action('tbk_dispatched_DeleteCustomer', self::class, 'delete_reservations_after_customer');
+        tbkg()->loader->add_action('updated_option', self::class, 'updatedTimezone', 10, 3);
+    }
+
+    /**
+     * @param string $option_name
+     * @param string $old
+     * @param string $new
+     */
+    public static function updatedTimezone($option_name, $old, $new)
+    {
+        if ($option_name === 'timezone_string') {
+            // It could be useful in the future.
+        }
     }
 
     /**
