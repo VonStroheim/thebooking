@@ -583,7 +583,8 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             phone   : null,
             wpUserId: 0,
             birthday: null,
-            id      : null
+            id      : null,
+            timezone: ''
         }
         const searchString = user.name + '*' + user.email;
         return searchString.toLocaleLowerCase(tbkCommon.i18n.locale).includes(filter.toLocaleLowerCase(tbkCommon.i18n.locale));
