@@ -185,7 +185,8 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                     phone   : '',
                     wpUserId: user.ID,
                     birthday: null,
-                    id      : user.ID
+                    id      : user.ID,
+                    timezone: tbkCommon.wpTimezone
                 }
             }
         })
@@ -242,7 +243,8 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                                         phone   : '',
                                         wpUserId: 0,
                                         birthday: null,
-                                        id      : 0
+                                        id      : 0,
+                                        timezone: tbkCommon.wpTimezone
                                     },
                                     99999999: {
                                         name    : __('Create a new WordPress user.', 'thebooking'),
@@ -250,7 +252,8 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                                         phone   : '',
                                         wpUserId: 0,
                                         birthday: null,
-                                        id      : -1
+                                        id      : -1,
+                                        timezone: tbkCommon.wpTimezone
                                     }
                                 }, ...users
                             }}
