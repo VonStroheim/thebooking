@@ -634,17 +634,25 @@ export default class App extends React.Component<IProps, IState> {
                 )
             case 'userMessage':
                 const classes = [styles.userMessage];
+                let bgColor = theme.palette.success.main;
                 switch (this.state.viewData.type) {
                     case 'success':
                         classes.push(styles.userMessageSuccess);
                         break;
                     case 'fail':
+                        bgColor = theme.palette.error.main;
                         classes.push(styles.userMessageFail);
                         break;
                 }
                 return (
                     <Card elevation={0} className={classes.join(' ')}>
-                        <CardMedia className={styles.userMessageHeader}>
+                        <CardMedia
+                            className={styles.userMessageHeader}
+                            style={{
+                                background: bgColor,
+                                color     : theme.palette.getContrastText(bgColor)
+                            }}
+                        >
                             {this.state.viewData.type === 'success' && <DoneAll/>}
                             {this.state.viewData.type === 'fail' && <ErrorIcon/>}
                         </CardMedia>

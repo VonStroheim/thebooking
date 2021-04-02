@@ -47,18 +47,13 @@
   justify-content: center;
 }
 .app .userMessage .userMessageHeader {
-  background: #66C172;
   border-radius: 4px;
   padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
 }
 .app .userMessage .userMessageHeader > svg {
   width: 48px;
   height: 48px;
-}
-.app .userMessage.userMessageFail .userMessageHeader {
-  background: #b92f37;
 }
