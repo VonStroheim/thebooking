@@ -70,7 +70,7 @@ final class NotificationsModule
 
                 if ($start - $now->getTimestamp() <= $service->getMeta(self::CUSTOMER_REMINDER_EMAIL_INTERVAL_META)) {
 
-                    $preparedValues = self::_prepare_placeholders($reservation->id());
+                    $preparedValues = self::_prepare_placeholders($reservation->id(), self::CUSTOMER_REMINDER_EMAIL_META);
 
                     tbkg()->bus->dispatch(new SendEmail(
                         wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_REMINDER_EMAIL_SUBJECT_META), $preparedValues)),
@@ -483,12 +483,11 @@ final class NotificationsModule
 
     private static function _notification_cancellation_send($uid)
     {
-        $reservation    = tbkg()->reservations->all()[ $uid ];
-        $service        = tbkg()->services->get($reservation->service_id());
-        $preparedValues = self::_prepare_placeholders($uid);
+        $reservation = tbkg()->reservations->all()[ $uid ];
+        $service     = tbkg()->services->get($reservation->service_id());
 
         if ($service->getMeta(self::CUSTOMER_CANCELLATION_EMAIL_META)) {
-
+            $preparedValues = self::_prepare_placeholders($uid, self::CUSTOMER_CANCELLATION_EMAIL_META);
             tbkg()->bus->dispatch(new SendEmail(
                 wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CANCELLATION_EMAIL_SUBJECT_META), $preparedValues)),
                 self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CANCELLATION_EMAIL_CONTENT_META), $preparedValues),
@@ -505,12 +504,14 @@ final class NotificationsModule
     {
         $reservation    = tbkg()->reservations->all()[ $command->getUid() ];
         $service        = tbkg()->services->get($reservation->service_id());
-        $preparedValues = self::_prepare_placeholders($command->getUid());
+        $customer       = tbkg()->customers->get($reservation->customer_id());
+        $preparedValues = self::_prepare_placeholders($command->getUid(), self::CUSTOMER_RESCHEDULE_EMAIL_META);
+        $customerTz     = new \DateTimeZone($customer->timezone());
         $preparedValues = array_merge($preparedValues, [
-            'reservation::startTime::old' => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevStart)->localized_time(),
-            'reservation::startDate::old' => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevStart)->localized_date(),
-            'reservation::endTime::old'   => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevEnd)->localized_time(),
-            'reservation::endDate::old'   => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevEnd)->localized_date(),
+            'reservation::startTime::old' => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevStart, $customerTz)->localized_time(),
+            'reservation::startDate::old' => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevStart, $customerTz)->localized_date(),
+            'reservation::endTime::old'   => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevEnd, $customerTz)->localized_time(),
+            'reservation::endDate::old'   => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $prevEnd, $customerTz)->localized_date(),
             'reservation::duration::old'  => '' // TODO
         ]);
         if ($service->getMeta(self::CUSTOMER_RESCHEDULE_EMAIL_META)) {
@@ -550,10 +551,11 @@ final class NotificationsModule
 
     /**
      * @param string $reservation_id
+     * @param string $notificationType
      *
      * @return array
      */
-    private static function _prepare_placeholders($reservation_id)
+    private static function _prepare_placeholders($reservation_id, $notificationType = NULL)
     {
         $reservation  = tbkg()->reservations->all()[ $reservation_id ];
         $customer     = tbkg()->customers->get($reservation->customer_id());
@@ -562,15 +564,32 @@ final class NotificationsModule
         $activeFields = $service->getMeta('formFieldsActive') ?: [];
         $locationId   = $reservation->getMeta('location');
 
+        $toCustomer = in_array($notificationType, [
+            self::CUSTOMER_RESCHEDULE_EMAIL_META,
+            self::CUSTOMER_REMINDER_EMAIL_META,
+            self::CUSTOMER_APPROVAL_EMAIL_META,
+            self::CUSTOMER_DECLINE_EMAIL_META,
+            self::CUSTOMER_CANCELLATION_EMAIL_META,
+            self::CUSTOMER_CONFIRMATION_EMAIL_META,
+        ], TRUE);
+
         $preparedValues = [
             'status_link'                  => add_query_arg('hash', md5($customer->access_token()), $status_link),
             'service::name'                => $service->name(),
             'service::description'         => $service->description(),
             'service::shortDescription'    => $service->short_description(),
-            'reservation::startTime'       => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->start())->localized_time(),
-            'reservation::startDate'       => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->start())->localized_date(),
-            'reservation::endTime'         => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->end())->localized_time(),
-            'reservation::endDate'         => DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->end())->localized_date(),
+            'reservation::startTime'       => DateTimeTbk::createFromFormatSilently(
+                \DateTime::RFC3339, $reservation->start(), $toCustomer ? new \DateTimeZone($customer->timezone()) : NULL
+            )->localized_time(),
+            'reservation::startDate'       => DateTimeTbk::createFromFormatSilently(
+                \DateTime::RFC3339, $reservation->start(), $toCustomer ? new \DateTimeZone($customer->timezone()) : NULL
+            )->localized_date(),
+            'reservation::endTime'         => DateTimeTbk::createFromFormatSilently(
+                \DateTime::RFC3339, $reservation->end(), $toCustomer ? new \DateTimeZone($customer->timezone()) : NULL
+            )->localized_time(),
+            'reservation::endDate'         => DateTimeTbk::createFromFormatSilently(
+                \DateTime::RFC3339, $reservation->end(), $toCustomer ? new \DateTimeZone($customer->timezone()) : NULL
+            )->localized_date(),
             'reservation::locationName'    => $locationId ? tbkg()->availability->locations()[ $locationId ]['l_name'] : '',
             'reservation::locationAddress' => $locationId ? tbkg()->availability->locations()[ $locationId ]['address'] : '',
             'reservation::duration'        => '' // TODO
@@ -602,11 +621,11 @@ final class NotificationsModule
      */
     private static function _notification_send($uid)
     {
-        $reservation    = tbkg()->reservations->all()[ $uid ];
-        $service        = tbkg()->services->get($reservation->service_id());
-        $preparedValues = self::_prepare_placeholders($uid);
+        $reservation = tbkg()->reservations->all()[ $uid ];
+        $service     = tbkg()->services->get($reservation->service_id());
 
         if ($service->getMeta(self::CUSTOMER_CONFIRMATION_EMAIL_META)) {
+            $preparedValues = self::_prepare_placeholders($uid, self::CUSTOMER_CONFIRMATION_EMAIL_META);
 
             tbkg()->bus->dispatch(new SendEmail(
                 wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_CONFIRMATION_EMAIL_SUBJECT_META), $preparedValues)),
@@ -627,11 +646,11 @@ final class NotificationsModule
      */
     private static function _approval_send($uid)
     {
-        $reservation    = tbkg()->reservations->all()[ $uid ];
-        $service        = tbkg()->services->get($reservation->service_id());
-        $preparedValues = self::_prepare_placeholders($uid);
+        $reservation = tbkg()->reservations->all()[ $uid ];
+        $service     = tbkg()->services->get($reservation->service_id());
 
         if ($service->getMeta(self::CUSTOMER_APPROVAL_EMAIL_META)) {
+            $preparedValues = self::_prepare_placeholders($uid, self::CUSTOMER_APPROVAL_EMAIL_META);
 
             tbkg()->bus->dispatch(new SendEmail(
                 wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_APPROVAL_EMAIL_SUBJECT_META), $preparedValues)),
@@ -652,12 +671,11 @@ final class NotificationsModule
      */
     private static function _decline_send($uid)
     {
-        $reservation    = tbkg()->reservations->all()[ $uid ];
-        $service        = tbkg()->services->get($reservation->service_id());
-        $preparedValues = self::_prepare_placeholders($uid);
+        $reservation = tbkg()->reservations->all()[ $uid ];
+        $service     = tbkg()->services->get($reservation->service_id());
 
         if ($service->getMeta(self::CUSTOMER_DECLINE_EMAIL_META)) {
-
+            $preparedValues = self::_prepare_placeholders($uid, self::CUSTOMER_DECLINE_EMAIL_META);
             tbkg()->bus->dispatch(new SendEmail(
                 wp_strip_all_tags(self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_DECLINE_EMAIL_SUBJECT_META), $preparedValues)),
                 self::_findAndReplaceHooks($service->getMeta(self::CUSTOMER_DECLINE_EMAIL_CONTENT_META), $preparedValues),
