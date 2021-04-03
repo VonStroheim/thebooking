@@ -4,6 +4,16 @@
   margin-top: 10px;
   grid-area: menu;
 }
+.mainMenu .logoContainer {
+  position: relative;
+}
+.mainMenu .logoContainer .versionTag {
+  position: absolute;
+  bottom: -8px;
+  font-size: 0.7rem;
+  left: 33px;
+  color: var(--bluegray-400);
+}
 .mainMenu .logo {
   margin-right: 10px;
   vertical-align: middle;
@@ -89,4 +99,23 @@
   left: calc(50% - 30px);
   height: 2px;
   width: 60px;
+}
+.mainMenu :global(.react-clock__face) {
+  border: 2px solid #1d2327 !important;
+}
+.mainMenu :global(.react-clock__hand__body) {
+  background-color: #1d2327 !important;
+}
+.mainMenu :global(.react-clock__mark__body) {
+  background: none !important;
+}
+.mainMenu :global(.react-clock__hour-hand__body) {
+  width: 2px !important;
+}
+.mainMenu :global(.react-clock__minute-hand__body) {
+  width: 1px !important;
+}
+.mainMenu :global(.react-clock__second-hand__body) {
+  top: 10% !important;
+  background-color: var(--primary-color) !important;
 }

@@ -8,6 +8,18 @@
   margin-top: 10px;
   grid-area: menu;
 
+  .logoContainer {
+    position: relative;
+
+    .versionTag {
+      position: absolute;
+      bottom: -8px;
+      font-size: 0.70rem;
+      left: 33px;
+      color: var(--bluegray-400)
+    }
+  }
+
   .logo {
     margin-right: 10px;
     vertical-align: middle;
@@ -109,4 +121,31 @@
       width: 60px;
     }
   }
+
+
+  :global(.react-clock__face) {
+    border: 2px solid #1d2327 !important;
+  }
+
+  :global(.react-clock__hand__body) {
+    background-color: #1d2327 !important;
+  }
+
+  :global(.react-clock__mark__body) {
+    background: none !important;
+  }
+
+  :global(.react-clock__hour-hand__body) {
+    width: 2px !important;
+  }
+
+  :global(.react-clock__minute-hand__body) {
+    width: 1px !important;
+  }
+
+  :global(.react-clock__second-hand__body) {
+    top: 10% !important;
+    background-color: var(--primary-color) !important;
+  }
+
 }

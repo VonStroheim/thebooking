@@ -142,6 +142,7 @@ class Admin
             \VSHM_Framework\Tools::enqueue_style('tbk-admin-style-prime-icons', '/css/primeicons.css');
             \VSHM_Framework\Tools::enqueue_style('tbk-admin-nouislider-style', '/css/nouislider.min.css');
             \VSHM_Framework\Tools::enqueue_style('tbk-phone-input-style', '/css/phoneInputStyle.css');
+            \VSHM_Framework\Tools::enqueue_style('tbk-clock-style', '/css/clock.css');
             \VSHM_Framework\Tools::enqueue_style('tbk-admin-style', '/css/backend.css');
             \VSHM_Framework\Tools::enqueue_script('tbk-admin-nouislider-script', '/js/backend/nouislider.min.js');
             \VSHM_Framework\Tools::enqueue_script('tbk-admin-script', '/js/backend/tbk.js',

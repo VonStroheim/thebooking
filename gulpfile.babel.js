@@ -99,6 +99,16 @@ function copyPhoneInputCSS(options = {}) {
         .pipe(gulp.dest('css'))
 }
 
+function copyClockCSS(options = {}) {
+    const defs = {
+        dir: 'node_modules/react-clock/dist/',
+        ...options
+    }
+    return gulp.src(defs.dir + 'Clock.css')
+        .pipe(rename('clock.css'))
+        .pipe(gulp.dest('css'))
+}
+
 function cssifyJSXcomponents(options = {}) {
     const defs = {
         dir: 'js/backend/jsx/',
@@ -259,6 +269,7 @@ const build = gulp.series(
     copyNoUiSliderCSS,
     copyNoUiSliderJS,
     copyPhoneInputCSS,
+    copyClockCSS,
     copyPrime,
     cssifyJSXcomponents,
     compileJS
@@ -271,6 +282,7 @@ const buildProduction = gulp.series(
     copyNoUiSliderCSS,
     copyNoUiSliderJS,
     copyPhoneInputCSS,
+    copyClockCSS,
     copyPrime,
     cssifyJSXcomponents,
     buildProductionBackend,
