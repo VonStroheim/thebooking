@@ -268,12 +268,18 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                 <Button
                     icon={'pi pi-trash'}
                     tooltip={__('Delete', 'thebooking')}
+                    tooltipOptions={{
+                        position: 'top'
+                    }}
                     className={'p-button-rounded p-button-text p-button-danger'}
                     onClick={(event) => this.confirmDeletion(event, () => this.deleteReservations([reservation]))}
                 />
                 {['pending', 'confirmed'].includes(reservation.status) && (
                     <Button
                         tooltip={__('Reschedule', 'thebooking')}
+                        tooltipOptions={{
+                            position: 'top'
+                        }}
                         className="p-button-rounded p-button-text"
                         icon={'pi pi-calendar'}
                         onClick={(e) => {
@@ -298,6 +304,9 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     <Button
                         icon={'pi pi-times'}
                         tooltip={__('Cancel', 'thebooking')}
+                        tooltipOptions={{
+                            position: 'top'
+                        }}
                         className={'p-button-rounded p-button-text p-button-danger'}
                         onClick={(event) => this.confirmStatusChange(event, () => this.changeStatus('cancelled', reservation.uid))}
                     />
@@ -307,12 +316,18 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         <Button
                             icon={'pi pi-thumbs-up'}
                             tooltip={__('Approve', 'thebooking')}
+                            tooltipOptions={{
+                                position: 'top'
+                            }}
                             className={'p-button-rounded p-button-text p-button-success'}
                             onClick={(event) => this.confirmStatusChange(event, () => this.changeStatus('confirmed', reservation.uid))}
                         />
                         <Button
                             icon={'pi pi-thumbs-down'}
                             tooltip={__('Decline', 'thebooking')}
+                            tooltipOptions={{
+                                position: 'top'
+                            }}
                             className={'p-button-rounded p-button-text p-button-plain'}
                             onClick={(event) => this.confirmStatusChange(event, () => this.changeStatus('declined', reservation.uid))}
                         />
@@ -322,6 +337,9 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     <Button
                         icon={'pi pi-envelope'}
                         tooltip={__('Re-send notifications', 'thebooking')}
+                        tooltipOptions={{
+                            position: 'top'
+                        }}
                         className={'p-button-rounded p-button-text p-button-plain'}
                         onClick={(event) => this.confirmReSendNotifications(event, () => this.changeStatus(reservation.status, reservation.uid))}
                     />
@@ -504,6 +522,9 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         onClick={(e) => this.setState({editMode: !this.state.editMode})}
                         icon={'pi pi-pencil'}
                         tooltip={__('Edit mode', 'thebooking')}
+                        tooltipOptions={{
+                            position: 'top'
+                        }}
                     />
                     <TableColumnsFilter
                         columns={

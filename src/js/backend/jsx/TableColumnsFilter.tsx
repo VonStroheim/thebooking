@@ -42,6 +42,9 @@ export default class TableColumnsFilter extends React.Component<TProps, TState> 
                     icon="pi pi-filter"
                     style={{overflow: 'visible'}}
                     tooltip={__('Filter columns', 'thebooking')}
+                    tooltipOptions={{
+                        position: 'top'
+                    }}
                     onClick={(event) => this.overlay.current.toggle(event)}
                 >
                     {this.state.selected.length < this.props.columns.length && (

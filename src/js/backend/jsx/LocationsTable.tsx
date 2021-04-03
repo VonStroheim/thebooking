@@ -217,6 +217,9 @@ class LocationsTable extends React.Component<SProps, SState> {
                 <Button
                     icon={'pi pi-trash'}
                     tooltip={__('Delete', 'thebooking')}
+                    tooltipOptions={{
+                        position: 'top'
+                    }}
                     className={'p-button-rounded p-button-text p-button-danger'}
                     disabled={this.props.isBusy}
                     onClick={(event) => this.confirm(event, () => this.deleteLocations([location]))}
@@ -224,6 +227,9 @@ class LocationsTable extends React.Component<SProps, SState> {
                 <Button
                     icon={'pi pi-cog'}
                     tooltip={__('Settings', 'thebooking')}
+                    tooltipOptions={{
+                        position: 'top'
+                    }}
                     className={'p-button-rounded p-button-text p-button-plain'}
                     disabled={this.props.isBusy}
                     onClick={() => this.setState({
