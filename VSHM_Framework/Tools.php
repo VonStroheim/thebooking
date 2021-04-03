@@ -693,5 +693,57 @@ if (!class_exists(Tools::class)) {
             return '#' . implode($hexCode);
         }
 
+        /**
+         * @param string $locale
+         *
+         * @return string[]
+         */
+        public static function timezone_list($locale = NULL)
+        {
+            static $mo_loaded = FALSE, $locale_loaded = NULL;
+
+            if (!$mo_loaded || $locale !== $locale_loaded) {
+                if ($locale) {
+                    $locale_loaded = $locale;
+                } else {
+                    $locale_loaded = get_locale();
+                }
+                $mofile = WP_LANG_DIR . '/continents-cities-' . $locale_loaded . '.mo';
+                unload_textdomain('continents-cities');
+                load_textdomain('continents-cities', $mofile);
+                $mo_loaded = TRUE;
+            }
+
+            $zonen = [];
+
+            foreach (timezone_identifiers_list() as $zone) {
+                $zone = explode('/', $zone);
+
+                $exists    = [
+                    0 => isset($zone[0]) && $zone[0],
+                    1 => isset($zone[1]) && $zone[1],
+                    2 => isset($zone[2]) && $zone[2],
+                ];
+                $exists[3] = ($exists[0] && 'Etc' !== $zone[0]);
+                $exists[4] = ($exists[1] && $exists[3]);
+                $exists[5] = ($exists[2] && $exists[3]);
+
+                $zonen[] = [
+                    'continent'   => $exists[0] ? $zone[0] : '',
+                    'city'        => $exists[1] ? $zone[1] : '',
+                    'subcity'     => $exists[2] ? $zone[2] : '',
+                    't_continent' => $exists[3] ? translate(str_replace('_', ' ', $zone[0]), 'continents-cities') : '',
+                    't_city'      => $exists[4] ? translate(str_replace('_', ' ', $zone[1]), 'continents-cities') : '',
+                    't_subcity'   => $exists[5] ? translate(str_replace('_', ' ', $zone[2]), 'continents-cities') : ''
+                ];
+
+                usort($zonen, '_wp_timezone_choice_usort_callback');
+
+
+            }
+
+            return $zonen;
+        }
+
     }
 }

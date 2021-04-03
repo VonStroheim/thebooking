@@ -254,6 +254,14 @@ export interface tbkCommonB {
     pluginUrl: string,
     pluginVersion: string,
     wpTimezone: string,
+    timezoneList: {
+        city: string,
+        continent: string,
+        subcity: string,
+        t_city: string,
+        t_continent: string,
+        t_subcity: string
+    }[],
     tbk_nonce: string,
     saveSettingsRoute: string,
     weekDaysLabels: string[],

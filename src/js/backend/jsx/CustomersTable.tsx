@@ -19,6 +19,7 @@ import globals from "../../globals";
 import {ExportToCsv} from "export-to-csv";
 import ReservationsTable from "./ReservationsTable";
 import TableColumnsFilter from "./TableColumnsFilter";
+import TimezoneDropdown from "./TimezoneDropdown";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -50,7 +51,8 @@ interface newCustomerData {
     email: string,
     phone: string,
     birthday?: string,
-    wpUserId: number
+    wpUserId: number,
+    timezone: string
 }
 
 const newCustomerReducer = (state: SState, action: StateAction) => {
@@ -87,7 +89,8 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                 email   : '',
                 phone   : '',
                 birthday: '',
-                wpUserId: 0
+                wpUserId: 0,
+                timezone: tbkCommon.wpTimezone
             },
             columns         : tbkCommon.userPrefs.customersTableColumns || ['name', 'email', 'phone']
         }
@@ -206,7 +209,8 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                         email   : '',
                         phone   : '',
                         birthday: '',
-                        wpUserId: 0
+                        wpUserId: 0,
+                        timezone: tbkCommon.wpTimezone
                     }
                 })}
                 visible={this.state.displayNewDialog}
@@ -216,7 +220,18 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                             <div>
                                 <Button label={__('Cancel', 'thebooking')}
                                         icon="pi pi-times"
-                                        onClick={() => this.setState({displayNewDialog: false})}
+                                        onClick={() => this.setState({
+                                            displayNewDialog: false,
+                                            current         : null,
+                                            newCustomerData : {
+                                                name    : '',
+                                                email   : '',
+                                                phone   : '',
+                                                birthday: '',
+                                                wpUserId: 0,
+                                                timezone: tbkCommon.wpTimezone
+                                            }
+                                        })}
                                         className="p-button-text"/>
                                 <Button label={id ? __('Save', 'thebooking') : __('Create customer', 'thebooking')}
                                         icon="pi pi-check"
@@ -314,6 +329,16 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                             }}
                         />
                     </div>
+                    <div className={'p-field'}>
+                        <label htmlFor={'newCustomerTimezone'}>{__('Timezone', 'thebooking')}</label>
+                        <TimezoneDropdown selected={customerData.timezone} inDialog={true} onChange={(e) => {
+                            this.setState(redux([{
+                                type: 'UPDATE', payload: {
+                                    timezone: e.value
+                                }
+                            }], this.state))
+                        }}/>
+                    </div>
                 </div>
             </Dialog>
         );
@@ -356,7 +381,8 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                             email   : customer.email,
                             phone   : customer.phone,
                             wpUserId: customer.wpUserId,
-                            birthday: customer.birthday
+                            birthday: customer.birthday,
+                            timezone: customer.timezone
                         },
                         displayNewDialog: true,
                         current         : customer.id
@@ -391,7 +417,8 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                 email   : '',
                 phone   : '',
                 birthday: '',
-                wpUserId: 0
+                wpUserId: 0,
+                timezone: tbkCommon.wpTimezone
             }
         })
     }
@@ -408,7 +435,8 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                 email   : '',
                 phone   : '',
                 birthday: '',
-                wpUserId: 0
+                wpUserId: 0,
+                timezone: tbkCommon.wpTimezone
             }
         })
     }
