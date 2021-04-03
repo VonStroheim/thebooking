@@ -51,6 +51,15 @@ Go in `TheBooking > Reservations` to manage your reservations.
 
 
 ### Changelog
++ 1.2.0
+
+    [Feature] Reminder email
+
+    [Fix] DST are handled correctly in frontend
+
+    [Fix] Minor bug fixes
+  
+
 + 1.1.0
 
     [Feature] Approval system
@@ -85,3 +94,4 @@ This plugin uses the following libraries/products:
 + [react-color](https://github.com/casesandberg/react-color "react-color")
 + [export-to-csv](https://github.com/alexcaza/export-to-csv "export-to-csv")
 + [autosuggest-highlight](https://github.com/moroshko/autosuggest-highlight "autosuggest-highlight")
++ [React-Clock](https://github.com/wojtekmaj/react-clock "React-Clock")

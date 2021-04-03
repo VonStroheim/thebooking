@@ -3,7 +3,7 @@ Contributors: vonstroheim
 Tags: booking system, reservation, appointment, schedule, booking calendar, booking, calendar, events, appointment system
 Requires at least: 5.0
 Tested up to: 5.7
-Stable tag: 1.1
+Stable tag: 1.2
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -77,6 +77,11 @@ Source code can be found [here](https://github.com/VonStroheim/thebooking "TheBo
 
 == Changelog ==
 
+= 1.2 =
+* [Feature] Reminder email
+* [Fix] DST are handled correctly in frontend
+* [Fix] Minor bug fixes
+
 = 1.1 =
 * [Feature] Approval system 
 * [Feature] Rescheduling
@@ -104,3 +109,4 @@ This plugin uses the following libraries/products:
 + [react-color](https://github.com/casesandberg/react-color "react-color")
 + [export-to-csv](https://github.com/alexcaza/export-to-csv "export-to-csv")
 + [autosuggest-highlight](https://github.com/moroshko/autosuggest-highlight "autosuggest-highlight")
++ [React-Clock](https://github.com/wojtekmaj/react-clock "React-Clock")
