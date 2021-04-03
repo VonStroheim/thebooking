@@ -6,8 +6,6 @@ import {tbkCommonB} from "../../typedefs";
 import {RRule, RRuleSet, rrulestr} from 'rrule';
 import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
-// @ts-ignore
-import Calendar from 'rc-year-calendar';
 import {setMinutes, startOfToday} from "date-fns";
 
 declare const tbkCommon: tbkCommonB;
