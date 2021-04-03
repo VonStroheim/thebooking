@@ -8,6 +8,7 @@ import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 // @ts-ignore
 import Calendar from 'rc-year-calendar';
+import {setMinutes, startOfToday} from "date-fns";
 
 declare const tbkCommon: tbkCommonB;
 declare const _: any;
@@ -88,6 +89,8 @@ const baseSliderSettings: SliderSettings = {
 export default class WorkingHoursPlanner extends React.Component<WProps, WState> {
     private readonly id: string;
     private sliders: any[];
+    private minPresets = [0, 60, 120, 180, 240, 300, 360, 420, 480];
+    private maxPresets = [1080, 1140, 1200, 1260, 1320, 1380, 1440];
 
     constructor(props: WProps) {
 
@@ -131,8 +134,15 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
             format : format
         }
 
+        let fRangeMin = 1440;
+        let fRangeMax = 0;
+
         sliderDefaults.map((def, i) => {
             def.start = intervals[i] || [0];
+            if (def.start.length > 1) {
+                fRangeMin = Math.min(fRangeMin, Math.min(...def.start));
+                fRangeMax = Math.max(fRangeMax, Math.max(...def.start));
+            }
             def.connect = def.start.length > 1 ? Array(def.start.length + 1).fill(false).map(function (value, index) {
                 return !!(index % 2);
             }) : false;
@@ -140,11 +150,15 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
             return def;
         })
 
+        // Getting closest "fixed" value
+        fRangeMin = Math.max(...this.minPresets.filter(minutes => minutes <= fRangeMin));
+        fRangeMax = Math.min(...this.maxPresets.filter(minutes => minutes >= fRangeMax));
+
         this.state = {
             slidersDefaults: sliderDefaults,
             preferences    : {
-                rangeStart: props.rangeMin || 420,
-                rangeEnd  : props.rangeMax || 1200,
+                rangeStart: props.rangeMin ? Math.min(props.rangeMin, fRangeMin) : fRangeMin,
+                rangeEnd  : props.rangeMax ? Math.max(props.rangeMax, fRangeMax) : fRangeMax,
             },
             totalTimeLabels: Array(7).fill(''),
             exDates        : exDates.map(date => {
@@ -462,7 +476,7 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
         const _this = this;
 
         for (let i = 0; i < 7; i++) {
-            const totalTimeString = globals.flatMap(sprintf(__('Total time: %s'), '%1').split('%1'), function (part: string) {
+            const totalTimeString = globals.flatMap(sprintf(__('Total time: %s', 'thebooking'), '%1').split('%1'), function (part: string) {
                 return [part, <span className={'total-time'}>{_this.state.totalTimeLabels[i]}</span>];
             });
             totalTimeString.pop();
@@ -471,45 +485,53 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
                     {tbkCommon.weekDaysLabels[(i + 1) % 7]}
                     <span className={'total-time-wrapper'}>{totalTimeString}</span>
                 </div>
-                <div className={'slider'}></div>
+                <div className={'slider'}/>
                 <div className={'intervals'}>
-                    <Button className={'p-button-rounded p-button-text p-button-plain'} icon={'pi pi-plus'} onClick={() => this.changeIntervals(i, 'add')}/>
-                    <Button className={'p-button-rounded p-button-text p-button-plain'} icon={'pi pi-minus'} onClick={() => this.changeIntervals(i, 'remove')}/>
+                    <Button
+                        className={'p-button-rounded p-button-text p-button-plain'}
+                        icon={'pi pi-plus'}
+                        tooltip={__('Add interval', 'thebooking')}
+                        tooltipOptions={{
+                            position: 'top'
+                        }}
+                        onClick={() => this.changeIntervals(i, 'add')}
+                    />
+                    <Button
+                        className={'p-button-rounded p-button-text p-button-plain'}
+                        icon={'pi pi-minus'}
+                        tooltip={__('Remove interval', 'thebooking')}
+                        tooltipOptions={{
+                            position: 'top'
+                        }}
+                        onClick={() => this.changeIntervals(i, 'remove')}
+                    />
                 </div>
             </li>)
         }
 
         return (
             <div id={this.id} className={styles.workingHoursPlanner}>
-                <div className={'p-grid p-formgrid p-fluid'}>
+                <div className={'p-grid p-formgrid p-fluid p-ai-center'}>
                     <div className={'p-col-12 p-lg-4'}>
                         <Dropdown
-                            options={[
-                                {value: 0, label: sprintf(__('Showing from %s'), '00:00')},
-                                {value: 60, label: sprintf(__('Showing from %s'), '01:00')},
-                                {value: 120, label: sprintf(__('Showing from %s'), '02:00')},
-                                {value: 180, label: sprintf(__('Showing from %s'), '03:00')},
-                                {value: 240, label: sprintf(__('Showing from %s'), '04:00')},
-                                {value: 300, label: sprintf(__('Showing from %s'), '05:00')},
-                                {value: 360, label: sprintf(__('Showing from %s'), '06:00')},
-                                {value: 420, label: sprintf(__('Showing from %s'), '07:00')},
-                                {value: 480, label: sprintf(__('Showing from %s'), '08:00')},
-                            ]}
+                            options={this.minPresets.map(minutes => {
+                                return {
+                                    value: minutes,
+                                    label: sprintf(__('Showing from %s', 'thebooking'), globals.formatTime(setMinutes(startOfToday(), minutes)))
+                                }
+                            })}
                             value={this.state.preferences.rangeStart}
                             onChange={(e) => this.cutMarginsHandler(e.value, 'start')}
                         />
                     </div>
                     <div className={'p-col-12 p-lg-4'}>
                         <Dropdown
-                            options={[
-                                {value: 1080, label: sprintf(__('to %s'), '18:00')},
-                                {value: 1140, label: sprintf(__('to %s'), '19:00')},
-                                {value: 1200, label: sprintf(__('to %s'), '20:00')},
-                                {value: 1260, label: sprintf(__('to %s'), '21:00')},
-                                {value: 1320, label: sprintf(__('to %s'), '22:00')},
-                                {value: 1380, label: sprintf(__('to %s'), '23:00')},
-                                {value: 1440, label: sprintf(__('to %s'), '24:00')},
-                            ]}
+                            options={this.maxPresets.map(minutes => {
+                                return {
+                                    value: minutes,
+                                    label: sprintf(__('to %s', 'thebooking'), globals.formatTime(setMinutes(startOfToday(), minutes)))
+                                }
+                            })}
                             value={this.state.preferences.rangeEnd}
                             onChange={(e) => this.cutMarginsHandler(e.value, 'end')}
                         />
