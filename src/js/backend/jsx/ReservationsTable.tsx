@@ -15,8 +15,6 @@ import {addSeconds, isSameDay, isValid, startOfToday, startOfTomorrow} from 'dat
 // @ts-ignore
 import {confirmPopup} from 'primereact/confirmpopup';
 import {OverlayPanel} from 'primereact/overlaypanel';
-import {ListBox} from 'primereact/listbox';
-import {Checkbox} from 'primereact/checkbox';
 // @ts-ignore
 import styles from './ReservationsTable.css';
 // @ts-ignore
@@ -26,7 +24,6 @@ import globals from '../../globals';
 import {BackendUser, CustomerBackendRecord, ReservationRecordBackend, ReservationStatuses, tbkCommonB} from "../../typedefs";
 import CustomersDropdown from "./CustomersDropdown";
 import Rescheduler from "./Rescheduler";
-import {Badge} from "primereact/badge";
 import ServicesDropdown from "./ServicesDropdown";
 import TableColumnsFilter from "./TableColumnsFilter";
 
