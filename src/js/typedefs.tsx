@@ -253,6 +253,7 @@ export interface tbkCommonB {
     restRouteRoot: string,
     pluginUrl: string,
     pluginVersion: string,
+    wpTimezone: string,
     tbk_nonce: string,
     saveSettingsRoute: string,
     weekDaysLabels: string[],

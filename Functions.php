@@ -292,6 +292,7 @@ function localize_backend_script()
         'pluginVersion'       => TBKG_VERSION,
         'restRouteRoot'       => \VSHM_Framework\REST_Controller::get_root_rest_url(),
         'tbk_nonce'           => wp_create_nonce('tbk_nonce'),
+        'wpTimezone'          => wp_timezone()->getName(),
         'saveSettingsRoute'   => \VSHM_Framework\REST_Controller::get_root_rest_url() . '/save/settings',
         'weekDaysLabels'      => \VSHM_Framework\Tools::i18n_weekdays_labels(),
         'shortWeekDaysLabels' => \VSHM_Framework\Tools::i18n_weekdays_labels('D'),
