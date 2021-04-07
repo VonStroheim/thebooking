@@ -51,7 +51,12 @@ final class CreateCustomerRoute implements Route
                         $wpId = $newUserId;
                     }
 
-                    $command = new CreateCustomer($props['name'], $props['email'], $props['phone'], $wpId, $props['birthday']);
+                    /**
+                     * Timezone
+                     */
+                    $timezone = $props['timezone'] ?: wp_timezone()->getName();
+
+                    $command = new CreateCustomer($props['name'], $props['email'], $props['phone'], $wpId, $props['birthday'], $timezone);
                     tbkg()->bus->dispatch($command);
                     tbkg()->customers->gather();
 
