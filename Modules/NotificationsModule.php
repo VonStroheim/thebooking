@@ -130,7 +130,8 @@ final class NotificationsModule
                             'dependencies' => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_CONFIRMATION_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ],
@@ -142,7 +143,8 @@ final class NotificationsModule
                             'dependencies'      => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_CONFIRMATION_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ]
@@ -163,7 +165,8 @@ final class NotificationsModule
                             'dependencies' => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_APPROVAL_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ],
@@ -175,7 +178,8 @@ final class NotificationsModule
                             'dependencies'      => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_APPROVAL_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ]
@@ -183,7 +187,8 @@ final class NotificationsModule
                     'dependencies' => [
                         [
                             'on'    => 'meta::requiresApproval',
-                            'being' => TRUE
+                            'being' => '=',
+                            'to'    => TRUE
                         ]
                     ]
                 ],
@@ -202,7 +207,8 @@ final class NotificationsModule
                             'dependencies' => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_DECLINE_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ],
@@ -214,7 +220,8 @@ final class NotificationsModule
                             'dependencies'      => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_DECLINE_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ]
@@ -222,7 +229,8 @@ final class NotificationsModule
                     'dependencies' => [
                         [
                             'on'    => 'meta::requiresApproval',
-                            'being' => TRUE
+                            'being' => '=',
+                            'to'    => TRUE
                         ]
                     ]
                 ],
@@ -241,7 +249,8 @@ final class NotificationsModule
                             'dependencies' => [
                                 [
                                     'on'    => 'meta::' . self::ADMIN_CONFIRMATION_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ],
@@ -253,7 +262,8 @@ final class NotificationsModule
                             'dependencies'      => [
                                 [
                                     'on'    => 'meta::' . self::ADMIN_CONFIRMATION_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ]
@@ -274,7 +284,8 @@ final class NotificationsModule
                             'dependencies' => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_CANCELLATION_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ],
@@ -286,7 +297,8 @@ final class NotificationsModule
                             'dependencies'      => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_CANCELLATION_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ]
@@ -307,7 +319,8 @@ final class NotificationsModule
                             'dependencies' => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_RESCHEDULE_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ],
@@ -319,7 +332,8 @@ final class NotificationsModule
                             'dependencies'      => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_RESCHEDULE_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ]
@@ -343,7 +357,8 @@ final class NotificationsModule
                             'dependencies' => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_REMINDER_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ],
@@ -354,7 +369,8 @@ final class NotificationsModule
                             'dependencies' => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_REMINDER_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ],
@@ -366,7 +382,8 @@ final class NotificationsModule
                             'dependencies'      => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_REMINDER_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ],
@@ -377,7 +394,8 @@ final class NotificationsModule
                             'dependencies' => [
                                 [
                                     'on'    => 'meta::' . self::CUSTOMER_REMINDER_EMAIL_META,
-                                    'being' => TRUE
+                                    'being' => '=',
+                                    'to'    => TRUE
                                 ]
                             ]
                         ]

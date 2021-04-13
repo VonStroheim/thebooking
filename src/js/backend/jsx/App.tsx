@@ -556,8 +556,19 @@ export default class App extends React.Component<AppProps, AppState> {
                     ? values.meta[rule.on.replace('meta::', '')]
                     : values[rule.on];
             }
-            if (parentValue !== rule.being) {
-                show = false;
+            switch (rule.being) {
+                case '=':
+                    if (parentValue !== rule.to) {
+                        show = false;
+                    }
+                    break;
+                case 'NOT_EMPTY':
+                    if (typeof parentValue === 'string' && parentValue.length < 1) {
+                        show = false;
+                    }
+                    break;
+                default:
+                    break;
             }
         })
         return show;

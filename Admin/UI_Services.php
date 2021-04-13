@@ -92,7 +92,8 @@ final class UI_Services
                                 'dependencies' => [
                                     [
                                         'on'    => 'meta::closeReservations',
-                                        'being' => TRUE
+                                        'being' => '=',
+                                        'to'    => TRUE
                                     ]
                                 ]
                             ]
@@ -112,7 +113,8 @@ final class UI_Services
                                 'dependencies' => [
                                     [
                                         'on'    => 'meta::openReservations',
-                                        'being' => TRUE
+                                        'being' => '=',
+                                        'to'    => TRUE
                                     ]
                                 ]
                             ]
@@ -171,7 +173,8 @@ final class UI_Services
                                 'dependencies' => [
                                     [
                                         'on'    => 'meta::blocksOther',
-                                        'being' => 'some'
+                                        'being' => '=',
+                                        'to'    => 'some'
                                     ]
                                 ]
                             ]
