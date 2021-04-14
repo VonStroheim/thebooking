@@ -630,7 +630,7 @@ export default class App extends React.Component<AppProps, AppState> {
                                      *
                                      */
                                     let settingValue;
-                                    if (component.type !== 'notice') {
+                                    if (!['notice', 'button'].includes(component.type)) {
                                         const mergedValues = {...values, ...this.state.actionsToCommit['SAVE_SETTINGS']}
                                         settingValue = mergedValues[component.settingId];
                                         if (typeof settingValue === 'undefined' && component.settingId.startsWith('meta::')) {
@@ -830,6 +830,29 @@ export default class App extends React.Component<AppProps, AppState> {
                                                 >
                                                     {component.text}
                                                 </SettingComponents.Notice>
+                                            )
+                                        case 'button':
+                                            let classes = 'p-button-outlined';
+                                            if (component.intent) {
+                                                classes += ' p-button-' + component.intent;
+                                            }
+                                            return (
+                                                <Button label={component.label} className={classes} onClick={() => {
+                                                    if (this.state.isBusy) {
+                                                        return;
+                                                    }
+                                                    if (component.href) {
+                                                        window.location.href = component.href;
+                                                    } else if (component.post) {
+                                                        this.setState({isBusy: true});
+                                                        Api.post(component.post, component.postData).then(res => {
+                                                            this.setState({
+                                                                isBusy: false,
+                                                                UI    : {...tbkCommon, ...{settings: {...tbkCommon.settings, ...(res.data.settings || {})}}}
+                                                            });
+                                                        })
+                                                    }
+                                                }}/>
                                             )
                                     }
                                 })}

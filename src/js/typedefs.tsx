@@ -380,6 +380,9 @@ export interface SettingPanelBlockComponentBackend {
     type: string,
     text?: string,
     options?: any,
+    href?: string,
+    post?: string,
+    postData?: { [key: string]: any },
     placeholder?: string,
     intent?: string,
     templateHooks?: NotificationHook[]
