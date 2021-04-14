@@ -362,7 +362,8 @@ export interface tbkCommonF {
 
 export interface SettingPanelBlockComponentDependencyBackend {
     on: string,
-    being: boolean | string | number
+    being: boolean | string | number,
+    to?: string | boolean | number
 }
 
 export interface SettingPanelBlockComponentBackend {

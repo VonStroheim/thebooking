@@ -567,6 +567,11 @@ export default class App extends React.Component<AppProps, AppState> {
                         show = false;
                     }
                     break;
+                case 'EMPTY':
+                    if ((typeof parentValue === 'string' && parentValue.length > 0) || (typeof parentValue !== 'string' && parentValue)) {
+                        show = false;
+                    }
+                    break;
                 default:
                     break;
             }
