@@ -409,7 +409,7 @@ function localize_frontend_script()
  */
 function _tbk_settings()
 {
-    return [
+    return apply_filters('tbk_backend_settings', [
         'load_calendar_at_closest_slot' => tbkg()->settings->load_calendar_at_closest_slot(),
         'frontend_days_in_week'         => tbkg()->settings->frontend_days_in_week() !== 7,
         'load_gmaps_library'            => tbkg()->settings->load_gmaps_library(),
@@ -429,7 +429,7 @@ function _tbk_settings()
         'show_cart_in_widget'           => tbkg()->settings->show_cart_in_widget(),
         'cart_expiration_time'          => tbkg()->settings->cart_expiration_time(),
         'admin_roles'                   => _wp_roles(),
-    ];
+    ]);
 }
 
 /**
