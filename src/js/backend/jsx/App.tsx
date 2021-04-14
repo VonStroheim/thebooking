@@ -664,6 +664,7 @@ export default class App extends React.Component<AppProps, AppState> {
                                                     key={component.settingId}
                                                     onChange={this.haltSettingsChanges}
                                                     options={component.options}
+                                                    placeholder={component.placeholder}
                                                     disabled={this.state.isBusy}
                                                 />
                                             )
