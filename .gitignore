@@ -2,6 +2,7 @@
 /node_modules/
 /.idea/
 /css/
+/vendor/
 /js/
 .gitignore
 /languages/thebooking-backend.pot

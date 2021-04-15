@@ -24,6 +24,7 @@ const TBKG_VERSION = '1.2';
 define('TBKG_PATH__', plugin_dir_path(TBKG_FILE__));
 define('TBKG_URL__', plugin_dir_url(TBKG_FILE__));
 
+require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/VSHM_Framework/Autoloader.php';
 require __DIR__ . '/Functions.php';
 
