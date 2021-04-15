@@ -380,6 +380,7 @@ export interface SettingPanelBlockComponentBackend {
     type: string,
     text?: string,
     options?: any,
+    showClear?: boolean,
     href?: string,
     post?: string,
     postData?: { [key: string]: any },

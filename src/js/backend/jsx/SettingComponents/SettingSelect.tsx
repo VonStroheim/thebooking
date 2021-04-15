@@ -9,6 +9,7 @@ export interface SettingSelectProps {
     value: string | null,
     options: any[],
     disabled?: boolean,
+    showClear?: boolean,
     placeholder?: string
 
     onChange(value: { [key: string]: any }): any
@@ -22,7 +23,7 @@ export default class SettingSelect extends React.Component<SettingSelectProps> {
 
     handleChange = (event: any) => {
         this.props.onChange({
-            [this.props.settingId]: event.value
+            [this.props.settingId]: event.value || null
         })
     }
 
@@ -68,6 +69,7 @@ export default class SettingSelect extends React.Component<SettingSelectProps> {
                     valueTemplate={this.valueTemplate}
                     itemTemplate={this.itemTemplate}
                     onChange={this.handleChange}
+                    showClear={this.props.showClear}
                 />
             </div>
 
