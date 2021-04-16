@@ -13,7 +13,7 @@ import {create} from 'jss';
 import {
     startOfMonth,
     endOfMonth,
-    compareDesc as compareDescDate, isPast
+    compareDesc as compareDescDate, isPast, formatRFC3339
 } from 'date-fns';
 import {toDate} from 'date-fns-tz';
 import {createMuiTheme, ThemeProvider, StylesProvider, createGenerateClassName, jssPreset} from '@material-ui/core/styles';
@@ -51,7 +51,7 @@ import {
     Block as BlockIcon
 } from '@material-ui/icons';
 import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
-import {AvailabilityRecord, availableViews, ReservationRecord, ServiceRecord, StateAction, tbkCommonF, TimeSlot} from "../../typedefs";
+import {AvailabilityRecord, availableViews, FrontendMiddleware, MiddlewareAction, ReservationRecord, ServiceRecord, StateAction, tbkCommonF, TimeSlot} from "../../typedefs";
 
 declare const TBK: tbkCommonF;
 declare const _: any;
@@ -97,6 +97,8 @@ export interface IProps {
     availability: AvailabilityRecord[],
     monthlyViewShowAllDots: boolean,
     monthlyViewAverageDots: number,
+    middleware: FrontendMiddleware,
+    busyIntervals?: { start: string, end: string }[],
     groupSlots: boolean,
     doc: any,
     instanceId: string
@@ -234,7 +236,7 @@ export default class App extends React.Component<IProps, IState> {
             selectedDay  : null,
             selectedItem : null,
             reservations : reservations,
-            services     : props.services,
+            services     : props.services || {},
             availability : props.availability || [],
             internalDomId: internalID
         }
@@ -280,9 +282,10 @@ export default class App extends React.Component<IProps, IState> {
         }
 
         const scheduler = new Scheduler({
-            availability: this.state.availability,
-            services    : this.props.services,
-            reservations: this.state.reservations
+            availability : this.state.availability,
+            services     : this.props.services,
+            reservations : this.state.reservations,
+            busyIntervals: TBK.UI.instances[this.props.instanceId].busyIntervals
         });
 
         const items = scheduler.getItemsBetween(startOfMonth(date), endOfMonth(date))
@@ -323,6 +326,33 @@ export default class App extends React.Component<IProps, IState> {
         </IconButton>
     }
 
+    changeMonthMiddlewareCall = (requests: MiddlewareAction[], targetDate: Date, endAction: string) => {
+        this.setState(redux([{type: 'BUSY'}]), () => {
+            let index = 0;
+            const request: any = () => {
+                if (requests[index].type === 'async') {
+                    return Api.post(requests[index].endpoint, {targetDate: formatRFC3339(startOfMonth(targetDate))}).then((res) => {
+
+                        // Syncing the global object
+                        TBK.UI.instances[this.props.instanceId] = {...TBK.UI.instances[this.props.instanceId], ...res.data}
+
+                        index++;
+                        if (index >= requests.length) {
+                            this.setState(redux([
+                                {type: endAction},
+                                {type: 'NOT_BUSY'}
+                            ], this.state))
+                            return true;
+                        }
+                        return request();
+                    })
+                }
+            }
+
+            request();
+        })
+    }
+
     getNavComponents = () => {
         switch (this.state.viewMode) {
             case 'monthlyCalendar':
@@ -331,7 +361,16 @@ export default class App extends React.Component<IProps, IState> {
                         <IconButton
                             component={'div'}
                             onClick={() => {
-                                this.setState(dateReducer(this.state, {type: 'PREV_MONTH'}))
+                                if (this.props.middleware.changeMonth.length > 0) {
+                                    const requests = this.props.middleware.changeMonth;
+                                    const prevMonth = this.state.month === 1 ? 12 : this.state.month - 1;
+                                    const prevYear = prevMonth === 12 ? this.state.year - 1 : this.state.year;
+                                    const targetDate = new Date(prevYear, prevMonth - 1, 1);
+
+                                    this.changeMonthMiddlewareCall(requests, targetDate, 'PREV_MONTH');
+                                } else {
+                                    this.setState(dateReducer(this.state, {type: 'PREV_MONTH'}))
+                                }
                             }}>
                             <ChevronLeft/>
                         </IconButton>
@@ -349,7 +388,16 @@ export default class App extends React.Component<IProps, IState> {
                         <IconButton
                             component={'div'}
                             onClick={() => {
-                                this.setState(dateReducer(this.state, {type: 'NEXT_MONTH'}))
+                                if (this.props.middleware.changeMonth.length > 0) {
+                                    const requests = this.props.middleware.changeMonth;
+                                    const nextMonth = this.state.month === 12 ? 1 : this.state.month + 1;
+                                    const nextYear = nextMonth === 1 ? this.state.year + 1 : this.state.year;
+                                    const targetDate = new Date(nextYear, nextMonth - 1, 1);
+
+                                    this.changeMonthMiddlewareCall(requests, targetDate, 'NEXT_MONTH');
+                                } else {
+                                    this.setState(dateReducer(this.state, {type: 'NEXT_MONTH'}))
+                                }
                             }}>
                             <ChevronRight/>
                         </IconButton>

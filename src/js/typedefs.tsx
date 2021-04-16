@@ -198,12 +198,27 @@ export interface AvailabilityRecord {
     meta?: object[]
 }
 
+export interface MiddlewareAction {
+    type: 'async',
+    endpoint?: string
+}
+
+export interface FrontendMiddleware {
+    changeMonth: MiddlewareAction[]
+}
+
+export interface BackendMiddleware {
+    reschedulerChangeMonth: MiddlewareAction[]
+}
+
 export interface UiInstance {
     availability: AvailabilityRecord[],
     groupSlots: boolean,
+    middleware: FrontendMiddleware,
     monthlyViewAverageDots: number,
     monthlyViewShowAllDots: boolean,
     reservations: ReservationRecord[],
+    busyIntervals: { start: string, end: string }[]
     services: {
         [key: string]: ServiceRecord
     }
@@ -280,6 +295,8 @@ export interface tbkCommonB {
         [key: string]: Location
     },
     reservations: ReservationRecordBackend[],
+    busyIntervals: { start: string, end: string }[],
+    middleware: BackendMiddleware,
     users: BackendUser[],
     i18n: {
         locale: string,

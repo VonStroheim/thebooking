@@ -51,9 +51,10 @@ export default class Rescheduler extends React.Component<RProps, RState> {
         }
 
         this.scheduler = new Scheduler({
-            services    : tbkCommon.services,
-            availability: availability,
-            reservations: tbkCommon.reservations
+            services     : tbkCommon.services,
+            availability : availability,
+            reservations : tbkCommon.reservations,
+            busyIntervals: tbkCommon.busyIntervals
         })
 
         this.state = {

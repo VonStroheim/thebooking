@@ -306,6 +306,10 @@ function localize_backend_script()
         'reservations'        => array_values(array_map(static function (Reservation $reservation) {
             return $reservation->as_array();
         }, tbkg()->reservations->all())),
+        'busyIntervals'       => apply_filters('tbk_backend_busy_intervals', []),
+        'middleware'          => apply_filters('tbk_backend_middleware', [
+            'reschedulerChangeMonth' => []
+        ]),
         'customers'           => array_map(static function (Customer $customer) {
             return $customer->as_array();
         }, tbkg()->customers->all()),

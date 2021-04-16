@@ -89,6 +89,10 @@ class Shortcode_Booking extends Shortcode
                 <?php } ?>
                 TBK.UI.instances['<?php echo esc_attr($instance_id) ?>'] = {
                     availability          : <?php echo json_encode($availability) ?>,
+                    middleware            : <?php echo json_encode(apply_filters('tbk_frontend_middleware', [
+                        'changeMonth' => []
+                    ], $atts)) ?>,
+                    busyIntervals         : <?php echo json_encode(apply_filters('tbk_frontend_busy_intervals', [], $atts)) ?>,
                     services              : <?php echo json_encode($services) ?>,
                     reservations          : <?php echo json_encode($reservations) ?>,
                     groupSlots            : true,
