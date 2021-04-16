@@ -8,7 +8,6 @@ import {
     isFuture,
     isWithinInterval,
     startOfDay,
-    subMilliseconds,
     subSeconds
 } from "date-fns";
 import {getTimezoneOffset, toDate} from "date-fns-tz";
@@ -18,6 +17,7 @@ import globals from "./globals";
 interface SProps {
     availability: AvailabilityRecord[],
     reservations: ReservationRecord[] | ReservationRecordBackend[],
+    busyIntervals?: { start: string, end: string }[],
     services: { [key: string]: ServiceRecord | ServiceRecordBackend }
 }
 
@@ -26,11 +26,13 @@ export default class Scheduler {
     private readonly services;
     private readonly reservations;
     private readonly availability;
+    private readonly busyIntervals;
 
     constructor(props: SProps) {
         this.services = props.services;
         this.reservations = props.reservations;
         this.availability = props.availability;
+        this.busyIntervals = props.busyIntervals;
     }
 
     /**
@@ -58,6 +60,21 @@ export default class Scheduler {
 
         const itemStart = item.start ? toDate(item.start) : null;
         const itemEnd = item.end ? toDate(item.end) : itemStart;
+
+        for (let busyInterval of this.busyIntervals) {
+
+            const blockingInterval = {
+                start: toDate(busyInterval.start),
+                end  : toDate(busyInterval.end)
+            }
+
+            if (areIntervalsOverlapping(
+                blockingInterval,
+                {start: itemStart, end: itemEnd}
+            )) {
+                return true;
+            }
+        }
 
         for (let blockingItem of blockingItems) {
 
