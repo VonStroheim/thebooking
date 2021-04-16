@@ -200,22 +200,7 @@ export default class App extends React.Component<IProps, IState> {
 
         this.cache = {};
 
-        const view = props.viewMode || 'monthlyCalendar';
         const viewData = {};
-        let thisDate = today;
-
-        if (TBK.loadAtClosestSlot && view === 'monthlyCalendar') {
-            const scheduler = new Scheduler({
-                availability: props.availability || [],
-                services    : props.services || {},
-                reservations: props.reservations || [],
-            });
-            const firstUpcomingItem = scheduler.getFirstUpcomingItem();
-
-            if (typeof firstUpcomingItem !== 'undefined') {
-                thisDate = toDate(firstUpcomingItem.start)
-            }
-        }
 
         const reservations = props.reservations || [];
         reservations.sort((a, b) => {
@@ -224,9 +209,9 @@ export default class App extends React.Component<IProps, IState> {
         })
 
         this.state = {
-            day  : props.day || thisDate.getDate(), //j
-            month: props.month || thisDate.getMonth() + 1, //n
-            year : props.year || thisDate.getFullYear(), //Y
+            day  : props.day || today.getDate(), //j
+            month: props.month || today.getMonth() + 1, //n
+            year : props.year || today.getFullYear(), //Y
 
             viewMode       : props.viewMode || 'monthlyCalendar',
             viewData       : viewData,
@@ -239,6 +224,33 @@ export default class App extends React.Component<IProps, IState> {
             services     : props.services || {},
             availability : props.availability || [],
             internalDomId: internalID
+        }
+    }
+
+    componentDidMount() {
+        if (TBK.loadAtClosestSlot && this.state.viewMode === 'monthlyCalendar') {
+            const scheduler = new Scheduler({
+                availability : this.state.availability,
+                services     : this.state.services,
+                reservations : this.state.reservations,
+                busyIntervals: this.props.busyIntervals
+            });
+            const firstUpcomingItem = scheduler.getFirstUpcomingItem();
+
+            if (typeof firstUpcomingItem !== 'undefined') {
+                const thisDate = toDate(firstUpcomingItem.start);
+
+                this.setState({
+                    day  : thisDate.getDate(),
+                    month: thisDate.getMonth() + 1,
+                    year : thisDate.getFullYear()
+                }, () => {
+                    if (this.props.middleware.changeMonth.length > 0) {
+                        const requests = this.props.middleware.changeMonth;
+                        this.changeMonthMiddlewareCall(requests, thisDate, '');
+                    }
+                })
+            }
         }
     }
 
