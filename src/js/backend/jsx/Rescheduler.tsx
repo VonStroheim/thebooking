@@ -1,15 +1,16 @@
 import React from "react";
-import {AvailabilityRecord, tbkCommonB, TimeSlot} from "../../typedefs";
+import {AvailabilityRecord, MiddlewareAction, tbkCommonB, TimeSlot} from "../../typedefs";
 import {Calendar} from "primereact/calendar";
 import {Dropdown} from "primereact/dropdown";
 import {ProgressBar} from 'primereact/progressbar';
 import Scheduler from "../../scheduler";
-import {endOfMonth, startOfMonth} from "date-fns";
+import {endOfMonth, formatRFC3339, startOfMonth} from "date-fns";
 import {toDate} from "date-fns-tz";
 import globals from "../../globals";
 // @ts-ignore
 import styles from './Rescheduler.css';
 import {Button} from "primereact/button";
+import Api from "../../Api";
 
 declare const tbkCommon: tbkCommonB;
 declare const lodash: any;
@@ -29,21 +30,45 @@ interface RState {
     viewDate: Date,
     items: TimeSlot[],
     selectedItem: TimeSlot,
+    busyIntervals: { start: string, end: string }[],
     isBusy: boolean
 }
 
 export default class Rescheduler extends React.Component<RProps, RState> {
 
-    private scheduler: Scheduler;
-
     constructor(props: RProps) {
         super(props);
 
+        this.state = {
+            currentDate  : props.date || new Date(),
+            viewDate     : props.date || new Date(),
+            items        : [],
+            busyIntervals: tbkCommon.busyIntervals,
+            selectedItem : null,
+            isBusy       : false
+        }
+    }
+
+    componentDidMount() {
+        const initDate = this.props.date || new Date();
+        if (tbkCommon.middleware.reschedulerChangeMonth.length > 0) {
+            const requests = tbkCommon.middleware.reschedulerChangeMonth;
+            this.changeMonthMiddlewareCall(requests, initDate, {
+                items: this.parseSlots(initDate)
+            });
+        } else {
+            this.setState({
+                items: this.parseSlots(initDate),
+            })
+        }
+    }
+
+    getScheduler = () => {
         const availability: AvailabilityRecord[] = [];
 
         for (const availabilityRecord of Object.values(tbkCommon.availability) as any) {
             availability.push({
-                serviceId        : props.serviceId,
+                serviceId        : this.props.serviceId,
                 rrule            : availabilityRecord.rrule,
                 uid              : availabilityRecord.uid,
                 containerDuration: {
@@ -52,24 +77,16 @@ export default class Rescheduler extends React.Component<RProps, RState> {
             })
         }
 
-        this.scheduler = new Scheduler({
+        return new Scheduler({
             services     : tbkCommon.services,
             availability : availability,
             reservations : tbkCommon.reservations,
-            busyIntervals: tbkCommon.busyIntervals
+            busyIntervals: this.state.busyIntervals
         })
-
-        this.state = {
-            currentDate : props.date || new Date(),
-            viewDate    : props.date || new Date(),
-            items       : this.parseSlots(props.date || new Date()),
-            selectedItem: null,
-            isBusy      : false
-        }
     }
 
     parseSlots = (date: Date) => {
-        const items = this.scheduler.getItemsBetween(startOfMonth(date), endOfMonth(date));
+        const items = this.getScheduler().getItemsBetween(startOfMonth(date), endOfMonth(date));
         return items.filter((item: TimeSlot) => {
             return item.serviceId === this.props.serviceId && !item.soldOut;
         })
@@ -111,6 +128,36 @@ export default class Rescheduler extends React.Component<RProps, RState> {
         )
     }
 
+    changeMonthMiddlewareCall = (requests: MiddlewareAction[], targetDate: Date, endState: Partial<RState>) => {
+        this.setState({isBusy: true}, () => {
+            let index = 0;
+            const request: any = () => {
+                if (requests[index].type === 'async') {
+                    return Api.post(requests[index].endpoint, {targetDate: formatRFC3339(startOfMonth(targetDate))}).then((res) => {
+                        index++;
+                        if (index >= requests.length) {
+                            this.setState({
+                                ...this.state,
+                                ...res.data
+                            }, () => {
+                                this.setState({
+                                    ...this.state,
+                                    ...endState,
+                                    ...{items: this.parseSlots(targetDate)},
+                                    ...{isBusy: false}
+                                })
+                            })
+                            return true;
+                        }
+                        return request();
+                    })
+                }
+            }
+
+            request();
+        })
+    }
+
     render() {
         const daySlots = this.parseDaySlots();
         return (
@@ -121,11 +168,20 @@ export default class Rescheduler extends React.Component<RProps, RState> {
                           viewDate={this.state.viewDate}
                           dateTemplate={this.dateTemplate}
                           onViewDateChange={(e) => {
-                              this.setState({
-                                  viewDate    : e.value as Date,
-                                  items       : this.parseSlots(e.value),
-                                  selectedItem: null
-                              })
+
+                              if (tbkCommon.middleware.reschedulerChangeMonth.length > 0) {
+                                  const requests = tbkCommon.middleware.reschedulerChangeMonth;
+                                  this.changeMonthMiddlewareCall(requests, e.value as Date, {
+                                      viewDate    : e.value as Date,
+                                      selectedItem: null
+                                  });
+                              } else {
+                                  this.setState({
+                                      viewDate    : e.value as Date,
+                                      items       : this.parseSlots(e.value),
+                                      selectedItem: null
+                                  })
+                              }
                           }}
                           onChange={(e) => this.setState({
                               currentDate : e.value as Date,
