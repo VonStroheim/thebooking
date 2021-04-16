@@ -2,6 +2,7 @@ import React from "react";
 import {AvailabilityRecord, tbkCommonB, TimeSlot} from "../../typedefs";
 import {Calendar} from "primereact/calendar";
 import {Dropdown} from "primereact/dropdown";
+import {ProgressBar} from 'primereact/progressbar';
 import Scheduler from "../../scheduler";
 import {endOfMonth, startOfMonth} from "date-fns";
 import {toDate} from "date-fns-tz";
@@ -27,7 +28,8 @@ interface RState {
     currentDate: Date,
     viewDate: Date,
     items: TimeSlot[],
-    selectedItem: TimeSlot
+    selectedItem: TimeSlot,
+    isBusy: boolean
 }
 
 export default class Rescheduler extends React.Component<RProps, RState> {
@@ -61,7 +63,8 @@ export default class Rescheduler extends React.Component<RProps, RState> {
             currentDate : props.date || new Date(),
             viewDate    : props.date || new Date(),
             items       : this.parseSlots(props.date || new Date()),
-            selectedItem: null
+            selectedItem: null,
+            isBusy      : false
         }
     }
 
@@ -113,6 +116,7 @@ export default class Rescheduler extends React.Component<RProps, RState> {
         return (
             <div className={'p-d-inline-flex p-ai-center p-flex-column p-p-3'}>
                 <Calendar inline
+                          disabled={this.state.isBusy}
                           value={this.state.currentDate}
                           viewDate={this.state.viewDate}
                           dateTemplate={this.dateTemplate}
@@ -128,9 +132,12 @@ export default class Rescheduler extends React.Component<RProps, RState> {
                               selectedItem: null
                           })}
                 />
+                {this.state.isBusy && (
+                    <ProgressBar mode="indeterminate" style={{width: '100%', height: '2px', marginTop: '-2px'}}/>
+                )}
                 <div className="p-mt-3 p-d-inline-flex" style={{width: '100%'}}>
                     <Dropdown
-                        disabled={!daySlots.length}
+                        disabled={!daySlots.length || this.state.isBusy}
                         itemTemplate={this.optionTemplate}
                         valueTemplate={this.selectedOptionTemplate}
                         placeholder={daySlots.length ? __('Select a timeslot', 'thebooking') : __('No timeslots available', 'thebooking')}
@@ -146,7 +153,7 @@ export default class Rescheduler extends React.Component<RProps, RState> {
                         label={__('Confirm', 'thebooking')}
                         className={'p-ml-3'}
                         icon={'pi pi-check'}
-                        disabled={!this.state.selectedItem}
+                        disabled={!this.state.selectedItem || this.state.isBusy}
                         onClick={() => {
                             this.props.onConfirm(toDate(this.state.selectedItem.start))
                         }}
