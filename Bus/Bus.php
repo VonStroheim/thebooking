@@ -40,12 +40,12 @@ class Bus implements BusInterface
         }
         $handler = new $handlerName();
         if ($handler instanceof Handler) {
+            $reflected = new \ReflectionClass($command);
+
+            do_action('tbk_dispatching_' . $reflected->getShortName(), $command);
+
             $handler->dispatch($command);
 
-            /**
-             * Middleware
-             */
-            $reflected = new \ReflectionClass($command);
             do_action('tbk_dispatched_' . $reflected->getShortName(), $command);
         } else {
             throw new \BadMethodCallException('No handler for $commandName');
