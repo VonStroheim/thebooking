@@ -139,15 +139,32 @@ export default class ReservationDetails extends React.Component<ReservationDetai
         const data = this.props.item;
         const bookingData = [];
 
+        const serviceExpectedFields = tbkCommon.services[this.props.item.serviceId].meta.reservationForm.elements;
+        for (const [key, value] of Object.entries(serviceExpectedFields)) {
+            if (key.startsWith('formField_')) {
+                const parsedField: any = {
+                    value: '',
+                    type : value.type,
+                    label: value.label
+                }
+                bookingData.push({
+                    id   : key,
+                    value: parsedField
+                })
+            }
+        }
+
         for (const [key, value] of Object.entries(data.meta)) {
             if (typeof key === 'string') {
                 if (key.startsWith('formField_') && typeof value !== 'string') {
-                    bookingData.push({
-                        id   : key,
-                        value: (typeof this.state.bookingData['meta::' + key] !== 'undefined')
+                    const found = bookingData.find(obj => {
+                        return obj.id === key;
+                    });
+                    if (found) {
+                        found.value = (typeof this.state.bookingData['meta::' + key] !== 'undefined')
                             ? {...value, ...{value: this.state.bookingData['meta::' + key]}}
                             : value
-                    })
+                    }
                 }
             }
         }
