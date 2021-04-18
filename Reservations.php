@@ -190,7 +190,7 @@ class Reservations
     /**
      * @param $reservation_uid
      */
-    private function sync_meta($reservation_uid)
+    public function sync_meta($reservation_uid)
     {
         /**
          * Fetching existent meta. We are not going to just wipe out and re-insert
