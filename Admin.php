@@ -33,13 +33,13 @@ class Admin
             add_filter('tbk_backend_js_data_common', function ($data) use ($page) {
                 switch ($page) {
                     case self::SLUG_CORE_PAGE:
-                        $data['UIx']['panels'] = apply_filters('tbk_backend_core_setting_panels', UI_CoreSettings::_settings_panels());
+                        $data['UIx']['panels'] = apply_filters('tbk_backend_core_settings_panels', UI_CoreSettings::_settings_panels());
                         break;
                     case self::SLUG_AVAILABILITY_PAGE:
-                        $data['UIx']['panels'] = apply_filters('tbk_backend_availability_setting_panels', UI_Availability::_settings_panels());
+                        $data['UIx']['panels'] = apply_filters('tbk_backend_availability_settings_panels', UI_Availability::_settings_panels());
                         break;
                     case self::SLUG_SERVICES_PAGE:
-                        $data['UIx']['panels'] = apply_filters('tbk_backend_service_setting_panels', UI_Services::_settings_panels());
+                        $data['UIx']['panels'] = apply_filters('tbk_backend_service_settings_panels', UI_Services::_settings_panels());
                         break;
                 }
 

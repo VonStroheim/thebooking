@@ -15,7 +15,7 @@ final class UI_CoreSettings
 {
     public static function _settings_panels()
     {
-        return apply_filters('tbk_backend_core_settings_panels', [
+        return [
             Admin\UI_CoreSettings\Panel_Roles::get_panel(),
             Admin\UI_CoreSettings\Panel_Frontend::get_panel(),
             Admin\UI_CoreSettings\Panel_Maps::get_panel(),
@@ -27,6 +27,6 @@ final class UI_CoreSettings
              */
 
             #Admin\UI_CoreSettings\Panel_Cart::get_panel(),
-        ]);
+        ];
     }
 }

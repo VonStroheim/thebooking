@@ -19,10 +19,10 @@ final class UI_Availability
 
     public static function _settings_panels()
     {
-        return apply_filters('tbk-backend-availability-settings-panels', [
+        return [
             Admin\UI_Availability\Panel_WeeklyWorkingHours::get_panel(),
             Admin\UI_Availability\Panel_ClosingDates::get_panel(),
             Admin\UI_Availability\Panel_Locations::get_panel(),
-        ]);
+        ];
     }
 }

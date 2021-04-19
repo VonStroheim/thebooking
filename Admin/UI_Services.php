@@ -12,7 +12,7 @@ defined('ABSPATH') || exit;
 final class UI_Services
 {
     /**
-     * @return mixed
+     * @return array[]
      */
     public static function _settings_panels()
     {
