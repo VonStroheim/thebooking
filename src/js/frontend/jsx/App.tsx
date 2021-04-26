@@ -58,6 +58,8 @@ declare const _: any;
 declare const wp: any;
 
 const theme: Theme = createMuiTheme(TBK.UI.theme);
+TBK.UI.theme = theme;
+
 const {__, _x, _n, _nx} = wp.i18n;
 
 const generateClassName = createGenerateClassName({
@@ -547,7 +549,6 @@ export default class App extends React.Component<IProps, IState> {
                 return (
                     <Calendar
                         key={this.state.day + this.state.month + this.state.year}
-                        theme={theme}
                         day={this.state.day}
                         month={this.state.month}
                         ellipsis={!this.props.monthlyViewShowAllDots}

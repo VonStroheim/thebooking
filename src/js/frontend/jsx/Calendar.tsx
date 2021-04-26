@@ -3,7 +3,7 @@ import styles from './Calendar.css';
 import React from 'react';
 import CalendarDayItem from './CalendarDayItem';
 import {
-    ButtonBase, Theme
+    ButtonBase
 } from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
 import {
@@ -37,8 +37,7 @@ interface IProps {
     ellipsis: boolean,
     limitNumberOfDots: number,
     oneDotPerService?: boolean,
-    viewMode: string,
-    theme?: Theme,
+    viewMode: string
 
     onDayClick(date: Date | null): any
 }
@@ -72,12 +71,12 @@ export default class Calendar extends React.Component<IProps, IState> {
         const AvailableStyledButton = withStyles({
             root: {
                 // @ts-ignore
-                background: this.props.theme.TBK.availableColor,
+                background: TBK.UI.theme.TBK.availableColor,
                 // @ts-ignore
-                color    : this.props.theme.palette.getContrastText(this.props.theme.TBK.availableColor),
+                color    : TBK.UI.theme.palette.getContrastText(TBK.UI.theme.TBK.availableColor),
                 '&:hover': {
                     // @ts-ignore
-                    backgroundColor: this.props.theme.TBK.availableColorLight + ' !important'
+                    backgroundColor: TBK.UI.theme.TBK.availableColorLight + ' !important'
                 }
             }
         })(ButtonBase);
@@ -85,12 +84,12 @@ export default class Calendar extends React.Component<IProps, IState> {
         const BookedStyledButton = withStyles({
             root: {
                 // @ts-ignore
-                background: this.props.theme.TBK.bookedColor,
+                background: TBK.UI.theme.TBK.bookedColor,
                 // @ts-ignore
-                color    : this.props.theme.palette.getContrastText(this.props.theme.TBK.bookedColor),
+                color    : TBK.UI.theme.palette.getContrastText(TBK.UI.theme.TBK.bookedColor),
                 '&:hover': {
                     // @ts-ignore
-                    backgroundColor: this.props.theme.TBK.bookedColorLight + ' !important'
+                    backgroundColor: TBK.UI.theme.TBK.bookedColorLight + ' !important'
                 }
             }
         })(ButtonBase);
@@ -190,7 +189,7 @@ export default class Calendar extends React.Component<IProps, IState> {
                         classes.push(styles.selected);
                     } else if (isToday(currentCueDay)) {
                         classes.push(styles.today);
-                        dayStyle = {color: this.props.theme.palette.secondary.main}
+                        dayStyle = {color: TBK.UI.theme.palette.secondary.main}
                     }
                     classes.push(styles.day);
 
