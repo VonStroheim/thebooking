@@ -207,7 +207,7 @@ class Services
                 $response['services']      = array_map(static function (Service $service) {
                     return $service->as_array();
                 }, tbkg()->services->all());
-                $response['UIx']['panels'] = apply_filters('tbk_backend_service_setting_panels', UI_Services::_settings_panels());
+                $response['UIx']['panels'] = apply_filters('tbk_backend_service_settings_panels', UI_Services::_settings_panels());
 
                 return $response;
             });
@@ -451,7 +451,7 @@ class Services
         }
 
 
-        return [
+        return apply_filters('tbk_service_frontend_mapping', [
             'uid'            => $service->id(),
             'color'          => $service->color(),
             'image'          => $imageUrl,
@@ -463,7 +463,7 @@ class Services
                 'short' => $service->short_description()
             ],
             'meta'           => $filteredMeta
-        ];
+        ], $service->id());
     }
 
     /**

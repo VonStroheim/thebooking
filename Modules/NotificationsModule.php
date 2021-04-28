@@ -46,7 +46,7 @@ final class NotificationsModule
 
     public static function bootstrap()
     {
-        tbkg()->loader->add_filter('tbk_backend_service_setting_panels', self::class, 'notificationsPanel');
+        tbkg()->loader->add_filter('tbk_backend_service_settings_panels', self::class, 'notificationsPanel');
         tbkg()->loader->add_action('tbk_save_service_settings', self::class, 'notificationsSaveServiceSettings', 10, 3);
         tbkg()->loader->add_action('tbk_dispatched_CreateReservation', self::class, 'notificationSend', 10, 2);
         tbkg()->loader->add_filter('tbk_notification_template_hooks', self::class, 'templateHooks', 10, 2);
