@@ -4,6 +4,7 @@ export {default as Checkboxes} from './SettingCheckboxes';
 export {default as Radios} from './SettingRadios';
 export {default as Color} from './SettingColor';
 export {default as TextInput} from './SettingTextInput';
+export {default as NumberInput} from './SettingNumberInput';
 export {default as Select} from './SettingSelect';
 export {default as MultiSelect} from './SettingMultiselect';
 export {default as DurationSelect} from './SettingDuration';

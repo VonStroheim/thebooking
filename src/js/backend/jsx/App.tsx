@@ -685,6 +685,21 @@ export default class App extends React.Component<AppProps, AppState> {
                                                     disabled={this.state.isBusy}
                                                 />
                                             )
+                                        case 'number':
+                                            return (
+                                                <SettingComponents.NumberInput
+                                                    value={settingValue}
+                                                    settingId={component.settingId}
+                                                    key={component.settingId}
+                                                    onChange={this.haltSettingsChanges}
+                                                    disabled={this.state.isBusy}
+                                                    showButtons={component.showButtons}
+                                                    min={component.min}
+                                                    max={component.max}
+                                                    step={component.step}
+                                                    currency={component.currency}
+                                                />
+                                            )
                                         case 'durationSelect':
                                             return (
                                                 <SettingComponents.DurationSelect

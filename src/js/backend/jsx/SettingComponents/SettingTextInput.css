@@ -4,3 +4,6 @@
 .settingTextInput label {
   display: block;
 }
+.settingNumberInput label {
+  display: block;
+}

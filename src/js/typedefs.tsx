@@ -384,25 +384,30 @@ export interface SettingPanelBlockComponentDependencyBackend {
 }
 
 export interface SettingPanelBlockComponentBackend {
-    showDays?: boolean;
-    showMinutes?: boolean;
-    showHours?: boolean;
-    daysLabel?: string;
-    minutesLabel?: string;
-    hoursLabel?: string;
-    minDays?: number,
-    maxDays?: number,
-    label?: string;
-    settingId: string,
-    type: string,
-    text?: string,
-    options?: any,
-    showClear?: boolean,
-    href?: string,
-    post?: string,
-    postData?: { [key: string]: any },
-    placeholder?: string,
-    intent?: string,
+    showDays?: boolean
+    showMinutes?: boolean
+    min?: number
+    max?: number
+    step?: number
+    showButtons?: boolean
+    currency?: string
+    showHours?: boolean
+    daysLabel?: string
+    minutesLabel?: string
+    hoursLabel?: string
+    minDays?: number
+    maxDays?: number
+    label?: string
+    settingId: string
+    type: string
+    text?: string
+    options?: any
+    showClear?: boolean
+    href?: string
+    post?: string
+    postData?: { [key: string]: any }
+    placeholder?: string
+    intent?: string
     templateHooks?: NotificationHook[]
     templateHooksSpec?: { [key: string]: NotificationHook[] }
     dependencies?: SettingPanelBlockComponentDependencyBackend[]

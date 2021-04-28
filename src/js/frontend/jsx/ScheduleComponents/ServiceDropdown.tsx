@@ -62,7 +62,7 @@ export default function ServiceDropdown(props: SelectProps) {
                         </Grid>
                         <Grid item xs>
                             <Grid container direction={'row-reverse'} alignContent={'flex-end'}>
-                                <Grid item style={{width: '80px', lineHeight: 1}}>
+                                <Grid item style={{width: '80px'}}>
                                     <ItemBadge
                                         label={globals.minutesToHM(service.duration / 60)}
                                         icon={<AccessTimeIcon fontSize="small"/>}

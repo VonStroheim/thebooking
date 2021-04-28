@@ -30,6 +30,14 @@ html {
   position: relative;
 }
 
+:global(.p-inputnumber-buttons-horizontal) {
+  input {
+    &:global(.p-inputtext) {
+      border-radius: 0 !important;
+    }
+  }
+}
+
 input {
   &:global(.p-inputtext) {
     border-radius: 3px !important;
