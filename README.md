@@ -4,7 +4,7 @@
 
 TheBooking is a modern booking plugin to manage reservations, focused on usability and nice-looking user interface.
 
-**Notice**: this plugin is in early stage of development, so please be patient. Suggestions, bug reports and feature requests are more than welcome.
+The plugin can be downloaded [here](https://wordpress.org/plugins/thebooking "TheBooking plugin").
 
 Documentation can be found [here](https://docs.thebookingplugin.com/ "TheBooking documentation").
 
