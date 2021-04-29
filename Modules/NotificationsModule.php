@@ -615,7 +615,7 @@ final class NotificationsModule
 
         $hooksSpec = array_filter($service->metadata(), static function ($meta, $key) use ($activeFields) {
 
-            return $meta instanceof Classes\ValueTypes\FormField
+            return $meta instanceof FormField
                 && in_array($key, $activeFields, TRUE)
                 && !empty($meta->getValue()['hook']);
         }, ARRAY_FILTER_USE_BOTH);
@@ -629,7 +629,7 @@ final class NotificationsModule
             }
         }
 
-        return $preparedValues;
+        return apply_filters('tbk_notification_templates', $preparedValues, $reservation_id, $notificationType);
     }
 
     /**
