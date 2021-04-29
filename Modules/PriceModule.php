@@ -36,6 +36,33 @@ final class PriceModule
         tbkg()->loader->add_filter('tbk_service_frontend_mapping', self::class, 'meta_mapping', 10, 2);
         tbkg()->loader->add_filter('tbk_frontend_js_data_common', self::class, 'frontend_settings');
         tbkg()->loader->add_filter('tbk_loaded_modules', self::class, 'isLoaded');
+        tbkg()->loader->add_filter('tbk_notification_templates', self::class, 'notificationTemplates', 10, 3);
+        tbkg()->loader->add_filter('tbk_notification_template_hooks', self::class, 'notificationTemplateHooks', 10, 2);
+    }
+
+    public static function notificationTemplateHooks($hooks, $notificationType)
+    {
+        $hooks[] = [
+            'value'        => 'service::price',
+            'label'        => __('Service price', 'thebooking'),
+            'context'      => 'service',
+            'contextLabel' => __('Price', 'thebooking')
+        ];
+
+        return $hooks;
+    }
+
+    public static function notificationTemplates($preparedValues, $reservation_id, $notificationType)
+    {
+        $reservation = tbkg()->reservations->all()[ $reservation_id ];
+        $service     = tbkg()->services->get($reservation->service_id());
+
+        if ($service->getMeta(self::SRV_HAS_PRICE)) {
+            $options                          = self::_get_options();
+            $preparedValues['service::price'] = $service->getMeta(self::SRV_PRICE) . ' ' . $options[ self::CURRENCY ];
+        }
+
+        return $preparedValues;
     }
 
     /**
