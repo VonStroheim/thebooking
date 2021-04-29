@@ -1,7 +1,7 @@
 import globals from '../../../globals';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {Avatar, Grid, Container, TextField, Typography} from "@material-ui/core";
-import {ServiceRecord} from "../../../typedefs";
+import {ServiceRecord, tbkCommonF} from "../../../typedefs";
 import React from "react";
 // @ts-ignore
 import styles from './ServiceDropdown.css';
@@ -9,6 +9,7 @@ import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import ItemBadge from "./ItemBadge";
 
 declare const wp: any;
+declare const TBK: tbkCommonF;
 const {__, _x, _n, _nx} = wp.i18n;
 
 interface SelectProps {
@@ -64,9 +65,15 @@ export default function ServiceDropdown(props: SelectProps) {
                             <Grid container direction={'row-reverse'} alignContent={'flex-end'}>
                                 <Grid item style={{width: '80px'}}>
                                     <ItemBadge
-                                        label={globals.minutesToHM(service.duration / 60)}
                                         icon={<AccessTimeIcon fontSize="small"/>}
+                                        label={globals.minutesToDhms(service.duration / 60)}
                                     />
+                                    {service.meta.hasPrice && (
+                                        <ItemBadge
+                                            avatar={<span dangerouslySetInnerHTML={{__html: globals.sanitizer(TBK.currencySymbol)}}/>}
+                                            label={service.meta.price}
+                                        />
+                                    )}
                                 </Grid>
                             </Grid>
                         </Grid>

@@ -517,13 +517,22 @@ export default class CustomersTable extends React.Component<SProps, SState> {
     }
 
     rowExpansionTemplate = (data: CustomerBackendRecord) => {
+
+        const defaultColumns = ['expander', 'service', 'startDate', 'status'];
+
+        if (tbkCommon.modules.includes('price')) {
+            defaultColumns.push('price')
+        }
+
+        defaultColumns.push('actions');
+
         return <ReservationsTable
             reservations={this.prepareReservations(data)}
             onUpdate={this.props.onUpdate}
             isBusy={this.props.isBusy}
             showFilters={false}
             showHeader={false}
-            displayedColumns={['expander', 'service', 'startDate', 'status', 'actions']}
+            displayedColumns={defaultColumns}
         />;
     }
 

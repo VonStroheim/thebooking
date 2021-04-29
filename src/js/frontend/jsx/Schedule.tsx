@@ -503,6 +503,7 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
                     <Form
                         fields={this.state.stepsDynamicContent.form}
                         onSubmit={this.props.onFormSubmit}
+                        service={this.props.services[this.state.selectedService]}
                     />
                 )
             default:

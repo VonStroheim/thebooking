@@ -44,6 +44,12 @@ export default function ServiceCard(props: CardProps) {
                                 icon={<AccessTimeIcon fontSize="small"/>}
                                 label={globals.minutesToDhms(props.service.duration / 60)}
                             />
+                            {props.service.meta.hasPrice && (
+                                <ItemBadge
+                                    avatar={<span dangerouslySetInnerHTML={{__html: globals.sanitizer(TBK.currencySymbol)}}/>}
+                                    label={props.service.meta.price}
+                                />
+                            )}
                         </Grid>
                     </Grid>
                 }

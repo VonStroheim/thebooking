@@ -321,7 +321,8 @@ export interface tbkCommonB {
         cart_expiration_time: number,
         admin_roles: {
             [key: string]: boolean
-        }
+        },
+        [x: string]: any
     },
     statuses: {
         draft: string,
@@ -343,6 +344,8 @@ export interface tbkCommonF {
     currentUser: number,
     currentUserHash: string,
     loginUrl: string,
+    currency?: string,
+    currencySymbol?: string,
     shortWeekDaysLabels: string[],
     monthLabels: string[],
     shortMonthLabels: string[],

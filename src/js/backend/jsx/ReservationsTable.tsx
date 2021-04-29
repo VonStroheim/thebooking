@@ -226,6 +226,17 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         )
     }
 
+    priceBodyTemplate = (reservation: ReservationRecordBackend) => {
+        const service = tbkCommon.services[reservation.serviceId];
+        return (
+            <>
+                {service.meta.hasPrice && (
+                    <span>{service.meta.price} {'price_currency' in tbkCommon.settings && tbkCommon.settings.price_currency}</span>
+                )}
+            </>
+        )
+    }
+
     confirmDeletion = (event: any, callback: any) => {
         confirmPopup({
             target : event.currentTarget,
@@ -463,6 +474,24 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         csvExporter.generateCsv(reservations);
     }
 
+    getFilterableColumns = () => {
+        const columns = [
+            {label: __('Service name', 'thebooking'), value: 'service'},
+            {label: __('Customer', 'thebooking'), value: 'customer'},
+            {label: __('Date and time', 'thebooking'), value: 'startDate'},
+            {label: __('Status', 'thebooking'), value: 'status'},
+        ];
+
+        if (tbkCommon.modules.includes('price')) {
+            columns.push({
+                label: __('Price', 'thebooking'),
+                value: 'price'
+            })
+        }
+
+        return columns;
+    }
+
     renderHeader() {
         const today = startOfToday();
         const tomorrow = startOfTomorrow();
@@ -527,14 +556,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         }}
                     />
                     <TableColumnsFilter
-                        columns={
-                            [
-                                {label: __('Service name', 'thebooking'), value: 'service'},
-                                {label: __('Customer', 'thebooking'), value: 'customer'},
-                                {label: __('Date and time', 'thebooking'), value: 'startDate'},
-                                {label: __('Status', 'thebooking'), value: 'status'},
-                            ]
-                        }
+                        columns={this.getFilterableColumns()}
                         selected={this.state.columns}
                         onChange={(selected) => {
                             this.setState({columns: selected},
@@ -795,6 +817,15 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     header={__('Status', 'thebooking')}
                     body={this.statusBodyTemplate}
                 />
+            case 'price':
+                return <Column
+                    key={columnId}
+                    field={'serviceId'}
+                    filterMatchMode={'custom'}
+                    filterFunction={this.filterGlobal}
+                    body={this.priceBodyTemplate}
+                    header={__('Price', 'thebooking')}
+                />
             case 'actions':
                 return <Column
                     key={columnId}
@@ -808,9 +839,19 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
     }
 
     getColumnsToDisplay = () => {
-        const columns = this.props.displayedColumns ? this.props.displayedColumns : [
-            'selector', 'expander', 'service', 'customer', 'startDate', 'status', 'actions'
-        ]
+        const defaultColumns = [
+            'selector', 'expander', 'service', 'customer', 'startDate', 'status'
+        ];
+        if (tbkCommon.modules.includes('price')) {
+            defaultColumns.push('price')
+        }
+
+        /**
+         * Actions must be the last column
+         */
+        defaultColumns.push('actions');
+
+        const columns = this.props.displayedColumns ? this.props.displayedColumns : defaultColumns
         return columns.filter((item) => {
             if (item === 'selector' || item === 'expander' || item === 'actions') {
                 return true;

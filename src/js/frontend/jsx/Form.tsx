@@ -16,7 +16,7 @@ import {busyReducer} from './App';
 import {
     StateAction,
     AllFields,
-    tbkCommonF, FormFieldConditionalStates
+    tbkCommonF, FormFieldConditionalStates, ServiceRecord
 } from "../../typedefs";
 
 declare const TBK: tbkCommonF;
@@ -34,6 +34,7 @@ export interface DataSubmissionObject {
 
 export interface FormProps {
     fields: { [key: string]: AllFields },
+    service: ServiceRecord,
     actions?: any,
 
     onSubmit(data: any): any
@@ -458,6 +459,11 @@ export default class Form extends React.Component<FormProps, FormState> {
                             component={'div'}
                             onClick={this.handleSubmit}>
                             {__('Book now', 'thebooking')}
+                            {this.props.service.meta.hasPrice && (
+                                <span className={styles.priceLabel}>
+                                    {this.props.service.meta.price + ' ' + TBK.currency}
+                                </span>
+                            )}
                         </Button>
                     </Grid>
                 </Grid>

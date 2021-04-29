@@ -19,7 +19,9 @@
     }
   },
   "require": {
-    "google/apiclient": "^v2.9.1"
+    "google/apiclient": "^v2.9.1",
+    "moneyphp/money": "^v3.3.1",
+    "ext-intl": "*"
   },
   "scripts": {
     "post-update-cmd": "Google\\Task\\Composer::cleanup"

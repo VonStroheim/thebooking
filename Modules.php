@@ -16,6 +16,7 @@ final class Modules
     {
         Modules\NotificationsModule::bootstrap();
         Modules\Gcal2WaysModule::bootstrap();
+        Modules\PriceModule::bootstrap();
     }
 }
 

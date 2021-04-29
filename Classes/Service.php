@@ -237,7 +237,7 @@ abstract class Service implements Service_Interface
             $imageUrl = NULL;
         }
 
-        return [
+        return apply_filters('tbk_service_as_array_mapping', [
             'uid'              => $this->id,
             'color'            => $this->color,
             'duration'         => $this->duration,
@@ -248,6 +248,6 @@ abstract class Service implements Service_Interface
             'registeredOnly'   => $this->registered_only,
             'meta'             => $filteredMeta,
             'image'            => $imageUrl
-        ];
+        ], $this->id);
     }
 }
