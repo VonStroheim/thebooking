@@ -415,6 +415,29 @@ export default class App extends React.Component<AppProps, AppState> {
                     }
                 })
                 break;
+            case 'CHANGE_PAYMENT_STATUS':
+                Api.post('/reservation/payment/change/', {
+                    status: action.payload.status,
+                    id    : action.payload.id
+                }).then((res: any) => {
+                    if (res.data.status === 'KO') {
+                        this.showError(res.data.error);
+                        this.setState({
+                            isBusy: false
+                        })
+                    } else {
+                        tbkCommon.reservations = res.data.reservations;
+                        this.showSuccess(__('Status changed.', 'thebooking'));
+                        this.setState({
+                            UI    : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
+                            isBusy: false
+                        })
+                    }
+                })
+                break;
             case 'RESCHEDULE_RESERVATION':
                 Api.post('/reservation/reschedule/', {
                     start: formatRFC3339(action.payload.start),
