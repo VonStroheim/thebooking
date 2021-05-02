@@ -26,6 +26,7 @@ import CustomersDropdown from "./CustomersDropdown";
 import Rescheduler from "./Rescheduler";
 import ServicesDropdown from "./ServicesDropdown";
 import TableColumnsFilter from "./TableColumnsFilter";
+import {ToggleButton} from "primereact/togglebutton";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -231,7 +232,21 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         return (
             <>
                 {service.meta.hasPrice && (
-                    <span>{service.meta.price} {'price_currency' in tbkCommon.settings && tbkCommon.settings.price_currency}</span>
+                    <div className={'p-d-flex p-ai-center'}>
+                        <span>{service.meta.price} {'price_currency' in tbkCommon.settings && tbkCommon.settings.price_currency}</span>
+                        <ToggleButton
+                            className={'p-ml-2 ' + styles.priceWrapper}
+                            checked={reservation.meta.isPaid}
+                            onIcon="pi pi-check"
+                            offIcon="pi pi-times"
+                            onLabel={__('Paid', 'thebooking')}
+                            offLabel={__('Not paid', 'thebooking')}
+                            onChange={(e) => {
+                                this.changePaymentStatus(e.value, reservation.uid);
+                            }}
+                        />
+                    </div>
+
                 )}
             </>
         )
@@ -368,6 +383,16 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         })
         this.setState({
             selected: []
+        })
+    }
+
+    changePaymentStatus = (isPaid: boolean, reservationId: string) => {
+        this.props.onUpdate({
+            type   : 'CHANGE_PAYMENT_STATUS',
+            payload: {
+                status: isPaid,
+                id    : reservationId
+            }
         })
     }
 

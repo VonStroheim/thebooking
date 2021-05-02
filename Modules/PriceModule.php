@@ -7,6 +7,8 @@ use Money\Currency;
 use Money\Money;
 use Money\Parser\DecimalMoneyParser;
 use Money\Formatter\DecimalMoneyFormatter;
+use TheBooking\Classes\Reservation;
+use VSHM_Framework\REST_Controller;
 
 defined('ABSPATH') || exit;
 
@@ -21,6 +23,8 @@ final class PriceModule
     const OPTIONS_TAG   = 'tbkg_price';
     const SRV_PRICE     = 'price';
     const SRV_HAS_PRICE = 'hasPrice';
+
+    const RES_META_IS_PAID = 'isPaid';
 
     const CURRENCY = 'price_currency';
 
@@ -38,6 +42,55 @@ final class PriceModule
         tbkg()->loader->add_filter('tbk_loaded_modules', self::class, 'isLoaded');
         tbkg()->loader->add_filter('tbk_notification_templates', self::class, 'notificationTemplates', 10, 3);
         tbkg()->loader->add_filter('tbk_notification_template_hooks', self::class, 'notificationTemplateHooks', 10, 2);
+        tbkg()->loader->add_action('tbk-loaded', self::class, 'editPaymentStatusRoute');
+    }
+
+    public static function editPaymentStatusRoute()
+    {
+        if (\VSHM_Framework\Tools::is_request('rest')) {
+            REST_Controller::register_routes([
+                '/reservation/payment/change/' => [
+                    'methods'  => \WP_REST_Server::CREATABLE,
+                    'callback' => function (\WP_REST_Request $request) {
+                        if (!tbkg()::isAdministrator()) {
+                            $response = [
+                                'status'  => 'KO',
+                                'message' => 'Forbidden.'
+                            ];
+                        } else {
+                            $status      = $request->get_param('status');
+                            $reservation = tbkg()->reservations->all()[ $request->get_param('id') ];
+
+                            $reservation->addMeta(self::RES_META_IS_PAID, filter_var($status, FILTER_VALIDATE_BOOLEAN));
+
+                            tbkg()->reservations->sync_meta($reservation->id());
+
+                            /**
+                             * Allowing actions
+                             */
+                            do_action('tbk_reservation_payment_change_actions', $reservation->id(), $status);
+
+                            $response = [
+                                'status'       => 'OK',
+                                'reservations' => array_values(array_map(static function (Reservation $reservation) {
+                                    return $reservation->as_array();
+                                }, tbkg()->reservations->all()))
+                            ];
+                        }
+
+                        return apply_filters('tbk_backend_reservation_payment_change_response', new \WP_REST_Response($response, 200));
+                    },
+                    'args'     => [
+                        'status' => [
+                            'required' => TRUE
+                        ],
+                        'id'     => [
+                            'required' => TRUE
+                        ],
+                    ]
+                ]
+            ]);
+        }
     }
 
     public static function notificationTemplateHooks($hooks, $notificationType)
