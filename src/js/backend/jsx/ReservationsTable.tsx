@@ -46,6 +46,7 @@ interface ReservationTableState {
     globalFilter: string,
     reservationDateFilter: Date,
     statusFilter: any[] | null,
+    priceFilter: any[] | null,
     reservationServiceFilter: any[] | null,
     selected: ReservationRecordBackend[] | null,
     expandedRows: { [key: string]: boolean },
@@ -68,6 +69,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             globalFilter            : null,
             reservationDateFilter   : null,
             statusFilter            : null,
+            priceFilter             : null,
             reservationServiceFilter: null,
             selected                : [],
             expandedRows            : null,
@@ -235,6 +237,10 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     <div className={'p-d-flex p-ai-center'}>
                         <span>{service.meta.price} {'price_currency' in tbkCommon.settings && tbkCommon.settings.price_currency}</span>
                         <ToggleButton
+                            tooltip={__('Click to change', 'thebooking')}
+                            tooltipOptions={{
+                                position: 'top'
+                            }}
                             className={'p-ml-2 ' + styles.priceWrapper}
                             checked={reservation.meta.isPaid}
                             onIcon="pi pi-check"
@@ -667,6 +673,13 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         return filter.includes(value);
     }
 
+    filterPrice = (value: any, filter: string[]) => {
+        if (value && filter.includes('paid')) {
+            return true;
+        }
+        return !value && filter.includes('not_paid');
+    }
+
     rowExpansionTemplate = (data: ReservationRecordBackend) => {
         return <ReservationDetails
             item={data}
@@ -723,6 +736,41 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         )
     }
 
+    renderReservationPriceFilter = () => {
+        const options = [
+            {
+                label: __('Paid', 'thebooking'),
+                value: 'paid'
+            },
+            {
+                label: __('Not paid', 'thebooking'),
+                value: 'not_paid'
+            }
+        ];
+        return (
+            <MultiSelect value={this.state.priceFilter}
+                         options={options}
+                         onChange={this.onPriceFilterChange}
+                         placeholder={__('Payment status', 'thebooking')}
+                         maxSelectedLabels={4}
+                         selectedItemTemplate={
+                             (option) => {
+                                 const selected = options.find(opt => {
+                                     return opt.value === option;
+                                 })
+                                 const icon = option === 'paid' ? 'pi pi-check' : 'pi pi-times';
+                                 if (option) return (<span><span className={icon}/></span>)
+                             }
+                         }
+                         itemTemplate={
+                             (option) => {
+                                 if (option) return (<span><span className={'status' + option.value}/>{option.label}</span>)
+                             }
+                         }
+            />
+        )
+    }
+
     renderReservationStatusFilter = () => {
         const options = [];
         for (const [key, value] of Object.entries(tbkCommon.statuses)) {
@@ -751,6 +799,15 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                          }
             />
         )
+    }
+
+    onPriceFilterChange = (event: any) => {
+        if (event.value !== null) {
+            this.dt.filter(event.value, 'meta.isPaid', 'custom');
+        } else
+            this.dt.filter(null, 'meta.isPaid', 'equals');
+
+        this.setState({priceFilter: event.value});
     }
 
     onStatusFilterChange = (event: any) => {
@@ -845,9 +902,11 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             case 'price':
                 return <Column
                     key={columnId}
-                    field={'serviceId'}
+                    field={'meta.isPaid'}
+                    filter={this.props.showFilters}
                     filterMatchMode={'custom'}
-                    filterFunction={this.filterGlobal}
+                    filterFunction={this.filterPrice}
+                    filterElement={this.renderReservationPriceFilter()}
                     body={this.priceBodyTemplate}
                     header={__('Price', 'thebooking')}
                 />
