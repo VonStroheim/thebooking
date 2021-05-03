@@ -116,7 +116,10 @@ export default class App extends React.Component<AppProps, AppState> {
                     .then(res => {
                         tbkCommon.settings = res.settings;
                         this.setState({
-                            UI             : tbkCommon,
+                            UI             : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy         : false,
                             actionsToCommit: {
                                 SAVE_SETTINGS: {}
@@ -146,7 +149,10 @@ export default class App extends React.Component<AppProps, AppState> {
                     } else {
                         tbkCommon.availability = res.data.availability;
                         this.setState({
-                            UI    : tbkCommon,
+                            UI    : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy: false
                         })
                         this.showSuccess(__('Availability saved.', 'thebooking'));
@@ -173,7 +179,10 @@ export default class App extends React.Component<AppProps, AppState> {
                             tbkCommon.UIx.panels = res.UIx.panels;
                         }
                         this.setState({
-                            UI             : tbkCommon,
+                            UI             : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy         : false,
                             actionsToCommit: {
                                 SAVE_SETTINGS: {}
@@ -194,7 +203,10 @@ export default class App extends React.Component<AppProps, AppState> {
                     .then(res => {
                         tbkCommon.services = res.services;
                         this.setState({
-                            UI             : tbkCommon,
+                            UI             : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy         : false,
                             actionsToCommit: {
                                 SAVE_SETTINGS: {}
@@ -216,7 +228,10 @@ export default class App extends React.Component<AppProps, AppState> {
                     .then(res => {
                         tbkCommon.reservations = res.reservations;
                         this.setState({
-                            UI             : tbkCommon,
+                            UI             : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy         : false,
                             actionsToCommit: {
                                 SAVE_SETTINGS: {}
@@ -242,7 +257,10 @@ export default class App extends React.Component<AppProps, AppState> {
                     .then(res => {
                         tbkCommon.reservations = res.reservations;
                         this.setState({
-                            UI             : tbkCommon,
+                            UI             : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy         : false,
                             actionsToCommit: {
                                 SAVE_SETTINGS: {}
@@ -263,7 +281,10 @@ export default class App extends React.Component<AppProps, AppState> {
                     } else {
                         tbkCommon.customers = res.data.customers;
                         this.setState({
-                            UI    : tbkCommon,
+                            UI    : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy: false
                         })
                         this.showSuccess(__('Customer created.', 'thebooking'));
@@ -284,7 +305,10 @@ export default class App extends React.Component<AppProps, AppState> {
                     } else {
                         tbkCommon.locations = res.data.locations;
                         this.setState({
-                            UI    : tbkCommon,
+                            UI    : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy: false
                         })
                         this.showSuccess(__('Location created.', 'thebooking'));
@@ -306,7 +330,10 @@ export default class App extends React.Component<AppProps, AppState> {
                     } else {
                         tbkCommon.locations = res.data.locations;
                         this.setState({
-                            UI    : tbkCommon,
+                            UI    : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy: false
                         })
                         this.showSuccess(__('Location modified.', 'thebooking'));
@@ -326,7 +353,10 @@ export default class App extends React.Component<AppProps, AppState> {
                     } else {
                         tbkCommon.services = res.data.services;
                         this.setState({
-                            UI    : tbkCommon,
+                            UI    : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy: false
                         })
                         this.showSuccess(__('Service created.', 'thebooking'));
@@ -347,7 +377,10 @@ export default class App extends React.Component<AppProps, AppState> {
                     } else {
                         tbkCommon.customers = res.data.customers;
                         this.setState({
-                            UI    : tbkCommon,
+                            UI    : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy: false
                         })
                         this.showSuccess(__('Customer saved.', 'thebooking'));
@@ -367,7 +400,10 @@ export default class App extends React.Component<AppProps, AppState> {
                     } else {
                         tbkCommon.customers = res.data.customers;
                         this.setState({
-                            UI    : tbkCommon,
+                            UI    : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy: false
                         })
                         this.showSuccess(__('Customer removed.', 'thebooking'));
@@ -387,7 +423,10 @@ export default class App extends React.Component<AppProps, AppState> {
                     } else {
                         tbkCommon.locations = res.data.locations;
                         this.setState({
-                            UI    : tbkCommon,
+                            UI    : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy: false
                         })
                         this.showSuccess(__('Locations removed.', 'thebooking'));
@@ -409,7 +448,10 @@ export default class App extends React.Component<AppProps, AppState> {
                         tbkCommon.reservations = res.data.reservations;
                         this.showSuccess(__('Status changed.', 'thebooking'));
                         this.setState({
-                            UI    : tbkCommon,
+                            UI    : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy: false
                         })
                     }
@@ -453,7 +495,10 @@ export default class App extends React.Component<AppProps, AppState> {
                         tbkCommon.reservations = res.data.reservations;
                         this.showSuccess(__('Date changed.', 'thebooking'));
                         this.setState({
-                            UI    : tbkCommon,
+                            UI    : {
+                                ...this.state.UI,
+                                ...tbkCommon
+                            },
                             isBusy: false
                         })
                     }
@@ -887,7 +932,15 @@ export default class App extends React.Component<AppProps, AppState> {
                                                         Api.post(component.post, component.postData).then(res => {
                                                             this.setState({
                                                                 isBusy: false,
-                                                                UI    : {...tbkCommon, ...{settings: {...tbkCommon.settings, ...(res.data.settings || {})}}}
+                                                                UI    : {
+                                                                    ...tbkCommon,
+                                                                    ...{
+                                                                        settings: {
+                                                                            ...tbkCommon.settings,
+                                                                            ...(res.data.settings || {})
+                                                                        }
+                                                                    }
+                                                                }
                                                             });
                                                         })
                                                     }
