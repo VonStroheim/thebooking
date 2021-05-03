@@ -454,6 +454,7 @@ export default class Form extends React.Component<FormProps, FormState> {
                         {this.props.actions}
                         <Button
                             variant={'contained'}
+                            className={styles.actionButton}
                             disabled={this.state.isBusy}
                             color={'primary'}
                             component={'div'}
