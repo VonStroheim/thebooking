@@ -3,7 +3,7 @@ Contributors: vonstroheim
 Tags: booking system, reservation, appointment, schedule, booking calendar, booking, calendar, events, appointment system
 Requires at least: 5.0
 Tested up to: 5.7
-Stable tag: 1.2
+Stable tag: 1.3
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -13,8 +13,6 @@ TheBooking is a modern booking plugin to manage appointments and reservations, f
 == Description ==
 
 **TheBooking** is a modern **booking plugin** to manage appointments and reservations, focused on usability and nice-looking user interface.
-
-_Note: suggestions, bug reports and feature requests are more than welcome._
 
 #### User friendly booking plugin
 
@@ -35,6 +33,10 @@ Define and customize a **reservation form** for each one of your services. TheBo
 * **Custom fields**: add your desired fields in the reservation form to collect the data you need (even **files**!)
 * **Conditional fields**: fields can be configured to show/hide or being required in consequence of values of other fields.
 * **Validation**: apply the desired validation rule to any text field, if needed.
+
+#### Google Calendar 2-ways integration
+
+Connect your Google Calendar to see all your reservations there and to block available timeslots when busy.
 
 #### Locations
 
@@ -77,6 +79,11 @@ Source code can be found [here](https://github.com/VonStroheim/thebooking "TheBo
 
 == Changelog ==
 
+= 1.3 =
+* [Feature] Google Calendar 2-way sync
+* [Feature] Services can have a price
+* [Fix] Minor bug fixes
+
 = 1.2 =
 * [Feature] Reminder email
 * [Fix] DST are handled correctly in frontend
@@ -110,3 +117,4 @@ This plugin uses the following libraries/products:
 + [export-to-csv](https://github.com/alexcaza/export-to-csv "export-to-csv")
 + [autosuggest-highlight](https://github.com/moroshko/autosuggest-highlight "autosuggest-highlight")
 + [React-Clock](https://github.com/wojtekmaj/react-clock "React-Clock")
++ [Money](https://github.com/moneyphp/money "Money")

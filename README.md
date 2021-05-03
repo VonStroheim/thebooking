@@ -41,6 +41,13 @@ Go in `TheBooking > Services`, click on the cog icon of the desired service and 
 + Conditional fields: fields can be configured to show/hide or being required in consequence of values of other fields.
 + Validation: apply the desired validation rule to any text field, if needed.
 
+## Google Calendar 2-ways integration
+Go in `TheBooking > Settings > Google Calendar`, provide Google API keys and select a Google Calendar.
+
+#### Highlighted features
++ Create reservation events automatically in your Google Calendar
++ Remove available time slots automatically when you are busy
+
 ## Reservations management
 Go in `TheBooking > Reservations` to manage your reservations.
 
@@ -51,6 +58,15 @@ Go in `TheBooking > Reservations` to manage your reservations.
 
 
 ### Changelog
++ 1.3.0
+
+    [Feature] Google Calendar 2-way sync
+
+    [Feature] Services can have a price
+
+    [Fix] Minor bug fixes
+
+
 + 1.2.0
 
     [Feature] Reminder email
@@ -95,3 +111,4 @@ This plugin uses the following libraries/products:
 + [export-to-csv](https://github.com/alexcaza/export-to-csv "export-to-csv")
 + [autosuggest-highlight](https://github.com/moroshko/autosuggest-highlight "autosuggest-highlight")
 + [React-Clock](https://github.com/wojtekmaj/react-clock "React-Clock")
++ [Money](https://github.com/moneyphp/money "Money")
