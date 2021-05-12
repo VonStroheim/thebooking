@@ -1,4 +1,4 @@
-import {DurationObject, StateAction, tbkCommonB, tbkCommonF} from "./typedefs";
+import {DurationObject, mimeTypeOpt, StateAction, tbkCommonB, tbkCommonF} from "./typedefs";
 import dompurify from 'dompurify';
 
 declare const wpApiSettings: { nonce: any; };
@@ -35,7 +35,7 @@ interface Globals {
 
     formatDate(date: Date): string,
 
-    mimeTypes(): Array<object>,
+    mimeTypes(): mimeTypeOpt[],
 
     sanitizer(content: string): any,
 

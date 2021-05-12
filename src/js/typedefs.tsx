@@ -104,6 +104,12 @@ export interface ServiceRecordReservationFormElement {
     }
 }
 
+export interface mimeTypeOpt {
+    desc: string,
+    ext: string,
+    mime: string
+}
+
 export type FormFieldConditionalStates = 'hidden' | 'required' | 'visible' | 'notRequired';
 
 export type UiTypesText = 'multiline' | 'text';

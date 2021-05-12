@@ -14,7 +14,7 @@ import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import globals from '../../../globals';
 
 import React from "react";
-import {ServiceRecordReservationFormBackend, ServiceRecordReservationFormElementBackend, FormFieldConditionalStates, tbkCommonB} from "../../../typedefs";
+import {ServiceRecordReservationFormBackend, ServiceRecordReservationFormElementBackend, FormFieldConditionalStates, tbkCommonB, mimeTypeOpt} from "../../../typedefs";
 import {SelectOption} from "../../../frontend/jsx/FormElements/Select";
 import {RulesLogic} from "json-logic-js";
 
@@ -580,12 +580,15 @@ class SettingFormBuilder extends React.Component<SettingFormBuilderProps, Settin
                             <MultiSelect
                                 id={propKey + 'mimeTypes'}
                                 optionLabel={'desc'}
-                                optionValue={'mime'}
                                 filter={false}
                                 options={globals.mimeTypes()}
-                                value={prop.mimeTypes}
+                                value={globals.mimeTypes().filter((mimeType) => {
+                                    return prop.mimeTypes.includes(mimeType.mime);
+                                })}
                                 onChange={(e) => {
-                                    this.updateSchemaProperty(propKey, 'mimeTypes', e.value);
+                                    this.updateSchemaProperty(propKey, 'mimeTypes', e.value.map((obj: mimeTypeOpt) => {
+                                        return obj.mime
+                                    }));
                                 }}
                             />
                         </div>
