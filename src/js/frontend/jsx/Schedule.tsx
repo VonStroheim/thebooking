@@ -493,12 +493,17 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
                     </Grid>
                 );
             case 'form':
+
+                if (!this.state.selectedService) return '';
+
                 let location;
+
                 if (this.state.selectedLocation
                     && this.state.selectedService
                     && this.props.services[this.state.selectedService].meta.locations) {
                     location = TBK.locations[this.state.selectedLocation].address;
                 }
+
                 return (
                     <Form
                         fields={this.state.stepsDynamicContent.form}
