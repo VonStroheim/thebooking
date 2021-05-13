@@ -230,7 +230,7 @@ final class UI_Services
                         'components'  => [
                             [
                                 'settingId' => 'meta::locations',
-                                'type'      => 'multiselect',
+                                'type'      => 'checkboxes',
                                 'options'   => self::_locations()
                             ]
                         ]
