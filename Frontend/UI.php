@@ -271,10 +271,35 @@ final class UI
                 ],
                 'MuiAutocomplete'      => [
                     'inputRoot' => [
-                        'background' => 'rgba(0, 0, 0, 0.09)'
+                        'background'  => 'rgba(0, 0, 0, 0.09)',
+                        '&& input'    => [
+                            'margin'     => '0 !important',
+                            'padding'    => '9.5px 4px !important',
+                            'background' => 'transparent !important',
+                            'border'     => 'none !important',
+                            '&:focus'    => [
+                                'boxShadow' => 'none !important'
+                            ]
+                        ],
+                        '&& fieldset' => [
+                            'margin' => '0 !important'
+                        ]
                     ],
                     'paper'     => [
                         'background' => Tools::adjustBrightness($background, Tools::requiresDarkTheme($background) ? '0.1' : '-0.1')
+                    ]
+                ],
+                'MuiTextField'         => [
+                    'root' => [
+                        '&& input' => [
+                            'margin'     => '0 !important',
+                            'padding'    => '27px 12px 10px !important',
+                            'background' => 'transparent !important',
+                            'border'     => 'none !important',
+                            '&:focus'    => [
+                                'boxShadow' => 'none !important'
+                            ]
+                        ]
                     ]
                 ],
                 'MuiBackdrop'          => [
