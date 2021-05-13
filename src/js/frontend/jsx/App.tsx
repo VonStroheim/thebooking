@@ -64,7 +64,7 @@ const {__, _x, _n, _nx} = wp.i18n;
 
 const generateClassName = createGenerateClassName({
     productionPrefix: 'tbk',
-    disableGlobal   : true
+    disableGlobal   : false
 });
 
 interface IState {
