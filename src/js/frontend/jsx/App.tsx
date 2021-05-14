@@ -299,7 +299,7 @@ export default class App extends React.Component<IProps, IState> {
             availability : this.state.availability,
             services     : this.props.services,
             reservations : this.state.reservations,
-            busyIntervals: TBK.UI.instances[this.props.instanceId].busyIntervals
+            busyIntervals: this.props.busyIntervals
         });
 
         const items = scheduler.getItemsBetween(startOfMonth(date), endOfMonth(date))
