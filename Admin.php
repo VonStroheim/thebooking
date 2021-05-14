@@ -234,12 +234,21 @@ class Admin
             }
         }
 
+        /**
+         * This object is required to provide a frontend-like resources in the backend.
+         *
+         * TODO: long-term, frontend and backend resources should have ideally the same structure.
+         */
         $tbk_resources = [
-            'services'     => $services,
-            'reservations' => array_values(array_map(static function (Reservation $reservation) {
+            'services'      => $services,
+            'reservations'  => array_values(array_map(static function (Reservation $reservation) {
                 return tbkg()->reservations->mapToFrontend($reservation->id());
             }, tbkg()->reservations->all())),
-            'availability' => $availability
+            'availability'  => $availability,
+            'busyIntervals' => apply_filters('tbk_frontend_busy_intervals', [], []),
+            'middleware'    => apply_filters('tbk_frontend_middleware', [
+                'changeMonth' => []
+            ], [])
         ];
 
         wp_localize_script(

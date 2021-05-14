@@ -190,6 +190,8 @@
                     if (props.attributes.restrictServices.length < 1) return true;
                     return props.attributes.restrictServices.includes(key);
                 }),
+                busyIntervals         : TBK_RESOURCES.busyIntervals,
+                middleware            : TBK_RESOURCES.middleware,
                 reservations          : TBK_RESOURCES.reservations,
                 groupSlots            : true,
                 monthlyViewAverageDots: 5,
