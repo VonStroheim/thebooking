@@ -36,6 +36,7 @@ export default function ServiceDropdown(props: SelectProps) {
             disablePortal
             disableClearable
             openOnFocus
+            open
             noOptionsText={__('No services', 'thebooking')}
             options={props.services}
             value={props.value}
@@ -53,7 +54,7 @@ export default function ServiceDropdown(props: SelectProps) {
                                 {service.name.charAt(0)}
                             </Avatar>
                         </Grid>
-                        <Grid item>
+                        <Grid item xs>
                             <Container>
                                 <Typography variant={'body2'} component={'div'}>
                                     {service.name}
@@ -63,7 +64,7 @@ export default function ServiceDropdown(props: SelectProps) {
                                 </Typography>
                             </Container>
                         </Grid>
-                        <Grid item xs>
+                        <Grid item>
                             <Grid container direction={'row-reverse'} alignContent={'flex-end'}>
                                 <Grid item style={{width: '80px'}}>
                                     <ItemBadge
