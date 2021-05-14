@@ -276,6 +276,7 @@ final class UI
                             'margin'     => '0 !important',
                             'padding'    => '9.5px 4px !important',
                             'background' => 'transparent !important',
+                            'minHeight'  => '0 !important',
                             'border'     => 'none !important',
                             '&:focus'    => [
                                 'boxShadow' => 'none !important'
@@ -295,6 +296,7 @@ final class UI
                             'margin'     => '0 !important',
                             'padding'    => '27px 12px 10px !important',
                             'background' => 'transparent !important',
+                            'minHeight'  => '0 !important',
                             'border'     => 'none !important',
                             '&:focus'    => [
                                 'boxShadow' => 'none !important'
