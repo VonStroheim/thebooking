@@ -13,5 +13,9 @@ jQuery(document).ready(function ($) {
     loadInstances(document, TBK);
 })
 jQuery(document).on('TBK::LOAD', {DOM: document, DATAOBJECT: TBK}, function (e, DOM, TBK_OVERRIDE) {
+    if (TBK_OVERRIDE) {
+        // Ensures compatibility with Elementor iframe
+        window['TBK'] = TBK_OVERRIDE;
+    }
     loadInstances(DOM || e.data.DOM, TBK_OVERRIDE || e.data.DATAOBJECT)
 });

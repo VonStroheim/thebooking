@@ -32,6 +32,8 @@ export default function ServiceDropdown(props: SelectProps) {
                 popupIndicator: 'has-background has-text-color',
                 clearIndicator: 'has-background has-text-color'
             }}
+            // Ensures compatibility with Elementor iframe
+            disablePortal
             disableClearable
             openOnFocus
             noOptionsText={__('No services', 'thebooking')}

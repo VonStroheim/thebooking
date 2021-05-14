@@ -28,6 +28,8 @@ export default function LocationDropdown(props: SelectProps) {
                 popupIndicator: 'has-background has-text-color',
                 clearIndicator: 'has-background has-text-color'
             }}
+            // Ensures compatibility with Elementor iframe
+            disablePortal
             disableClearable
             openOnFocus
             noOptionsText={__('No locations', 'thebooking')}

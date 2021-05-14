@@ -27,6 +27,8 @@ export default function TimeslotDropdown(props: SelectProps) {
                 popupIndicator: 'has-background has-text-color',
                 clearIndicator: 'has-background has-text-color'
             }}
+            // Ensures compatibility with Elementor iframe
+            disablePortal
             disableClearable
             openOnFocus
             getOptionDisabled={(option) => option.soldOut}
