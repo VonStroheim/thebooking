@@ -36,7 +36,6 @@ export default function ServiceDropdown(props: SelectProps) {
             disablePortal
             disableClearable
             openOnFocus
-            open
             noOptionsText={__('No services', 'thebooking')}
             options={props.services}
             value={props.value}
