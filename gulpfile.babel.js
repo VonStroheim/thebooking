@@ -167,6 +167,14 @@ function zippy() {
             '!node_modules/**',
             '!package.json',
             '!package-lock.json',
+            '!composer.json',
+            '!composer.lock',
+            '!vendor/google/apiclient-services/tests/**',
+            '!vendor/google/apiclient-services/generator/**',
+            '!vendor/google/apiclient-services/composer.json',
+            '!vendor/google/apiclient-services/phpunit.xml',
+            '!vendor/google/apiclient-services/synth.py',
+            '!vendor/google/apiclient-services/synth.metadata',
         ]
     )
         .pipe(zip('thebooking.zip'))
