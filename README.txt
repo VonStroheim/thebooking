@@ -3,7 +3,7 @@ Contributors: vonstroheim
 Tags: booking system, reservation, appointment, schedule, booking calendar, booking, calendar, events, appointment system
 Requires at least: 5.0
 Tested up to: 5.7
-Stable tag: 1.3
+Stable tag: 1.3.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -78,6 +78,11 @@ Source code can be found [here](https://github.com/VonStroheim/thebooking "TheBo
 5. Form builder
 
 == Changelog ==
+= 1.3.1 =
+* [Fix] File types selector in form builder file upload field wasn't providing feedback
+* [Fix] Enfold theme frontend style conflicts
+* [Fix] Elementor preview and block builder preview were not working
+* [Fix] Minor bug fixes
 
 = 1.3 =
 * [Feature] Google Calendar 2-way sync
