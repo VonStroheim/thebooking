@@ -513,20 +513,22 @@ export default class App extends React.Component<IProps, IState> {
                     }
                 ];
 
-                for (const [key, value] of Object.entries(res.data.update)) {
-                    switch (key) {
-                        case 'reservations':
-                            // Syncing the global object
-                            TBK.UI.instances[this.props.instanceId].reservations = value as ReservationRecord[];
+                if (res.data.update) {
+                    for (const [key, value] of Object.entries(res.data.update)) {
+                        switch (key) {
+                            case 'reservations':
+                                // Syncing the global object
+                                TBK.UI.instances[this.props.instanceId].reservations = value as ReservationRecord[];
 
-                            // Invalidating cache
-                            this.cache = {};
+                                // Invalidating cache
+                                this.cache = {};
 
-                            actions.push({
-                                type   : 'UPDATE_RESERVATIONS',
-                                payload: value
-                            })
-                            break;
+                                actions.push({
+                                    type   : 'UPDATE_RESERVATIONS',
+                                    payload: value
+                                })
+                                break;
+                        }
                     }
                 }
 

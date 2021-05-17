@@ -89,111 +89,126 @@ final class SubmitBookingRoute implements Route
                         }
                     }
 
-                    if (NULL === $customerId) {
-                        /**
-                         * Customer wasn't found, let's create a new one.
-                         * If the user is logged-in, the customer will be automatically
-                         * linked to the current WordPress profile.
-                         */
-                        $userId = get_current_user_id();
-
-                        /**
-                         * If there is a user with the same email address,
-                         * let's take it as linked WordPress profile.
-                         */
-                        $user = get_user_by('email', $customerEmail);
-                        if ($user instanceof \WP_User) {
-                            $userId = $user->ID;
-                        }
-
-                        if ($userId) {
-                            foreach ($customers as $customer) {
-                                if ($customer->wp_user() === $userId) {
-                                    // Current logged-in user is already mapped to a customer. TODO: decide if we map or discard
-                                    #$customerId = $customer->id(); // THIS CHANGES THE CUSTOMER; FORCING THE RESERVATION TO BE LINKED TO LOGGED USER
-                                    $userId = 0; // THIS DISCARDS THE CURRENT LOGGED USER AS IT'S MAPPED ALREADY TO ANOTHER EMAIL ADDRESS
-                                }
-                            }
-                        }
-
-                        if (NULL === $customerId) {
-
-                            // TODO conditional: if $userID is still 0 and $customerId is still NULL, decide if we want to create a WP user here.
-
-                            /**
-                             * Phone
-                             */
-                            $customerPhoneField =
-                                isset($request->get_param('bookingData')['phone'])
-                                    ? $request->get_param('bookingData')['phone']
-                                    : ['value' => ''];
-                            $customerPhone      = strtolower(trim($customerPhoneField['value']));
-
-                            /**
-                             * Name
-                             */
-                            $customerNameField =
-                                isset($request->get_param('bookingData')['name'])
-                                    ? $request->get_param('bookingData')['name']
-                                    : ['value' => ''];
-                            $customerName      = strtolower(trim($customerNameField['value']));
-
-                            /**
-                             * Timezone
-                             */
-                            $timezone = $request->get_param('customerTimezone') ?: wp_timezone()->getName();
-
-                            tbkg()->bus->dispatch(new CreateCustomer(
-                                    $customerName ?: NULL,
-                                    $customerEmail,
-                                    $customerPhone ?: NULL,
-                                    $userId,
-                                    NULL,
-                                    $timezone)
-                            );
-
-                            tbkg()->customers->gather();
-
-                            foreach (tbkg()->customers->all() as $customer) {
-                                if ($customer->email() === $customerEmail) {
-                                    $customerId = $customer->id();
-                                }
-                            }
-                        }
-                    }
+                    $response = [];
 
                     /**
-                     * Set the initial reservation status
+                     * Allowing third-party controllers
                      */
-                    $r_status = Status::CONFIRMED;
-                    if ($service->getMeta('requiresApproval')) {
-                        $r_status = Status::PENDING;
+
+                    if (apply_filters('tbkg_proceed_with_booking', TRUE, $customerId, $reservationId, $request)) {
+                        if (NULL === $customerId) {
+                            /**
+                             * Customer wasn't found, let's create a new one.
+                             * If the user is logged-in, the customer will be automatically
+                             * linked to the current WordPress profile.
+                             */
+                            $userId = get_current_user_id();
+
+                            /**
+                             * If there is a user with the same email address,
+                             * let's take it as linked WordPress profile.
+                             */
+                            $user = get_user_by('email', $customerEmail);
+                            if ($user instanceof \WP_User) {
+                                $userId = $user->ID;
+                            }
+
+                            if ($userId) {
+                                foreach ($customers as $customer) {
+                                    if ($customer->wp_user() === $userId) {
+                                        // Current logged-in user is already mapped to a customer. TODO: decide if we map or discard
+                                        #$customerId = $customer->id(); // THIS CHANGES THE CUSTOMER; FORCING THE RESERVATION TO BE LINKED TO LOGGED USER
+                                        $userId = 0; // THIS DISCARDS THE CURRENT LOGGED USER AS IT'S MAPPED ALREADY TO ANOTHER EMAIL ADDRESS
+                                    }
+                                }
+                            }
+
+                            if (NULL === $customerId) {
+
+                                // TODO conditional: if $userID is still 0 and $customerId is still NULL, decide if we want to create a WP user here.
+
+                                /**
+                                 * Phone
+                                 */
+                                $customerPhoneField =
+                                    isset($request->get_param('bookingData')['phone'])
+                                        ? $request->get_param('bookingData')['phone']
+                                        : ['value' => ''];
+                                $customerPhone      = strtolower(trim($customerPhoneField['value']));
+
+                                /**
+                                 * Name
+                                 */
+                                $customerNameField =
+                                    isset($request->get_param('bookingData')['name'])
+                                        ? $request->get_param('bookingData')['name']
+                                        : ['value' => ''];
+                                $customerName      = strtolower(trim($customerNameField['value']));
+
+                                /**
+                                 * Timezone
+                                 */
+                                $timezone = $request->get_param('customerTimezone') ?: wp_timezone()->getName();
+
+                                tbkg()->bus->dispatch(new CreateCustomer(
+                                        $customerName ?: NULL,
+                                        $customerEmail,
+                                        $customerPhone ?: NULL,
+                                        $userId,
+                                        NULL,
+                                        $timezone)
+                                );
+
+                                tbkg()->customers->gather();
+
+                                foreach (tbkg()->customers->all() as $customer) {
+                                    if ($customer->email() === $customerEmail) {
+                                        $customerId = $customer->id();
+                                    }
+                                }
+                            }
+                        }
+
+                        /**
+                         * Set the initial reservation status
+                         */
+                        $r_status = Status::CONFIRMED;
+                        if ($service->getMeta('requiresApproval')) {
+                            $r_status = Status::PENDING;
+                        }
+
+                        $command = new CreateReservation(
+                            $reservationId,
+                            $service->id(),
+                            $customerId,
+                            $item['start'],
+                            $item['end'],
+                            $meta,
+                            new Status($r_status)
+                        );
+
+                        tbkg()->bus->dispatch($command);
+
+                        $response['bookingId'] = $reservationId;
+                        $response['update']    = [
+                            'reservations' => array_values(array_map(static function (Reservation $reservation) {
+                                return tbkg()->reservations->mapToFrontend($reservation->id());
+                            }, tbkg()->reservations->all())),
+                        ];
+                        $response['response']  = [
+                            'type'    => 'success',
+                            'tagline' => __('Thanks for your reservation', 'thebooking'),
+                            'message' => apply_filters('tbk_success_booking_message', '', $command),
+                            'actions' => []
+                        ];
+                    } else {
+                        $response['response']  = [
+                            'type'    => 'fail',
+                            'tagline' => __("Reservation can't be done.", 'thebooking'),
+                            'message' => '',
+                            'actions' => []
+                        ];
                     }
-
-                    $command = new CreateReservation(
-                        $reservationId,
-                        $service->id(),
-                        $customerId,
-                        $item['start'],
-                        $item['end'],
-                        $meta,
-                        new Status($r_status)
-                    );
-
-                    tbkg()->bus->dispatch($command);
-
-                    $response['update']    = [
-                        'reservations' => array_values(array_map(static function (Reservation $reservation) {
-                            return tbkg()->reservations->mapToFrontend($reservation->id());
-                        }, tbkg()->reservations->all())),
-                    ];
-                    $response['bookingId'] = $reservationId;
-                    $response['response']  = [
-                        'type'    => 'success',
-                        'tagline' => __('Thanks for your reservation', 'thebooking'),
-                        'message' => apply_filters('tbk_success_booking_message', '', $command),
-                        'actions' => []
-                    ];
 
                     return apply_filters('tbk_frontend_booking_success', new \WP_REST_Response($response, 200), $reservationId);
                 },
