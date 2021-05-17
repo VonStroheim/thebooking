@@ -121,7 +121,7 @@ export default class ReservationDetails extends React.Component<ReservationDetai
                     />
                 )
             case 'file':
-                if (data.value === null) {
+                if (!data.value) {
                     return __('No uploaded file.', 'thebooking')
                 }
                 return (
