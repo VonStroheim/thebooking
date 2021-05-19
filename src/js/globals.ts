@@ -27,13 +27,11 @@ interface Globals {
 
     flatMap(array: Array<any>, fn: Function): Array<any>,
 
-    classNames(): string,
-
     combineReducers(reducers: { [key: string]: (...args: any) => any }): (action: StateAction[], nextState?: any) => any,
 
     formatTime(date: Date): string,
 
-    formatDate(date: Date): string,
+    formatDate(date: Date, options?: Intl.DateTimeFormatOptions): string,
 
     mimeTypes(): mimeTypeOpt[],
 
@@ -184,34 +182,6 @@ const Globals: Globals = {
         }
         return result;
     },
-    classNames() {
-        const classes = [];
-
-        for (let i = 0; i < arguments.length; i++) {
-            const arg = arguments[i];
-            if (!arg) continue;
-
-            const argType = typeof arg;
-
-            if (argType === 'string' || argType === 'number') {
-                classes.push(this && this[arg] || arg);
-            } else if (Array.isArray(arg)) {
-                classes.push(Globals.classNames.apply(this, arg));
-            } else if (argType === 'object') {
-                if (arg.toString !== Object.prototype.toString) {
-                    classes.push(arg.toString());
-                } else {
-                    for (const key in arg) {
-                        if ({}.hasOwnProperty.call(arg, key) && arg[key]) {
-                            classes.push(this && this[key] || key);
-                        }
-                    }
-                }
-            }
-        }
-
-        return classes.join(' ');
-    },
     combineReducers(reducers) {
         const reducerKeys: Array<string> = Object.keys(reducers);
         return function combination(action: StateAction[], initialState = {}) {
@@ -233,13 +203,14 @@ const Globals: Globals = {
             minute: 'numeric',
         }).format(date);
     },
-    formatDate(date) {
+    formatDate(date, options) {
         const locale = (typeof TBK !== 'undefined') ? TBK.i18n.locale : (typeof tbkCommon !== 'undefined' ? tbkCommon.i18n.locale : null)
-        return new Intl.DateTimeFormat(locale, {
+        const params: Intl.DateTimeFormatOptions = options || {
             year : 'numeric',
             month: 'numeric',
             day  : 'numeric'
-        }).format(date);
+        }
+        return new Intl.DateTimeFormat(locale, params).format(date);
     },
     mimeTypes() {
         return [
