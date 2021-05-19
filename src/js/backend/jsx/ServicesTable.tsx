@@ -347,6 +347,7 @@ class ServicesTable extends React.Component<SProps, SState> {
                     header={this.renderHeader()}
                     value={Object.values(tbkCommon.services)}
                     selection={this.state.selected}
+                    selectionMode={'checkbox'}
                     onSelectionChange={this.onSelection}
                     loading={this.props.isBusy}
                 >

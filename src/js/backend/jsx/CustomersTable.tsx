@@ -603,6 +603,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                     header={this.renderHeader()}
                     value={Object.values(tbkCommon.customers)}
                     selection={this.state.selected}
+                    selectionMode={'checkbox'}
                     onSelectionChange={this.onSelection}
                     rowExpansionTemplate={this.rowExpansionTemplate}
                     onRowToggle={e => this.setState({expandedRows: e.data as any})}

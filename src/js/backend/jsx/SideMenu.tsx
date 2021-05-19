@@ -30,10 +30,9 @@ export default class SideMenu extends React.Component<SideMenuProps, SideMenuSta
         }
     }
 
-    getActiveItem = () => {
+    getActiveIndex = () => {
         const currentHash = window.location.hash.substr(1);
-        const index = this.state.items.findIndex(item => item.ref === currentHash);
-        return this.state.items[index];
+        return this.state.items.findIndex(item => item.ref === currentHash);
     }
 
     mapPrime = (items: SideMenuItem[]) => {
@@ -52,7 +51,7 @@ export default class SideMenu extends React.Component<SideMenuProps, SideMenuSta
     render() {
         return (
             this.state.items.length > 0 && (
-                <TabMenu model={this.state.items} className={styles.sideMenu} activeItem={this.getActiveItem()}/>
+                <TabMenu model={this.state.items} className={styles.sideMenu} activeIndex={this.getActiveIndex()}/>
             )
         );
     }

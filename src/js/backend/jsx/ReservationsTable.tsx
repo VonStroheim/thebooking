@@ -958,6 +958,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     header={this.props.showHeader && this.renderHeader()}
                     value={this.props.reservations}
                     selection={this.state.selected}
+                    selectionMode={'checkbox'}
                     onSelectionChange={this.onSelection}
                     onRowToggle={e => this.setState({expandedRows: e.data as any})}
                     dataKey={'uid'}
