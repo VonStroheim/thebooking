@@ -112,7 +112,7 @@ class Reservation extends Resource
             }
         }
 
-        return [
+        return apply_filters('tbk_reservation_as_array_mapping', [
             'uid'        => $this->id,
             'serviceId'  => $this->service_id,
             'customerId' => $this->customer_id,
@@ -122,6 +122,6 @@ class Reservation extends Resource
             'meta'       => $meta,
             'created'    => $this->created,
             'updated'    => $this->updated
-        ];
+        ], $this->id);
     }
 }
