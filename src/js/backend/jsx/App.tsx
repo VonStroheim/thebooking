@@ -663,7 +663,7 @@ export default class App extends React.Component<AppProps, AppState> {
                                noSave={panel.noSave || false}
                                onUpdate={() => this.commitChanges(commitAction)}
                                isBusy={this.state.isBusy}>
-                    {panel.blocks.map((block, i: number) => {
+                    {panel.blocks && panel.blocks.map((block, i: number) => {
 
                         /**
                          * Taking care of logic
