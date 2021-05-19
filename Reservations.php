@@ -2,7 +2,6 @@
 
 namespace TheBooking;
 
-use TheBooking\Bus\Commands\AddReservationPendingStatusUpdate;
 use TheBooking\Bus\Commands\ChangeReservationCustomer;
 use TheBooking\Bus\Commands\ChangeReservationLocation;
 use TheBooking\Bus\Commands\ChangeReservationService;
@@ -76,7 +75,6 @@ class Reservations
     {
         tbkg()->loader->add_action('tbk-backend-settings-save', $this, 'save_settings_callback', 10, 2);
         tbkg()->loader->add_action('tbk-loaded', $this, 'gather');
-        tbkg()->loader->add_action('tbk_dispatched_ChangeReservationStatus', self::class, 'add_status_update');
         tbkg()->loader->add_action('tbk_location_deleted', $this, 'location_deleted');
     }
 
@@ -96,16 +94,6 @@ class Reservations
                 $this->sync_meta($reservation->id());
             }
         }
-    }
-
-    /**
-     * Storing the status change each time it changes.
-     *
-     * @param ChangeReservationStatus $command
-     */
-    public static function add_status_update($command)
-    {
-        tbkg()->bus->dispatch(new AddReservationPendingStatusUpdate($command->getUid()));
     }
 
     public function save_settings_callback($settings, $meta)
