@@ -376,6 +376,17 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         onClick={(event) => this.confirmReSendNotifications(event, () => this.changeStatus(reservation.status, reservation.uid))}
                     />
                 )}
+                {tbkCommon.modules.includes('zoom') && reservation.meta.zoomMeetingId && reservation.meta.zoomMeetingId.join_url && (
+                    <Button
+                        icon={'pi pi-video'}
+                        tooltip={__('Start meeting', 'thebooking')}
+                        tooltipOptions={{
+                            position: 'top'
+                        }}
+                        className={'p-button-rounded p-button-text p-button-plain'}
+                        onClick={(event) => window.open(reservation.meta.zoomMeetingId.join_url)}
+                    />
+                )}
             </>
         )
     }
