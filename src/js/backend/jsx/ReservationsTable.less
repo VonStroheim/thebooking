@@ -13,26 +13,20 @@
   table:global(.p-datepicker-calendar) {
     table-layout: auto !important;
   }
+
+  :global(.p-row-expanded) {
+    background: #e9ecef !important;
+  }
 }
 
 .priceWrapper {
 
-  padding: 2px 4px;
-  font-size: 12px;
-  border: none !important;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 11px !important;
 
-  &:global(.p-highlight) {
-    background: var(--green-500) !important;
-
-    &:hover {
-      background: var(--green-600) !important;
-    }
-  }
-
-  :global(.pi) {
-    font-size: 12px;
-    margin-top: 1px;
-    margin-right: 4px;
+  &:global(.paid) {
+    color: var(--green-500) !important;
   }
 }
 

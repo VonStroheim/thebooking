@@ -1,16 +1,80 @@
 .reservationDetails h4 {
   margin: 0;
 }
-.reservationDetails .panelWithTable :global(.p-panel-content) {
-  padding: 0;
+.reservationDetails .header h1 {
+  color: inherit;
+  font-size: 1.8em;
+  margin-bottom: 1.3em;
 }
-.reservationDetails .panelWithTable table > thead {
+.reservationDetails .header h2 {
+  color: inherit;
+}
+.reservationDetails .header .subInfo {
+  font-weight: 600;
+  font-size: 16px;
+  padding: 8px 0;
+}
+.reservationDetails .header .subInfo[class*=" status"] {
+  text-transform: uppercase;
+}
+.reservationDetails .header .subInfo:global(.statusconfirmed) {
+  color: var(--green-500);
+}
+.reservationDetails .header .subInfo:global(.statuscancelled) {
+  color: #b92f37;
+}
+.reservationDetails .header .subInfo:global(.statuspending) {
+  color: var(--yellow-500);
+}
+.reservationDetails .header .times {
+  color: var(--bluegray-400);
+  margin-left: 1rem;
+  text-transform: lowercase;
+}
+.reservationDetails .locationCard :global(.p-dropdown) {
+  width: 100%;
+}
+.reservationDetails .priceCard .paid {
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--green-500);
+}
+.reservationDetails .priceCard .notPaid {
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--yellow-500);
+}
+.reservationDetails .zoomCard .started {
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--green-500);
+}
+.reservationDetails .zoomCard .waiting {
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--yellow-500);
+}
+.reservationDetails .cardListEntries {
+  margin: 0;
+}
+.reservationDetails .cardListEntries .cardListEntry {
+  margin-bottom: 1rem !important;
+}
+.reservationDetails .cardListEntries label {
+  display: block;
+  color: #7F7F7F;
+  padding: 4px 0;
+}
+.reservationDetails .cardWithTable :global(.p-card-content) {
+  margin: 0 -1rem !important;
+}
+.reservationDetails .cardWithTable table > thead {
   display: none;
 }
-.reservationDetails .panelWithTable table .propertyValue {
-  text-align: right;
+.reservationDetails .cardWithTable table :global(.p-dropdown) {
+  width: 100%;
 }
-.reservationDetails .panelWithTable .saveProperties {
+.reservationDetails .cardWithTable .saveProperties {
   padding: 1rem;
 }
 .reservationDetails .detailsRecord > label {
@@ -25,4 +89,30 @@
 }
 .reservationDetails .detailsRecord:not(:last-child) {
   margin-bottom: 10px;
+}
+.reservationDetails .tinyCal {
+  border: 4px solid var(--bluegray-600);
+  text-align: center;
+  width: 100px;
+  border-radius: 1.2rem;
+  overflow: hidden;
+}
+.reservationDetails .tinyCal .tinyCalWeek {
+  text-transform: uppercase;
+  font-size: 1rem;
+  font-weight: 700;
+  background: var(--bluegray-400);
+  color: white;
+  padding: 0.25rem;
+}
+.reservationDetails .tinyCal .tinyCalDay {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+.reservationDetails .tinyCal .tinyCalMonth {
+  font-size: 1.5rem;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
 }

@@ -26,7 +26,7 @@ import CustomersDropdown from "./CustomersDropdown";
 import Rescheduler from "./Rescheduler";
 import ServicesDropdown from "./ServicesDropdown";
 import TableColumnsFilter from "./TableColumnsFilter";
-import {ToggleButton} from "primereact/togglebutton";
+import classNames from "classnames";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -234,23 +234,13 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         return (
             <>
                 {service.meta.hasPrice && (
-                    <div className={'p-d-flex p-ai-center'}>
-                        <span>{service.meta.price} {'price_currency' in tbkCommon.settings && tbkCommon.settings.price_currency}</span>
-                        <ToggleButton
-                            tooltip={__('Click to change', 'thebooking')}
-                            tooltipOptions={{
-                                position: 'top'
-                            }}
-                            className={'p-ml-2 ' + styles.priceWrapper}
-                            checked={reservation.meta.isPaid}
-                            onIcon="pi pi-check"
-                            offIcon="pi pi-times"
-                            onLabel={__('Paid', 'thebooking')}
-                            offLabel={__('Not paid', 'thebooking')}
-                            onChange={(e) => {
-                                this.changePaymentStatus(e.value, reservation.uid);
-                            }}
-                        />
+                    <div className={'p-d-inline-flex p-ai-center'}>
+                        <div style={{flexShrink: 0}}>
+                            <span>{service.meta.price} {'price_currency' in tbkCommon.settings && tbkCommon.settings.price_currency}</span>
+                            <span className={classNames(tableStyles.tableCellDescription, styles.priceWrapper, (reservation.meta.isPaid ? 'paid' : ''))}>
+                                {reservation.meta.isPaid ? __('Paid', 'thebooking') : __('Not paid', 'thebooking')}
+                            </span>
+                        </div>
                     </div>
 
                 )}
@@ -400,16 +390,6 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         })
         this.setState({
             selected: []
-        })
-    }
-
-    changePaymentStatus = (isPaid: boolean, reservationId: string) => {
-        this.props.onUpdate({
-            type   : 'CHANGE_PAYMENT_STATUS',
-            payload: {
-                status: isPaid,
-                id    : reservationId
-            }
         })
     }
 
@@ -695,15 +675,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
         return <ReservationDetails
             item={data}
             isBusy={this.props.isBusy}
-            onUpdate={(settings) => {
-                this.props.onUpdate({
-                    type   : 'SAVE_RESERVATION_SETTINGS',
-                    payload: {
-                        settings: settings,
-                        id      : data.uid
-                    }
-                })
-            }}/>;
+            onUpdate={this.props.onUpdate}/>;
     }
 
     renderReservationDateFilter = () => {

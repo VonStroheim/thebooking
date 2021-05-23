@@ -6,19 +6,114 @@
 
   }
 
-  .panelWithTable {
+  .header {
 
-    :global(.p-panel-content) {
-      padding: 0;
+    h1 {
+      color: inherit;
+      font-size: 1.8em;
+      margin-bottom: 1.3em;
+    }
+
+    h2 {
+      color: inherit;
+    }
+
+    .subInfo {
+      font-weight: 600;
+      font-size: 16px;
+      padding: 8px 0;
+
+      &[class*=" status"] {
+        text-transform: uppercase;
+      }
+
+      &:global(.statusconfirmed) {
+        color: var(--green-500);
+      }
+
+      &:global(.statuscancelled) {
+        color: @color_Bloody;
+      }
+
+      &:global(.statuspending) {
+        color: var(--yellow-500);
+      }
+    }
+
+    .times {
+      color: var(--bluegray-400);
+      margin-left: 1rem;
+      text-transform: lowercase;
+    }
+
+  }
+
+  .locationCard {
+    :global(.p-dropdown) {
+      width: 100%;
+    }
+  }
+
+  .priceCard {
+    .paid {
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--green-500);
+    }
+
+    .notPaid {
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--yellow-500);
+    }
+  }
+
+  .zoomCard {
+    .started {
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--green-500);
+    }
+
+    .waiting {
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--yellow-500);
+    }
+  }
+
+  .cardListEntries {
+    margin: 0;
+
+    .cardListEntry {
+      margin-bottom: 1rem !important;
+    }
+
+    label {
+      display: block;
+      color: @color_Gray;
+      padding: 4px 0;
+    }
+
+    .cardListEntryValue {
+
+    }
+  }
+
+  .cardWithTable {
+
+    :global(.p-card-content) {
+      margin: 0 -1rem !important;
     }
 
     table {
+
       > thead {
         display: none;
       }
 
-      .propertyValue {
-        text-align: right;
+      :global(.p-dropdown) {
+        width: 100%;
       }
     }
 
@@ -43,6 +138,36 @@
 
     &:not(:last-child) {
       margin-bottom: 10px;
+    }
+  }
+
+  .tinyCal {
+    border: 4px solid var(--bluegray-600);
+    text-align: center;
+    width: 100px;
+    border-radius: 1.2rem;
+    overflow: hidden;
+
+    .tinyCalWeek {
+      text-transform: uppercase;
+      font-size: 1rem;
+      font-weight: 700;
+      background: var(--bluegray-400);
+      color: white;
+      padding: 0.25rem;
+    }
+
+    .tinyCalDay {
+      font-size: 2.5rem;
+      line-height: 1.2;
+      font-weight: 700;
+    }
+
+    .tinyCalMonth {
+      font-size: 1.5rem;
+      line-height: 1;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
     }
   }
 }
