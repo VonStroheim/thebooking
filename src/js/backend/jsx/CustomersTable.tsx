@@ -3,9 +3,6 @@ import {Column} from 'primereact/column';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {Dialog} from 'primereact/dialog';
-import {OverlayPanel} from 'primereact/overlaypanel';
-import {ListBox} from 'primereact/listbox';
-import {Checkbox} from 'primereact/checkbox';
 // @ts-ignore
 import {confirmPopup} from 'primereact/confirmpopup';
 import {ProgressBar} from 'primereact/progressbar';
@@ -20,6 +17,10 @@ import {ExportToCsv} from "export-to-csv";
 import ReservationsTable from "./ReservationsTable";
 import TableColumnsFilter from "./TableColumnsFilter";
 import TimezoneDropdown from "./TimezoneDropdown";
+import {toDate} from "date-fns-tz";
+import {isFuture} from "date-fns";
+// @ts-ignore
+import tableStyles from "./DataTable.css";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -138,6 +139,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                                 {label: __('Name', 'thebooking'), value: 'name'},
                                 {label: __('Email', 'thebooking'), value: 'email'},
                                 {label: __('Phone', 'thebooking'), value: 'phone'},
+                                {label: __('Number of reservations', 'thebooking'), value: 'reservations'},
                             ]
                         }
                         selected={this.state.columns}
@@ -354,6 +356,27 @@ export default class CustomersTable extends React.Component<SProps, SState> {
         })
     }
 
+    reservationsBodyTemplate = (customer: CustomerBackendRecord) => {
+        const total = tbkCommon.reservations.filter(res => {
+            return res.customerId === customer.id
+        })
+        const incoming = total.filter(res => {
+            return isFuture(toDate(res.start))
+        })
+        return (
+            <div className={'p-d-inline-flex p-ai-center'}>
+                <div style={{flexShrink: 0}}>
+                    <span>
+                        {incoming.length || '-'}
+                    </span>
+                    <span className={tableStyles.tableCellDescription}>
+                        {sprintf(__('Total: %s', 'thebooking'), total.length || '-')}
+                    </span>
+                </div>
+            </div>
+        )
+    }
+
     actionsBodyTemplate = (customer: CustomerBackendRecord) => {
         return (
             <>
@@ -466,6 +489,18 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                     return e.order * a.phone.localeCompare(b.phone);
                 })
                 break;
+            case 'resNo':
+                value.sort((a, b) => {
+                    const incomingResA = tbkCommon.reservations.filter(res => {
+                        return res.customerId === a.id && isFuture(toDate(res.start))
+                    })
+                    const incomingResB = tbkCommon.reservations.filter(res => {
+                        return res.customerId === b.id && isFuture(toDate(res.start))
+                    })
+                    if (incomingResA.length === incomingResB.length) return 0;
+                    return e.order * (incomingResA.length - incomingResB.length)
+                })
+                break;
         }
         return value;
     }
@@ -569,6 +604,14 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                     header={__('Phone', 'thebooking')}
                     body={this.phoneBodyTemplate}
                 />
+            case 'reservations':
+                return <Column
+                    sortFunction={this.sortFunction}
+                    field={'resNo'}
+                    sortable
+                    header={__('Number of reservations', 'thebooking')}
+                    body={this.reservationsBodyTemplate}
+                />
             case 'actions':
                 return <Column
                     body={this.actionsBodyTemplate}
@@ -578,7 +621,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
 
     getColumnsToDisplay = () => {
         const columns = this.props.displayedColumns ? this.props.displayedColumns : [
-            'selector', 'expander', 'name', 'email', 'phone', 'actions'
+            'selector', 'expander', 'name', 'email', 'phone', 'reservations', 'actions'
         ]
         return columns.filter((item) => {
             if (item === 'selector' || item === 'expander' || item === 'actions') {
