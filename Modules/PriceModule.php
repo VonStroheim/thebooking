@@ -99,7 +99,7 @@ final class PriceModule
             'value'        => 'service::price',
             'label'        => __('Service price', 'thebooking'),
             'context'      => 'service',
-            'contextLabel' => __('Price', 'thebooking')
+            'contextLabel' => __('Service', 'thebooking')
         ];
 
         return $hooks;
