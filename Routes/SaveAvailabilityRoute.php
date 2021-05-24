@@ -25,11 +25,9 @@ final class SaveAvailabilityRoute implements Route
             self::$path => [
                 'methods'  => \WP_REST_Server::CREATABLE,
                 'callback' => function (\WP_REST_Request $request) {
-                    $uid      = $request->get_param('id');
-                    $settings = $request->get_param('settings');
 
-                    if (isset($settings['working_hours'])) {
-                        $command = new SaveAvailability($uid, $settings['working_hours']);
+                    foreach ($request->get_param('settings') as $uid => $setting) {
+                        $command = new SaveAvailability($uid, $setting);
                         tbkg()->bus->dispatch($command);
                     }
 
@@ -45,10 +43,7 @@ final class SaveAvailabilityRoute implements Route
                 'args'     => [
                     'settings' => [
                         'required' => TRUE
-                    ],
-                    'id'       => [
-                        'required' => TRUE
-                    ],
+                    ]
                 ]
             ]
         ]);

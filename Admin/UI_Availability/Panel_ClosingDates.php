@@ -17,7 +17,7 @@ class Panel_ClosingDates
                     'description' => __('Select the days in which services are not available.', 'thebooking'),
                     'components'  => [
                         [
-                            'settingId' => 'working_hours',
+                            'settingId' => 'availabilityGlobal_1',
                             'type'      => 'closingDatesPlanner'
                         ],
                     ]

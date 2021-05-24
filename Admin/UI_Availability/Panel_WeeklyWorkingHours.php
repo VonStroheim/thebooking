@@ -17,8 +17,8 @@ class Panel_WeeklyWorkingHours
                     'description' => __('Define the weekly availability schedule.', 'thebooking'),
                     'components'  => [
                         [
-                            'settingId' => 'working_hours',
-                            'type'      => 'hoursPlanner'
+                            'settingId'      => 'availabilityGlobal_1',
+                            'type'           => 'hoursPlanner'
                         ],
                     ]
                 ]

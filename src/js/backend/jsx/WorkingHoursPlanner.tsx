@@ -104,7 +104,7 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
 
         const intervals: any = [];
         const rrules = Object.values(tbkCommon.availability).filter((rule: any) => {
-            return rule.uid === 'availabilityGlobal_1';
+            return rule.uid === props.settingId;
         })
         let exDates: Date[] = [];
         for (let weekNo = 0; weekNo <= 6; weekNo++) {

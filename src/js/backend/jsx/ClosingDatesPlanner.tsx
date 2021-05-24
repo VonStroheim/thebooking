@@ -33,7 +33,7 @@ export default class ClosingDatesPlanner extends React.Component<WProps, WState>
         window.RRULE = RRule;
 
         const rrules = Object.values(tbkCommon.availability).filter((rule: any) => {
-            return rule.uid === 'availabilityGlobal_1';
+            return rule.uid === props.settingId;
         })
 
         let exDates: Date[] = [];
@@ -54,7 +54,7 @@ export default class ClosingDatesPlanner extends React.Component<WProps, WState>
     handleChange = () => {
 
         const rrules = Object.values(tbkCommon.availability).filter((rule: any) => {
-            return rule.uid === 'availabilityGlobal_1';
+            return rule.uid === this.props.settingId;
         })
 
         const returningValues: { rrule: string, duration: number }[] = [];

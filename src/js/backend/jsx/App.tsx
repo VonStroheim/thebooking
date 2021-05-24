@@ -138,8 +138,7 @@ export default class App extends React.Component<AppProps, AppState> {
                 break;
             case 'SAVE_AVAILABILITY':
                 Api.post('/save/availability/', {
-                    settings: action.payload.settings,
-                    id      : 'availabilityGlobal_1'
+                    settings: action.payload.settings
                 }).then((res: any) => {
                     if (res.data.status === 'KO') {
                         this.showError(res.data.error);
