@@ -767,28 +767,42 @@ export default class App extends React.Component<IProps, IState> {
         }
     }
 
+    hideOverflow = () => {
+        const wrapper = this.props.doc.getElementById(this.props.instanceId);
+        wrapper.style.overflow = 'hidden';
+    }
+
+    showOverflow = () => {
+        const wrapper = this.props.doc.getElementById(this.props.instanceId);
+        wrapper.style.overflow = 'visible';
+    }
+
     getMainContent = () => {
         return (
             <>
-                <Slide mountOnEnter unmountOnExit in={this.state.viewMode === 'monthlyCalendar'} direction={this.state.sliderDirection}>
+                <Slide mountOnEnter onEnter={this.hideOverflow} onEntered={this.showOverflow} unmountOnExit in={this.state.viewMode === 'monthlyCalendar'}
+                       direction={this.state.sliderDirection}>
                     <Typography variant={'body2'} component={'div'}>
                         {this.state.viewMode === 'monthlyCalendar' && this.getViews()}
                     </Typography>
                 </Slide>
 
-                <Slide mountOnEnter unmountOnExit in={this.state.viewMode === 'stepper'} direction={this.state.sliderDirection}>
+                <Slide mountOnEnter onEnter={this.hideOverflow} onEntered={this.showOverflow} unmountOnExit in={this.state.viewMode === 'stepper'}
+                       direction={this.state.sliderDirection}>
                     <Typography variant={'body2'} component={'div'}>
                         {this.state.viewMode === 'stepper' && this.getViews()}
                     </Typography>
                 </Slide>
 
-                <Slide mountOnEnter unmountOnExit in={this.state.viewMode === 'reservations'} direction={this.state.sliderDirection}>
+                <Slide mountOnEnter onEnter={this.hideOverflow} onEntered={this.showOverflow} unmountOnExit in={this.state.viewMode === 'reservations'}
+                       direction={this.state.sliderDirection}>
                     <Typography variant={'body2'} component={'div'}>
                         {this.state.viewMode === 'reservations' && this.getViews()}
                     </Typography>
                 </Slide>
 
-                <Slide mountOnEnter unmountOnExit in={this.state.viewMode === 'userMessage'} direction={this.state.sliderDirection}>
+                <Slide mountOnEnter onEnter={this.hideOverflow} onEntered={this.showOverflow} unmountOnExit in={this.state.viewMode === 'userMessage'}
+                       direction={this.state.sliderDirection}>
                     <Typography variant={'body2'} component={'div'}>
                         {this.state.viewMode === 'userMessage' && this.getViews()}
                     </Typography>
