@@ -12,7 +12,7 @@ declare const _: any;
 
 export interface WProps {
     settingId: string,
-    exDates?: any
+    value: []
 
     onChange(settings: { [key: string]: any }): any
 }
@@ -32,13 +32,9 @@ export default class ClosingDatesPlanner extends React.Component<WProps, WState>
         // @ts-ignore
         window.RRULE = RRule;
 
-        const rrules = Object.values(tbkCommon.availability).filter((rule: any) => {
-            return rule.uid === props.settingId;
-        })
-
         let exDates: Date[] = [];
 
-        rrules.forEach((rule: any) => {
+        props.value.forEach((rule: any) => {
             const RRULE: RRuleSet = rrulestr(rule.rrule, {forceset: true}) as RRuleSet;
             exDates = RRULE.exdates()
         })
@@ -53,13 +49,9 @@ export default class ClosingDatesPlanner extends React.Component<WProps, WState>
 
     handleChange = () => {
 
-        const rrules = Object.values(tbkCommon.availability).filter((rule: any) => {
-            return rule.uid === this.props.settingId;
-        })
-
         const returningValues: { rrule: string, duration: number }[] = [];
 
-        rrules.forEach((rule: any) => {
+        this.props.value.forEach((rule: any) => {
             const RRULE: RRuleSet = rrulestr(rule.rrule, {forceset: true}) as RRuleSet;
             const NEW_RULE = new RRuleSet();
 

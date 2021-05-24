@@ -120,6 +120,50 @@ final class UI_Services
                             ]
                         ]
                     ],
+                    [
+                        'title'       => __('Override availability schedule', 'thebooking'),
+                        'description' => __('Turn on to provide specific availability for this service. If turned off, the service will observe the availability provided in the Availability section of the main menu.', 'thebooking'),
+                        'components'  => [
+                            [
+                                'settingId' => 'meta::overrideAvailability',
+                                'type'      => 'toggle'
+                            ]
+                        ]
+                    ],
+                    [
+                        'title'        => __('Specific service availability schedule', 'thebooking'),
+                        'components'   => [
+                            [
+                                'settingId'   => 'availability::workingHours',
+                                'type'        => 'hoursPlanner',
+                                'toFetchFrom' => 'service_%%ID%%'
+                            ],
+                        ],
+                        'dependencies' => [
+                            [
+                                'on'    => 'meta::overrideAvailability',
+                                'being' => '=',
+                                'to'    => TRUE
+                            ]
+                        ]
+                    ],
+                    [
+                        'title'        => __('Specific service days off', 'thebooking'),
+                        'components'   => [
+                            [
+                                'settingId'   => 'availability::workingHours',
+                                'type'        => 'closingDatesPlanner',
+                                'toFetchFrom' => 'service_%%ID%%'
+                            ]
+                        ],
+                        'dependencies' => [
+                            [
+                                'on'    => 'meta::overrideAvailability',
+                                'being' => '=',
+                                'to'    => TRUE
+                            ]
+                        ]
+                    ]
                 ]
             ],
             [

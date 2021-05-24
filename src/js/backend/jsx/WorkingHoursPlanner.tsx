@@ -19,7 +19,7 @@ export interface WProps {
     rangeMin: number,
     rangeMax: number,
     settingId: string,
-    exDates?: any
+    value: []
 
     onChange(settings: { [key: string]: any }): any
 }
@@ -103,12 +103,9 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
         const sliderDefaults = Array.from({length: 7}, () => Object.assign({}, baseSliderSettings));
 
         const intervals: any = [];
-        const rrules = Object.values(tbkCommon.availability).filter((rule: any) => {
-            return rule.uid === props.settingId;
-        })
         let exDates: Date[] = [];
         for (let weekNo = 0; weekNo <= 6; weekNo++) {
-            rrules.forEach((rule: any) => {
+            props.value.forEach((rule: any) => {
                 const RRULE: RRuleSet = rrulestr(rule.rrule, {forceset: true}) as RRuleSet;
                 RRULE.rrules().forEach(innerRrule => {
                     if (Array.isArray(innerRrule.options.byweekday) && innerRrule.options.byweekday.includes(weekNo)) {
@@ -163,6 +160,21 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
                 return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
             })
         }
+    }
+
+    updateExDates = () => {
+        let exDates: Date[] = [];
+        for (let weekNo = 0; weekNo <= 6; weekNo++) {
+            this.props.value.forEach((rule: any) => {
+                const RRULE: RRuleSet = rrulestr(rule.rrule, {forceset: true}) as RRuleSet;
+                exDates = RRULE.exdates()
+            })
+        }
+        this.setState({
+            exDates: exDates.map(date => {
+                return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
+            })
+        })
     }
 
     inject = (sliders: HTMLCollectionOf<any>) => {
@@ -248,6 +260,12 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
             sliders[i].noUiSlider.off();
             // @ts-ignore
             sliders[i].noUiSlider.destroy();
+        }
+    }
+
+    componentDidUpdate(prevProps: Readonly<WProps>, prevState: Readonly<WState>, snapshot?: any) {
+        if (this.props !== prevProps) {
+            this.updateExDates();
         }
     }
 

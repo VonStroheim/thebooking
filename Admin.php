@@ -223,6 +223,18 @@ class Admin
 
         foreach ($services as $service) {
             foreach (tbkg()->availability->all() as $element) {
+
+                if (isset($service['meta']['overrideAvailability'])
+                    && $service['meta']['overrideAvailability']
+                    && $element['uid'] !== 'service_' . $service['uid']) {
+                    continue;
+                }
+
+                if ((!isset($service['meta']['overrideAvailability'])
+                        || (isset($service['meta']['overrideAvailability']) && !$service['meta']['overrideAvailability'])) && $element['uid'] !== 'availabilityGlobal_1') {
+                    continue;
+                }
+
                 $availability[] = [
                     'uid'               => $element['uid'],
                     'rrule'             => $element['rrule'],

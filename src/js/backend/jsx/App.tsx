@@ -174,6 +174,9 @@ export default class App extends React.Component<AppProps, AppState> {
                     .then(res => res.json())
                     .then(res => {
                         tbkCommon.services = res.services;
+                        if ('availability' in res) {
+                            tbkCommon.availability = res.availability;
+                        }
                         if ('UIx' in res) {
                             tbkCommon.UIx.panels = res.UIx.panels;
                         }
@@ -702,6 +705,15 @@ export default class App extends React.Component<AppProps, AppState> {
                                         settingValue = mergedValues[component.settingId];
                                         if (typeof settingValue === 'undefined' && component.settingId.startsWith('meta::')) {
                                             settingValue = values.meta[component.settingId.replace('meta::', '')];
+                                        } else if (typeof settingValue === 'undefined'
+                                            && (component.settingId.startsWith('availability::') || component.settingId === 'availabilityGlobal_1')
+                                        ) {
+                                            settingValue = Object.values(tbkCommon.availability).filter((rule: any) => {
+                                                if (component.toFetchFrom) {
+                                                    return rule.uid === component.toFetchFrom.replace(/%%ID%%/g, values.uid);
+                                                }
+                                                return rule.uid === component.settingId;
+                                            })
                                         }
                                     }
 
@@ -892,6 +904,7 @@ export default class App extends React.Component<AppProps, AppState> {
                                                 <SettingComponents.WorkingHoursPlanner
                                                     key={component.settingId + 'WorkingHoursPlanner'}
                                                     settingId={component.settingId}
+                                                    value={settingValue}
                                                     onChange={this.haltSettingsChanges}
                                                 />
                                             )
@@ -900,6 +913,7 @@ export default class App extends React.Component<AppProps, AppState> {
                                                 <SettingComponents.ClosingDatesPlanner
                                                     key={component.settingId + 'ClosingDatesPlanner'}
                                                     settingId={component.settingId}
+                                                    value={settingValue}
                                                     onChange={this.haltSettingsChanges}
                                                 />
                                             )

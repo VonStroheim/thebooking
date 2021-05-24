@@ -3,6 +3,7 @@
 namespace TheBooking;
 
 use TheBooking\Admin\UI_Services;
+use TheBooking\Bus\Commands\SaveAvailability;
 use TheBooking\Bus\Commands\SaveReservationForm;
 use TheBooking\Classes\Service;
 use TheBooking\Classes\Service_Appointment;
@@ -190,6 +191,17 @@ class Services
                             $service->addMeta('requiresApproval', filter_var($value, FILTER_VALIDATE_BOOLEAN));
                         }
                         break;
+                    case 'meta::overrideAvailability':
+                        if (!filter_var($value, FILTER_VALIDATE_BOOLEAN)) {
+                            $service->dropMeta('overrideAvailability');
+                        } else {
+                            $service->addMeta('overrideAvailability', filter_var($value, FILTER_VALIDATE_BOOLEAN));
+                        }
+                        break;
+                    case 'availability::workingHours':
+                        $command = new SaveAvailability('service_' . $service->id(), $value);
+                        tbkg()->bus->dispatch($command);
+                        break;
                     case 'meta::locations':
                         if (!$value) {
                             $service->dropMeta('locations');
@@ -207,6 +219,7 @@ class Services
                 $response['services']      = array_map(static function (Service $service) {
                     return $service->as_array();
                 }, tbkg()->services->all());
+                $response['availability']  = tbkg()->availability->all();
                 $response['UIx']['panels'] = apply_filters('tbk_backend_service_settings_panels', UI_Services::_settings_panels());
 
                 return $response;

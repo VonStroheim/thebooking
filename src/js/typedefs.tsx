@@ -415,6 +415,7 @@ export interface SettingPanelBlockComponentBackend {
     href?: string
     post?: string
     postData?: { [key: string]: any }
+    toFetchFrom?: string
     placeholder?: string
     intent?: string
     templateHooks?: NotificationHook[]

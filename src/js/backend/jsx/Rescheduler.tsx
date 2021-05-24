@@ -67,6 +67,15 @@ export default class Rescheduler extends React.Component<RProps, RState> {
         const availability: AvailabilityRecord[] = [];
 
         for (const availabilityRecord of Object.values(tbkCommon.availability) as any) {
+
+            if (tbkCommon.services[this.props.serviceId].meta.overrideAvailability && availabilityRecord.uid !== 'service_' + this.props.serviceId) {
+                continue;
+            }
+
+            if (!tbkCommon.services[this.props.serviceId].meta.overrideAvailability && availabilityRecord.uid !== 'availabilityGlobal_1') {
+                continue;
+            }
+
             availability.push({
                 serviceId        : this.props.serviceId,
                 rrule            : availabilityRecord.rrule,
