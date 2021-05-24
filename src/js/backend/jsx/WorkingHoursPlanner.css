@@ -67,6 +67,9 @@
 .workingHoursPlanner ul :global(.noUi-horizontal) :global(.noUi-handle):focus {
   background: var(--blue-800);
 }
+.workingHoursPlanner ul :global(.noUi-horizontal) :global(.noUi-pips-horizontal) {
+  padding: 26px 0 !important;
+}
 .workingHoursPlanner ul :global(.noUi-target) {
   border-radius: 0;
   flex: 1;
