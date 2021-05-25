@@ -3,7 +3,7 @@ Contributors: vonstroheim
 Tags: booking system, reservation, appointment, schedule, booking calendar, booking, calendar, events, appointment system
 Requires at least: 5.0
 Tested up to: 5.7
-Stable tag: 1.3.1
+Stable tag: 1.4.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -28,11 +28,15 @@ TheBooking implements an intuitive weekly planner to define availability hours, 
 
 #### Reservation form
 
-Define and customize a **reservation form** for each one of your services. TheBooking ships with a flexible **form builder**.
+Define and customize a reservation form for each one of your services. TheBooking ships with a flexible **form builder**.
 
 * **Custom fields**: add your desired fields in the reservation form to collect the data you need (even **files**!)
 * **Conditional fields**: fields can be configured to show/hide or being required in consequence of values of other fields.
 * **Validation**: apply the desired validation rule to any text field, if needed.
+
+#### Zoom meetings
+
+TheBooking integrates with Zoom to automate meetings creation and management for your services.
 
 #### Google Calendar 2-ways integration
 
@@ -46,7 +50,7 @@ Each service can have one or more **locations** that customer will be able to se
 
 #### Notification email messages
 
-TheBooking is very powerful when it comes to build the perfect **notification system** for your booking system.
+TheBooking is very powerful when it comes to build the perfect notification system for your booking system.
 
 * **Complete stack** of notifications for any action: confirm, cancel, reschedule, approve, decline etc.
 * **Differentiate by service**: any notification can be configured independently for each service
@@ -61,13 +65,41 @@ Services can be configured to be booked by registered users only. Services can a
 
 Reservations and customers can be **conveniently exported** in *.CSV format.
 
-== Getting started ==
-
-See the [documentation](https://docs.thebookingplugin.com/ "TheBooking documentation") for all the info.
+To know more, see the [documentation](https://docs.thebookingplugin.com/ "TheBooking documentation").
 
 == Contribute ==
 
 Source code can be found [here](https://github.com/VonStroheim/thebooking "TheBooking repository")
+
+== Frequently Asked Questions ==
+
+= Does it support Google Calendar? =
+
+Yes, 2-ways Google Calendar integration is implemented. You can configure it as you please.
+
+= Can I create virtual meetings? =
+
+Yes, TheBooking integrates with Zoom. Just provide the API keys, and you will be able to offer virtual meetings to your customers to book. Meeting creation and management is automated.
+
+= Can I change the customer or reschedule a reservation? =
+
+Yes, any aspect of a reservation can be edited in the convenient backend dashboard. The plugin will take care of consistency across resources.
+
+= Do all my services share the same availability schedule? =
+
+Not necessarily. TheBooking is very flexible, so you can set a global availability schedule, or you can provide specific availabilities for some of your services.
+
+= Do I need to provide time slots of the same duration for a given service? =
+
+Not necessarily. The availability intervals can be either subdivided into fixed duration time slots, or each interval considered as a whole time slot.
+
+= Do customers need to be registered in WordPress? =
+
+This is configurable and up to you. The plugin can be configured in such a way that any new customer will be automatically linked to a new WordPress user or not. You can also restrict some of your services to be booked by registered users only.
+
+= Can I suggest features and/or enhancements? =
+
+Yes, please do so! You can do that via [GitHub](https://github.com/VonStroheim/thebooking "TheBooking repository")
 
 == Screenshots ==
 
@@ -76,8 +108,42 @@ Source code can be found [here](https://github.com/VonStroheim/thebooking "TheBo
 3. Availability settings
 4. Booking process
 5. Form builder
+6. Reservation details
+7. Frontend reservations list
+
+== Installation ==
+
+= Minimum Requirements =
+
+* WordPress 5.0 or greater
+* PHP version 5.6 or greater
+* MySQL version 5.0 or greater
+
+= Automatic installation =
+
+To install TheBooking automatically, go in to your WordPress admin panel, navigate to the Plugins menu and click Add New.
+
+In the search field type "TheBooking" and click Search Plugins. Clicking Install Now. After clicking that link you will be asked if you are sure you want to install the plugin. Click yes and WordPress will automatically complete the installation.
+
+= Manual installation =
+
+The manual installation method involves downloading our plugin and uploading it to your web server via your favorite FTP application.
+
+1. Download the plugin file to your computer and unzip it
+2. Using an FTP program, or your hosting control panel, upload the unzipped plugin folder to your WordPress installations wp-content/plugins/ directory.
+3. Activate the plugin from the Plugins menu within the WordPress admin panel.
+
+== Getting started ==
+
+See the [documentation](https://docs.thebookingplugin.com/ "TheBooking documentation") for all the info.
 
 == Changelog ==
+= 1.4.0 =
+* [Feature] Zoom meetings integration
+* [Enhancement] Customers table now shows the incoming and total number of reservations for each customer
+* [Enhancement] Reservation details screen restyled
+* [Fix] Minor bug fixes
+
 = 1.3.1 =
 * [Fix] File types selector in form builder file upload field wasn't providing feedback
 * [Fix] Enfold theme frontend style conflicts

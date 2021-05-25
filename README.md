@@ -48,6 +48,13 @@ Go in `TheBooking > Settings > Google Calendar`, provide Google API keys and sel
 + Create reservation events automatically in your Google Calendar
 + Remove available time slots automatically when you are busy
 
+## Zoom integration
+Go in `TheBooking > Settings > Zoom meetings` and provide Zoom API keys.
+
+#### Highlighted features
++ Create Zoom meeting automatically after a reservation and send access link to the customer.
++ Adapt meetings automatically when a reservation is rescheduled or modified.
+
 ## Reservations management
 Go in `TheBooking > Reservations` to manage your reservations.
 
@@ -58,6 +65,17 @@ Go in `TheBooking > Reservations` to manage your reservations.
 
 
 ### Changelog
++ 1.4.0
+
+  [Feature] Zoom meetings integration
+
+  [Enhancement] Customers table now shows the incoming and total number of reservations for each customer
+
+  [Enhancement] Reservation details screen restyled
+
+  [Fix] Minor bug fixes
+
+
 + 1.3.1
 
   [Fix] File types selector in form builder file upload field wasn't providing feedback
@@ -67,6 +85,7 @@ Go in `TheBooking > Reservations` to manage your reservations.
   [Fix] Elementor preview and block builder preview were not working
 
   [Fix] Minor bug fixes
+
   
 + 1.3.0
 
