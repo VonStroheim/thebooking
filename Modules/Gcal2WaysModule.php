@@ -88,8 +88,6 @@ final class Gcal2WaysModule
             $reservation = tbkg()->reservations->all()[ $command->getUid() ];
             $service     = tbkg()->services->get($reservation->service_id());
 
-            $event = $g_service->events->get($options[ self::LINKED_GCAL ], $reservation->getMeta('gcal_event_id'));
-
             if ($command instanceof ChangeReservationLocation) {
                 if ($reservation->getMeta('gcal_event_id')) {
                     $event = $g_service->events->get($options[ self::LINKED_GCAL ], $reservation->getMeta('gcal_event_id'));
