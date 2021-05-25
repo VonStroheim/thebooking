@@ -11,6 +11,7 @@ use TheBooking\Bus\Commands\DeleteReservation;
 use TheBooking\Classes\DateTimeTbk;
 use TheBooking\Classes\Reservation;
 use TheBooking\Classes\ValueTypes\Status;
+use VSHM_Framework\REST_Controller;
 use VSHM_Framework\Tools;
 
 defined('ABSPATH') || exit;
@@ -38,6 +39,21 @@ final class ZoomModule
     {
         $options = self::_get_options();
 
+        REST_Controller::register_routes([
+            '/reservation/getmeetinglink' => [
+                'methods'  => \WP_REST_Server::READABLE,
+                'callback' => [self::class, 'getMeetingLinkCallback'],
+                'args'     => [
+                    'userHash'      => [
+                        'required' => TRUE
+                    ],
+                    'reservationId' => [
+                        'required' => TRUE
+                    ],
+                ]
+            ],
+        ]);
+
         tbkg()->loader->add_filter('tbk_backend_core_settings_panels', self::class, 'settingsPanel');
         tbkg()->loader->add_filter('tbk_backend_settings', self::class, 'settings');
         tbkg()->loader->add_action('tbk-backend-settings-save-single', self::class, 'save_setting_callback', 10, 2);
@@ -46,6 +62,7 @@ final class ZoomModule
         tbkg()->loader->add_filter('tbk_loaded_modules', self::class, 'isLoaded');
         tbkg()->loader->add_action('tbk_save_service_settings', self::class, 'save_service_settings', 10, 3);
         tbkg()->loader->add_filter('tbk_reservation_as_array_mapping', self::class, 'meta_mapping', 10, 2);
+        tbkg()->loader->add_filter('tbk_reservation_frontend_map', self::class, 'meta_mapping_frontend', 10, 2);
 
         if ($options[ self::API_KEY ] && $options[ self::API_SECRET ]) {
             // Priority is 1 because it must run before any notifications
@@ -59,6 +76,28 @@ final class ZoomModule
             tbkg()->loader->add_filter('tbk_notification_template_hooks', self::class, 'notificationTemplateHooks', 10, 2);
         }
 
+    }
+
+    /**
+     * @param \WP_REST_Request $request
+     *
+     * @return mixed|void
+     */
+    public static function getMeetingLinkCallback(\WP_REST_Request $request)
+    {
+        $reservation = tbkg()->reservations->all()[ $request->get_param('reservationId') ];
+        $response    = [];
+        if ($reservation && $reservation->getMeta(self::META_ZOOM_MEETING_ID)) {
+            $customer = tbkg()->customers->get($reservation->customer_id());
+            if (md5($customer->access_token()) === $request->get_param('userHash')) {
+                $meeting = self::getMeeting($reservation->getMeta(self::META_ZOOM_MEETING_ID));
+                if ($meeting && isset($meeting['join_url'])) {
+                    $response['link'] = $meeting['join_url'];
+                }
+            }
+        }
+
+        return apply_filters('tbk_getmeetinglink_response', new \WP_REST_Response($response, 200));
     }
 
     /**
@@ -180,6 +219,26 @@ final class ZoomModule
             }
 
             $mapped['meta'][ self::META_ZOOM_MEETING_ID ] = $mappedMeeting;
+        }
+
+        return $mapped;
+    }
+
+    /**
+     * This is necessary to convey meeting data to the frontend (widgets)
+     *
+     * @param array  $mapped
+     * @param string $reservationId
+     *
+     * @return array
+     */
+    public static function meta_mapping_frontend($mapped, $reservationId)
+    {
+        $res = tbkg()->reservations->all()[ $reservationId ];
+        if ($res instanceof Reservation) {
+            if ($res->getMeta(self::META_ZOOM_MEETING_ID)) {
+                $mapped['meta']['zoomMeetingId'] = $res->getMeta(self::META_ZOOM_MEETING_ID);
+            }
         }
 
         return $mapped;
