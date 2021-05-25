@@ -31,27 +31,20 @@ import {
     Slide,
     Table,
     TableBody,
-    TableCell,
-    TableHead,
     TableContainer,
-    TableRow,
-    Chip,
     Switch,
-    FormControlLabel, CardHeader, Avatar
+    FormControlLabel,
 } from '@material-ui/core';
 import {
     ChevronRight,
     ChevronLeft,
     DoneAll,
-    Done as DoneIcon,
-    Update as UpdateIcon,
-    Clear as ClearIcon,
     Error as ErrorIcon,
     Undo,
-    Block as BlockIcon
 } from '@material-ui/icons';
 import ScopedCssBaseline from '@material-ui/core/ScopedCssBaseline';
 import {AvailabilityRecord, availableViews, FrontendMiddleware, MiddlewareAction, ReservationRecord, ServiceRecord, StateAction, tbkCommonF, TimeSlot} from "../../typedefs";
+import ReservationTableRecord from "./ReservationTableRecord";
 
 declare const TBK: tbkCommonF;
 declare const _: any;
@@ -630,58 +623,7 @@ export default class App extends React.Component<IProps, IState> {
                                     size={'small'}
                                 >
                                     <TableBody>
-                                        {filteredReservations.map((reservation) => {
-                                            const date = toDate(reservation.start);
-                                            const service = this.props.services[reservation.serviceId];
-                                            let statusIcon;
-                                            switch (reservation.status) {
-                                                case 'cancelled':
-                                                    statusIcon = <ClearIcon style={{color: theme.palette.error.main}}/>;
-                                                    break;
-                                                case 'confirmed':
-                                                    statusIcon = <DoneIcon style={{color: theme.palette.success.main}}/>;
-                                                    break;
-                                                case 'pending':
-                                                    statusIcon = <UpdateIcon style={{color: theme.palette.warning.main}}/>;
-                                                    break;
-                                                case 'declined':
-                                                    statusIcon = <BlockIcon style={{color: theme.palette.text.secondary}}/>;
-                                                    break;
-                                                default:
-                                                    statusIcon = <DoneIcon style={{color: theme.palette.success.main}}/>;
-                                                    break;
-                                            }
-                                            return (
-                                                <TableRow hover>
-                                                    <TableCell>
-                                                        <CardHeader
-                                                            avatar={
-                                                                <Avatar
-                                                                    style={{background: service.image ? null : service.color}}
-                                                                    src={service.image ? service.image[0] : null}
-                                                                    alt={service.name}
-                                                                >
-                                                                    {service.name.charAt(0)}
-                                                                </Avatar>
-                                                            }
-                                                            title={service.name}
-                                                            subheader={service.description.short}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell>
-                                                <span className={styles.dateTimeCell}>
-                                                    {globals.formatDate(date)}
-                                                    <span>
-                                                        {globals.formatTime(date)}
-                                                    </span>
-                                                </span>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Chip variant='outlined' size='small' icon={statusIcon} label={TBK.statuses[reservation.status]}/>
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        })}
+                                        {filteredReservations.map((reservation) => <ReservationTableRecord reservation={reservation} services={this.props.services}/>)}
                                     </TableBody>
                                 </Table>
                             </TableContainer>
