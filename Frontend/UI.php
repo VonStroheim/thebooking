@@ -147,6 +147,9 @@ final class UI
                     ]
                 ],
                 'MuiTableCell'         => [
+                    'root' => [
+                        'border' => 'none !important'
+                    ],
                     'head' => [
                         'fontWeight' => 600,
                     ]
