@@ -67,10 +67,12 @@ export default function ServiceDropdown(props: SelectProps) {
                         <Grid item>
                             <Grid container direction={'row-reverse'} alignContent={'flex-end'}>
                                 <Grid item style={{width: '80px'}}>
-                                    <ItemBadge
-                                        icon={<AccessTimeIcon fontSize="small"/>}
-                                        label={globals.minutesToDhms(service.duration / 60)}
-                                    />
+                                    {!service.meta.takeWholeAvailabilityIntervals && (
+                                        <ItemBadge
+                                            icon={<AccessTimeIcon fontSize="small"/>}
+                                            label={globals.minutesToDhms(service.duration / 60)}
+                                        />
+                                    )}
                                     {service.meta.hasPrice && (
                                         <ItemBadge
                                             avatar={<span dangerouslySetInnerHTML={{__html: globals.sanitizer(TBK.currencySymbol)}}/>}

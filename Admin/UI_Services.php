@@ -68,13 +68,50 @@ final class UI_Services
                 'icon'       => 'pi pi-clock',
                 'blocks'     => [
                     [
-                        'title'       => __('Time slot duration', 'thebooking'),
-                        'description' => __('Configure the duration of the appointment.', 'thebooking'),
+                        'title'       => __('Consider availability intervals as whole timeslots', 'thebooking'),
+                        'description' => __('Choose whether a continuous availability interval is considered as a whole timeslot or subdivided into fixed duration timeslots.', 'thebooking'),
                         'components'  => [
+                            [
+                                'settingId' => 'meta::takeWholeAvailabilityIntervals',
+                                'type'      => 'toggle',
+                            ],
+                            [
+                                'type'         => 'notice',
+                                'text'         => __('If Monday availability is from 8:00AM to 14:00PM and from 15:00PM to 18:00PM there will be 2 timeslots for this service (8:00AM - 14:00PM and 15:00PM - 18:00PM)', 'thebooking'),
+                                'dependencies' => [
+                                    [
+                                        'on'    => 'meta::takeWholeAvailabilityIntervals',
+                                        'being' => '=',
+                                        'to'    => TRUE
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type'         => 'notice',
+                                'text'         => __('If Monday availability is from 8:00AM to 14:00PM and from 15:00PM to 18:00PM those intervals will be subdivided into several timeslots of fixed duration.', 'thebooking'),
+                                'dependencies' => [
+                                    [
+                                        'on'    => 'meta::takeWholeAvailabilityIntervals',
+                                        'being' => 'FALSY'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    [
+                        'title'        => __('Time slot duration', 'thebooking'),
+                        'description'  => __('Configure the duration of the appointment.', 'thebooking'),
+                        'components'   => [
                             [
                                 'settingId' => 'duration',
                                 'type'      => 'durationSelect',
-                                'showDays'  => FALSE,
+                                'showDays'  => FALSE
+                            ]
+                        ],
+                        'dependencies' => [
+                            [
+                                'on'    => 'meta::takeWholeAvailabilityIntervals',
+                                'being' => 'FALSY'
                             ]
                         ]
                     ],

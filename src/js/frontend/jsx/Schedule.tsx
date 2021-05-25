@@ -23,6 +23,7 @@ import ServiceDropdown from "./ScheduleComponents/ServiceDropdown";
 import LocationDropdown from "./ScheduleComponents/LocationDropdown";
 import GMaps from "./GMaps";
 import {ArrowForward} from "@material-ui/icons";
+import {differenceInMinutes} from "date-fns";
 
 declare const TBK: tbkCommonF;
 declare const _: any;
@@ -308,7 +309,11 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
                 ? TBK.locations[this.state.selectedLocation].address
                 : __('Choose a location', 'thebooking'),
             timeslot: this.state.selectedTimeSlot && activeStep !== 'timeslot'
-                ? globals.formatTime(toDate(this.state.selectedTimeSlot.start))
+                ? globals.formatTime(toDate(this.state.selectedTimeSlot.start)) + (
+                this.props.services[this.state.selectedService].meta.takeWholeAvailabilityIntervals
+                    ? ' - ' + globals.formatTime(toDate(this.state.selectedTimeSlot.end)) + ' (' + globals.minutesToDhms(differenceInMinutes(toDate(this.state.selectedTimeSlot.end), toDate(this.state.selectedTimeSlot.start))) + ')'
+                    : ''
+            )
                 : __('Pick a time slot', 'thebooking'),
             form    : __('Your information', 'thebooking')
         }
@@ -435,6 +440,7 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
                             <TimeslotDropdown
                                 value={this.state.selectedTimeSlot}
                                 items={items}
+                                showEndTimes={this.props.services[this.state.selectedService].meta.takeWholeAvailabilityIntervals}
                                 onChange={(event, newValue: TimeSlot) => {
                                     if (newValue) {
                                         this.onTimeslotSelection(newValue)

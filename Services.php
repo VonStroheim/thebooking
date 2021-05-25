@@ -198,6 +198,13 @@ class Services
                             $service->addMeta('overrideAvailability', filter_var($value, FILTER_VALIDATE_BOOLEAN));
                         }
                         break;
+                    case 'meta::takeWholeAvailabilityIntervals':
+                        if (!filter_var($value, FILTER_VALIDATE_BOOLEAN)) {
+                            $service->dropMeta('takeWholeAvailabilityIntervals');
+                        } else {
+                            $service->addMeta('takeWholeAvailabilityIntervals', filter_var($value, FILTER_VALIDATE_BOOLEAN));
+                        }
+                        break;
                     case 'availability::workingHours':
                         $command = new SaveAvailability('service_' . $service->id(), $value);
                         tbkg()->bus->dispatch($command);

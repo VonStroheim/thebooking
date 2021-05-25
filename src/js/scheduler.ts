@@ -1,4 +1,4 @@
-import {AvailabilityRecord, ReservationRecord, ReservationRecordBackend, ServiceRecord, ServiceRecordBackend, tbkCommonB, tbkCommonF, TimeSlot} from "./typedefs";
+import {AvailabilityRecord, DurationObject, ReservationRecord, ReservationRecordBackend, ServiceRecord, ServiceRecordBackend, tbkCommonB, tbkCommonF, TimeSlot} from "./typedefs";
 import {
     add as addToDate, addMilliseconds,
     areIntervalsOverlapping,
@@ -167,7 +167,13 @@ export default class Scheduler {
                 continue;
             }
 
-            const eventDuration = globals.secondsToDurationObj(service.duration);
+            let eventDuration: DurationObject;
+
+            if (service.meta.takeWholeAvailabilityIntervals){
+                eventDuration = availability.containerDuration;
+            } else {
+                eventDuration = globals.secondsToDurationObj(service.duration);
+            }
 
             instances.forEach(instanceWP => {
 
@@ -180,6 +186,7 @@ export default class Scheduler {
 
                 let endOfLoop;
 
+                // TODO: is this conditional necessary?
                 if (availability.containerDuration) {
                     endOfLoop = addToDate(instance, availability.containerDuration);
                 } else {
