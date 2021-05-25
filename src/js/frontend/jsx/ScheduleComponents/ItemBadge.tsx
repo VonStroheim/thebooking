@@ -17,7 +17,7 @@ export default function ItemBadge(props: BadgeProps) {
     return (
         <Grid container alignItems={'center'} style={{lineHeight: 1, margin: 0}}>
             {props.icon && (
-                <Grid item>
+                <Grid item style={{marginRight: '4px'}}>
                     {props.icon}
                 </Grid>
             )}
@@ -28,7 +28,7 @@ export default function ItemBadge(props: BadgeProps) {
                         height     : '18px',
                         fontSize   : '12px',
                         marginLeft : '1px',
-                        marginRight: '1px',
+                        marginRight: '4px',
                         color      : TBK.UI.theme.palette.getContrastText(TBK.UI.theme.palette.secondary.main),
                         background : TBK.UI.theme.palette.secondary.main,
                     }}>
