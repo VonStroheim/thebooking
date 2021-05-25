@@ -81,7 +81,7 @@ const baseSliderSettings: SliderSettings = {
     step     : 5,
     connect  : [false, true, false],
     behaviour: 'drag-tap',
-    margin   : 5,
+    margin   : 0,
 };
 
 export default class WorkingHoursPlanner extends React.Component<WProps, WState> {
@@ -89,6 +89,7 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
     private sliders: any[];
     private minPresets = [0, 60, 120, 180, 240, 300, 360, 420, 480];
     private maxPresets = [1080, 1140, 1200, 1260, 1320, 1380, 1440];
+    private maxIntervals = 50;
 
     constructor(props: WProps) {
 
@@ -198,7 +199,7 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
             if (this.state.slidersDefaults[i].start.length === 1) {
                 sliders[i].setAttribute('disabled', 'true');
             } else {
-                this.mergeTooltips(sliders[i], 10, ' - ');
+                this.mergeTooltips(sliders[i], 40, ' - ');
             }
             this.sliders[i] = sliders[i];
         }
@@ -320,7 +321,7 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
             // @ts-ignore
             this.sliders[i].noUiSlider.on('update', this.updateTotalTime);
             if (this.state.slidersDefaults[i].tooltips) {
-                this.mergeTooltips(this.sliders[i], 10, ' - ');
+                this.mergeTooltips(this.sliders[i], 40, ' - ');
             }
         }
     }
@@ -328,8 +329,8 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
     changeIntervals = (sliderIndex: number, event: string) => {
         const newSliderDefaults = Object.assign({}, this.state.slidersDefaults);
         const prevIntervals = Math.floor(newSliderDefaults[sliderIndex].start.length / 2);
-        if ((prevIntervals === 4 && event === 'add') || (prevIntervals === 0 && event !== 'add')) return;
-        const intervals = event === 'add' ? Math.min(prevIntervals + 1, 4) : Math.max(prevIntervals - 1, 0);
+        if ((prevIntervals === this.maxIntervals && event === 'add') || (prevIntervals === 0 && event !== 'add')) return;
+        const intervals = event === 'add' ? Math.min(prevIntervals + 1, this.maxIntervals) : Math.max(prevIntervals - 1, 0);
         const slider = this.sliders[sliderIndex];
         const prevTotalStrings = this.state.totalTimeLabels;
         const thisIndex = sliderIndex;
@@ -384,7 +385,7 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
         });
         slider.noUiSlider.on('update', this.updateTotalTime);
         if (Number(intervals) !== 0) {
-            this.mergeTooltips(slider, 10, ' - ');
+            this.mergeTooltips(slider, 40, ' - ');
         }
     }
 
@@ -406,7 +407,7 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
 
     /**
      * @param slider HtmlElement with an initialized slider
-     * @param threshold Minimum proximity (in percentages) to merge tooltips
+     * @param threshold Minimum proximity (in pixels) to merge tooltips
      * @param separator String joining tooltips
      */
     mergeTooltips = (slider: any, threshold: number, separator: string) => {
@@ -441,7 +442,7 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
             }
 
             for (let i = 1; i < positions.length; i++) {
-                if (!tooltips[i] || (positions[i] - positions[i - 1]) > threshold) {
+                if (!tooltips[i] || (positions[i] - positions[i - 1]) > (threshold / this.target.offsetWidth * 100)) {
                     atPool++;
                     pools[atPool] = [];
                     poolValues[atPool] = [];
@@ -474,9 +475,10 @@ export default class WorkingHoursPlanner extends React.Component<WProps, WState>
                         offset = (textIsRtl && !isVertical ? 100 : 0) + (offset / handlesInPool) - lastOffset;
 
                         // Center this tooltip over the affected handles
-                        tooltips[handleNumber].innerHTML = poolValues[poolIndex].join(separator);
+                        tooltips[handleNumber].innerHTML = Array.from(new Set(poolValues[poolIndex])).join(separator);
                         tooltips[handleNumber].style.display = 'block';
                         tooltips[handleNumber].style[direction] = offset + '%';
+
                     } else {
                         // Hide this tooltip
                         tooltips[handleNumber].style.display = 'none';
