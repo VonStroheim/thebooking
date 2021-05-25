@@ -7,6 +7,7 @@ import React from "react";
 import styles from './ServiceDropdown.css';
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import ItemBadge from "./ItemBadge";
+import VideocamIcon from "@material-ui/icons/Videocam";
 
 declare const wp: any;
 declare const TBK: tbkCommonF;
@@ -74,6 +75,12 @@ export default function ServiceDropdown(props: SelectProps) {
                                         <ItemBadge
                                             avatar={<span dangerouslySetInnerHTML={{__html: globals.sanitizer(TBK.currencySymbol)}}/>}
                                             label={service.meta.price}
+                                        />
+                                    )}
+                                    {service.meta.isVirtual && (
+                                        <ItemBadge
+                                            icon={<VideocamIcon fontSize="small"/>}
+                                            label={__('Virtual', 'thebooking')}
                                         />
                                     )}
                                 </Grid>

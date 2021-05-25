@@ -5,6 +5,7 @@ import React from "react";
 // @ts-ignore
 import styles from '../Schedule.css';
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import VideocamIcon from "@material-ui/icons/Videocam";
 import GMaps from "../GMaps";
 import ItemBadge from "./ItemBadge";
 
@@ -48,6 +49,12 @@ export default function ServiceCard(props: CardProps) {
                                 <ItemBadge
                                     avatar={<span dangerouslySetInnerHTML={{__html: globals.sanitizer(TBK.currencySymbol)}}/>}
                                     label={props.service.meta.price}
+                                />
+                            )}
+                            {props.service.meta.isVirtual && (
+                                <ItemBadge
+                                    icon={<VideocamIcon fontSize="small"/>}
+                                    label={__('Virtual', 'thebooking')}
                                 />
                             )}
                         </Grid>
