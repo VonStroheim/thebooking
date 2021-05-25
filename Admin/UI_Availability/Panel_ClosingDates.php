@@ -20,6 +20,10 @@ class Panel_ClosingDates
                             'settingId' => 'availabilityGlobal_1',
                             'type'      => 'closingDatesPlanner'
                         ],
+                        [
+                            'type' => 'notice',
+                            'text' => __('This availability is applied to all services. If you need to change it for a specific service, go in Service settings > Duration and availability', 'thebooking'),
+                        ]
                     ]
                 ]
             ]
