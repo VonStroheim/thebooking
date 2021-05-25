@@ -642,6 +642,16 @@ export default class App extends React.Component<AppProps, AppState> {
                         show = false;
                     }
                     break;
+                case 'FALSY':
+                    if (parentValue) {
+                        show = false;
+                    }
+                    break;
+                case 'TRUTHY':
+                    if (!parentValue) {
+                        show = false;
+                    }
+                    break;
                 default:
                     break;
             }
