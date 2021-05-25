@@ -3,6 +3,9 @@
   font-display: swap;
   position: relative;
 }
+.app table tr:nth-child(even) {
+  background-color: transparent !important;
+}
 .app .absolutePositioned {
   position: absolute !important;
 }
