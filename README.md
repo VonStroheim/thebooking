@@ -69,9 +69,13 @@ Go in `TheBooking > Reservations` to manage your reservations.
 
   [Feature] Zoom meetings integration
 
+  [Feature] Availability schedule can be set per-service
+
   [Enhancement] Customers table now shows the incoming and total number of reservations for each customer
 
   [Enhancement] Reservation details screen restyled
+
+  [Enhancement] Frontend reservations list restyled
 
   [Fix] Minor bug fixes
 
