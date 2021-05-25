@@ -367,16 +367,21 @@ class Reservations
             'hash' => md5($customer->access_token())
         ];
 
-        return [
+        $meta = [];
+
+        if ($res->getMeta('location')) {
+            $meta['location'] = $res->getMeta('location');
+        }
+
+        return apply_filters('tbk_reservation_frontend_map', [
             'uid'       => $res->id(),
             'serviceId' => $res->service_id(),
             'customer'  => $customerData,
             'status'    => $res->status()->getValue(),
             'start'     => $res->start() ?: '',
             'end'       => $res->end() ?: '',
-            'meta'      => [
-            ],
-        ];
+            'meta'      => $meta,
+        ], $reservationId);
     }
 
     /**
