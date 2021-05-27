@@ -2,6 +2,7 @@
 
 namespace TheBooking\Modules;
 
+use Google\Service\Exception;
 use TheBooking\Bus\Command;
 use TheBooking\Bus\Commands\ChangeReservationDates;
 use TheBooking\Bus\Commands\ChangeReservationLocation;
@@ -202,7 +203,11 @@ final class Gcal2WaysModule
                 $g_service = new \Google_Service_Calendar($client);
                 if ($reservation->getMeta('gcal_event_id')) {
                     if (isset($options[ self::DELETE_EVENTS_WHEN ]['deleted']) && $options[ self::DELETE_EVENTS_WHEN ]['deleted']) {
-                        $g_service->events->delete($options[ self::LINKED_GCAL ], $reservation->getMeta('gcal_event_id'));
+                        try {
+                            $g_service->events->delete($options[ self::LINKED_GCAL ], $reservation->getMeta('gcal_event_id'));
+                        } catch (Exception $e) {
+                            // Skipping
+                        }
                     } else {
                         $event = $g_service->events->get($options[ self::LINKED_GCAL ], $reservation->getMeta('gcal_event_id'));
                         if ($event instanceof \Google_Service_Calendar_Event) {
