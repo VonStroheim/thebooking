@@ -97,7 +97,7 @@ export default class Calendar extends React.Component<IProps, IState> {
         let available = false;
 
         events.some((event) => {
-            if (!event.soldOut) {
+            if (event.capacity > 0) {
                 available = true;
                 return;
             }

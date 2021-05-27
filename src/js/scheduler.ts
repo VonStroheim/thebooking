@@ -100,7 +100,8 @@ export default class Scheduler {
 
                 // "Reservation is for this slot" criterion
                 if (item.serviceId === blockingItem.serviceId) {
-                    item.soldOut = true;
+
+                    item.capacity = Math.max(item.capacity - 1, 0);
 
                     /**
                      * We are returning false here, because soldout items
@@ -169,7 +170,7 @@ export default class Scheduler {
 
             let eventDuration: DurationObject;
 
-            if (service.meta.takeWholeAvailabilityIntervals){
+            if (service.meta.takeWholeAvailabilityIntervals) {
                 eventDuration = availability.containerDuration;
             } else {
                 eventDuration = globals.secondsToDurationObj(service.duration);
@@ -203,7 +204,7 @@ export default class Scheduler {
                             serviceId     : availability.serviceId,
                             start         : formatRFC3339(eventStart),
                             end           : formatRFC3339(eventEnd),
-                            soldOut       : false,
+                            capacity      : service.meta.timeslotCapacity || 1,
                             //meta          : availability.meta
                         };
 
@@ -234,7 +235,7 @@ export default class Scheduler {
     public isIntervalAvailable(start: Date, end: Date,) {
         const items = this.getItemsBetween(start, end);
         for (const item of items) {
-            if (item.soldOut) {
+            if (!item.capacity) {
                 continue;
             }
             if (isWithinInterval(start, {
@@ -281,7 +282,7 @@ export default class Scheduler {
                         serviceId     : availabilityRecord.serviceId,
                         start         : formatRFC3339(eventStart),
                         end           : formatRFC3339(eventEnd),
-                        soldOut       : false,
+                        capacity      : service.meta.timeslotCapacity || 1,
                         //meta          : availability.meta
                     };
 

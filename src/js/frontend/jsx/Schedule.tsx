@@ -211,10 +211,10 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
                      */
                     // function extendLoop(current: TimeSlot, followingItems: TimeSlot[]) {
                     //     let extendableUpTo = false;
-                    //     if (!current.soldOut && current.openEnd) {
+                    //     if (current.capacity > 0 && current.openEnd) {
                     //         for (const [i, item] of followingItems.entries()) {
                     //             if (item.id === current.id) continue;
-                    //             if (item.soldOut) {
+                    //             if (!item.capacity) {
                     //                 return extendableUpTo;
                     //             }
                     //
@@ -233,10 +233,10 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
 
                     itemsGroup.forEach((variant, i) => {
                         main.variants.push({
-                            start  : variant.start,
-                            end    : variant.end,
-                            id     : variant.id,
-                            soldOut: variant.soldOut,
+                            start   : variant.start,
+                            end     : variant.end,
+                            id      : variant.id,
+                            capacity: variant.capacity
                             //extendableUpTo: extendLoop(variant, itemsGroup.slice(i))
                         });
                     })

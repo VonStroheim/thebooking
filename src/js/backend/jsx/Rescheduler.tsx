@@ -97,7 +97,7 @@ export default class Rescheduler extends React.Component<RProps, RState> {
     parseSlots = (date: Date) => {
         const items = this.getScheduler().getItemsBetween(startOfMonth(date), endOfMonth(date));
         return items.filter((item: TimeSlot) => {
-            return item.serviceId === this.props.serviceId && !item.soldOut;
+            return item.serviceId === this.props.serviceId && item.capacity > 0;
         })
     }
 

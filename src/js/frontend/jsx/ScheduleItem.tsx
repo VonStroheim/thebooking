@@ -44,9 +44,9 @@ export default class ScheduleItem extends React.Component<ScheduleItemProps, Sch
 
         let selectedVariant: number | 'main' = 'main';
 
-        if (this.props.item.soldOut && this.props.item.variants) {
+        if (!this.props.item.capacity && this.props.item.variants) {
             for (const [i, variant] of this.props.item.variants.entries()) {
-                if (!variant.soldOut) {
+                if (variant.capacity > 0) {
                     selectedVariant = i;
                     break;
                 }
@@ -119,7 +119,7 @@ export default class ScheduleItem extends React.Component<ScheduleItemProps, Sch
                         }).format(start)
                     )}
                     <div className={styles.underTimeslot}>
-                        {this.props.item.soldOut ? <span className={styles.soldOutSlotString}>{__('Sold-out', 'thebooking')}</span> : <span>{__('Available', 'thebooking')}</span>}
+                        {!this.props.item.capacity ? <span className={styles.soldOutSlotString}>{__('Sold-out', 'thebooking')}</span> : <span>{__('Available', 'thebooking')}</span>}
                     </div>
                 </div>
             </ToggleButton>
@@ -137,7 +137,7 @@ export default class ScheduleItem extends React.Component<ScheduleItemProps, Sch
                             }).format(start)
                         )}
                         <div className={styles.underTimeslot}>
-                            {variant.soldOut ? <span className={styles.soldOutSlotString}>{__('Sold-out', 'thebooking')}</span> : <span>{__('Available', 'thebooking')}</span>}
+                            {!variant.capacity ? <span className={styles.soldOutSlotString}>{__('Sold-out', 'thebooking')}</span> : <span>{__('Available', 'thebooking')}</span>}
                         </div>
                     </div>
                 </ToggleButton>
@@ -185,11 +185,11 @@ export default class ScheduleItem extends React.Component<ScheduleItemProps, Sch
     getBookButton = () => {
         let soldOut = false;
         if (this.state.selectedVariant === 'main') {
-            if (this.props.item.soldOut) {
+            if (!this.props.item.capacity) {
                 soldOut = true;
             }
         } else {
-            if (this.props.item.variants[this.state.selectedVariant].soldOut) {
+            if (!this.props.item.variants[this.state.selectedVariant].capacity) {
                 soldOut = true;
             }
         }

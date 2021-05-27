@@ -8,16 +8,16 @@ export interface TimeSlot {
     availabilityId: string,
     start: string,
     end: string,
-    soldOut: boolean,
     location?: string,
-    variants?: TimeslotVariant[]
+    variants?: TimeslotVariant[],
+    capacity?: number
 }
 
 export interface TimeslotVariant {
     id: string,
     start: string,
     end: string,
-    soldOut: boolean,
+    capacity?: number
 }
 
 export interface StateAction {

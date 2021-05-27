@@ -34,7 +34,7 @@ export default function TimeslotDropdown(props: SelectProps) {
             disablePortal
             disableClearable
             openOnFocus
-            getOptionDisabled={(option) => option.soldOut}
+            getOptionDisabled={(option) => !option.capacity}
             value={props.value}
             onChange={props.onChange}
             getOptionLabel={(option: TimeSlot) => {
@@ -56,7 +56,7 @@ export default function TimeslotDropdown(props: SelectProps) {
                                 <span style={{marginLeft: '6px'}}>({globals.minutesToDhms(differenceInMinutes(toDate(option.end), toDate(option.start)))})</span>
                             </>
                         )}
-                        {option.soldOut && <span className={styles.bookedLabel}>{__('Booked', 'thebooking')}</span>}
+                        {!option.capacity && <span className={styles.bookedLabel}>{__('Booked', 'thebooking')}</span>}
                     </div>
                 )
             }}
