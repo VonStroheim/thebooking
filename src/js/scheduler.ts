@@ -61,23 +61,6 @@ export default class Scheduler {
         const itemStart = item.start ? toDate(item.start) : null;
         const itemEnd = item.end ? toDate(item.end) : itemStart;
 
-        if (this.busyIntervals) {
-            for (let busyInterval of this.busyIntervals) {
-
-                const blockingInterval = {
-                    start: toDate(busyInterval.start),
-                    end  : toDate(busyInterval.end)
-                }
-
-                if (areIntervalsOverlapping(
-                    blockingInterval,
-                    {start: itemStart, end: itemEnd}
-                )) {
-                    return true;
-                }
-            }
-        }
-
         for (let blockingItem of blockingItems) {
 
             const blockingItemStart = blockingItem.start;
@@ -146,6 +129,24 @@ export default class Scheduler {
                 }
             }
         }
+
+        if (this.busyIntervals) {
+            for (let busyInterval of this.busyIntervals) {
+
+                const blockingInterval = {
+                    start: toDate(busyInterval.start),
+                    end  : toDate(busyInterval.end)
+                }
+
+                if (areIntervalsOverlapping(
+                    blockingInterval,
+                    {start: itemStart, end: itemEnd}
+                )) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
