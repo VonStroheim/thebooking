@@ -258,12 +258,16 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
     }
 
     confirmDeletion = (event: any, callback: any) => {
+        let target = event.currentTarget;
+        if (typeof target === 'undefined' && 'originalEvent' in event) {
+            target = event.originalEvent.currentTarget;
+        }
         confirmPopup({
-            target : event.currentTarget,
-            message: __('Are you sure you want to proceed?', 'thebooking'),
-            icon   : 'pi pi-exclamation-triangle',
-            accept : callback,
-            reject : null
+            target  : target,
+            message : __('Are you sure you want to proceed?', 'thebooking'),
+            icon    : 'pi pi-exclamation-triangle',
+            accept  : callback,
+            reject  : null
         })
     }
 
