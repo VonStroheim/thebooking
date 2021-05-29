@@ -41,6 +41,7 @@ export interface ReservationTableProps {
     showHeader?: boolean
     displayedColumns?: string[]
     reservations: ReservationRecordBackend[]
+    showPast: boolean
 }
 
 interface ReservationTableState {
@@ -80,7 +81,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             editMode                : false,
             columns                 : tbkCommon.userPrefs.reservationsTableColumns || ['service', 'customer', 'startDate', 'status'],
             groupByDate             : tbkCommon.userPrefs.reservationsTableGroupByDate || false,
-            showPast                : tbkCommon.userPrefs.reservationsTableShowPast || false,
+            showPast                : typeof props.showPast !== 'undefined' ? props.showPast : (tbkCommon.userPrefs.reservationsTableShowPast || false),
             showFilters             : props.showFilters ? (tbkCommon.userPrefs.reservationsTableShowFilters || false) : false,
         }
 
@@ -263,11 +264,11 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             target = event.originalEvent.currentTarget;
         }
         confirmPopup({
-            target  : target,
-            message : __('Are you sure you want to proceed?', 'thebooking'),
-            icon    : 'pi pi-exclamation-triangle',
-            accept  : callback,
-            reject  : null
+            target : target,
+            message: __('Are you sure you want to proceed?', 'thebooking'),
+            icon   : 'pi pi-exclamation-triangle',
+            accept : callback,
+            reject : null
         })
     }
 

@@ -540,6 +540,13 @@ export default class CustomersTable extends React.Component<SProps, SState> {
         return tbkCommon.reservations
             .filter(reservation => {
                 return reservation.customerId === data.id
+            }).sort((a, b) => {
+                if (a.start === b.start) return 0;
+                if (a.start < b.start) {
+                    return 1;
+                } else {
+                    return -1;
+                }
             })
     }
 
@@ -557,6 +564,7 @@ export default class CustomersTable extends React.Component<SProps, SState> {
             reservations={this.prepareReservations(data)}
             onUpdate={this.props.onUpdate}
             isBusy={this.props.isBusy}
+            showPast={true}
             showFilters={false}
             showHeader={false}
             displayedColumns={defaultColumns}

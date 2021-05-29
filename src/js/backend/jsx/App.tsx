@@ -509,12 +509,24 @@ export default class App extends React.Component<AppProps, AppState> {
         }
     }
 
+    prepareReservations = (reservations: ReservationRecordBackend[]) => {
+        const showPast = tbkCommon.userPrefs.reservationsTableShowPast || false;
+        return reservations.sort((a, b) => {
+            if (a.start === b.start) return 0;
+            if (a.start < b.start) {
+                return showPast ? 1 : -1;
+            } else {
+                return showPast ? -1 : 1;
+            }
+        })
+    }
+
     renderAlt() {
         switch (this.state.page) {
             case 'thebooking':
                 return (
                     <ReservationsTable
-                        reservations={this.state.UI.reservations}
+                        reservations={this.prepareReservations(this.state.UI.reservations)}
                         onUpdate={this.handleChanges}
                         isBusy={this.state.isBusy}
                         showFilters={true}
