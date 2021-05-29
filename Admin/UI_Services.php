@@ -116,6 +116,20 @@ final class UI_Services
                         ]
                     ],
                     [
+                        'title'       => __('Time slot capacity', 'thebooking'),
+                        'description' => __('How many reservations a time slot can accept.', 'thebooking'),
+                        'components'  => [
+                            [
+                                'settingId'   => 'meta::timeslotCapacity',
+                                'type'        => 'number',
+                                'min'         => 1,
+                                'step'        => 1,
+                                'showButtons' => TRUE
+                            ]
+                        ],
+                    ],
+
+                    [
                         'title'       => __('Close reservations before', 'thebooking'),
                         'description' => __('Specify if the reservations should be closed within a certain period before the time slot date and time.', 'thebooking'),
                         'components'  => [

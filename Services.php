@@ -198,6 +198,13 @@ class Services
                             $service->addMeta('overrideAvailability', filter_var($value, FILTER_VALIDATE_BOOLEAN));
                         }
                         break;
+                    case 'meta::timeslotCapacity':
+                        if (!(int)$value) {
+                            $service->dropMeta('timeslotCapacity');
+                        } else {
+                            $service->addMeta('timeslotCapacity', (int)$value);
+                        }
+                        break;
                     case 'meta::takeWholeAvailabilityIntervals':
                         if (!filter_var($value, FILTER_VALIDATE_BOOLEAN)) {
                             $service->dropMeta('takeWholeAvailabilityIntervals');

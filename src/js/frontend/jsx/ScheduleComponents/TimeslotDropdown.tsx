@@ -1,20 +1,21 @@
 import globals from '../../../globals';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import {TextField} from "@material-ui/core";
-import {TimeSlot} from "../../../typedefs";
+import {Grid, TextField} from "@material-ui/core";
+import {ServiceRecord, TimeSlot} from "../../../typedefs";
 import {toDate} from "date-fns-tz";
 import React from "react";
 // @ts-ignore
 import styles from './TimeslotDropdown.css';
 import {differenceInMinutes} from "date-fns";
+import ItemBadge from "./ItemBadge";
 
 declare const wp: any;
-const {__, _x, _n, _nx} = wp.i18n;
+const {__, _x, _n, _nx, sprintf} = wp.i18n;
 
 interface SelectProps {
     value: TimeSlot,
     items: TimeSlot[],
+    service: ServiceRecord,
     showEndTimes?: boolean
 
     onChange(event: any, value: TimeSlot): any
@@ -47,17 +48,28 @@ export default function TimeslotDropdown(props: SelectProps) {
             }}
             renderOption={(option) => {
                 return (
-                    <div style={{display: 'flex', alignItems: 'center'}}>
-                        {globals.formatTime(toDate(option.start))}
-                        {props.showEndTimes && (
-                            <>
-                                <ArrowRightAltIcon/>
-                                {globals.formatTime(toDate(option.end))}
-                                <span style={{marginLeft: '6px'}}>({globals.minutesToDhms(differenceInMinutes(toDate(option.end), toDate(option.start)))})</span>
-                            </>
-                        )}
-                        {!option.capacity && <span className={styles.bookedLabel}>{__('Booked', 'thebooking')}</span>}
-                    </div>
+                    <Grid container alignItems="center">
+                        <Grid item xs>
+                            {globals.formatTime(toDate(option.start))}
+                            {props.showEndTimes &&
+                            <span> - {globals.formatTime(toDate(option.end))} ({globals.minutesToDhms(differenceInMinutes(toDate(option.end), toDate(option.start)))})</span>}
+                        </Grid>
+                        <Grid item>
+                            <Grid container direction={'row-reverse'} alignContent={'flex-end'}>
+                                <Grid item style={{width: '80px'}}>
+                                    {props.service.meta.timeslotCapacity > 1 && (
+                                        <ItemBadge
+                                            label={<span className={styles.availableLabel}>{sprintf(__('%d available', 'thebooking'), option.capacity)}</span>}
+                                        />
+                                    )}
+                                    {!option.capacity && <ItemBadge
+                                        label={<span
+                                            className={styles.bookedLabel}>{props.service.meta.timeslotCapacity > 1 ? __('Sold out', 'thebooking') : __('Booked', 'thebooking')}</span>}
+                                    />}
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 )
             }}
         />

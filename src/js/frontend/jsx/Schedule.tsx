@@ -439,6 +439,7 @@ export default class Schedule extends React.Component<ScheduleProps, ScheduleSta
                         <Grid item xs={12}>
                             <TimeslotDropdown
                                 value={this.state.selectedTimeSlot}
+                                service={this.props.services[this.state.selectedService]}
                                 items={items}
                                 showEndTimes={this.props.services[this.state.selectedService].meta.takeWholeAvailabilityIntervals}
                                 onChange={(event, newValue: TimeSlot) => {
