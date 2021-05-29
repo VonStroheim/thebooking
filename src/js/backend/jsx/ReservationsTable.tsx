@@ -11,7 +11,7 @@ import {Skeleton} from 'primereact/skeleton';
 import {ExportToCsv} from 'export-to-csv';
 import ReservationDetails from './ReservationDetails';
 import {toDate} from 'date-fns-tz';
-import {addSeconds, isSameDay, isValid, startOfToday, startOfTomorrow} from 'date-fns';
+import {addSeconds, isFuture, isSameDay, isValid, startOfToday, startOfTomorrow} from 'date-fns';
 // @ts-ignore
 import {confirmPopup} from 'primereact/confirmpopup';
 import {OverlayPanel} from 'primereact/overlaypanel';
@@ -27,6 +27,7 @@ import Rescheduler from "./Rescheduler";
 import ServicesDropdown from "./ServicesDropdown";
 import TableColumnsFilter from "./TableColumnsFilter";
 import classNames from "classnames";
+import TableUserPrefs from "./TableUserPrefs";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -35,23 +36,26 @@ const {__, _x, _n, _nx, sprintf} = wp.i18n;
 export interface ReservationTableProps {
     onUpdate(...props: any): any,
 
-    isBusy: boolean,
-    showFilters?: boolean,
-    showHeader?: boolean,
-    displayedColumns?: string[],
+    isBusy: boolean
+    showFilters?: boolean
+    showHeader?: boolean
+    displayedColumns?: string[]
     reservations: ReservationRecordBackend[]
 }
 
 interface ReservationTableState {
-    globalFilter: string,
-    reservationDateFilter: Date,
-    statusFilter: any[] | null,
-    priceFilter: any[] | null,
-    reservationServiceFilter: any[] | null,
-    selected: ReservationRecordBackend[] | null,
-    expandedRows: { [key: string]: boolean },
-    columns: string[],
+    globalFilter: string
+    reservationDateFilter: Date
+    statusFilter: any[] | null
+    priceFilter: any[] | null
+    reservationServiceFilter: any[] | null
+    selected: ReservationRecordBackend[] | null
+    expandedRows: { [key: string]: boolean }
+    columns: string[]
     editMode: boolean
+    groupByDate: boolean
+    showPast: boolean
+    showFilters: boolean
 }
 
 class ReservationsTable extends React.Component<ReservationTableProps, ReservationTableState> {
@@ -74,7 +78,10 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             selected                : [],
             expandedRows            : null,
             editMode                : false,
-            columns                 : tbkCommon.userPrefs.reservationsTableColumns || ['service', 'customer', 'startDate', 'status']
+            columns                 : tbkCommon.userPrefs.reservationsTableColumns || ['service', 'customer', 'startDate', 'status'],
+            groupByDate             : tbkCommon.userPrefs.reservationsTableGroupByDate || false,
+            showPast                : tbkCommon.userPrefs.reservationsTableShowPast || false,
+            showFilters             : props.showFilters ? (tbkCommon.userPrefs.reservationsTableShowFilters || false) : false,
         }
 
     }
@@ -173,11 +180,13 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
             <div className={'p-d-inline-flex p-ai-center'}>
                 <div style={{flexShrink: 0}}>
                     <span>
-                        {globals.formatDate(date)}
+                        {this.state.groupByDate ? globals.formatTime(date) : globals.formatDate(date)}
                     </span>
-                    <span className={tableStyles.tableCellDescription}>
-                        {globals.formatTime(date)}
-                    </span>
+                    {!this.state.groupByDate && (
+                        <span className={tableStyles.tableCellDescription}>
+                            {globals.formatTime(date)}
+                        </span>
+                    )}
                 </div>
             </div>
         )
@@ -593,6 +602,48 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                                 });
                         }}
                     />
+                    <TableUserPrefs
+                        prefs={[
+                            {
+                                label: __('Show past reservations', 'thebooking'),
+                                value: 'showPast'
+                            },
+                            {
+                                label: __('Group by date', 'thebooking'),
+                                value: 'groupByDate'
+                            },
+                            {
+                                label: __('Show filters', 'thebooking'),
+                                value: 'showFilters'
+                            }
+                        ]}
+                        selected={['showPast', 'groupByDate', 'showFilters'].filter((value: 'showPast' | 'groupByDate' | 'showFilters') => this.state[value])}
+                        onChange={(selected) => {
+                            this.setState({
+                                showPast   : selected.includes('showPast'),
+                                groupByDate: selected.includes('groupByDate'),
+                                showFilters: selected.includes('showFilters'),
+                            }, () => {
+                                this.props.onUpdate({
+                                    type   : 'SAVE_USER_PREFS',
+                                    payload: [
+                                        {
+                                            name : 'reservationsTableShowPast',
+                                            value: this.state.showPast
+                                        },
+                                        {
+                                            name : 'reservationsTableGroupByDate',
+                                            value: this.state.groupByDate
+                                        },
+                                        {
+                                            name : 'reservationsTableShowFilters',
+                                            value: this.state.showFilters
+                                        }
+                                    ]
+                                })
+                            })
+                        }}
+                    />
                 </div>
                 <div>
                     <span className="p-input-icon-left">
@@ -684,7 +735,6 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                 value={this.state.reservationDateFilter}
                 onChange={this.onReservationDateFilterChange}
                 placeholder={__('Date', 'thebooking')}
-                showButtonBar
                 className={'p-column-filter'}
             />
         );
@@ -839,7 +889,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     filterFunction={this.filterService}
                     filterMatchMode={'custom'}
                     filterElement={this.renderReservationServiceFilter()}
-                    filter={this.props.showFilters}
+                    filter={this.state.showFilters}
                     header={__('Service', 'thebooking')}
                     body={this.serviceBodyTemplate}
                 />
@@ -849,7 +899,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     key={columnId}
                     sortFunction={this.sortFunction}
                     field={'customerId'}
-                    filter={this.props.showFilters}
+                    filter={this.state.showFilters}
                     filterFunction={this.filterCustomer}
                     filterMatchMode={'custom'}
                     header={__('Customer', 'thebooking')}
@@ -862,11 +912,11 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     sortFunction={this.sortFunction}
                     field={'dateOfReservation'}
                     filterField={'start'}
-                    filter={this.props.showFilters}
+                    filter={this.state.showFilters}
                     filterMatchMode={'custom'}
                     filterFunction={this.filterReservationDate}
                     filterElement={this.renderReservationDateFilter()}
-                    header={__('Date and time', 'thebooking')}
+                    header={this.state.groupByDate ? __('Time', 'thebooking') : __('Date and time', 'thebooking')}
                     body={this.dateOfReservationBodyTemplate}
                 />
             case 'status':
@@ -875,7 +925,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     key={columnId}
                     sortFunction={this.sortFunction}
                     field={'status'}
-                    filter={this.props.showFilters}
+                    filter={this.state.showFilters}
                     filterMatchMode={'custom'}
                     filterFunction={this.filterStatus}
                     filterElement={this.renderReservationStatusFilter()}
@@ -886,7 +936,7 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                 return <Column
                     key={columnId}
                     field={'meta.isPaid'}
-                    filter={this.props.showFilters}
+                    filter={this.state.showFilters}
                     filterMatchMode={'custom'}
                     filterFunction={this.filterPrice}
                     filterElement={this.renderReservationPriceFilter()}
@@ -903,6 +953,15 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     header={__('Actions', 'thebooking')}
                 />
         }
+    }
+
+    filterReservations = () => {
+        if (!this.state.showPast) {
+            return this.props.reservations.filter(res => {
+                return isFuture(toDate(res.start));
+            })
+        }
+        return this.props.reservations;
     }
 
     getColumnsToDisplay = () => {
@@ -934,13 +993,27 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                     ref={(el) => this.dt = el}
                     paginator
                     rows={25}
+                    sortField={'dateOfReservation'}
+                    sortOrder={this.state.showPast ? 1 : -1}
                     currentPageReportTemplate={sprintf(__('Showing %1$s to %2$s of %3$s reservations', 'thebooking'), '{first}', '{last}', '{totalRecords}')}
                     rowsPerPageOptions={[10, 25, 50]}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     expandedRows={this.state.expandedRows as unknown as any[]}
                     header={this.props.showHeader && this.renderHeader()}
-                    value={this.props.reservations}
+                    value={this.filterReservations()}
                     selection={this.state.selected}
+                    rowGroupMode={this.state.groupByDate ? 'subheader' : ''}
+                    groupField={'meta.TBKG_INTERNAL.day'}
+                    rowGroupHeaderTemplate={(res: ReservationRecordBackend) => {
+                        return (
+                            globals.formatDate(toDate(res.start), {weekday: 'long', month: 'long', day: 'numeric'})
+                        )
+                    }}
+                    rowGroupFooterTemplate={(res: ReservationRecordBackend) => {
+                        return (
+                            ''
+                        )
+                    }}
                     selectionMode={'checkbox'}
                     onSelectionChange={this.onSelection}
                     onRowToggle={e => this.setState({expandedRows: e.data as any})}

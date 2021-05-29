@@ -19,6 +19,7 @@ import globals from "../../globals";
 import {NotificationHook, ReservationRecordBackend, SettingPanelBackend, StateAction, tbkCommonB} from "../../typedefs";
 import LocationsTable from "./LocationsTable";
 import {formatRFC3339} from "date-fns";
+import {toDate} from "date-fns-tz";
 
 declare const tbkCommon: tbkCommonB;
 declare const lodash: any;
@@ -509,13 +510,12 @@ export default class App extends React.Component<AppProps, AppState> {
     }
 
     prepareReservations = (reservations: ReservationRecordBackend[]) => {
-        return reservations.sort((a, b) => {
-            if (a.start === b.start) return 0;
-            if (a.start < b.start) {
-                return 1;
-            } else {
-                return -1;
+        return reservations.map(res => {
+            res.meta.TBKG_INTERNAL = {
+                day : globals.formatDate(toDate(res.start)),
+                slot: res.start + res.serviceId
             }
+            return res;
         })
     }
 
