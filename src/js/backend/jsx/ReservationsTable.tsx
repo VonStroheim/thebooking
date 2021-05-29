@@ -956,12 +956,20 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
     }
 
     filterReservations = () => {
+        let filtered = this.props.reservations.map(res => {
+            res.meta.TBKG_INTERNAL = {
+                day : globals.formatDate(toDate(res.start)),
+                slot: res.start + res.serviceId
+            }
+            return res;
+        });
+
         if (!this.state.showPast) {
-            return this.props.reservations.filter(res => {
+            return filtered.filter(res => {
                 return isFuture(toDate(res.start));
             })
         }
-        return this.props.reservations;
+        return filtered;
     }
 
     getColumnsToDisplay = () => {

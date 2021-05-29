@@ -509,22 +509,12 @@ export default class App extends React.Component<AppProps, AppState> {
         }
     }
 
-    prepareReservations = (reservations: ReservationRecordBackend[]) => {
-        return reservations.map(res => {
-            res.meta.TBKG_INTERNAL = {
-                day : globals.formatDate(toDate(res.start)),
-                slot: res.start + res.serviceId
-            }
-            return res;
-        })
-    }
-
     renderAlt() {
         switch (this.state.page) {
             case 'thebooking':
                 return (
                     <ReservationsTable
-                        reservations={this.prepareReservations(this.state.UI.reservations)}
+                        reservations={this.state.UI.reservations}
                         onUpdate={this.handleChanges}
                         isBusy={this.state.isBusy}
                         showFilters={true}

@@ -541,14 +541,6 @@ export default class CustomersTable extends React.Component<SProps, SState> {
             .filter(reservation => {
                 return reservation.customerId === data.id
             })
-            .sort((a, b) => {
-                if (a.start === b.start) return 0;
-                if (a.start < b.start) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            })
     }
 
     rowExpansionTemplate = (data: CustomerBackendRecord) => {
