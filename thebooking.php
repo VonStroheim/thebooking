@@ -4,7 +4,7 @@
 Plugin Name:        TheBooking
 Plugin URI:         https://docs.thebookingplugin.com/
 Description:        A WordPress booking plugin.
-Version:            1.4
+Version:            1.4.1
 Requires PHP:       5.6
 Requires at least:  5.0
 Author:             VonStroheim
@@ -20,7 +20,7 @@ $prev_include_path = set_include_path(__DIR__);
 
 const TBKG_FILE__  = __FILE__;
 const TBKG_DIR__   = __DIR__;
-const TBKG_VERSION = '1.4';
+const TBKG_VERSION = '1.4.1';
 define('TBKG_PATH__', plugin_dir_path(TBKG_FILE__));
 define('TBKG_URL__', plugin_dir_url(TBKG_FILE__));
 

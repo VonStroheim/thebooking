@@ -3,7 +3,7 @@ Contributors: vonstroheim
 Tags: booking system, reservation, appointment, schedule, booking calendar, booking, calendar, events, appointment system
 Requires at least: 5.0
 Tested up to: 5.7
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -138,6 +138,10 @@ The manual installation method involves downloading our plugin and uploading it 
 See the [documentation](https://docs.thebookingplugin.com/ "TheBooking documentation") for all the info.
 
 == Changelog ==
+= 1.4.1 =
+* [Enhancement] Time slots can accept multiple reservations
+* [Fix] Minor bug fixes
+
 = 1.4.0 =
 * [Feature] Zoom meetings integration
 * [Feature] Availability schedule can be set per-service

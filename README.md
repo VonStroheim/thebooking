@@ -1,7 +1,6 @@
 # TheBooking
 ###### WordPress booking plugin.
 
-
 TheBooking is a modern booking plugin to manage reservations, focused on usability and nice-looking user interface.
 
 The plugin can be downloaded [here](https://wordpress.org/plugins/thebooking "TheBooking plugin").
@@ -65,6 +64,12 @@ Go in `TheBooking > Reservations` to manage your reservations.
 
 
 ### Changelog
++ 1.4.1
+
+  [Enhancement] Time slots can accept multiple reservations
+
+  [Fix] Minor bug fixes
+
 + 1.4.0
 
   [Feature] Zoom meetings integration
