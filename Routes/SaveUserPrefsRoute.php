@@ -35,7 +35,15 @@ final class SaveUserPrefsRoute implements Route
                         $prefs = [];
                     }
 
-                    $prefs[ $request->get_param('prefName') ] = $request->get_param('prefValue');
+                    $toUpdate = $request->get_param('prefs');
+
+                    if (is_array($toUpdate)) {
+                        foreach ($toUpdate as $pref) {
+                            if (isset($pref['name'], $pref['value'])) {
+                                $prefs[ $pref['name'] ] = $pref['value'];
+                            }
+                        }
+                    }
 
                     update_user_option(get_current_user_id(), 'tbkgUserPrefs', $prefs);
 
@@ -45,10 +53,7 @@ final class SaveUserPrefsRoute implements Route
                         ], 200);
                 },
                 'args'     => [
-                    'prefName'  => [
-                        'required' => TRUE
-                    ],
-                    'prefValue' => [
+                    'prefs' => [
                         'required' => TRUE
                     ]
                 ]

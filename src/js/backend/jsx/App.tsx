@@ -130,8 +130,7 @@ export default class App extends React.Component<AppProps, AppState> {
                 break;
             case 'SAVE_USER_PREFS':
                 Api.post('/save/prefs/', {
-                    prefName : action.payload.name,
-                    prefValue: action.payload.value
+                    prefs: action.payload
                 }).then((res: any) => {
                     console.log(res);
                 })

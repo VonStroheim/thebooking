@@ -148,10 +148,10 @@ export default class CustomersTable extends React.Component<SProps, SState> {
                                 () => {
                                     this.props.onUpdate({
                                         type   : 'SAVE_USER_PREFS',
-                                        payload: {
+                                        payload: [{
                                             name : 'customersTableColumns',
                                             value: this.state.columns
-                                        }
+                                        }]
                                     })
                                 });
                         }}

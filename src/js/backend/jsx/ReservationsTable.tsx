@@ -585,10 +585,10 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                                 () => {
                                     this.props.onUpdate({
                                         type   : 'SAVE_USER_PREFS',
-                                        payload: {
+                                        payload: [{
                                             name : 'reservationsTableColumns',
                                             value: this.state.columns
-                                        }
+                                        }]
                                     })
                                 });
                         }}
