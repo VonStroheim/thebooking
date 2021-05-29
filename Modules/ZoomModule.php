@@ -452,26 +452,65 @@ final class ZoomModule
             $endDate = DateTimeTbk::createFromFormatSilently(\DateTime::RFC3339, $reservation->end());
             $endDate->setTimezone(new \DateTimeZone('UTC'));
 
-            $zoom     = self::getZoom();
-            $meeting  = [
+            $zoom = self::getZoom();
+
+            // Gathering password requirements...
+
+            $response = $zoom->doRequest('GET', '/users/me/settings', ['option' => 'meeting_security']);
+
+            if ($zoom->responseCode() !== 200) {
+                ob_start();
+                var_dump($response);
+                error_log(ob_get_clean());
+
+                return;
+            }
+
+            $pwd_req  = $response['meeting_security']['meeting_password_requirement'];
+            $pwd_type = 'alnum';
+            $pwd_len  = 10;
+            if ($pwd_req['length']) {
+                $pwd_len = (int)$pwd_req['length'];
+            }
+            if ($pwd_req['only_allow_numeric']) {
+                $pwd_type = 'numeric';
+            }
+            if ($pwd_req['have_special_character']) {
+                $pwd_len--;
+            }
+            if ($pwd_req['have_upper_and_lower_characters']) {
+                $pwd_len -= 2;
+            }
+            $pwd = Tools::generate_token($pwd_type, $pwd_len);
+            if ($pwd_req['have_special_character']) {
+                $pwd .= '@';
+            }
+            if ($pwd_req['have_upper_and_lower_characters']) {
+                $pwd .= 'zZ';
+            }
+
+            $meeting = [
                 'topic'      => $service->name(),
                 'type'       => 2,
                 'start_time' => $startDate->format('Y-m-d\TH:i:s\Z'),
                 'duration'   => round(($endDate->getTimestamp() - $startDate->getTimestamp()) / 60),
                 'timezone'   => $customer->timezone(),
-                'password'   => Tools::generate_token('numeric', 12),
+                'password'   => $pwd,
                 'agenda'     => sprintf(__('Meeting with %s', 'thebooking'), $customer->name()),
                 'settings'   => [
 
                 ]
             ];
+
             $response = $zoom->doRequest('POST', '/users/me/meetings', [], [], json_encode($meeting, JSON_FORCE_OBJECT));
             if ($response === FALSE) {
                 error_log("Errors:" . implode("\n", $zoom->requestErrors()));
             }
 
             if ($zoom->responseCode() !== 201) {
-                error_log("Errors:" . implode("\n", $response['message']));
+                ob_start();
+                var_dump($response);
+                error_log(ob_get_clean());
             } else {
                 if (isset($response['id'])) {
                     $reservation->addMeta(self::META_ZOOM_MEETING_ID, $response['id']);
