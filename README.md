@@ -64,6 +64,12 @@ Go in `TheBooking > Reservations` to manage your reservations.
 
 
 ### Changelog
++ 1.4.2
+
+  [Fix] Zoom meetings were not created due to password length requirement
+
+  [Fix] Wrong default reservations sorting
+  
 + 1.4.1
 
   [Enhancement] Time slots can accept multiple reservations
