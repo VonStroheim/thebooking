@@ -1,7 +1,7 @@
 === WordPress Booking Plugin - TheBooking ===
 Contributors: vonstroheim
 Tags: booking system, reservation, appointment, schedule, booking calendar, booking, calendar, events, appointment system
-Requires at least: 5.0
+Requires at least: 5.3
 Tested up to: 5.7
 Stable tag: 1.4.2
 Requires PHP: 5.6
