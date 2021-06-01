@@ -6,7 +6,7 @@ Plugin URI:         https://docs.thebookingplugin.com/
 Description:        A WordPress booking plugin.
 Version:            1.4.2
 Requires PHP:       5.6
-Requires at least:  5.0
+Requires at least:  5.3
 Author:             VonStroheim
 License:            GPL v2 or later
 License URI:        https://www.gnu.org/licenses/gpl-2.0.html
