@@ -115,7 +115,7 @@ Yes, please do so! You can do that via [GitHub](https://github.com/VonStroheim/t
 
 = Minimum Requirements =
 
-* WordPress 5.0 or greater
+* WordPress 5.3 or greater
 * PHP version 5.6 or greater
 * MySQL version 5.0 or greater
 
