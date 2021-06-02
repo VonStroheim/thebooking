@@ -261,9 +261,13 @@ final class Gcal2WaysModule
             $event->setLocation(tbkg()->availability->locations()[ $reservation->getMeta('location') ]['address']);
         }
 
-        $event = $g_service->events->insert($options[ self::LINKED_GCAL ], $event);
-        $reservation->addMeta('gcal_event_id', $event->getId());
-        tbkg()->reservations->sync_meta($reservation->id());
+        try {
+            $event = $g_service->events->insert($options[ self::LINKED_GCAL ], $event);
+            $reservation->addMeta('gcal_event_id', $event->getId());
+            tbkg()->reservations->sync_meta($reservation->id());
+        } catch (Exception $e) {
+            // Skipping
+        }
     }
 
     public static function add_reservation_to_gcal(CreateReservation $command)
@@ -520,26 +524,6 @@ final class Gcal2WaysModule
                     'description' => $item->getAccessRole()
                 ];
             }
-
-            /*if (!empty($options[ self::LINKED_GCAL ])) {
-                $now       = new DateTimeTbk();
-                $optParams = [
-                    'timeMin' => $now->format(\DateTime::RFC3339)
-                ];
-                $events    = $service->events->listEvents($options[ self::LINKED_GCAL ], $optParams);
-                while (TRUE) {
-                    foreach ($events->getItems() as $event) {
-                        echo $event->getSummary();
-                    }
-                    $pageToken = $events->getNextPageToken();
-                    if ($pageToken) {
-                        $optParams['pageToken'] = $pageToken;
-                        $events                 = $service->events->listEvents($options[ self::LINKED_GCAL ], $optParams);
-                    } else {
-                        break;
-                    }
-                }
-            }*/
         }
 
         $panels[] = [
@@ -670,6 +654,11 @@ final class Gcal2WaysModule
                         [
                             'settingId' => self::CREATE_EVENTS,
                             'type'      => 'toggle',
+                        ],
+                        [
+                            'type'   => 'notice',
+                            'intent' => 'warning',
+                            'text'   => __('You must have writing permissions for, or be owner of, the linked Google Calendar.', 'thebooking')
                         ]
                     ],
                     'dependencies' => [
