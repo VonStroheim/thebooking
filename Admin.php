@@ -219,7 +219,7 @@ class Admin
             return tbkg()->services->mapToFrontend($service->id());
         }, tbkg()->services->all());
 
-        $availability = [];
+        $availability = new \ArrayObject();
 
         foreach ($services as $service) {
             foreach (tbkg()->availability->all() as $uid => $elements) {
@@ -257,7 +257,7 @@ class Admin
             'reservations'  => array_values(array_map(static function (Reservation $reservation) {
                 return tbkg()->reservations->mapToFrontend($reservation->id());
             }, tbkg()->reservations->all())),
-            'availability'  => $availability,
+            'availability'  => apply_filters('tbk_frontend_availability', $availability, []),
             'busyIntervals' => apply_filters('tbk_frontend_busy_intervals', [], []),
             'middleware'    => apply_filters('tbk_frontend_middleware', [
                 'changeMonth' => []

@@ -101,7 +101,7 @@ class Shortcode_Booking extends Shortcode
                 TBK.currentUserHash = '<?php echo sanitize_text_field($_GET['tbkg_customer_hash']) ?>';
                 <?php } ?>
                 TBK.UI.instances['<?php echo esc_attr($instance_id) ?>'] = {
-                    availability          : <?php echo json_encode($availability) ?>,
+                    availability          : <?php echo json_encode(apply_filters('tbk_frontend_availability', $availability, $atts)) ?>,
                     middleware            : <?php echo json_encode(apply_filters('tbk_frontend_middleware', [
                         'changeMonth' => []
                     ], $atts)) ?>,
