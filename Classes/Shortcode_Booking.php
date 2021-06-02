@@ -2,10 +2,7 @@
 
 namespace TheBooking\Classes;
 
-use TheBooking\Bus\Commands\CleanFiles;
 use VSHM_Framework\Tools;
-use function TheBooking\Frontend\icon_arrow_left;
-use function TheBooking\Frontend\icon_arrow_right;
 
 defined('ABSPATH') || exit;
 
