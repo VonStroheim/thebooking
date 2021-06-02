@@ -15,7 +15,9 @@ import {RRuleSet, rrulestr} from "rrule";
 import globals from "./globals";
 
 interface SProps {
-    availability: AvailabilityRecord[],
+    availability: {
+        [key: string]: AvailabilityRecord[]
+    },
     reservations: ReservationRecord[] | ReservationRecordBackend[],
     busyIntervals?: { start: string, end: string }[],
     services: { [key: string]: ServiceRecord | ServiceRecordBackend }
@@ -152,77 +154,85 @@ export default class Scheduler {
 
     public getItemsBetween(start: Date, end: Date): TimeSlot[] {
         const items: TimeSlot[] = [];
-        for (let availability of this.availability) {
 
-            const rule = rrulestr(availability.rrule, {forceset: true}) as RRuleSet;
-            const dtStart = rule.dtstart();
-            const instances = rule.between(startOfDay(start), endOfDay(end), true);
+        for (const uid in this.availability) {
 
-            const service = this.services[availability.serviceId];
-
-            if (!service) {
+            if (!this.availability.hasOwnProperty(uid)) {
                 continue;
             }
 
-            // TODO:
-            if (!service.duration) {
-                continue;
-            }
+            for (let availability of this.availability[uid]) {
 
-            let eventDuration: DurationObject;
+                const rule = rrulestr(availability.rrule, {forceset: true}) as RRuleSet;
+                const dtStart = rule.dtstart();
+                const instances = rule.between(startOfDay(start), endOfDay(end), true);
 
-            if (service.meta.takeWholeAvailabilityIntervals) {
-                eventDuration = availability.containerDuration;
-            } else {
-                eventDuration = globals.secondsToDurationObj(service.duration);
-            }
+                const service = this.services[availability.serviceId];
 
-            instances.forEach(instanceWP => {
+                if (!service) {
+                    continue;
+                }
 
-                /**
-                 * What needs to be done to survive to DST...
-                 */
-                const diffStart = getTimezoneOffset(Intl.DateTimeFormat().resolvedOptions().timeZone, dtStart);
-                const diffNow = getTimezoneOffset(Intl.DateTimeFormat().resolvedOptions().timeZone, instanceWP);
-                let instance = addMilliseconds(instanceWP, diffStart - diffNow);
+                // TODO:
+                if (!service.duration) {
+                    continue;
+                }
 
-                let endOfLoop;
+                let eventDuration: DurationObject;
 
-                // TODO: is this conditional necessary?
-                if (availability.containerDuration) {
-                    endOfLoop = addToDate(instance, availability.containerDuration);
+                if (service.meta.takeWholeAvailabilityIntervals) {
+                    eventDuration = availability.containerDuration;
                 } else {
-                    endOfLoop = addToDate(instance, eventDuration);
+                    eventDuration = globals.secondsToDurationObj(service.duration);
                 }
-                let eventStart = instance;
-                let eventEnd = addToDate(instance, eventDuration);
-                while (eventEnd <= endOfLoop) {
-                    if (this.isItemInTime(eventStart, eventEnd, service)) {
 
-                        const bookableItem = {
-                            id            : availability.uid + '_' + formatRFC3339(eventStart) + '_' + availability.serviceId,
-                            availabilityId: availability.uid,
-                            serviceId     : availability.serviceId,
-                            start         : formatRFC3339(eventStart),
-                            end           : formatRFC3339(eventEnd),
-                            capacity      : service.meta.timeslotCapacity || 1,
-                            //meta          : availability.meta
-                        };
+                instances.forEach(instanceWP => {
 
-                        if (!this.applyBlockingRules(bookableItem, this.reservations)) {
-                            items.push(bookableItem);
-                        }
+                    /**
+                     * What needs to be done to survive to DST...
+                     */
+                    const diffStart = getTimezoneOffset(Intl.DateTimeFormat().resolvedOptions().timeZone, dtStart);
+                    const diffNow = getTimezoneOffset(Intl.DateTimeFormat().resolvedOptions().timeZone, instanceWP);
+                    let instance = addMilliseconds(instanceWP, diffStart - diffNow);
 
-                        /**
-                         * TODO: collisions
-                         */
+                    let endOfLoop;
 
-
+                    // TODO: is this conditional necessary?
+                    if (availability.containerDuration) {
+                        endOfLoop = addToDate(instance, availability.containerDuration);
+                    } else {
+                        endOfLoop = addToDate(instance, eventDuration);
                     }
-                    eventStart = addToDate(eventStart, eventDuration);
-                    eventEnd = addToDate(eventEnd, eventDuration);
-                }
-            })
+                    let eventStart = instance;
+                    let eventEnd = addToDate(instance, eventDuration);
+                    while (eventEnd <= endOfLoop) {
+                        if (this.isItemInTime(eventStart, eventEnd, service)) {
+
+                            const bookableItem = {
+                                id            : uid + '_' + formatRFC3339(eventStart) + '_' + availability.serviceId,
+                                availabilityId: uid,
+                                serviceId     : availability.serviceId,
+                                start         : formatRFC3339(eventStart),
+                                end           : formatRFC3339(eventEnd),
+                                capacity      : service.meta.timeslotCapacity || 1,
+                                //meta          : availability.meta
+                            };
+
+                            if (!this.applyBlockingRules(bookableItem, this.reservations)) {
+                                items.push(bookableItem);
+                            }
+
+                            /**
+                             * TODO: collisions
+                             */
+
+
+                        }
+                        eventStart = addToDate(eventStart, eventDuration);
+                        eventEnd = addToDate(eventEnd, eventDuration);
+                    }
+                })
+            }
         }
 
         items.sort((a, b) => {
@@ -255,47 +265,55 @@ export default class Scheduler {
 
     public getFirstUpcomingItem() {
         const items: TimeSlot[] = [];
-        for (let availabilityRecord of this.availability) {
-            const rule = rrulestr(availabilityRecord.rrule, {forceset: true}) as RRuleSet;
-            const instance = rule.after(startOfDay(new Date()), true);
-            const service = this.services[availabilityRecord.serviceId];
 
-            // TODO:
-            if (!service.duration) {
+        for (const uid in this.availability) {
+            if (!this.availability.hasOwnProperty(uid)) {
                 continue;
             }
+            for (let availabilityRecord of this.availability[uid]) {
+                const rule = rrulestr(availabilityRecord.rrule, {forceset: true}) as RRuleSet;
+                const instance = rule.after(startOfDay(new Date()), true);
+                const service = this.services[availabilityRecord.serviceId];
 
-            const eventDuration = globals.secondsToDurationObj(service.duration);
-
-            let endOfLoop;
-            if (availabilityRecord.containerDuration) {
-                endOfLoop = addToDate(instance, availabilityRecord.containerDuration);
-            } else {
-                endOfLoop = addToDate(instance, eventDuration);
-            }
-            let eventStart = instance;
-            let eventEnd = addToDate(instance, eventDuration);
-            while (eventEnd <= endOfLoop) {
-                if (isFuture(eventStart)) {
-                    const bookableItem = {
-                        id            : availabilityRecord.uid + '_' + formatRFC3339(eventStart),
-                        availabilityId: availabilityRecord.uid,
-                        serviceId     : availabilityRecord.serviceId,
-                        start         : formatRFC3339(eventStart),
-                        end           : formatRFC3339(eventEnd),
-                        capacity      : service.meta.timeslotCapacity || 1,
-                        //meta          : availability.meta
-                    };
-
-                    if (!this.applyBlockingRules(bookableItem, this.reservations)) {
-                        items.push(bookableItem);
-                        break;
-                    }
+                // TODO:
+                if (!service.duration) {
+                    continue;
                 }
-                eventStart = addToDate(eventStart, eventDuration);
-                eventEnd = addToDate(eventEnd, eventDuration);
+
+                const eventDuration = globals.secondsToDurationObj(service.duration);
+
+                let endOfLoop;
+                if (availabilityRecord.containerDuration) {
+                    endOfLoop = addToDate(instance, availabilityRecord.containerDuration);
+                } else {
+                    endOfLoop = addToDate(instance, eventDuration);
+                }
+                let eventStart = instance;
+                let eventEnd = addToDate(instance, eventDuration);
+                while (eventEnd <= endOfLoop) {
+                    if (isFuture(eventStart)) {
+                        const bookableItem = {
+                            id            : uid + '_' + formatRFC3339(eventStart),
+                            availabilityId: uid,
+                            serviceId     : availabilityRecord.serviceId,
+                            start         : formatRFC3339(eventStart),
+                            end           : formatRFC3339(eventEnd),
+                            capacity      : service.meta.timeslotCapacity || 1,
+                            //meta          : availability.meta
+                        };
+
+                        if (!this.applyBlockingRules(bookableItem, this.reservations)) {
+                            items.push(bookableItem);
+                            break;
+                        }
+                    }
+                    eventStart = addToDate(eventStart, eventDuration);
+                    eventEnd = addToDate(eventEnd, eventDuration);
+                }
             }
         }
+
+
         items.sort((a, b) => {
             if (!a.start) return 0;
             return compareAscDate(toDate(a.start), toDate(b.start));

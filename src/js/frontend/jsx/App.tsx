@@ -48,6 +48,7 @@ import ReservationTableRecord from "./ReservationTableRecord";
 
 declare const TBK: tbkCommonF;
 declare const _: any;
+declare const lodash: any;
 declare const wp: any;
 
 const theme: Theme = createMuiTheme(TBK.UI.theme);
@@ -76,8 +77,7 @@ interface IState {
     reservations: ReservationRecord[],
     services: {
         [key: string]: ServiceRecord
-    },
-    availability: AvailabilityRecord[]
+    }
 }
 
 export interface IProps {
@@ -89,7 +89,9 @@ export interface IProps {
     services: {
         [key: string]: ServiceRecord
     },
-    availability: AvailabilityRecord[],
+    availability: {
+        [key: string]: AvailabilityRecord[]
+    }
     monthlyViewShowAllDots: boolean,
     monthlyViewAverageDots: number,
     middleware: FrontendMiddleware,
@@ -217,7 +219,6 @@ export default class App extends React.Component<IProps, IState> {
             selectedItem : null,
             reservations : reservations,
             services     : props.services || {},
-            availability : props.availability || [],
             internalDomId: internalID
         }
     }
@@ -225,7 +226,7 @@ export default class App extends React.Component<IProps, IState> {
     componentDidMount() {
         if (TBK.loadAtClosestSlot && this.state.viewMode === 'monthlyCalendar') {
             const scheduler = new Scheduler({
-                availability : this.state.availability,
+                availability : this.props.availability,
                 services     : this.state.services,
                 reservations : this.state.reservations,
                 busyIntervals: this.props.busyIntervals
@@ -289,7 +290,7 @@ export default class App extends React.Component<IProps, IState> {
         }
 
         const scheduler = new Scheduler({
-            availability : this.state.availability,
+            availability : this.props.availability,
             services     : this.props.services,
             reservations : this.state.reservations,
             busyIntervals: this.props.busyIntervals
@@ -341,7 +342,7 @@ export default class App extends React.Component<IProps, IState> {
                     return Api.post(requests[index].endpoint, {targetDate: formatRFC3339(startOfMonth(targetDate))}).then((res) => {
 
                         // Syncing the global object
-                        TBK.UI.instances[this.props.instanceId] = {...TBK.UI.instances[this.props.instanceId], ...res.data}
+                        lodash.merge(TBK.UI.instances[this.props.instanceId], res.data);
 
                         index++;
                         if (index >= requests.length) {

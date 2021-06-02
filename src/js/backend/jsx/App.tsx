@@ -719,12 +719,11 @@ export default class App extends React.Component<AppProps, AppState> {
                                         } else if (typeof settingValue === 'undefined'
                                             && (component.settingId.startsWith('availability::') || component.settingId === 'availabilityGlobal_1')
                                         ) {
-                                            settingValue = Object.values(tbkCommon.availability).filter((rule: any) => {
-                                                if (component.toFetchFrom) {
-                                                    return rule.uid === component.toFetchFrom.replace(/%%ID%%/g, values.uid);
-                                                }
-                                                return rule.uid === component.settingId;
-                                            })
+                                            if (component.toFetchFrom) {
+                                                settingValue = tbkCommon.availability[component.toFetchFrom.replace(/%%ID%%/g, values.uid)] || [];
+                                            } else {
+                                                settingValue = tbkCommon.availability[component.settingId] || [];
+                                            }
                                         }
                                     }
 

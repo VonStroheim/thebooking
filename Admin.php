@@ -222,27 +222,28 @@ class Admin
         $availability = [];
 
         foreach ($services as $service) {
-            foreach (tbkg()->availability->all() as $element) {
+            foreach (tbkg()->availability->all() as $uid => $elements) {
 
                 if (isset($service['meta']['overrideAvailability'])
                     && $service['meta']['overrideAvailability']
-                    && $element['uid'] !== 'service_' . $service['uid']) {
+                    && $uid !== 'service_' . $service['uid']) {
                     continue;
                 }
 
                 if ((!isset($service['meta']['overrideAvailability'])
-                        || (isset($service['meta']['overrideAvailability']) && !$service['meta']['overrideAvailability'])) && $element['uid'] !== 'availabilityGlobal_1') {
+                        || (isset($service['meta']['overrideAvailability']) && !$service['meta']['overrideAvailability'])) && $uid !== 'availabilityGlobal_1') {
                     continue;
                 }
 
-                $availability[] = [
-                    'uid'               => $element['uid'],
-                    'rrule'             => $element['rrule'],
-                    'serviceId'         => $service['uid'],
-                    'containerDuration' => [
-                        'minutes' => $element['duration']
-                    ],
-                ];
+                foreach ($elements as $element) {
+                    $availability[ $uid ][] = [
+                        'rrule'             => $element['rrule'],
+                        'serviceId'         => $service['uid'],
+                        'containerDuration' => [
+                            'minutes' => $element['duration']
+                        ],
+                    ];
+                }
             }
         }
 

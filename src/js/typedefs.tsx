@@ -198,7 +198,6 @@ export interface DurationObject {
 
 export interface AvailabilityRecord {
     containerDuration: DurationObject,
-    uid: string,
     serviceId: string,
     rrule: string,
     meta?: object[]
@@ -296,7 +295,12 @@ export interface tbkCommonB {
     customers: {
         [key: number]: CustomerBackendRecord
     },
-    availability: any,
+    availability: {
+        [key: string]: {
+            rrule: string
+            duration: number
+        }[]
+    },
     locations: {
         [key: string]: Location
     },

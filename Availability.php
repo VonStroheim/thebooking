@@ -113,10 +113,9 @@ class Availability
         }
 
         foreach ($records as $record) {
-            $this->availability[ $record->id ] = [
+            $this->availability[ $record->uid ][] = [
                 'rrule'    => $record->rrule,
-                'duration' => (int)$record->duration,
-                'uid'      => $record->uid
+                'duration' => (int)$record->duration
             ];
         }
     }

@@ -64,26 +64,34 @@ export default class Rescheduler extends React.Component<RProps, RState> {
     }
 
     getScheduler = () => {
-        const availability: AvailabilityRecord[] = [];
+        const availability: {[key: string]: AvailabilityRecord[]} = {};
 
-        for (const availabilityRecord of Object.values(tbkCommon.availability) as any) {
+        for (const uid in tbkCommon.availability) {
 
-            if (tbkCommon.services[this.props.serviceId].meta.overrideAvailability && availabilityRecord.uid !== 'service_' + this.props.serviceId) {
+            if (!tbkCommon.availability.hasOwnProperty(uid)) {
                 continue;
             }
 
-            if (!tbkCommon.services[this.props.serviceId].meta.overrideAvailability && availabilityRecord.uid !== 'availabilityGlobal_1') {
+            if (tbkCommon.services[this.props.serviceId].meta.overrideAvailability && uid !== 'service_' + this.props.serviceId) {
                 continue;
             }
 
-            availability.push({
-                serviceId        : this.props.serviceId,
-                rrule            : availabilityRecord.rrule,
-                uid              : availabilityRecord.uid,
-                containerDuration: {
-                    minutes: availabilityRecord.duration
+            if (!tbkCommon.services[this.props.serviceId].meta.overrideAvailability && uid !== 'availabilityGlobal_1') {
+                continue;
+            }
+
+            for (const availabilityRecord of tbkCommon.availability[uid]) {
+                if (typeof availability[uid] === 'undefined') {
+                    availability[uid] = [];
                 }
-            })
+                availability[uid].push({
+                    serviceId        : this.props.serviceId,
+                    rrule            : availabilityRecord.rrule,
+                    containerDuration: {
+                        minutes: availabilityRecord.duration
+                    }
+                })
+            }
         }
 
         return new Scheduler({
