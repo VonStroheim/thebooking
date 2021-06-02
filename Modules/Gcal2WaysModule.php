@@ -15,6 +15,7 @@ use TheBooking\Classes\Reservation;
 use TheBooking\Classes\ValueTypes\Status;
 use VSHM_Framework\Classes\REST_Error_Unauthorized;
 use VSHM_Framework\REST_Controller;
+use VSHM_Framework\Tools;
 
 defined('ABSPATH') || exit;
 
@@ -75,6 +76,33 @@ final class Gcal2WaysModule
         tbkg()->loader->add_action('tbk_dispatched_ChangeReservationStatus', self::class, 'change_gcal_event');
         tbkg()->loader->add_action('tbk_dispatched_ChangeReservationLocation', self::class, 'change_gcal_event');
         tbkg()->loader->add_filter('tbk_loaded_modules', self::class, 'isLoaded');
+        tbkg()->loader->add_filter('tbk_notification_templates', self::class, 'notificationTemplates', 10, 3);
+        tbkg()->loader->add_filter('tbk_notification_template_hooks', self::class, 'notificationTemplateHooks', 10, 2);
+    }
+
+    public static function notificationTemplates($preparedValues, $reservation_id, $notificationType)
+    {
+        $reservation = tbkg()->reservations->all()[ $reservation_id ];
+        $service     = tbkg()->services->get($reservation->service_id());
+
+        if ($reservation->getMeta('gcal_meet_link')) {
+
+            $preparedValues['reservation::googleMeetLink'] = $reservation->getMeta('gcal_meet_link');
+        }
+
+        return $preparedValues;
+    }
+
+    public static function notificationTemplateHooks($hooks, $notificationType)
+    {
+        $hooks[] = [
+            'value'        => 'reservation::googleMeetLink',
+            'label'        => __('Google Meet link', 'thebooking'),
+            'context'      => 'reservation',
+            'contextLabel' => __('Reservation', 'thebooking')
+        ];
+
+        return $hooks;
     }
 
     /**
@@ -236,6 +264,9 @@ final class Gcal2WaysModule
         }
     }
 
+    /**
+     * @param Reservation $reservation
+     */
     private static function _add_res_to_gcal(Reservation $reservation)
     {
         $options = self::_get_options();
@@ -262,7 +293,17 @@ final class Gcal2WaysModule
         }
 
         try {
-            $event = $g_service->events->insert($options[ self::LINKED_GCAL ], $event);
+            if ($service->getMeta('isVirtual')) {
+                $conference        = new \Google_Service_Calendar_ConferenceData();
+                $conferenceRequest = new \Google_Service_Calendar_CreateConferenceRequest();
+                $conferenceRequest->setRequestId(Tools::generate_token());
+                $conference->setCreateRequest($conferenceRequest);
+                $event->setConferenceData($conference);
+                $event = $g_service->events->insert($options[ self::LINKED_GCAL ], $event, ['conferenceDataVersion' => 1]);
+                $reservation->addMeta('gcal_meet_link', $event->getHangoutLink());
+            } else {
+                $event = $g_service->events->insert($options[ self::LINKED_GCAL ], $event);
+            }
             $reservation->addMeta('gcal_event_id', $event->getId());
             tbkg()->reservations->sync_meta($reservation->id());
         } catch (Exception $e) {
@@ -654,6 +695,10 @@ final class Gcal2WaysModule
                         [
                             'settingId' => self::CREATE_EVENTS,
                             'type'      => 'toggle',
+                        ],
+                        [
+                            'type' => 'notice',
+                            'text' => __('If the reserved service is a virtual meeting, a Google Meet link will be created.', 'thebooking')
                         ],
                         [
                             'type'   => 'notice',

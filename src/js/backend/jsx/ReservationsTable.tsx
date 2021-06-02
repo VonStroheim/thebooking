@@ -28,6 +28,7 @@ import ServicesDropdown from "./ServicesDropdown";
 import TableColumnsFilter from "./TableColumnsFilter";
 import classNames from "classnames";
 import TableUserPrefs from "./TableUserPrefs";
+import ReservationsTableMeetingButton from "./ReservationsTableMeetingButton";
 
 declare const tbkCommon: tbkCommonB;
 declare const wp: any;
@@ -380,16 +381,8 @@ class ReservationsTable extends React.Component<ReservationTableProps, Reservati
                         onClick={(event) => this.confirmReSendNotifications(event, () => this.changeStatus(reservation.status, reservation.uid))}
                     />
                 )}
-                {tbkCommon.modules.includes('zoom') && reservation.meta.zoomMeetingId && reservation.meta.zoomMeetingId.join_url && (
-                    <Button
-                        icon={'pi pi-video'}
-                        tooltip={__('Start meeting', 'thebooking')}
-                        tooltipOptions={{
-                            position: 'top'
-                        }}
-                        className={'p-button-rounded p-button-text p-button-plain'}
-                        onClick={(event) => window.open(reservation.meta.zoomMeetingId.join_url)}
-                    />
+                {(reservation.meta.zoomMeetingId || reservation.meta.gcal_meet_link) && (
+                    <ReservationsTableMeetingButton reservation={reservation}/>
                 )}
             </>
         )

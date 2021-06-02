@@ -328,7 +328,7 @@ export default class ReservationDetails extends React.Component<ReservationDetai
                             {data.meta.zoomMeetingId && tbkCommon.modules.includes('zoom') && (
                                 <Card
                                     className={classNames(styles.zoomCard, 'p-mb-4')}
-                                    title={__('Meeting', 'thebooking')}
+                                    title={__('Zoom meeting', 'thebooking')}
                                     subTitle={data.meta.zoomMeetingId.status === 'waiting'
                                         ? <span className={styles.waiting}>{__('Waiting', 'thebooking')}</span>
                                         : <span className={styles.started}>{__('Started', 'thebooking')}</span>}
@@ -356,6 +356,24 @@ export default class ReservationDetails extends React.Component<ReservationDetai
                                             </label>
                                             <span className={styles.cardListEntryValue}>
                                             {data.meta.zoomMeetingId.password}
+                                        </span>
+                                        </li>
+                                    </ul>
+                                </Card>
+                            )}
+
+                            {data.meta.gcal_meet_link && (
+                                <Card
+                                    className={classNames(styles.zoomCard, 'p-mb-4')}
+                                    title={__('Google Meet', 'thebooking')}
+                                >
+                                    <ul className={styles.cardListEntries}>
+                                        <li className={styles.cardListEntry}>
+                                            <label>
+                                                {__('Join meeting URL', 'thebooking')}
+                                            </label>
+                                            <span className={styles.cardListEntryValue}>
+                                                <a href={data.meta.gcal_meet_link}>{__('Join the meeting', 'thebooking')}</a>
                                         </span>
                                         </li>
                                     </ul>

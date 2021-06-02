@@ -57,7 +57,6 @@ final class ZoomModule
         tbkg()->loader->add_filter('tbk_backend_core_settings_panels', self::class, 'settingsPanel');
         tbkg()->loader->add_filter('tbk_backend_settings', self::class, 'settings');
         tbkg()->loader->add_action('tbk-backend-settings-save-single', self::class, 'save_setting_callback', 10, 2);
-        tbkg()->loader->add_filter('tbk_backend_service_settings_panels', self::class, 'service_settings_panel');
         tbkg()->loader->add_action('tbk_clean_uninstall', self::class, 'cleanup');
         tbkg()->loader->add_filter('tbk_loaded_modules', self::class, 'isLoaded');
         tbkg()->loader->add_action('tbk_save_service_settings', self::class, 'save_service_settings', 10, 3);
@@ -319,40 +318,6 @@ final class ZoomModule
         $modules[] = 'zoom';
 
         return $modules;
-    }
-
-    public static function service_settings_panel($panels)
-    {
-        $options = self::_get_options();
-        if ($options[ self::API_KEY ] && $options[ self::API_SECRET ]) {
-            $panels[] = [
-                'panelRef'   => 'meeting',
-                'panelLabel' => __('Virtual meeting', 'thebooking'),
-                'icon'       => 'pi pi-video',
-                'blocks'     => [
-                    [
-                        'title'       => __('Virtual meeting', 'thebooking'),
-                        'description' => __('If active, the service will be offered through a Zoom meeting.', 'thebooking'),
-                        'components'  => [
-                            [
-                                'settingId' => 'meta::' . self::SRV_IS_VIRTUAL,
-                                'type'      => 'toggle',
-                            ],
-                            [
-                                'type' => 'notice',
-                                'text' => __('Please ensure to adapt the email notification template to include the virtual meeting placeholder.', 'thebooking'),
-                            ],
-                            [
-                                'type' => 'notice',
-                                'text' => __('If this service has locations assigned, they will be ignored.', 'thebooking'),
-                            ]
-                        ]
-                    ]
-                ]
-            ];
-        }
-
-        return $panels;
     }
 
     public static function settings($settings)

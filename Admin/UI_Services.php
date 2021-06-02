@@ -332,6 +332,35 @@ final class UI_Services
                     ],
                 ]
             ],
+            [
+                'panelRef'   => 'meeting',
+                'panelLabel' => __('Virtual meeting', 'thebooking'),
+                'icon'       => 'pi pi-video',
+                'blocks'     => [
+                    [
+                        'title'       => __('Virtual meeting', 'thebooking'),
+                        'description' => __('If active, the service will be offered through a Zoom meeting / Google Meet.', 'thebooking'),
+                        'components'  => [
+                            [
+                                'settingId' => 'meta::isVirtual',
+                                'type'      => 'toggle',
+                            ],
+                            [
+                                'type' => 'notice',
+                                'text' => __('Please ensure to adapt the email notification template to include the virtual meeting placeholder.', 'thebooking'),
+                            ],
+                            [
+                                'type' => 'notice',
+                                'text' => __('Either Zoom integration or Google Calendar integration must be active, otherwise no meeting will be created.', 'thebooking'),
+                            ],
+                            [
+                                'type' => 'notice',
+                                'text' => __('If this service has locations assigned, they will be ignored.', 'thebooking'),
+                            ]
+                        ]
+                    ]
+                ]
+            ]
         ];
     }
 
