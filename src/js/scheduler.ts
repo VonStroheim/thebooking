@@ -84,7 +84,7 @@ export default class Scheduler {
             )) {
 
                 // "Reservation is for this slot" criterion
-                if (item.serviceId === blockingItem.serviceId) {
+                if (item.serviceId === blockingItem.serviceId && item.availabilityId === blockingItem.meta.availabilityId) {
 
                     item.capacity = Math.max(item.capacity - 1, 0);
 
