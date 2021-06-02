@@ -18,6 +18,7 @@ final class Modules
         Modules\Gcal2WaysModule::bootstrap();
         Modules\PriceModule::bootstrap();
         Modules\ZoomModule::bootstrap();
+        Modules\GcalAdvancedModule::bootstrap();
     }
 }
 
