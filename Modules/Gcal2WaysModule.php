@@ -74,6 +74,19 @@ final class Gcal2WaysModule
         tbkg()->loader->add_action('tbk_dispatched_ChangeReservationService', self::class, 'change_gcal_event');
         tbkg()->loader->add_action('tbk_dispatched_ChangeReservationStatus', self::class, 'change_gcal_event');
         tbkg()->loader->add_action('tbk_dispatched_ChangeReservationLocation', self::class, 'change_gcal_event');
+        tbkg()->loader->add_filter('tbk_loaded_modules', self::class, 'isLoaded');
+    }
+
+    /**
+     * @param array $modules
+     *
+     * @return array
+     */
+    public static function isLoaded($modules)
+    {
+        $modules[] = 'gcal2ways';
+
+        return $modules;
     }
 
     /**
