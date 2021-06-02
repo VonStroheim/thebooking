@@ -367,7 +367,7 @@ final class Gcal2WaysModule
         return $middleware;
     }
 
-    private static function _get_options()
+    public static function _get_options()
     {
         $defaults = [
             self::CLIENT_ID          => '',
@@ -483,7 +483,7 @@ final class Gcal2WaysModule
         update_option(self::OPTIONS_TAG, $options);
     }
 
-    private static function _client()
+    public static function _client()
     {
         $options = self::_get_options();
         $client  = new \Google_Client();
@@ -529,7 +529,7 @@ final class Gcal2WaysModule
         $panels[] = [
             'panelRef'   => 'section-gcal2ways',
             'panelLabel' => __('Google Calendar', 'thebooking'),
-            'blocks'     => [
+            'blocks'     => apply_filters('tbk_module_gcal2ways_backend_settings_blocks', [
                 [
                     'title'       => __('Google API configuration', 'thebooking'),
                     'description' => __('Provide the parameters required to operate with Google API.', 'thebooking') . ' ' .
@@ -709,7 +709,7 @@ final class Gcal2WaysModule
                         ]
                     ]
                 ]
-            ]
+            ])
         ];
 
         return $panels;
