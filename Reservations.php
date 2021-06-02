@@ -373,6 +373,10 @@ class Reservations
             $meta['location'] = $res->getMeta('location');
         }
 
+        if ($res->getMeta('availabilityId')) {
+            $meta['availabilityId'] = $res->getMeta('availabilityId');
+        }
+
         return apply_filters('tbk_reservation_frontend_map', [
             'uid'       => $res->id(),
             'serviceId' => $res->service_id(),
