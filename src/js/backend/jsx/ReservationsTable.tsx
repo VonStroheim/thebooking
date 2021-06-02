@@ -41,7 +41,7 @@ export interface ReservationTableProps {
     showHeader?: boolean
     displayedColumns?: string[]
     reservations: ReservationRecordBackend[]
-    showPast: boolean
+    showPast?: boolean
 }
 
 interface ReservationTableState {
