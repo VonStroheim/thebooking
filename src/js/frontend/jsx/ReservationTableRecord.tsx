@@ -67,6 +67,10 @@ export default class ReservationTableRecord extends React.Component<RProps, RSta
         const dateStart = toDate(this.props.reservation.start);
         const dateEnd = toDate(this.props.reservation.end);
         const service = this.props.services[this.props.reservation.serviceId];
+        if (typeof service === 'undefined') {
+            // The service is not active or it was removed
+            return '';
+        }
         let statusIcon;
         switch (this.props.reservation.status) {
             case 'cancelled':
