@@ -3,7 +3,7 @@ Contributors: vonstroheim
 Tags: booking system, reservation, appointment, schedule, booking calendar, booking, calendar, events, appointment system
 Requires at least: 5.3
 Tested up to: 5.7
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -34,17 +34,17 @@ Define and customize a reservation form for each one of your services. TheBookin
 * **Conditional fields**: fields can be configured to show/hide or being required in consequence of values of other fields.
 * **Validation**: apply the desired validation rule to any text field, if needed.
 
-#### Zoom meetings
+#### Zoom meetings and Google Meet
 
-TheBooking integrates with Zoom to automate meetings creation and management for your services.
+TheBooking integrates with Zoom and Google Meet to automate meetings creation and management for your services.
 
-#### Google Calendar 2-ways integration
+#### Google Calendar 2-ways and 3-ways integration
 
-Connect your Google Calendar to see all your reservations there and to block available timeslots when busy.
+Connect your Google Calendar to see all your reservations there and to block available timeslots when busy. TheBooking is the **only** plugin that also allows you to **plan the availability directly through Google Calendar** (3-way) without the need to use the plugin backend to define time slots and opening hours.
 
 #### Locations
 
-Each service can have one or more **locations** that customer will be able to select during the booking process.
+Each service can have one or more locations that customer will be able to select during the booking process.
 
 **Google Maps** is also supported.
 
@@ -59,7 +59,7 @@ TheBooking is very powerful when it comes to build the perfect notification syst
 
 #### Service restrictions
 
-Services can be configured to be booked by registered users only. Services can also be configured to require **approval** of the bookings.
+You can configure services to be booked by registered users only. Services can also be configured to require **approval** of the bookings.
 
 #### Data export
 
@@ -75,7 +75,7 @@ Source code can be found [here](https://github.com/VonStroheim/thebooking "TheBo
 
 = Does it support Google Calendar? =
 
-Yes, 2-ways Google Calendar integration is implemented. You can configure it as you please.
+Yes, 2-ways and 3-ways Google Calendar integrations are implemented. You can configure them as you please.
 
 = Can I create virtual meetings? =
 
@@ -138,6 +138,11 @@ The manual installation method involves downloading our plugin and uploading it 
 See the [documentation](https://docs.thebookingplugin.com/ "TheBooking documentation") for all the info.
 
 == Changelog ==
+= 1.4.3 =
+* [Enhancement] Google Calendar 3-way integration
+* [Enhancement] Support for Google Meet
+* [Fix] Minor bug fixes
+
 = 1.4.2 =
 * [Fix] Zoom meetings were not created due to password length requirement
 * [Fix] Wrong default reservations sorting

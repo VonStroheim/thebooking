@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the TheBooking plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: TheBooking 1.4.1\n"
+"Project-Id-Version: TheBooking 1.4.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-booking\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-05-29T23:40:40+02:00\n"
+"POT-Creation-Date: 2021-06-14T17:54:21+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: thebooking\n"
@@ -62,15 +62,15 @@ msgstr ""
 msgid "Date changed."
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:546
+#: src/js/backend/jsx/App.tsx:559
 msgid "Email content"
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:665
+#: src/js/backend/jsx/App.tsx:678
 msgid "Success"
 msgstr ""
 
-#: src/js/backend/jsx/App.tsx:668
+#: src/js/backend/jsx/App.tsx:681
 msgid "Error"
 msgstr ""
 
@@ -84,7 +84,7 @@ msgstr ""
 
 #: src/js/backend/jsx/CustomersTable.tsx:104
 #: src/js/backend/jsx/LocationsTable.tsx:68
-#: src/js/backend/jsx/ReservationDetails.tsx:294
+#: src/js/backend/jsx/ReservationDetails.tsx:307
 #: src/js/backend/jsx/SettingsPanel.tsx:17
 msgid "Save"
 msgstr ""
@@ -106,7 +106,7 @@ msgid "Create a new WordPress user."
 msgstr ""
 
 #: src/js/backend/jsx/CustomersTable.tsx:173
-#: src/js/backend/jsx/ReservationDetails.tsx:340
+#: src/js/backend/jsx/ReservationDetails.tsx:353
 msgid "Timezone"
 msgstr ""
 
@@ -120,7 +120,7 @@ msgstr ""
 
 #: src/js/backend/jsx/CustomersTable.tsx:214
 #: src/js/backend/jsx/LocationsTable.tsx:98
-#: src/js/backend/jsx/ReservationsTable.tsx:188
+#: src/js/backend/jsx/ReservationsTable.tsx:189
 #: src/js/backend/jsx/ServicesTable.tsx:80
 msgid "Delete"
 msgstr ""
@@ -132,25 +132,25 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:386
+#: src/js/backend/jsx/CustomersTable.tsx:395
 msgid "Showing %1$s to %2$s of %3$s customers"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:412
+#: src/js/backend/jsx/CustomersTable.tsx:421
 msgid "New customer"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:413
-#: src/js/backend/jsx/ReservationsTable.tsx:575
+#: src/js/backend/jsx/CustomersTable.tsx:422
+#: src/js/backend/jsx/ReservationsTable.tsx:574
 msgid "Export selected"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:413
-#: src/js/backend/jsx/ReservationsTable.tsx:575
+#: src/js/backend/jsx/CustomersTable.tsx:422
+#: src/js/backend/jsx/ReservationsTable.tsx:574
 msgid "Export all"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:415
+#: src/js/backend/jsx/CustomersTable.tsx:424
 #: src/js/backend/jsx/LocationsTable.tsx:74
 #: Admin/UI_Services.php:26
 #: Bus/Handlers/CreateServiceHandler.php:44
@@ -158,25 +158,25 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:416
+#: src/js/backend/jsx/CustomersTable.tsx:425
 #: src/js/backend/jsx/SettingComponents/SettingFormBuilder.tsx:652
 #: Bus/Handlers/CreateServiceHandler.php:49
 msgid "Email"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:417
-#: src/js/backend/jsx/ReservationDetails.tsx:331
+#: src/js/backend/jsx/CustomersTable.tsx:426
+#: src/js/backend/jsx/ReservationDetails.tsx:344
 #: Bus/Handlers/CreateServiceHandler.php:54
 msgid "Phone"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:418
+#: src/js/backend/jsx/CustomersTable.tsx:427
 msgid "Number of reservations"
 msgstr ""
 
-#: src/js/backend/jsx/CustomersTable.tsx:434
+#: src/js/backend/jsx/CustomersTable.tsx:443
 #: src/js/backend/jsx/LocationsTable.tsx:183
-#: src/js/backend/jsx/ReservationsTable.tsx:676
+#: src/js/backend/jsx/ReservationsTable.tsx:675
 #: src/js/backend/jsx/ServicesTable.tsx:203
 msgid "Search all"
 msgstr ""
@@ -188,7 +188,7 @@ msgstr ""
 
 #: src/js/backend/jsx/CustomersTable.tsx:92
 #: src/js/backend/jsx/LocationsTable.tsx:67
-#: src/js/backend/jsx/ReservationsTable.tsx:206
+#: src/js/backend/jsx/ReservationsTable.tsx:207
 #: src/js/backend/jsx/ServicesTable.tsx:59
 msgid "Cancel"
 msgstr ""
@@ -208,19 +208,19 @@ msgid "New location"
 msgstr ""
 
 #: src/js/backend/jsx/LocationsTable.tsx:178
-#: src/js/backend/jsx/ReservationsTable.tsx:577
+#: src/js/backend/jsx/ReservationsTable.tsx:576
 #: src/js/backend/jsx/ServicesTable.tsx:198
 msgid "Delete selected"
 msgstr ""
 
 #: src/js/backend/jsx/LocationsTable.tsx:178
-#: src/js/backend/jsx/ReservationsTable.tsx:577
+#: src/js/backend/jsx/ReservationsTable.tsx:576
 #: src/js/backend/jsx/ServicesTable.tsx:198
 msgid "Delete all"
 msgstr ""
 
 #: src/js/backend/jsx/LocationsTable.tsx:31
-#: src/js/backend/jsx/ReservationsTable.tsx:156
+#: src/js/backend/jsx/ReservationsTable.tsx:157
 msgid "Are you sure you want to proceed?"
 msgstr ""
 
@@ -241,15 +241,15 @@ msgstr ""
 msgid "All times are local: %s"
 msgstr ""
 
-#: src/js/backend/jsx/Rescheduler.tsx:142
+#: src/js/backend/jsx/Rescheduler.tsx:149
 msgid "Select a timeslot"
 msgstr ""
 
-#: src/js/backend/jsx/Rescheduler.tsx:142
+#: src/js/backend/jsx/Rescheduler.tsx:149
 msgid "No timeslots available"
 msgstr ""
 
-#: src/js/backend/jsx/Rescheduler.tsx:145
+#: src/js/backend/jsx/Rescheduler.tsx:152
 msgid "Confirm"
 msgstr ""
 
@@ -263,7 +263,7 @@ msgid "Reservation data"
 msgstr ""
 
 #: src/js/backend/jsx/ReservationDetails.tsx:192
-#: src/js/backend/jsx/ReservationsTable.tsx:508
+#: src/js/backend/jsx/ReservationsTable.tsx:507
 msgid "Customer"
 msgstr ""
 
@@ -280,7 +280,8 @@ msgid "User IP"
 msgstr ""
 
 #: src/js/backend/jsx/ReservationDetails.tsx:240
-msgid "Meeting"
+#: src/js/backend/jsx/ReservationsTableMeetingButton.tsx:26
+msgid "Zoom meeting"
 msgstr ""
 
 #: src/js/backend/jsx/ReservationDetails.tsx:241
@@ -299,42 +300,47 @@ msgstr ""
 msgid "Start the meeting"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationDetails.tsx:254
-msgid "Join meeting URL"
-msgstr ""
-
-#: src/js/backend/jsx/ReservationDetails.tsx:257
-msgid "Join the meeting"
-msgstr ""
-
 #: src/js/backend/jsx/ReservationDetails.tsx:262
 msgid "Password"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationDetails.tsx:274
-#: src/js/backend/jsx/ReservationsTable.tsx:426
-msgid "Paid"
+#: src/js/backend/jsx/ReservationDetails.tsx:271
+#: src/js/backend/jsx/ReservationsTableMeetingButton.tsx:29
+msgid "Google Meet"
 msgstr ""
 
 #: src/js/backend/jsx/ReservationDetails.tsx:275
-#: src/js/backend/jsx/ReservationsTable.tsx:430
-msgid "Not paid"
-msgstr ""
-
-#: src/js/backend/jsx/ReservationDetails.tsx:277
-msgid "Mark as not paid"
+msgid "Join meeting URL"
 msgstr ""
 
 #: src/js/backend/jsx/ReservationDetails.tsx:278
+msgid "Join the meeting"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:287
+#: src/js/backend/jsx/ReservationsTable.tsx:425
+msgid "Paid"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:288
+#: src/js/backend/jsx/ReservationsTable.tsx:429
+msgid "Not paid"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:290
+msgid "Mark as not paid"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationDetails.tsx:291
 msgid "Mark as paid"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationDetails.tsx:294
+#: src/js/backend/jsx/ReservationDetails.tsx:307
 #: Modules/NotificationsModule.php:902
 msgid "Form"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationDetails.tsx:349
+#: src/js/backend/jsx/ReservationDetails.tsx:362
 msgid "Total reservations"
 msgstr ""
 
@@ -342,61 +348,57 @@ msgstr ""
 msgid "No uploaded file."
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:165
+#: src/js/backend/jsx/ReservationsTable.tsx:166
 msgid "Notifications of the new status will be sent according to the service settings."
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:176
+#: src/js/backend/jsx/ReservationsTable.tsx:177
 msgid "Notifications of the current status will be sent again, according to the service settings."
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:179
+#: src/js/backend/jsx/ReservationsTable.tsx:180
 msgid "Proceed"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:191
+#: src/js/backend/jsx/ReservationsTable.tsx:192
 msgid "Reschedule"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:210
+#: src/js/backend/jsx/ReservationsTable.tsx:211
 msgid "Approve"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:213
+#: src/js/backend/jsx/ReservationsTable.tsx:214
 msgid "Decline"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:217
+#: src/js/backend/jsx/ReservationsTable.tsx:218
 msgid "Re-send notifications"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:220
-msgid "Start meeting"
-msgstr ""
-
-#: src/js/backend/jsx/ReservationsTable.tsx:285
+#: src/js/backend/jsx/ReservationsTable.tsx:284
 msgid "Unregistered"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:331
+#: src/js/backend/jsx/ReservationsTable.tsx:330
 #: Functions.php:454
 msgid "Reservations"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:339
+#: src/js/backend/jsx/ReservationsTable.tsx:338
 #: src/js/backend/jsx/ServicesTable.tsx:66
 msgid "Service name"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:405
+#: src/js/backend/jsx/ReservationsTable.tsx:404
 msgid "Date"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:434
+#: src/js/backend/jsx/ReservationsTable.tsx:433
 msgid "Payment status"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:506
+#: src/js/backend/jsx/ReservationsTable.tsx:505
 #: src/js/backend/jsx/ServicesTable.tsx:177
 #: src/js/frontend/jsx/ScheduleComponents/ServiceDropdown.tsx:11
 #: Modules/NotificationsModule.php:795
@@ -406,53 +408,57 @@ msgstr ""
 msgid "Service"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:510
+#: src/js/backend/jsx/ReservationsTable.tsx:509
 msgid "Date and time"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:510
+#: src/js/backend/jsx/ReservationsTable.tsx:509
 msgid "Time"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:512
+#: src/js/backend/jsx/ReservationsTable.tsx:511
 msgid "Status"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:514
+#: src/js/backend/jsx/ReservationsTable.tsx:513
 #: Modules/PriceModule.php:251
 msgid "Price"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:516
+#: src/js/backend/jsx/ReservationsTable.tsx:515
 msgid "Actions"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:586
+#: src/js/backend/jsx/ReservationsTable.tsx:585
 msgid "Today's"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:590
+#: src/js/backend/jsx/ReservationsTable.tsx:589
 msgid "Tomorrow's"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:611
+#: src/js/backend/jsx/ReservationsTable.tsx:610
 msgid "Edit mode"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:627
+#: src/js/backend/jsx/ReservationsTable.tsx:626
 msgid "Show past reservations"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:631
+#: src/js/backend/jsx/ReservationsTable.tsx:630
 msgid "Group by date"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:635
+#: src/js/backend/jsx/ReservationsTable.tsx:634
 msgid "Show filters"
 msgstr ""
 
-#: src/js/backend/jsx/ReservationsTable.tsx:683
+#: src/js/backend/jsx/ReservationsTable.tsx:682
 msgid "Showing %1$s to %2$s of %3$s reservations"
+msgstr ""
+
+#: src/js/backend/jsx/ReservationsTableMeetingButton.tsx:13
+msgid "Start meeting"
 msgstr ""
 
 #: src/js/backend/jsx/ServicesTable.tsx:123
@@ -844,11 +850,11 @@ msgstr ""
 msgid "No location"
 msgstr ""
 
-#: src/js/frontend/jsx/ReservationTableRecord.tsx:102
+#: src/js/frontend/jsx/ReservationTableRecord.tsx:106
 msgid "Access to the meeting"
 msgstr ""
 
-#: src/js/frontend/jsx/ReservationTableRecord.tsx:109
+#: src/js/frontend/jsx/ReservationTableRecord.tsx:113
 msgid "Get directions"
 msgstr ""
 
@@ -1361,6 +1367,27 @@ msgstr ""
 msgid "If this service is offered in specific locations, select one or more of them."
 msgstr ""
 
+#: Admin/UI_Services.php:337
+#: Admin/UI_Services.php:341
+msgid "Virtual meeting"
+msgstr ""
+
+#: Admin/UI_Services.php:342
+msgid "If active, the service will be offered through a Zoom meeting / Google Meet."
+msgstr ""
+
+#: Admin/UI_Services.php:350
+msgid "Please ensure to adapt the email notification template to include the virtual meeting placeholder."
+msgstr ""
+
+#: Admin/UI_Services.php:354
+msgid "Either Zoom integration or Google Calendar integration must be active, otherwise no meeting will be created."
+msgstr ""
+
+#: Admin/UI_Services.php:358
+msgid "If this service has locations assigned, they will be ignored."
+msgstr ""
+
 #: Functions.php:207
 msgid "TheBooking reservations"
 msgstr ""
@@ -1382,7 +1409,7 @@ msgstr ""
 
 #: Functions.php:347
 #: Functions.php:404
-#: Modules/Gcal2WaysModule.php:687
+#: Modules/Gcal2WaysModule.php:734
 msgid "Declined"
 msgstr ""
 
@@ -1426,117 +1453,159 @@ msgstr ""
 msgid "Restrict services"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:144
-#: Modules/Gcal2WaysModule.php:235
+#: Modules/Gcal2WaysModule.php:100
+msgid "Google Meet link"
+msgstr ""
+
+#: Modules/Gcal2WaysModule.php:102
+#: Modules/NotificationsModule.php:813
+#: Modules/NotificationsModule.php:819
+#: Modules/NotificationsModule.php:825
+#: Modules/NotificationsModule.php:831
+#: Modules/NotificationsModule.php:837
+#: Modules/NotificationsModule.php:843
+#: Modules/NotificationsModule.php:849
+#: Modules/NotificationsModule.php:857
+#: Modules/NotificationsModule.php:863
+#: Modules/NotificationsModule.php:869
+#: Modules/NotificationsModule.php:875
+#: Modules/NotificationsModule.php:881
+#: Modules/ZoomModule.php:296
+msgid "Reservation"
+msgstr ""
+
+#: Modules/Gcal2WaysModule.php:185
+#: Modules/Gcal2WaysModule.php:279
 msgid "pending"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:163
+#: Modules/Gcal2WaysModule.php:204
 msgid "cancelled"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:180
+#: Modules/Gcal2WaysModule.php:221
 msgid "declined"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:215
+#: Modules/Gcal2WaysModule.php:256
 msgid "deleted"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:534
+#: Modules/Gcal2WaysModule.php:572
 msgid "Google Calendar"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:537
+#: Modules/Gcal2WaysModule.php:575
 msgid "Google API configuration"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:538
+#: Modules/Gcal2WaysModule.php:576
 msgid "Provide the parameters required to operate with Google API."
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:539
+#: Modules/Gcal2WaysModule.php:577
 msgid "In order to know how to obtain those parameters please refer to the documentation."
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:544
+#: Modules/Gcal2WaysModule.php:582
 msgid "Client ID"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:549
+#: Modules/Gcal2WaysModule.php:587
 msgid "Client Secret"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:554
+#: Modules/Gcal2WaysModule.php:592
 msgid "Application Name"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:558
+#: Modules/Gcal2WaysModule.php:596
 msgid "Authorized Redirect URI: %s"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:562
+#: Modules/Gcal2WaysModule.php:600
 msgid "Authorized JavaScript Origin: %s"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:567
+#: Modules/Gcal2WaysModule.php:605
 msgid "Connect your Google Account"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:591
+#: Modules/Gcal2WaysModule.php:629
 msgid "Disconnect your Google Account"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:615
+#: Modules/Gcal2WaysModule.php:653
 msgid "Linked Google Calendar"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:616
+#: Modules/Gcal2WaysModule.php:654
 msgid "Select a Google Calendar to sync with the plugin."
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:623
+#: Modules/Gcal2WaysModule.php:661
+#: Modules/GcalAdvancedModule.php:255
 msgid "Select a Google Calendar"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:634
+#: Modules/Gcal2WaysModule.php:672
 msgid "Block availability when busy"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:635
+#: Modules/Gcal2WaysModule.php:673
 msgid "Turn this setting on if you want your events in Google Calendar to block availability of the services."
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:654
+#: Modules/Gcal2WaysModule.php:692
 msgid "Add reservations to the calendar"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:655
+#: Modules/Gcal2WaysModule.php:693
 msgid "Turn this setting on if you want a reservation to be added to your Google Calendar."
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:670
+#: Modules/Gcal2WaysModule.php:701
+msgid "If the reserved service is a virtual meeting, a Google Meet link will be created."
+msgstr ""
+
+#: Modules/Gcal2WaysModule.php:706
+msgid "You must have writing permissions for, or be owner of, the linked Google Calendar."
+msgstr ""
+
+#: Modules/Gcal2WaysModule.php:717
 msgid "When to delete Google Calendar reservation events"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:671
+#: Modules/Gcal2WaysModule.php:718
 msgid "Select the reservation statuses for which you want the event in Google Calendar to be deleted."
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:672
+#: Modules/Gcal2WaysModule.php:719
 msgid "If the event is preserved, the reservation status is appended to the event summary."
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:679
+#: Modules/Gcal2WaysModule.php:726
 msgid "Deleted"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:683
+#: Modules/Gcal2WaysModule.php:730
 msgid "Cancelled"
 msgstr ""
 
-#: Modules/Gcal2WaysModule.php:695
+#: Modules/Gcal2WaysModule.php:742
 msgid "If you write down additional data to the Google Calendar reservation events keep in mind that data will be lost if the event is deleted."
+msgstr ""
+
+#: Modules/GcalAdvancedModule.php:247
+msgid "Availability Google Calendar"
+msgstr ""
+
+#: Modules/GcalAdvancedModule.php:248
+msgid "If you want to provide availability through a Google Calendar, select it here."
+msgstr ""
+
+#: Modules/GcalAdvancedModule.php:259
+msgid "This advanced feature lets you to provide availability for your services through Google Calendar, thus allowing a complete booking management without the need to use the plugin backend. To know more about the correct procedures and options, refer to the documentation."
 msgstr ""
 
 #: Modules/NotificationsModule.php:105
@@ -1621,22 +1690,6 @@ msgstr ""
 msgid "The scheduling system of WordPress relies on traffic to your website. So if you set a reminder 1 day before the reservation date and no one is accessing your website at that time, the task may not run on time or at all."
 msgstr ""
 
-#: Modules/NotificationsModule.php:813
-#: Modules/NotificationsModule.php:819
-#: Modules/NotificationsModule.php:825
-#: Modules/NotificationsModule.php:831
-#: Modules/NotificationsModule.php:837
-#: Modules/NotificationsModule.php:843
-#: Modules/NotificationsModule.php:849
-#: Modules/NotificationsModule.php:857
-#: Modules/NotificationsModule.php:863
-#: Modules/NotificationsModule.php:869
-#: Modules/NotificationsModule.php:875
-#: Modules/NotificationsModule.php:881
-#: Modules/ZoomModule.php:297
-msgid "Reservation"
-msgstr ""
-
 #: Modules/NotificationsModule.php:817
 msgid "Start date"
 msgstr ""
@@ -1701,53 +1754,36 @@ msgstr ""
 msgid "Amount"
 msgstr ""
 
-#: Modules/ZoomModule.php:132
-#: Modules/ZoomModule.php:463
+#: Modules/ZoomModule.php:131
+#: Modules/ZoomModule.php:464
 msgid "Meeting with %s"
 msgstr ""
 
-#: Modules/ZoomModule.php:295
+#: Modules/ZoomModule.php:294
 msgid "Zoom meeting link"
 msgstr ""
 
-#: Modules/ZoomModule.php:330
-#: Modules/ZoomModule.php:334
-msgid "Virtual meeting"
-msgstr ""
-
-#: Modules/ZoomModule.php:335
-msgid "If active, the service will be offered through a Zoom meeting."
-msgstr ""
-
-#: Modules/ZoomModule.php:343
-msgid "Please ensure to adapt the email notification template to include the virtual meeting placeholder."
-msgstr ""
-
-#: Modules/ZoomModule.php:347
-msgid "If this service has locations assigned, they will be ignored."
-msgstr ""
-
-#: Modules/ZoomModule.php:390
+#: Modules/ZoomModule.php:355
 msgid "Zoom meetings"
 msgstr ""
 
-#: Modules/ZoomModule.php:393
+#: Modules/ZoomModule.php:358
 msgid "API configuration"
 msgstr ""
 
-#: Modules/ZoomModule.php:394
+#: Modules/ZoomModule.php:359
 msgid "Once API keys are provided, a new meeting panel will appear inside the service settings."
 msgstr ""
 
-#: Modules/ZoomModule.php:399
+#: Modules/ZoomModule.php:364
 msgid "API key"
 msgstr ""
 
-#: Modules/ZoomModule.php:404
+#: Modules/ZoomModule.php:369
 msgid "API Secret"
 msgstr ""
 
-#: Modules/ZoomModule.php:408
+#: Modules/ZoomModule.php:373
 msgid "How to get your API keys? You need to go to the Zoom \"App Marketplace\", log in using your zoom account and then select \"Build App\" from the \"Develop\" dropdown menu. Then you need to choose the JWT option for \"server-to-server integration\". Once you will out some basic information you will be taken to the \"App Credentials\" page which will give you your API key and API secret."
 msgstr ""
 

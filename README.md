@@ -40,7 +40,7 @@ Go in `TheBooking > Services`, click on the cog icon of the desired service and 
 + Conditional fields: fields can be configured to show/hide or being required in consequence of values of other fields.
 + Validation: apply the desired validation rule to any text field, if needed.
 
-## Google Calendar 2-ways integration
+## Google Calendar 2-ways and 3-ways integration
 Go in `TheBooking > Settings > Google Calendar`, provide Google API keys and select a Google Calendar.
 
 #### Highlighted features
@@ -64,17 +64,28 @@ Go in `TheBooking > Reservations` to manage your reservations.
 
 
 ### Changelog
++ 1.4.3
+
+  [Enhancement] Google Calendar 3-way integration
+  
+  [Enhancement] Support for Google Meet
+  
+  [Fix] Minor bug fixes
+
+
 + 1.4.2
 
   [Fix] Zoom meetings were not created due to password length requirement
 
   [Fix] Wrong default reservations sorting
+
   
 + 1.4.1
 
   [Enhancement] Time slots can accept multiple reservations
 
   [Fix] Minor bug fixes
+
 
 + 1.4.0
 
