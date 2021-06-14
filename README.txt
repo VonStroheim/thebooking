@@ -3,7 +3,7 @@ Contributors: vonstroheim
 Tags: booking system, reservation, appointment, schedule, booking calendar, booking, calendar, events, appointment system
 Requires at least: 5.3
 Tested up to: 5.7
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -138,6 +138,9 @@ The manual installation method involves downloading our plugin and uploading it 
 See the [documentation](https://docs.thebookingplugin.com/ "TheBooking documentation") for all the info.
 
 == Changelog ==
+= 1.4.4 =
+* [Fix] Fatal error when the Gcal Advanced module is active
+
 = 1.4.3 =
 * [Enhancement] Google Calendar 3-way integration
 * [Enhancement] Support for Google Meet

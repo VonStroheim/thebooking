@@ -64,6 +64,11 @@ Go in `TheBooking > Reservations` to manage your reservations.
 
 
 ### Changelog
++ 1.4.4
+  
+  [Fix] Fatal error when the Gcal Advanced module is active
+  
+
 + 1.4.3
 
   [Enhancement] Google Calendar 3-way integration
