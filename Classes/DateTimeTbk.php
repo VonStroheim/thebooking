@@ -105,6 +105,7 @@ class DateTimeTbk extends \DateTimeImmutable
             return $ext_dt;
         }
 
+        // TODO: investigate why this produces different results from parent class
         if ($timezone) {
             return $ext_dt->setTimestamp($dt->getTimestamp())->setTimezone($timezone);
         }
