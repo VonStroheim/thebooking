@@ -36,7 +36,6 @@ final class GcalAdvancedModule
         tbkg()->loader->add_action('tbk_clean_uninstall', self::class, 'cleanup');
         tbkg()->loader->add_filter('tbk_loaded_modules', self::class, 'isLoaded');
         tbkg()->loader->add_filter('tbk_frontend_availability', self::class, 'frontend_availability', 10, 2);
-        self::getEvents();
     }
 
     public static function frontend_availability(\ArrayObject $availability, $shortcode_attrs)
